@@ -1,0 +1,9 @@
+Thoughts and Notes for OzToll
+=============================
+
+1. Was going to use Google Maps api to allow the user to mark on the map where
+	they were planning on driving on the toll roads, to calculate price. Google Maps api
+	does not allow us to mark a road easily. I'd have to plot it myself. Also looked at other
+	map offerings.
+2. Might be easier to just create our own map/track, and allow the user to plot their course,
+	to calculate their toll price.
