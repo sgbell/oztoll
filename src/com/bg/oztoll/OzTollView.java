@@ -28,7 +28,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public boolean onTouchEvent(MotionEvent event){
 		
-		return false;
+		return true;
 	}
 
 	@Override
