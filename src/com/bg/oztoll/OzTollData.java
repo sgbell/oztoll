@@ -27,6 +27,7 @@ public class OzTollData {
 	public void addTollPoint(NodePoint newNode){
 		tolls.add(newNode);
 	}
+	
 	/**
 	 *  This is used to load the toll data from a file
 	 */
