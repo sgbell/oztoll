@@ -18,13 +18,13 @@ public class OzDbHelper extends SQLiteOpenHelper {
 							EXTERNAL_READ_ONLY=1,
 							EXTERNAL_ERROR=2;
 	
-	private static final String TABLE_TOLL_EXIT_CREATE = "create table toll_exit (_id integer primary key autoincrement, "
+	private static final String TABLE_TOLL_EXIT_CREATE = "create table point (_id integer primary key autoincrement, "
 														 		+"x text not null," +
 														 		"y text not null," +
 														 		"street text not null);";
 	private static final String TABLE_TOLL_CREATE = "create table toll (_id integer primary key autoincrement," +
-															"entry_id integer not null," +
-															"exit_id integer not null," +
+															"point_a integer not null," +
+															"point_b integer not null," +
 															"city_id integer not null,"+
 															"toll text not null);";
 	private static final String TABLE_CITY = "create table city (_id integer primary key autoincrement," +

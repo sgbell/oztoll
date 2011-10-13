@@ -24,10 +24,21 @@ public class OzDbAdapter {
 		dbHelper.close();
 	}
 	
-	public Cursor fetchMapPoints(String city){
-		Cursor cityList = database.query(true, "city", new String[] { "_id","name"}, "name='"+city+"'", null, null, null, null, null);
-		
-		//Cursor paths = database.query(true, table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-		return null;
+	/**
+	 * fetchMapPoints will retrieve the coordinates for the exits of the city tollways
+	 * selected.
+	 * @param city - The City we are requesting toll points for
+	 * @return an array(Cursor) of toll points for the requested city
+	 */
+	public Cursor fetchTollData(String city){
+		String sql = "SELECT t._id as _id, a.x, a.y, a.street, b.x, b.y, b.street, t.toll" +
+					 "FROM point a, point b, toll t, city c" +
+					 "WHERE a._id=t.point_a" +
+					 "AND   b._id=t.point_b" +
+					 "AND   t.city_id=c._id" +
+					 "AND   c.name='"+city+"'";
+				
+		Cursor results = database.rawQuery(sql, null);
+		return results;
 	}
 }
