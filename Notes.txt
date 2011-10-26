@@ -7,3 +7,8 @@ Thoughts and Notes for OzToll
 	map offerings.
 2. Might be easier to just create our own map/track, and allow the user to plot their course,
 	to calculate their toll price.
+3. After creating the correct sql statement to grab the toll information from the 3 tables,
+	I just realized, I need to included more then 1 type of toll. 
+	ie (car, car-weekend, car-single-zone, light truck, truck, truck night, motocycle, taxi)
+4. After a Talk with Colin Adland, I've changed from using sqlite to xml files for the data.
+ 
