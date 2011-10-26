@@ -11,4 +11,6 @@ Thoughts and Notes for OzToll
 	I just realized, I need to included more then 1 type of toll. 
 	ie (car, car-weekend, car-single-zone, light truck, truck, truck night, motocycle, taxi)
 4. After a Talk with Colin Adland, I've changed from using sqlite to xml files for the data.
- 
+5. Making Toll Information in the xml file seperate for each tollway, with a seperate setting
+	in the xml file for roads to join the tollways with. Maybe later we'll allow multiple entry
+	and exits.
