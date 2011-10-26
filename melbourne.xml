@@ -575,19 +575,12 @@
 	    	</exit>
 	    	<exit>
 	      		<street>Maroondah Hwy</street>
+	   			<street>Ringwood Bypass</street>
 	      		<car>3.06</car>
 	      		<car-we>2.45</car-we>
 	      		<lcv>4.89</lcv>
 	      		<hcv>8.13</hcv>
 	      		<mc>1.56</mc>
-	    	</exit>
-	    	<exit>
-	   			<street>Ringwood Bypass</street>
-	    		<car>3.06</car>
-	    		<car-we>2.45</car-we>
-	    		<lcv>4.89</lcv>
-	    		<hcv>8.13</hcv>
-	    		<mc>1.56</mc>
 	    	</exit>
 	    	<exit>
 	      		<street>Springvale Rd</street>
@@ -610,13 +603,6 @@
 	    	</exit>
 	    	<exit>
 	      		<street>Cheltenham Rd</street>
-	      		<car>1.08</car>
-	      		<car-we>0.86</car-we>
-	      		<lcv>1.74</lcv>
-	      		<hcv>2.86</hcv>
-	      		<mc>0.56</mc>
-	    	</exit>
-	    	<exit>
 	      		<street>Dandenong Bypass</street>
 	      		<car>1.08</car>
 	      		<car-we>0.86</car-we>
