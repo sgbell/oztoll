@@ -33,7 +33,7 @@ public class OzStorage {
 	public void setTollData(String filename){
 		if (externalStatus()<EXTERNAL_ERROR){
 			String dataFileName = Environment.getExternalStorageDirectory()+
-					"oztoll/"+filename;
+					"/oztoll/"+filename;
 			datafile = new OzTollData(dataFileName);
 		}
 	}

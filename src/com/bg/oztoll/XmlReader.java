@@ -15,6 +15,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.widget.Toast;
+
 /**
  * @author bugman
  *
@@ -41,7 +43,10 @@ public class XmlReader {
 	}
 	
 	public NodeList getElementsByTagName(String node){
-		return doc.getElementsByTagName(node);
+		if (doc!=null)
+			return doc.getElementsByTagName(node);
+		else
+			return null;
 	}
 	
 	/**

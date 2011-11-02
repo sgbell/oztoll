@@ -72,7 +72,7 @@ public class OzTollData {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE)
 					return xmldata.getNodeData(currentNode,"name");
 			}		
-		return "Not found";				
+		return null;				
 	}
 	
 	/**
