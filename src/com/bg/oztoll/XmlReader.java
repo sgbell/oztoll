@@ -31,11 +31,11 @@ public class XmlReader {
 				doc = db.parse(file);
 				doc.getDocumentElement().normalize();
 			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
+				// exception
 			} catch (SAXException e) {
-				e.printStackTrace();
+				// exception
 			} catch (IOException e) {
-				e.printStackTrace();
+				// exception
 			}			
 		}
 	}

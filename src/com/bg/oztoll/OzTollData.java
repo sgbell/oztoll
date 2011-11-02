@@ -66,13 +66,13 @@ public class OzTollData {
 	 */
 	public String getCityName(){
 		NodeList nodeList = xmldata.getElementsByTagName("city");
-		for (int s = 0; s < nodeList.getLength(); s++) {
-			Node currentNode = nodeList.item(s);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				return xmldata.getNodeData(currentNode,"name");
-			}
-		}		
-		return null;				
+		if (nodeList!=null)
+			for (int s = 0; s < nodeList.getLength(); s++) {
+				Node currentNode = nodeList.item(s);
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE)
+					return xmldata.getNodeData(currentNode,"name");
+			}		
+		return "Not found";				
 	}
 	
 	/**

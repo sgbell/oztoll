@@ -3,6 +3,7 @@ package com.bg.oztoll;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.Toast;
 
 public class OzTollActivity extends Activity {
     /** Called when the activity is first created. */
@@ -11,6 +12,11 @@ public class OzTollActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new OzTollView(this));
+        
+        OzStorage newStorage = new OzStorage();
+        Toast.makeText(getApplicationContext(),
+        		newStorage.getTollData().getCityName(),
+        		Toast.LENGTH_LONG).show();
     }
 
 }
