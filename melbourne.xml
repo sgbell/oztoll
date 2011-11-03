@@ -113,6 +113,80 @@
 					<x>145039594</x>
 				</street>
 			</exit>
+			<pathway>
+				<path>
+					<start>Tullamarine Fwy</start>
+					<end>Bell St</end>
+				</path>
+				<path>
+					<start>Bell St</start>
+					<end>Moreland Rd</end>
+				</path>
+				<path>
+					<start>Moreland Rd</start>
+					<end>Brunswick Rd</end>
+				</path>
+				<path>
+					<start>Brunswick Rd</start>
+					<end>Flemington Rd</end>
+				</path>
+				<path>
+					<start>Flemington Rd</start>
+					<end>Racecourse Rd</end>
+				</path>
+				<path>
+					<start>Racecourse Rd</start>
+					<end>Dynon Rd</end>
+				</path>
+				<path>
+					<start>Dynon Rd</start>
+					<end>Footscray Rd</end>
+				</path>
+				<path>
+					<start>Footscray Rd</start>
+					<end>West Gate Fwy</end>
+				</path>
+				<path>
+					<start>West Gate Fwy</start>
+					<end>Kings Way</end>
+				</path>
+				<path>
+					<start>Kings Way</start>
+					<end>Power St</end>
+				</path>
+				<path>
+					<start>Kings Way</start>
+					<end>Burnley St</end>
+				</path>
+				<path>
+					<start>Burnley St</start>
+					<end>Toorak Rd</end>
+				</path>
+				<path>
+					<start>Exhibition St</start>
+					<end>Church St</end>
+				</path>
+				<path>
+					<start>Church St</start>
+					<end>Burnley St</end>
+				</path>
+				<path>
+					<start>Swan St</start>
+					<end>Church St</end>
+				</path>
+				<path>
+					<start>Toorak Rd</start>
+					<end>Yarra Boulevard</end>
+				</path>
+				<path>
+					<start>Yarra Boulevard</start>
+					<end>Punt Rd</end>
+				</path>
+				<path>
+					<start>Punt Rd</start>
+					<end>Swan St</end>
+				</path>
+			</pathway>
 			<tollpoint>
 				<start>Tullamarine Fwy</start>
 		    	<start>Bell St</start>
@@ -536,6 +610,72 @@
 					<x>145145767</x>
 				</street>
 		  	</exit>
+	  	  	<pathway>
+	  	  		<path>
+	  	  			<start>Springvale Rd</start>
+	  	  			<end>Ringwood Bypass</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Ringwood Bypass</start>
+	  	  			<end>Maroondah Hwy</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Maroondah Hwy</start>
+	  	  			<end>Canterbury Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Canterbury Rd</start>
+	  	  			<end>Boronia Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Boronia Rd</start>
+	  	  			<end>Burwood Hwy</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Burwood Hwy</start>
+	  	  			<end>High St Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>High St Rd</start>
+	  	  			<end>Ferntree Gully Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Ferntree Gully Rd</start>
+	  	  			<end>Wellington Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Wellington Rd</start>
+	  	  			<end>Police Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Police Rd</start>
+	  	  			<end>Monash Fwy</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Monash Fwy</start>
+	  	  			<end>Princes Hwy</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Princes Hwy</start>
+	  	  			<end>Cheltenham Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Cheltenham Rd</start>
+	  	  			<end>Dandenong Bypass</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Dandenong Bypass</start>
+	  	  			<end>Greens Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Greens Rd</start>
+	  	  			<end>Thompson Rd</end>
+	  	  		</path>
+	  	  		<path>
+	  	  			<start>Thompson Rd</start>
+	  	  			<end>Frankston Fwy</end>
+	  	  		</path>
+	  	  	</pathway>
 	  	  	<tollpoint>
 		  		<start>Police Rd</start>
 		  		<start>Monash Fwy</start>
