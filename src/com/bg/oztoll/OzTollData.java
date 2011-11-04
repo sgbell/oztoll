@@ -251,6 +251,34 @@ public class OzTollData {
 		return tollCharges;
 	}
 	
+	/**
+	 * Searches nodeList for the corresponding Tag and value
+	 * @param nodeList - node list to search
+	 * @param tagName - xml tag
+	 * @param targetValue - requested value
+	 * @return node with target value in child node
+	 */
+	public Node getNodeByTagValue(NodeList nodeList, String tagName, String targetValue){
+		
+		for (int nodeCount=0; nodeCount < nodeList.getLength(); nodeCount++){
+			Node currentNode = nodeList.item(nodeCount);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE){
+				Element currentElement = (Element) currentNode;
+				NodeList tollPointEntry = currentElement.getElementsByTagName(tagName);
+				if (tollPointEntry!=null)
+					for (int tollPointEntryCount=0; tollPointEntryCount < tollPointEntry.getLength(); tollPointEntryCount++){
+						Node currentEntryPoint = tollPointEntry.item(tollPointEntryCount);
+						if (currentEntryPoint.getNodeType() == Node.ELEMENT_NODE){
+							NodeList streetName = ((Element)currentEntryPoint).getChildNodes();
+							if (((Node)streetName.item(0)).getNodeValue().equals(targetValue))
+								return currentNode;
+						}
+					}
+			}
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * This function scans through the xml to find the tollrate for the entry and exit.
@@ -263,65 +291,32 @@ public class OzTollData {
 	public ArrayList<TollRate> getTollRate(String entry, String exit, int tollway) {
 		ArrayList<TollRate> tolls= new ArrayList<TollRate>();
 		
-		NodeList tollNodes = getTollNodes(tollway);
-		if (tollNodes!=null)
-			for (int tollNodeCount=0; tollNodeCount < tollNodes.getLength(); tollNodeCount++){
-				Node currentTollPoint = tollNodes.item(tollNodeCount);
-				if (currentTollPoint.getNodeType() == Node.ELEMENT_NODE){
-					Element tollPointElement = (Element) currentTollPoint;
-					NodeList tollPointEntry = tollPointElement.getElementsByTagName("start");
-					if (tollPointEntry!=null)
-						for (int tollPointEntryCount=0; tollPointEntryCount < tollPointEntry.getLength(); tollPointEntryCount++){
-							Node currentEntryPoint = tollPointEntry.item(tollPointEntryCount);
-							if (currentEntryPoint.getNodeType() == Node.ELEMENT_NODE){
-								NodeList streetName = ((Element)currentEntryPoint).getChildNodes();
-								if (((Node)streetName.item(0)).getNodeValue().equals(entry)){
-									// Found Tollway Entry. value is ((Node)streetName.item(0)).getNodeValue()
-									NodeList tollPointExit = tollPointElement.getElementsByTagName("exit");
-									if (tollPointExit!=null){
-										for (int tollPointExitCount=0; tollPointExitCount<tollPointExit.getLength(); tollPointExitCount++){
-											Node currentExitPoint = tollPointExit.item(tollPointExitCount);
-											if (currentExitPoint.getNodeType() == Node.ELEMENT_NODE){
-												Element currentExitPointElement = (Element) currentExitPoint;
-												NodeList currentExitPointStreets = currentExitPointElement.getElementsByTagName("street");
-												if (currentExitPointStreets!=null)
-													for (int exitPointStreetCount=0; exitPointStreetCount < currentExitPointStreets.getLength(); exitPointStreetCount++){
-														Node exitStreetPoint = currentExitPointStreets.item(exitPointStreetCount);
-														if (exitStreetPoint.getNodeType() == Node.ELEMENT_NODE){
-															NodeList exitStreetName = ((Element)exitStreetPoint).getChildNodes();
-															if (((Node)exitStreetName.item(0)).getNodeValue().equals(exit)){
-																// Found the exit ((Node)exitStreetName.item(0)).getNodeValue()
-																// Grab the information from currentExitPoint using getNodeData
-																String[] nodes = {"tolltypes","vehicle"};
-																int[] index = {0};
-																NodeList vehicleList = xmldata.getNodesList(nodes, index);
-																if (vehicleList!=null){
-																	for (int vlc=0; vlc < vehicleList.getLength(); vlc++){
-																		Node vehicle = vehicleList.item(vlc);
-																		if (vehicle.getNodeType() == Node.ELEMENT_NODE){
-																			NodeList vehicleName = ((Element)vehicle).getChildNodes();
-																			// Grab vehicle names using this ((Node)vehicleName.item(0)).getNodeValue()
-																			String rate=xmldata.getNodeData(currentExitPoint, ((Node)vehicleName.item(0)).getNodeValue());
-																			if (rate!=null){
-																				TollRate newTollrate = new TollRate();
-																				newTollrate.vehicleType=((Node)vehicleName.item(0)).getNodeValue();
-																				newTollrate.rate=rate;
-																				tolls.add(newTollrate);
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-											}
-										}
-									}
-								}
+		Node startNode = getNodeByTagValue(getTollNodes(tollway),"start",entry);
+		if (startNode!=null){
+			Node exitNode = getNodeByTagValue(((Element)startNode).getElementsByTagName("exit"),"street",exit);
+			if (exitNode!=null){
+				// Grab the information from currentExitPoint using getNodeData
+				String[] nodes = {"tolltypes","vehicle"};
+				int[] index = {0};
+				NodeList vehicleList = xmldata.getNodesList(nodes, index);
+				if (vehicleList!=null){
+					for (int vlc=0; vlc < vehicleList.getLength(); vlc++){
+						Node vehicle = vehicleList.item(vlc);
+						if (vehicle.getNodeType() == Node.ELEMENT_NODE){
+							NodeList vehicleName = ((Element)vehicle).getChildNodes();
+							// Grab vehicle names using this ((Node)vehicleName.item(0)).getNodeValue()
+							String rate=xmldata.getNodeData(exitNode, ((Node)vehicleName.item(0)).getNodeValue());
+							if (rate!=null){
+								TollRate newTollrate = new TollRate();
+								newTollrate.vehicleType=((Node)vehicleName.item(0)).getNodeValue();
+								newTollrate.rate=rate;
+								tolls.add(newTollrate);
 							}
 						}
-				}
+					}
+				}				
 			}
+		}
 		return tolls;
 	}
 }
