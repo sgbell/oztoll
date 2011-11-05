@@ -23,7 +23,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void onDraw(Canvas canvas){
-		canvas.drawColor(Color.WHITE);
+		canvas.drawColor(Color.BLACK);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event){
