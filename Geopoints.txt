@@ -44,29 +44,30 @@ Thompson Rd		-38070494,145181944
 Frankston Fwy		-38096757,145145767
 
 
+x/500+110
+y/500+30
 
-
-Melbourne
-Tullamarine Fwy: 0,0
-Bell St: 24870,1171
-Moreland Rd: 31071,16646
-Brunswick Rd: 32530,38545
-Flemington Rd: 34912,50960
-Racecourse Rd: 33410,53486
-Dynon Rd: 29976,68984
-Footscray Rd: 29054,73934
-West Gate Fwy: 26200,91037
-Kings Way: 57507,92156
-Power St: 61112,91088
-Exhibition St: 67871,80647
-Swan St: 73900,87834
-Punt Rd: 83470,93546
-Church St: 92096,98393
-Burnley St: 101581,95190
-Gibdon St: 105915,95308
-Yarra Boulevard: 114005,95410
-Toorak Rd: 135076,109255
-Springvale Rd: 273521,68424
+Melbourne							500,500		400,400
+Tullamarine Fwy: 0,0				110,30		
+Bell St: 24870,1171					159,32
+Moreland Rd: 31071,16646			172,63
+Brunswick Rd: 32530,38545			175,107
+Flemington Rd: 34912,50960			179,131
+Racecourse Rd: 33410,53486			176,136
+Dynon Rd: 29976,68984				169,167
+Footscray Rd: 29054,73934			168,177
+West Gate Fwy: 26200,91037			162,212
+Kings Way: 57507,92156				225,214
+Power St: 61112,91088				232,212
+Exhibition St: 67871,80647			245,191
+Swan St: 73900,87834				257,205
+Punt Rd: 83470,93546				276,217
+Church St: 92096,98393				294,226
+Burnley St: 101581,95190			313,220
+Gibdon St: 105915,95308				321,220
+Yarra Boulevard: 114005,95410		338,220
+Toorak Rd: 135076,109255			380,248
+Springvale Rd: 273521,68424			
 Ringwood Bypass: 311158,77884
 Maroondah Hwy: 312295,81783
 Canterbury Rd: 313003,96952
@@ -84,42 +85,4 @@ Greens Rd: 283907,275869
 Thompson Rd: 277426,335068
 Frankston Fwy: 241249,361331
 
-
 screen size: 240x381
-Melbourne
-Tullamarine Fwy: 0,030
-Bell St: 49,230
-Moreland Rd: 62,3330
-Brunswick Rd: 65,7730
-Flemington Rd: 69,10130
-Racecourse Rd: 66,10630
-Dynon Rd: 59,13730
-Footscray Rd: 58,14730
-West Gate Fwy: 52,18230
-Kings Way: 115,18430
-Power St: 122,18230
-Exhibition St: 135,16130
-Swan St: 147,17530
-Punt Rd: 166,18730
-Church St: 184,19630
-Burnley St: 203,19030
-Gibdon St: 211,19030
-Yarra Boulevard: 228,19030
-Toorak Rd: 270,21830
-Springvale Rd: 547,13630
-Ringwood Bypass: 622,15530
-Maroondah Hwy: 624,16330
-Canterbury Rd: 626,19330
-Boronia Rd: 625,22130
-Burwood Hwy: 614,25130
-High St Rd: 616,28230
-Ferntree Gully Rd: 621,33530
-Wellington Rd: 617,38030
-Police Rd: 605,40630
-Monash Fwy: 601,42030
-Princes Hwy: 580,46330
-Cheltenham Rd: 574,51430
-Dandenong Bypass: 573,53130
-Greens Rd: 567,55130
-Thompson Rd: 554,67030
-Frankston Fwy: 482,72230

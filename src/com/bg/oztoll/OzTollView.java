@@ -19,13 +19,13 @@ import android.widget.Toast;
 public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
-	private int originX, originY;
+	private float originX, originY;
 	private boolean updateScreen = true;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
-		originX = tollData.getOriginX();
-		originY = tollData.getOriginY();
+		originX = (float)tollData.getOriginX();
+		originY = (float)tollData.getOriginY();
 	}
 	
 	public OzTollView(Context context) {
@@ -52,28 +52,21 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			
 			if (tollData!=null){
 				boolean left=false;
-				int lastx=0, lasty=0;
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 					for (int twi=0; twi<tollData.getTollCount(twc); twi++){
-						int streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
-						int streety = ((originY-tollData.getStreetY(twc, twi))/500)+30;
-						if ((lastx!=0)&&(lasty!=0)){
-							if ((streetx>lastx-10)&&(streetx<lastx+10)){
-								streety+=30;
-							}
-						}
+						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
+						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
+						
 						canvas.drawCircle(streetx, streety , 4, point);
 						if (left){
 							point.setTextAlign(Paint.Align.LEFT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx+32 , streety, point);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
 							left=false;
 						} else {
 							point.setTextAlign(Paint.Align.RIGHT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx-32 , streety, point);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
 							left=true;
 						}
-						lastx=streetx;
-						lasty=streety;
 					}
 				updateScreen=false;
 			}
