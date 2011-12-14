@@ -2,22 +2,23 @@ package com.bg.oztoll;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Window;
 import android.widget.Toast;
 
 public class OzTollActivity extends Activity {
+	private OzTollData tollData;
+	private OzTollView ozView;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new OzTollView(this));
+        ozView = new OzTollView(this);
+        setContentView(ozView);
         
-        OzStorage newStorage = new OzStorage();
-        Toast.makeText(getApplicationContext(),
-        		newStorage.getTollData().getCityName(),
-        		Toast.LENGTH_LONG).show();
+		tollData = new OzStorage().getTollData();
+		ozView.setDataFile(tollData);
     }
 
 }
