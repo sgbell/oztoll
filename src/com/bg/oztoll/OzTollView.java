@@ -19,7 +19,9 @@ import android.widget.Toast;
 public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
-	private float originX, originY;
+	private float originX, originY,
+				  viewx, viewy,
+				  touchStartX, touchStartY;
 	private boolean updateScreen = true;
 	
 	public void setDataFile(OzTollData tollData){
@@ -35,12 +37,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		thread = new DrawingThread(getHolder(), this);
 		
 		setFocusable(true);
-
-		/*
-		Toast.makeText(this.getContext(),
-        		"Width: "+this.getWidth(),
-        		Toast.LENGTH_LONG).show();
-		*/
+		
+		viewx=viewy=0;
 	}
 	
 	public void OnDraw(Canvas canvas){
@@ -50,6 +48,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		//if (updateScreen){
 			canvas.drawColor(Color.BLACK);
 			
+			canvas.drawText(viewx+","+viewy, 0, 150, point);
 			if (tollData!=null){
 				boolean left=false;
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
@@ -57,7 +56,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
 						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
 						
-						canvas.drawCircle(streetx, streety , 4, point);
+						canvas.drawCircle(streetx, streety, 4, point);
 						if (left){
 							point.setTextAlign(Paint.Align.LEFT);
 							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
@@ -75,8 +74,17 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	
 	public boolean onTouchEvent(MotionEvent event){
-		
-		return true;
+		synchronized (thread.getSurfaceHolder()){
+			if (event.getAction() == MotionEvent.ACTION_DOWN){
+				touchStartX = event.getX();
+				touchStartY = event.getY();
+			} else if (event.getAction() == MotionEvent.ACTION_MOVE){
+				viewx=event.getX()-touchStartX;
+				viewy=event.getY()-touchStartY;				
+			} //else if (event.getAction() == MotionEvent.ACTION_UP){
+			//}
+			return true;
+		}
 	}
 
 	@Override
