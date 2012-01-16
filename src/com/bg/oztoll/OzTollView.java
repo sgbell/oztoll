@@ -22,12 +22,11 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private float originX, originY,
 				  viewx, viewy,
 				  touchStartX, touchStartY;
-	private boolean updateScreen = true;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
-		originX = (float)tollData.getOriginX();
-		originY = (float)tollData.getOriginY();
+		originX = tollData.getOriginX();
+		originY = tollData.getOriginY();
 	}
 	
 	public OzTollView(Context context) {
@@ -39,37 +38,41 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 		
 		viewx=viewy=0;
+		touchStartX=touchStartY=0;
+		
 	}
 	
 	public void OnDraw(Canvas canvas){
 		Paint point = new Paint();
 		point.setColor(Color.BLUE);
+		Paint canvasColor = new Paint();
+		canvasColor.setColor(Color.BLACK);
 		
-		//if (updateScreen){
-			canvas.drawColor(Color.BLACK);
-			
-			canvas.drawText(viewx+","+viewy, 0, 150, point);
-			if (tollData!=null){
-				boolean left=false;
-				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
-					for (int twi=0; twi<tollData.getTollCount(twc); twi++){
-						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
-						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
+		canvas.drawColor(Color.BLACK);
+
+		canvas.drawText(viewx+","+viewy, 0, 150, point);
+		canvas.drawText(touchStartX+","+touchStartY, 0, 300, point);
+
+		
+		if (tollData!=null){
+			boolean left=false;
+			for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+				for (int twi=0; twi<tollData.getTollCount(twc); twi++){
+					float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
+					float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
 						
-						canvas.drawCircle(streetx, streety, 4, point);
-						if (left){
-							point.setTextAlign(Paint.Align.LEFT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
-							left=false;
-						} else {
-							point.setTextAlign(Paint.Align.RIGHT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
-							left=true;
-						}
+					canvas.drawCircle(streetx, streety, 4, point);
+					if (left){
+						point.setTextAlign(Paint.Align.LEFT);
+						canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
+						left=false;
+					} else {
+						point.setTextAlign(Paint.Align.RIGHT);
+						canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
+						left=true;
 					}
-				updateScreen=false;
-			}
-		//}
+				}
+		}
 	}
 	
 	

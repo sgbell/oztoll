@@ -2,19 +2,6 @@
 <oztoll>
 	<city>
 		<name>Melbourne</name>
-		<tolltypes>
-			<vehicle>car</vehicle>
-			<vehicle>car-we</vehicle>
-			<vehicle>lcv</vehicle>
-			<vehicle>lcv-day</vehicle>
-			<vehicle>lcv-night</vehicle>
-			<vehicle>hcv</vehicle>
-			<vehicle>hcv-day</vehicle>
-			<vehicle>hcv-night</vehicle>
-			<vehicle>cv-day</vehicle>
-			<vehicle>cv-night</vehicle>
-			<vehicle>mc</vehicle>
-		</tolltypes>
 		<tollway name="Citylink">
 			<exit>
 				<street>

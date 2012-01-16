@@ -4,6 +4,7 @@
 package com.bg.oztoll;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,13 +15,18 @@ import org.w3c.dom.NodeList;
  *
  */
 public class OzTollData {
+		
 	private XmlReader xmldata;
-	
-	public OzTollData(){	
+	private Vector<Tollway> tollways;
+	private String cityName;
+		
+	public OzTollData(){
+		tollways = new Vector<Tollway>();
 	}
 	
 	public OzTollData(String filename){
-		xmldata = new XmlReader(filename);
+		this();
+		setXmlReader(filename);
 	}
 	
 	public XmlReader getXmlReader(){
@@ -29,32 +35,61 @@ public class OzTollData {
 	
 	public void setXmlReader(String filename){
 		xmldata = new XmlReader(filename);
+		tollways = new Vector<Tollway>();
+		cityName = getCityName();
+		for (int twc=0; twc < getTollwayCount(); twc++){
+			Tollway newTollway = new Tollway(getTollwayName(twc));
+			// Populate the streets list in the tollway class
+			for (int tsc=0; tsc < countStreets(twc); tsc++){
+				Street newStreet = new Street(getStreetName(twc, tsc), 
+											  getStreetX(twc, tsc),
+											  getStreetY(twc, tsc));
+				if (newStreet!=null)
+					newTollway.addStreet(newStreet);
+			}
+			// Populate pathway list, which is used to draw the roads on the screen
+			for (int pwc=0; pwc < getTollPathwayCount(twc); pwc++){
+				String streets[] = getTollPath(twc, pwc);
+				Street newStart, newEnd;
+				newStart = newEnd = new Street();
+				for (int sc=0; sc < newTollway.getStreets().size(); sc++){
+					if (newTollway.getStreets().get(sc).getName().equalsIgnoreCase(streets[0]))
+						newStart = newTollway.getStreets().get(sc);
+					if (newTollway.getStreets().get(sc).getName().equalsIgnoreCase(streets[1]))
+						newEnd = newTollway.getStreets().get(sc);
+				}
+				newTollway.addPath(newStart, newEnd);
+			}
+			// Populate tolls list
+			for (int tec=0; tec < getTollCount(twc); tec++){
+				newTollway.addToll(getTollPointRate(twc, tec, newTollway));
+			}
+			
+			// Array storing all tollways for current city
+			tollways.add(newTollway);
+		}
 	}
 	
 	
-	public int getOriginX(){
-		int minX=0;
+	public long getOriginX(){
+		long minX=0;
 		
-		for(int twc=0; twc < getTollwayCount(); twc++){
-			for (int ec=0; ec < countStreets(twc); ec++){
-				if ((twc==0)&&(ec==0))
-					minX=getStreetX(twc,ec);
-				if (getStreetX(twc,ec)<minX)
-					minX=getStreetX(twc,ec);
+		for (int twc=0; twc < tollways.size(); twc++){
+			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
+				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getX()<minX))
+					minX=tollways.get(twc).getStreets().get(ec).getX();
 			}
 		}
 		return minX;
 	}
 	
-	public int getOriginY(){
-		int minY=0;
+	public long getOriginY(){
+		long minY=0;
 		
-		for(int twc=0; twc < getTollwayCount(); twc++){
-			for (int ec=0; ec < countStreets(twc); ec++){
-				if ((twc==0)&&(ec==0))
-					minY=getStreetY(twc,ec);
-				if (getStreetX(twc,ec)<minY)
-					minY=getStreetY(twc,ec);
+		for(int twc=0; twc < tollways.size(); twc++){
+			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
+				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()<minY))
+					minY=tollways.get(twc).getStreets().get(ec).getY();
 			}
 		}
 		return minY;
@@ -276,6 +311,57 @@ public class OzTollData {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * This function is used to create a TollPoint object, with the start, and various
+	 * exits found in the XML file, with the cost for the paths.
+	 * @param newTollway 
+	 * @param vector 
+	 * @return
+	 */
+	public TollPoint getTollPointRate(int tollway, int tollpoint, Tollway tollwayData){
+		TollPoint newTollPoint = new TollPoint();
+		// Hard coding the toll types into the program.
+		String tollType[] = {"car","car-we","lcv","lcv-day",
+							 "lcv-night","hcv","hcv-day","hcv-night",
+							 "cv-day","cv-night","mc"};
+		
+		NodeList tollnodes = getTollNodes(tollway);
+		Node currentToll = tollnodes.item(tollpoint);
+		Element tollElement = (Element)currentToll;
+		NodeList startNodes = tollElement.getElementsByTagName("start");
+		for (int tsc=0; tsc < startNodes.getLength(); tsc++){
+			Element startElmnt = (Element) startNodes.item(tsc);
+			if (startElmnt!= null){
+				NodeList startname = startElmnt.getChildNodes();
+				String start = ((Node) startname.item(0)).getNodeValue();
+				newTollPoint.addStart(tollwayData.getStreetByName(start));
+			}
+		}
+		NodeList exitNodes = tollElement.getElementsByTagName("exit");
+		for (int tec=0; tec < exitNodes.getLength(); tec++){
+			TollPointExit newTollPointExit = new TollPointExit();
+			Element exitElmnt = (Element) exitNodes.item(tec);
+			NodeList exitStreet = exitElmnt.getElementsByTagName("street");
+			for (int tesc=0; tesc < exitStreet.getLength(); tesc++){
+				Element exitStElmnt = (Element) exitStreet.item(tesc);
+				if (exitStElmnt!=null){
+					NodeList exitname = exitStElmnt.getChildNodes();
+					String exitSt = ((Node) exitname.item(0)).getNodeValue();
+					newTollPointExit.addExit(tollwayData.getStreetByName(exitSt));
+				}
+			}
+			
+			for (int trc=0; trc < tollType.length; trc++){
+				TollRate tollrate = new TollRate();
+				tollrate.rate = xmldata.getNodeData(exitNodes.item(tec), tollType[trc]);
+				tollrate.vehicleType = tollType[trc];
+				newTollPointExit.addRate(tollrate);
+			}
+			newTollPoint.addExit(newTollPointExit);
+		}
+		return newTollPoint;
 	}
 	
 	/**
