@@ -3,14 +3,13 @@
  */
 package com.bg.oztoll;
 
-import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
+import android.view.SurfaceView;
 
 /**
  * @author bugman
@@ -52,9 +51,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawText(viewx+","+viewy, 0, 150, point);
 		canvas.drawText(touchStartX+","+touchStartY, 0, 300, point);
-
+		canvas.drawText("Num of Tollways: "+tollData.getTollwayCount(), 0, 20, point);
 		
-		if (tollData!=null){
+		if ((tollData!=null)&&(tollData.getTollwayCount()>0)){
 			boolean left=false;
 			for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 				for (int twi=0; twi<tollData.getTollCount(twc); twi++){

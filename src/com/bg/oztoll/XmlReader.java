@@ -5,6 +5,7 @@ package com.bg.oztoll;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,8 +15,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import android.widget.Toast;
 
 /**
  * @author bugman
@@ -116,5 +115,33 @@ public class XmlReader {
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Searches nodeList for the corresponding Tag and value
+	 * @param nodeList - node list to search
+	 * @param tagName - xml tag
+	 * @param targetValue - requested value
+	 * @return node with target value in child node
+	 */
+	public Node getNodeByTagValue(NodeList nodeList, String tagName, String targetValue){
+		
+		for (int nodeCount=0; nodeCount < nodeList.getLength(); nodeCount++){
+			Node currentNode = nodeList.item(nodeCount);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE){
+				Element currentElement = (Element) currentNode;
+				NodeList childNodeList = currentElement.getElementsByTagName(tagName);
+				if (childNodeList!=null)
+					for (int childNodeCount=0; childNodeCount < childNodeList.getLength(); childNodeCount++){
+						Node currentChild = childNodeList.item(childNodeCount);
+						if (currentChild.getNodeType() == Node.ELEMENT_NODE){
+							NodeList tag = ((Element)currentChild).getChildNodes();
+							if (((Node)tag.item(0)).getNodeValue().equals(targetValue))
+								return currentNode;
+						}
+					}
+			}
+		}
+		return null;
 	}
 }

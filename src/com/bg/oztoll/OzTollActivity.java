@@ -3,7 +3,6 @@ package com.bg.oztoll;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.Toast;
 
 public class OzTollActivity extends Activity {
 	private OzTollData tollData;
