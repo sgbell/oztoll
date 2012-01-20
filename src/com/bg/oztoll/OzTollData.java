@@ -90,7 +90,7 @@ public class OzTollData {
 		
 		for(int twc=0; twc < tollways.size(); twc++){
 			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
-				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()<minY))
+				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()>minY))
 					minY=tollways.get(twc).getStreets().get(ec).getY();
 			}
 		}
@@ -238,5 +238,9 @@ public class OzTollData {
 
 	public String getStreetName(int twc, int twi) {
 		return tollways.get(twc).getStreets().get(twi).getName();
+	}
+	
+	public int getStreetCount(int twc) {
+		return tollways.get(twc).getStreets().size();
 	}
 }

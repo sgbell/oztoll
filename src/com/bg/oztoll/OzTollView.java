@@ -18,8 +18,8 @@ import android.view.SurfaceView;
 public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
-	private float originX, originY,
-				  viewx, viewy,
+	private long originX, originY;
+	private float viewx, viewy,
 				  touchStartX, touchStartY;
 	
 	public void setDataFile(OzTollData tollData){
@@ -51,27 +51,50 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 
 		canvas.drawText(viewx+","+viewy, 0, 150, point);
 		canvas.drawText(touchStartX+","+touchStartY, 0, 300, point);
-		canvas.drawText("Num of Tollways: "+tollData.getTollwayCount(), 0, 20, point);
 		
-		if ((tollData!=null)&&(tollData.getTollwayCount()>0)){
-			boolean left=false;
-			for (int twc=0; twc<tollData.getTollwayCount(); twc++)
-				for (int twi=0; twi<tollData.getTollCount(twc); twi++){
-					float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
-					float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
+		
+		if (tollData!=null){
+			if (tollData.getTollwayCount()>0){
+				boolean left = false;
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
+						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
+						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
 						
-					canvas.drawCircle(streetx, streety, 4, point);
-					if (left){
-						point.setTextAlign(Paint.Align.LEFT);
-						canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
-						left=false;
-					} else {
-						point.setTextAlign(Paint.Align.RIGHT);
-						canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
-						left=true;
+						canvas.drawCircle(streetx, streety, 4, point);
+						if (left){
+							point.setTextAlign(Paint.Align.LEFT);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
+							left=false;
+						} else {
+							point.setTextAlign(Paint.Align.RIGHT);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
+							left=true;
+						}
 					}
-				}
+			}
 		}
+		/*if (tollData!=null){
+			if (tollData.getTollwayCount()>0){
+				boolean left=false;
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+					for (int twi=0; twi<tollData.getTollCount(twc); twi++){
+						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
+						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
+						
+						canvas.drawCircle(streetx, streety, 4, point);
+						if (left){
+							point.setTextAlign(Paint.Align.LEFT);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
+							left=false;
+						} else {
+							point.setTextAlign(Paint.Align.RIGHT);
+							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
+							left=true;
+						}
+					}
+			}
+		}*/
 	}
 	
 	
