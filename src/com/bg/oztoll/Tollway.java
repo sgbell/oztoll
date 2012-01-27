@@ -13,12 +13,14 @@ public class Tollway {
 	private Vector<Street> exits;
 	private Vector<Pathway> paths;
 	private Vector<TollPoint> tolls;
+	private Vector<Pathway> connections;
 	private String name;
 		
 	public Tollway(){
 		exits = new Vector<Street>();
 		paths = new Vector<Pathway>();
 		tolls = new Vector<TollPoint>();
+		connections = new Vector<Pathway>();
 	}
 	
 	public Tollway(String name){
@@ -48,6 +50,11 @@ public class Tollway {
 		tolls.add(tollPoint);
 	}
 	
+	public void addConnection(Street start, Street end){
+		Pathway newConnection = new Pathway(start,end);
+		connections.add(newConnection);
+	}
+	
 	public Vector<Pathway> getPaths(){
 		return paths;
 	}
@@ -66,5 +73,9 @@ public class Tollway {
 				return exits.get(sc);
 		}
 		return null;
+	}
+	
+	public Vector<Pathway> getConnections(){
+		return connections;
 	}
 }

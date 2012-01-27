@@ -138,4 +138,9 @@ public class OzTollXML {
 		int[] index = {tollway};
 		return xmldata.getNodesList(nodes,index);
 	}
+
+	public int getConnectionCount() {
+		
+		return 0;
+	}
 }

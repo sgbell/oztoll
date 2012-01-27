@@ -18,14 +18,13 @@ import android.view.SurfaceView;
 public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
-	private long originX, originY;
-	private float viewx, viewy,
-				  touchStartX, touchStartY;
+	private Coordinates origin;
+	private ScreenCoordinates move, touchStart, screenOrigin;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
-		originX = tollData.getOriginX();
-		originY = tollData.getOriginY();
+		
+		origin=new Coordinates(tollData.getOriginX(),tollData.getOriginY());
 	}
 	
 	public OzTollView(Context context) {
@@ -36,12 +35,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		setFocusable(true);
 		
-		viewx=viewy=0;
-		touchStartX=touchStartY=0;
-		
+		move = new ScreenCoordinates(0,0);
+		touchStart = new ScreenCoordinates(0,0);
+		screenOrigin = new ScreenCoordinates(0,0);
 	}
 	
 	public void OnDraw(Canvas canvas){
+		Paint pathway = new Paint();
+		pathway.setColor(Color.RED);
 		Paint point = new Paint();
 		point.setColor(Color.BLUE);
 		Paint canvasColor = new Paint();
@@ -49,65 +50,57 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		canvas.drawColor(Color.BLACK);
 
-		canvas.drawText(viewx+","+viewy, 0, 150, point);
-		canvas.drawText(touchStartX+","+touchStartY, 0, 300, point);
-		
-		
+		/*
+		canvas.drawText("Moving : "+move.getX()+","+move.getY(), 0, 150, point);
+		canvas.drawText("Start : "+touchStart.getX()+","+touchStart.getY(), 0, 190, point);
+		canvas.drawText("Map Pos : "+screenOrigin.getX()+","+screenOrigin.getY(), 0, 170, point);
+			*/	
 		if (tollData!=null){
 			if (tollData.getTollwayCount()>0){
 				boolean left = false;
-				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
-						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
-						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
-						
-						canvas.drawCircle(streetx, streety, 4, point);
+						ScreenCoordinates street = new ScreenCoordinates (
+								(((tollData.getStreetX(twc, twi)-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
+								(((origin.getY()-tollData.getStreetY(twc, twi))/200)+30)+move.getY()+screenOrigin.getY());
+						canvas.drawCircle(street.getX(), street.getY(), 4, point);
 						if (left){
 							point.setTextAlign(Paint.Align.LEFT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
+							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+15 , street.getY(), point);
 							left=false;
 						} else {
 							point.setTextAlign(Paint.Align.RIGHT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
+							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-15 , street.getY(), point);
 							left=true;
 						}
 					}
+					for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
+						Pathway currentPathway = tollData.getPathway(twc, pwc);
+						canvas.drawLine((((currentPathway.getStart().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
+										(((origin.getY()-currentPathway.getStart().getY())/200)+30)+move.getY()+screenOrigin.getY(), 
+										(((currentPathway.getEnd().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
+										(((origin.getY()-currentPathway.getEnd().getY())/200)+30)+move.getY()+screenOrigin.getY(),
+										pathway);
+					}
+				}
 			}
 		}
-		/*if (tollData!=null){
-			if (tollData.getTollwayCount()>0){
-				boolean left=false;
-				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
-					for (int twi=0; twi<tollData.getTollCount(twc); twi++){
-						float streetx = ((tollData.getStreetX(twc, twi)-originX)/500)+((getWidth()/2)-10);
-						float streety = ((originY-tollData.getStreetY(twc, twi))/200)+30;
-						
-						canvas.drawCircle(streetx, streety, 4, point);
-						if (left){
-							point.setTextAlign(Paint.Align.LEFT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx+15 , streety, point);
-							left=false;
-						} else {
-							point.setTextAlign(Paint.Align.RIGHT);
-							canvas.drawText(tollData.getStreetName(twc, twi), streetx-15 , streety, point);
-							left=true;
-						}
-					}
-			}
-		}*/
 	}
 	
 	
 	public boolean onTouchEvent(MotionEvent event){
 		synchronized (thread.getSurfaceHolder()){
 			if (event.getAction() == MotionEvent.ACTION_DOWN){
-				touchStartX = event.getX();
-				touchStartY = event.getY();
+				touchStart.setX(event.getX());
+				touchStart.setY(event.getY());
 			} else if (event.getAction() == MotionEvent.ACTION_MOVE){
-				viewx=event.getX()-touchStartX;
-				viewy=event.getY()-touchStartY;				
-			} //else if (event.getAction() == MotionEvent.ACTION_UP){
-			//}
+				move.setX(event.getX()-touchStart.getX());
+				move.setY(event.getY()-touchStart.getY());
+			} else if (event.getAction() == MotionEvent.ACTION_UP){
+				screenOrigin.updateX(move.getX());
+				screenOrigin.updateY(move.getY());
+				move.reset();
+			}
 			return true;
 		}
 	}

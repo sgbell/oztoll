@@ -67,6 +67,11 @@ public class OzTollData {
 				newTollway.addToll(getTollPointRate(twc, tec, newTollway));
 			}
 			
+			// Populate connections
+			for (int tcc=0; tcc < ozTollXML.getConnectionCount(); tcc++){
+				
+			}
+			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
 		}
@@ -242,5 +247,13 @@ public class OzTollData {
 	
 	public int getStreetCount(int twc) {
 		return tollways.get(twc).getStreets().size();
+	}
+	
+	public int getPathwayCount(int tollway){
+		return tollways.get(tollway).getPaths().size();
+	}
+	
+	public Pathway getPathway(int tollway, int pathwayItem){
+		return tollways.get(tollway).getPaths().get(pathwayItem);
 	}
 }

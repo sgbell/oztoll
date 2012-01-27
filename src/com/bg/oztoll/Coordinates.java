@@ -33,4 +33,5 @@ public class Coordinates {
 	public long getY(){
 		return y;
 	}
+
 }
