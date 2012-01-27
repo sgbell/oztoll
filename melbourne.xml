@@ -6,98 +6,117 @@
 			<exit>
 				<street>
 					<name>Tullamarine Fwy</name>
-					<y>-37735426</y>
-					<x>144904518</x>
+					<y>0</y>
+					<x>0</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Bell St</name>
-					<y>-37736597</y>
-					<x>144929388</x>
+					<y>0</y>
+					<x>1</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Moreland Rd</name>
-					<y>-37752072</y>
-					<x>144935589</x>
+					<y>1</y>
+					<x>1</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Brunswick Rd</name>
-					<y>-37773971</y>
-					<x>144937048</x>
+					<y>2</y>
+					<x>1</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Flemington Rd</name>
-					<y>-37786386</y>
-					<x>144939430</x>
+					<y>3</y>
+					<x>1</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Racecourse Rd</name>
-					<y>-37788912</y>
-					<x>144937928</x>
+					<y>4</y>
+					<x>1</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Dynon Rd</name>
-					<y>-37804410</y>
-					<x>144934494</x>
+					<y>5</y>
+					<x>1</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Footscray Rd</name>
-					<y>-37809360</y>
-					<x>144933572</x>
+					<y>6</y>
+					<x>1</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>West Gate Fwy</name>
-					<y>-37826463</y>
-					<x>144930718</x>
+					<y>7</y>
+					<x>1</x>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Kings Way</name>
-					<y>-37827582</y>
-					<x>144962025</x>
+					<y>7</y>
+					<x>2</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Power St</name>
-					<y>-37826514</y>
-					<x>144965630</x>
+					<y>7</y>
+					<x>3</x>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Exhibition St</name>
-					<y>-37816073</y>
-					<x>144972389</x>
+					<y>6</y>
+					<x>4</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Swan St</name>
-					<y>-37823260</y>
-					<x>144978418</x>
+					<y>7</y>
+					<x>4</x>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Punt Rd</name>
-					<y>-37828972</y>
-					<x>144987988</x>
+					<y>7</y>
+					<x>5</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Church St</name>
-					<y>-37833819</y>
-					<x>144996614</x>
+					<y>7</y>
+					<x>6</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Burnley St</name>
-					<y>-37830616</y>
-					<x>145006099</x>
+					<y>7</y>
+					<x>7</x>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Gibdon St</name>
-					<y>-37830734</y>
-					<x>145010433</x>
+					<y>7</y>
+					<x>8</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Yarra Boulevard</name>
-					<y>-37830836</y>
-					<x>145018523</x>
+					<y>7</y>
+					<x>9</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Toorak Rd</name>
-					<y>-37844681</y>
-					<x>145039594</x>
+					<y>7</y>
+					<x>10</x>
+					<location>2</location>
 				</street>
 			</exit>
 			<pathway>
@@ -2241,10 +2260,6 @@
 		<connection>
 			<start tollway="Citylink" exit="Toorak Rd"/>
 			<end tollway="Eastlink" exit="Monash Fwy"/>
-		</connection>
-		<connection>
-			<start tollway="Eastlink" exit="Monash Fwy"/>
-			<end tollway="Citylink" exit="Toorak Rd"/>
 		</connection>
 	</city>
 </oztoll>

@@ -19,7 +19,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
 	private Coordinates origin;
-	private ScreenCoordinates move, touchStart, screenOrigin;
+	private Coordinates move, touchStart, screenOrigin;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
@@ -35,9 +35,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		setFocusable(true);
 		
-		move = new ScreenCoordinates(0,0);
-		touchStart = new ScreenCoordinates(0,0);
-		screenOrigin = new ScreenCoordinates(0,0);
+		move = new Coordinates(0,0);
+		touchStart = new Coordinates(0,0);
+		screenOrigin = new Coordinates(0,0);
 	}
 	
 	public void OnDraw(Canvas canvas){
@@ -57,13 +57,16 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			*/	
 		if (tollData!=null){
 			if (tollData.getTollwayCount()>0){
-				boolean left = false;
+				//boolean left = false;
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
-						ScreenCoordinates street = new ScreenCoordinates (
-								(((tollData.getStreetX(twc, twi)-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
-								(((origin.getY()-tollData.getStreetY(twc, twi))/200)+30)+move.getY()+screenOrigin.getY());
+						Coordinates street = new Coordinates (
+								((tollData.getStreetX(twc, twi)*15)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
+								(tollData.getStreetY(twc, twi)*15)+15+move.getY()+screenOrigin.getY());
 						canvas.drawCircle(street.getX(), street.getY(), 4, point);
+						if (twc==0)
+							canvas.drawText("Item "+twi+":"+street.getX()+","+street.getY(), 0, (twi*10)+10, point);
+						/*
 						if (left){
 							point.setTextAlign(Paint.Align.LEFT);
 							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+15 , street.getY(), point);
@@ -72,8 +75,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							point.setTextAlign(Paint.Align.RIGHT);
 							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-15 , street.getY(), point);
 							left=true;
-						}
+						}*/
 					}
+					/*
 					for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
 						Pathway currentPathway = tollData.getPathway(twc, pwc);
 						canvas.drawLine((((currentPathway.getStart().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
@@ -81,7 +85,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 										(((currentPathway.getEnd().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
 										(((origin.getY()-currentPathway.getEnd().getY())/200)+30)+move.getY()+screenOrigin.getY(),
 										pathway);
-					}
+					}*/
 				}
 			}
 		}

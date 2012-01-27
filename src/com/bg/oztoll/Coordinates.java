@@ -8,30 +8,54 @@ package com.bg.oztoll;
  *
  */
 public class Coordinates {
-	private long x, y;
-	
-	public Coordinates (long x, long y){
-		this.x=x;
-		this.y=y;
-	}
-	
-	public Coordinates() {
-	}
+	private float x,y;
 
-	public void setX(long x){
-		this.x=x;
-	}
-	
-	public void setY(long y){
+	public Coordinates(float x, float y){
+		this.x=x; 
 		this.y=y;
 	}
 	
-	public long getX(){
+	public Coordinates(){
+		
+	}
+	
+	/**
+	 * @return the x
+	 */
+	public float getX() {
 		return x;
 	}
-	
-	public long getY(){
+
+	/**
+	 * @param x the x to set
+	 */
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	/**
+	 * @return the y
+	 */
+	public float getY() {
 		return y;
 	}
 
+	/**
+	 * @param y the y to set
+	 */
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public void updateX(float x2) {
+		x+=x2;
+	}
+
+	public void updateY(float y2) {
+		y+=y2;
+	}
+
+	public void reset() {
+		x=y=0;
+	}
 }

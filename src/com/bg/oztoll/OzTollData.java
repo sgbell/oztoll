@@ -44,8 +44,10 @@ public class OzTollData {
 			// Populate the streets list in the tollway class
 			for (int tsc=0; tsc < ozTollXML.countStreets(twc); tsc++){
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
-											  Long.parseLong(ozTollXML.getStreetDetail(twc, tsc,"x")),
-											  Long.parseLong(ozTollXML.getStreetDetail(twc, tsc,"y")));
+											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"x")),
+											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"y")),
+											  //Integer.parseInt(ozTollXML.getStreetDetail(twc, tsc, "location"))
+											  1);
 				if (newStreet!=null)
 					newTollway.addStreet(newStreet);
 			}
@@ -78,8 +80,8 @@ public class OzTollData {
 	}
 	
 	
-	public long getOriginX(){
-		long minX=0;
+	public float getOriginX(){
+		float minX=0;
 		
 		for (int twc=0; twc < tollways.size(); twc++){
 			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
@@ -90,8 +92,8 @@ public class OzTollData {
 		return minX;
 	}
 	
-	public long getOriginY(){
-		long minY=0;
+	public float getOriginY(){
+		float minY=0;
 		
 		for(int twc=0; twc < tollways.size(); twc++){
 			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
