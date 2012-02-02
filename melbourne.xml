@@ -50,7 +50,7 @@
 					<name>Footscray Rd</name>
 					<y>6</y>
 					<x>1</x>
-					<location>1</location>
+					<location>0</location>
 				</street>
 				<street>
 					<name>West Gate Fwy</name>
@@ -74,7 +74,7 @@
 					<name>Exhibition St</name>
 					<y>6</y>
 					<x>4</x>
-					<location>0</location>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Swan St</name>
@@ -86,13 +86,13 @@
 					<name>Punt Rd</name>
 					<y>7</y>
 					<x>5</x>
-					<location>0</location>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Church St</name>
 					<y>7</y>
 					<x>6</x>
-					<location>1</location>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Burnley St</name>
@@ -104,13 +104,13 @@
 					<name>Gibdon St</name>
 					<y>7</y>
 					<x>8</x>
-					<location>0</location>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Yarra Boulevard</name>
 					<y>7</y>
 					<x>9</x>
-					<location>1</location>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Toorak Rd</name>
@@ -161,15 +161,19 @@
 					<end>Power St</end>
 				</path>
 				<path>
-					<start>Kings Way</start>
-					<end>Burnley St</end>
-				</path>
-				<path>
-					<start>Burnley St</start>
-					<end>Toorak Rd</end>
-				</path>
-				<path>
 					<start>Exhibition St</start>
+					<end>Swan St</end>
+				</path>
+				<path>
+					<start>Power St</start>
+					<end>Swan St</end>
+				</path>
+				<path>
+					<start>Swan St</start>
+					<end>Punt Rd</end>
+				</path>
+				<path>
+					<start>Punt Rd</start>
 					<end>Church St</end>
 				</path>
 				<path>
@@ -177,16 +181,16 @@
 					<end>Burnley St</end>
 				</path>
 				<path>
-					<start>Swan St</start>
-					<end>Church St</end>
+					<start>Burnley St</start>
+					<end>Gibdon St</end>
 				</path>
 				<path>
-					<start>Toorak Rd</start>
+					<start>Gibdon St</start>
 					<end>Yarra Boulevard</end>
 				</path>
 				<path>
 					<start>Yarra Boulevard</start>
-					<end>Punt Rd</end>
+					<end>Toorak Rd</end>
 				</path>
 				<path>
 					<start>Punt Rd</start>
@@ -532,88 +536,105 @@
 			<exit>
 				<street>
 					<name>Springvale Rd</name>
-					<y>-37803850</y>
-					<x>145178039</x>
+					<y>-2</y>
+					<x>13</x>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Ringwood Bypass</name>
-					<y>-37813310</y>
-					<x>145215676</x>
+					<y>-2</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Maroondah Hwy</name>
-					<y>-37817209</y>
-					<x>145216813</x>
+					<y>-1</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Canterbury Rd</name>
-					<y>-37832378</y>
-					<x>145217521</x>
+					<y>0</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Boronia Rd</name>
-					<y>-37846206</y>
-					<x>145217049</x>
+					<y>1</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Burwood Hwy</name>
-					<y>-37861183</y>
-					<x>145211942</x>
+					<y>2</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>High St Rd</name>
-					<y>-37876835</y>
-					<x>145212672</x>
+					<y>3</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Ferntree Gully Rd</name>
-					<y>-37903015</y>
-					<x>145215290</x>
+					<y>4</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Wellington Rd</name>
-					<y>-37925429</y>
-					<x>145213144</x>
+					<y>5</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Police Rd</name>
-					<y>-37938833</y>
-					<x>145207114</x>
+					<y>6</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Monash Fwy</name>
-					<y>-37945534</y>
-					<x>145205247</x>
+					<y>7</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Princes Hwy</name>
-					<y>-37967394</y>
-					<x>145194840</x>
+					<y>8</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Cheltenham Rd</name>
-					<y>-37992578</y>
-					<x>145191793</x>
+					<y>9</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Dandenong Bypass</name>
-					<y>-38001219</y>
-					<x>145191364</x>
+					<y>10</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Greens Rd</name>
-					<y>-38011295</y>
-					<x>145188425</x>
+					<y>11</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 				<street>
 					<name>Thompson Rd</name>
-					<y>-38070494</y>
-					<x>145181944</x>
+					<y>12</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 	    		<street>
 					<name>Frankston Fwy</name>
-					<y>-38096757</y>
-					<x>145145767</x>
+					<y>13</y>
+					<x>14</x>
+					<location>1</location>
 				</street>
 		  	</exit>
 	  	  	<pathway>

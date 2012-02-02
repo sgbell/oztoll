@@ -139,8 +139,7 @@ public class OzTollXML {
 		return xmldata.getNodesList(nodes,index);
 	}
 
-	public int getConnectionCount() {
-		
-		return 0;
+	public NodeList getConnections(){
+		return xmldata.getNodesList("connection");
 	}
 }

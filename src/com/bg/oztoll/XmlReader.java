@@ -48,6 +48,10 @@ public class XmlReader {
 			return null;
 	}
 	
+	public NodeList getNodesList(String nodeTree){
+		return doc.getElementsByTagName(nodeTree);
+	}
+	
 	/**
 	 * Attempting to create a method that will return a NodeList dependant on an array
 	 * of nodes for a tree.

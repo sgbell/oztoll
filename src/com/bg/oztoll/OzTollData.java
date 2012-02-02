@@ -17,11 +17,14 @@ public class OzTollData {
 		
 	private XmlReader xmldata;
 	private Vector<Tollway> tollways;
+	private Vector<Connection> connections;
 	private String cityName;
 	private OzTollXML ozTollXML;
+	public int connectionsListSize=0;
 		
 	public OzTollData(){
 		tollways = new Vector<Tollway>();
+		connections = new Vector<Connection>();
 		ozTollXML = new OzTollXML();
 	}
 	
@@ -46,8 +49,7 @@ public class OzTollData {
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"x")),
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"y")),
-											  //Integer.parseInt(ozTollXML.getStreetDetail(twc, tsc, "location"))
-											  1);
+											  Integer.parseInt(ozTollXML.getStreetDetail(twc, tsc, "location")));
 				if (newStreet!=null)
 					newTollway.addStreet(newStreet);
 			}
@@ -69,13 +71,34 @@ public class OzTollData {
 				newTollway.addToll(getTollPointRate(twc, tec, newTollway));
 			}
 			
-			// Populate connections
-			for (int tcc=0; tcc < ozTollXML.getConnectionCount(); tcc++){
-				
-			}
-			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
+		}
+		
+		// Populate connections
+		NodeList connectionList = ozTollXML.getConnections();
+		if (connectionList!=null){
+			connectionsListSize=connectionList.getLength();
+		/*	for (int tcc=0; tcc < connectionList.getLength(); tcc++){
+				Node currentNode = connectionList.item(tcc);
+				if (currentNode!=null){
+					String startTollway=xmldata.getNodeAttribute(currentNode, "start", "tollway", 0);
+					String startExit=xmldata.getNodeAttribute(currentNode,"start", "exit", 0);
+					String endTollway=xmldata.getNodeAttribute(currentNode, "end", "tollway", 0);
+					String endExit=xmldata.getNodeAttribute(currentNode,"end", "exit", 0);
+					Street start = new Street();
+					Street end = new Street();
+
+					for (int twc=0; twc < tollways.size(); twc++){
+						if (tollways.get(twc).getName().equalsIgnoreCase(startTollway))
+							start=tollways.get(twc).getStreetByName(startExit);
+						if (tollways.get(twc).getName().equalsIgnoreCase(endTollway))
+							end=tollways.get(twc).getStreetByName(endExit);
+					}
+					Connection newConnection = new Connection(start, startTollway, end, endTollway);
+					connections.add(newConnection);
+				}
+			}*/
 		}
 	}
 	
@@ -247,6 +270,10 @@ public class OzTollData {
 		return tollways.get(twc).getStreets().get(twi).getName();
 	}
 	
+	public int getLocation(int tollway, int exit){
+		return tollways.get(tollway).getStreets().get(exit).getLocation();
+	}
+	
 	public int getStreetCount(int twc) {
 		return tollways.get(twc).getStreets().size();
 	}
@@ -257,5 +284,13 @@ public class OzTollData {
 	
 	public Pathway getPathway(int tollway, int pathwayItem){
 		return tollways.get(tollway).getPaths().get(pathwayItem);
+	}
+	
+	public int getConnectionCount(){
+		return connections.size();
+	}
+	
+	public Connection getConnection(int connectionID){
+		return connections.get(connectionID);
 	}
 }

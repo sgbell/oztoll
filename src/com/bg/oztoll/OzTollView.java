@@ -61,31 +61,45 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
 						Coordinates street = new Coordinates (
-								((tollData.getStreetX(twc, twi)*15)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
-								(tollData.getStreetY(twc, twi)*15)+15+move.getY()+screenOrigin.getY());
+								((tollData.getStreetX(twc, twi)*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
+								(tollData.getStreetY(twc, twi)*50)+15+move.getY()+screenOrigin.getY());
 						canvas.drawCircle(street.getX(), street.getY(), 4, point);
-						if (twc==0)
-							canvas.drawText("Item "+twi+":"+street.getX()+","+street.getY(), 0, (twi*10)+10, point);
-						/*
-						if (left){
-							point.setTextAlign(Paint.Align.LEFT);
-							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+15 , street.getY(), point);
-							left=false;
-						} else {
-							point.setTextAlign(Paint.Align.RIGHT);
-							canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-15 , street.getY(), point);
-							left=true;
-						}*/
+						
+						float txtWidth = point.measureText(tollData.getStreetName(twc, twi));
+						switch (tollData.getLocation(twc, twi)){
+							case 1:
+								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+10 , street.getY()-10, point);
+								break;
+							case 2:
+								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-(txtWidth+10) , street.getY()+10, point);
+								break;
+							case 3:
+								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+10 , street.getY()+10, point);
+								break;
+							case 0:
+							default:
+								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-(txtWidth+10) , street.getY()-10, point);
+								break;								
+						}
 					}
-					/*
 					for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
 						Pathway currentPathway = tollData.getPathway(twc, pwc);
-						canvas.drawLine((((currentPathway.getStart().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
-										(((origin.getY()-currentPathway.getStart().getY())/200)+30)+move.getY()+screenOrigin.getY(), 
-										(((currentPathway.getEnd().getX()-origin.getX())/500)+((getWidth()/2)-10))+move.getX()+screenOrigin.getX(),
-										(((origin.getY()-currentPathway.getEnd().getY())/200)+30)+move.getY()+screenOrigin.getY(),
+						canvas.drawLine(((currentPathway.getStart().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
+										(currentPathway.getStart().getY()*50)+15+move.getY()+screenOrigin.getY(),
+										((currentPathway.getEnd().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
+										(currentPathway.getEnd().getY()*50)+15+move.getY()+screenOrigin.getY(),
 										pathway);
+					}
+					/*
+					for (int cpc=0; cpc<tollData.getConnectionCount(); cpc++){
+						Connection currentConnection = tollData.getConnection(cpc);
+						canvas.drawLine(((currentConnection.getStart().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
+								(currentConnection.getStart().getY()*50)+15+move.getY()+screenOrigin.getY(),
+								((currentConnection.getEnd().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
+								(currentConnection.getEnd().getY()*50)+15+move.getY()+screenOrigin.getY(),
+								pathway);						
 					}*/
+					canvas.drawText("Connections Size: "+tollData.connectionsListSize, 0, 150, point);
 				}
 			}
 		}
