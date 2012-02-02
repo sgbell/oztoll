@@ -20,7 +20,7 @@ public class OzTollData {
 	private Vector<Connection> connections;
 	private String cityName;
 	private OzTollXML ozTollXML;
-	public int connectionsListSize=0;
+	public String connectionsTest;
 		
 	public OzTollData(){
 		tollways = new Vector<Tollway>();
@@ -78,14 +78,18 @@ public class OzTollData {
 		// Populate connections
 		NodeList connectionList = ozTollXML.getConnections();
 		if (connectionList!=null){
-			connectionsListSize=connectionList.getLength();
-		/*	for (int tcc=0; tcc < connectionList.getLength(); tcc++){
+			for (int tcc=0; tcc < connectionList.getLength(); tcc++){
 				Node currentNode = connectionList.item(tcc);
 				if (currentNode!=null){
-					String startTollway=xmldata.getNodeAttribute(currentNode, "start", "tollway", 0);
-					String startExit=xmldata.getNodeAttribute(currentNode,"start", "exit", 0);
-					String endTollway=xmldata.getNodeAttribute(currentNode, "end", "tollway", 0);
-					String endExit=xmldata.getNodeAttribute(currentNode,"end", "exit", 0);
+					Element fstElmnt = (Element) currentNode;
+					NodeList elementList = fstElmnt.getElementsByTagName("start");
+					String startTollway = ((Element)elementList.item(0)).getAttribute("tollway");
+					String startExit=((Element)elementList.item(0)).getAttribute("exit");
+					
+					elementList = fstElmnt.getElementsByTagName("end");
+					String endTollway = ((Element)elementList.item(0)).getAttribute("tollway");
+					String endExit=((Element)elementList.item(0)).getAttribute("exit");
+					
 					Street start = new Street();
 					Street end = new Street();
 
@@ -98,7 +102,7 @@ public class OzTollData {
 					Connection newConnection = new Connection(start, startTollway, end, endTollway);
 					connections.add(newConnection);
 				}
-			}*/
+			}
 		}
 	}
 	
