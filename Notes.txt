@@ -14,3 +14,5 @@ Thoughts and Notes for OzToll
 5. Making Toll Information in the xml file seperate for each tollway, with a seperate setting
 	in the xml file for roads to join the tollways with. Maybe later we'll allow multiple entry
 	and exits.
+6. Talking with Theresa, changing the layout of the text for the road names to make it more readable.
+	Roads running horizontally will have their names written vertically.
