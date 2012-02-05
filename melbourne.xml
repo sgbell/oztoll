@@ -56,13 +56,13 @@
 					<name>West Gate Fwy</name>
 					<y>7</y>
 					<x>1</x>
-					<location>2</location>
+					<location>0</location>
 				</street>
 				<street>
 					<name>Kings Way</name>
 					<y>7</y>
 					<x>2</x>
-					<location>0</location>
+					<location>2</location>
 				</street>
 				<street>
 					<name>Power St</name>
@@ -74,7 +74,7 @@
 					<name>Exhibition St</name>
 					<y>6</y>
 					<x>4</x>
-					<location>1</location>
+					<location>3</location>
 				</street>
 				<street>
 					<name>Swan St</name>
@@ -110,7 +110,7 @@
 					<name>Yarra Boulevard</name>
 					<y>7</y>
 					<x>9</x>
-					<location>0</location>
+					<location>3</location>
 				</street>
 				<street>
 					<name>Toorak Rd</name>

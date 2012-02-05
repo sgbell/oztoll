@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -51,35 +52,39 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		canvas.drawColor(Color.BLACK);
 
-		/*
-		canvas.drawText("Moving : "+move.getX()+","+move.getY(), 0, 150, point);
-		canvas.drawText("Start : "+touchStart.getX()+","+touchStart.getY(), 0, 190, point);
-		canvas.drawText("Map Pos : "+screenOrigin.getX()+","+screenOrigin.getY(), 0, 170, point);
-			*/	
 		if (tollData!=null){
 			if (tollData.getTollwayCount()>0){
-				//boolean left = false;
+				float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
+				
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
+
+						if ((((origin.getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX())>getWidth())
+							move.setX(getWidth()-((tollData.getStreetX(twc, twi)*70)+((getWidth()/2)-10)+screenOrigin.getX()));
 						Coordinates street = new Coordinates (
 								((tollData.getStreetX(twc, twi)*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
 								(tollData.getStreetY(twc, twi)*50)+15+move.getY()+screenOrigin.getY());
 						canvas.drawCircle(street.getX(), street.getY(), 10, map);
 						
-						float txtWidth = name.measureText(tollData.getStreetName(twc, twi));
+						String streetName = tollData.getStreetName(twc, twi);
+						float txtWidth = name.measureText(streetName);
 						switch (tollData.getLocation(twc, twi)){
 							case 1:
-								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+10 , street.getY()-20, name);
+								canvas.drawText(streetName, street.getX()+20 , street.getY()+5, name);
 								break;
 							case 2:
-								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-(txtWidth+10) , street.getY()+25, name);
+								for (int lc=0; lc < streetName.length(); lc++){
+									canvas.drawText(""+streetName.charAt(lc), street.getX()-5, street.getY()+(fontSize*lc)+25, name);
+								}
 								break;
 							case 3:
-								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()+10 , street.getY()+25, name);
+								for (int lc=0; lc < streetName.length(); lc++){
+									canvas.drawText(""+streetName.charAt(lc), street.getX()-3, street.getY()-((streetName.length()-lc)*fontSize), name);
+								}
 								break;
 							case 0:
 							default:
-								canvas.drawText(tollData.getStreetName(twc, twi), street.getX()-(txtWidth+10) , street.getY()-20, name);
+								canvas.drawText(streetName, street.getX()-(txtWidth+20) , street.getY()+5, name);
 								break;								
 						}
 					}
@@ -100,7 +105,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								(currentConnection.getEnd().getY()*50)+15+move.getY()+screenOrigin.getY(),
 								map);						
 					}
-					//canvas.drawText("Connections Name: "+tollData.connectionsTest, 0, 150, point);
 				}
 			}
 		}
