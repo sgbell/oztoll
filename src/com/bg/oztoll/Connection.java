@@ -1,4 +1,4 @@
-/**
+/**Connection is used to define the connecting streets between tollways
  * 
  */
 package com.bg.oztoll;
@@ -10,12 +10,24 @@ package com.bg.oztoll;
 public class Connection extends Pathway {
 	private String startTollway, endTollway;
 	
+	/** Constructor initializing just the streets.
+	 * 
+	 * @param newStart - Starting Street
+	 * @param newEnd - Ending Street
+	 */
 	public Connection(Street newStart, Street newEnd) {
 		super(newStart, newEnd);
 		setStartTollway("");
 		setEndTollway("");
 	}
 
+	/** Constructor initializing streets and tollways with supplied values
+	 * 
+	 * @param newStart - Start street
+	 * @param startTollway - Starting Tollway
+	 * @param newEnd - End street
+	 * @param endTollway - End Tollway
+	 */
 	public Connection(Street newStart, String startTollway, Street newEnd, String endTollway){
 		super(newStart, newEnd);
 		this.setStartTollway(startTollway);

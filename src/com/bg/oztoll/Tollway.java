@@ -3,24 +3,22 @@
  */
 package com.bg.oztoll;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * @author bugman
  *
  */
 public class Tollway {
-	private Vector<Street> exits;
-	private Vector<Pathway> paths;
-	private Vector<TollPoint> tolls;
-	private Vector<Pathway> connections;
+	private ArrayList<Street> exits;
+	private ArrayList<Pathway> paths;
+	private ArrayList<TollPoint> tolls;
 	private String name;
 		
 	public Tollway(){
-		exits = new Vector<Street>();
-		paths = new Vector<Pathway>();
-		tolls = new Vector<TollPoint>();
-		connections = new Vector<Pathway>();
+		exits = new ArrayList<Street>();
+		paths = new ArrayList<Pathway>();
+		tolls = new ArrayList<TollPoint>();
 	}
 	
 	public Tollway(String name){
@@ -50,20 +48,15 @@ public class Tollway {
 		tolls.add(tollPoint);
 	}
 	
-	public void addConnection(Street start, Street end){
-		Pathway newConnection = new Pathway(start,end);
-		connections.add(newConnection);
-	}
-	
-	public Vector<Pathway> getPaths(){
+	public ArrayList<Pathway> getPaths(){
 		return paths;
 	}
 	
-	public Vector<TollPoint> getTollPoints(){
+	public ArrayList<TollPoint> getTollPoints(){
 		return tolls;
 	}
 	
-	public Vector<Street> getStreets(){
+	public ArrayList<Street> getStreets(){
 		return exits;
 	}
 	
@@ -75,7 +68,4 @@ public class Tollway {
 		return null;
 	}
 	
-	public Vector<Pathway> getConnections(){
-		return connections;
-	}
 }

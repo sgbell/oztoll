@@ -55,6 +55,9 @@ public class Coordinates {
 		y+=y2;
 	}
 
+	/**
+	 * Resets the values to 0
+	 */
 	public void reset() {
 		x=y=0;
 	}

@@ -1,5 +1,5 @@
-/**
- * 
+/**OzStorage is used to open a file from external storage. It checks if the external storage can
+ * be accessed and if it can, opens the file using OzTollData. 
  */
 package com.bg.oztoll;
 
@@ -31,6 +31,7 @@ public class OzStorage {
 	}
 	
 	public void setTollData(String filename){
+		// As we don't need to write to the file, we make sure we can read from the external storage.
 		if (externalStatus()<EXTERNAL_ERROR){
 			String dataFileName = Environment.getExternalStorageDirectory()+
 					"/oztoll/"+filename;

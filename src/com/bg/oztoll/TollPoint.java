@@ -1,21 +1,21 @@
-/**
- * 
+/** TollPoint lists the starting streets, and then the tolls from that point
+ * It has one array of the starting streets and one array for the exits, 
  */
 package com.bg.oztoll;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * @author bugman
  *
  */
 public class TollPoint {
-	private Vector<Street> start;
-	private Vector<TollPointExit> exit;
+	private ArrayList<Street> start;
+	private ArrayList<TollPointExit> exit;
 	
 	public TollPoint(){
-		start = new Vector<Street>();
-		exit = new Vector<TollPointExit>();
+		start = new ArrayList<Street>();
+		exit = new ArrayList<TollPointExit>();
 	}
 	
 	public void addStart(Street newStart){
@@ -29,7 +29,7 @@ public class TollPoint {
 		return false;
 	}
 	
-	public Vector<TollPointExit> getExit(){
+	public ArrayList<TollPointExit> getExit(){
 		return exit;
 	}
 	

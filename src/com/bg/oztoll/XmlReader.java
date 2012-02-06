@@ -1,4 +1,5 @@
-/**
+/** XmlReader is a class I had previously developed for podsalinan. It handles everything from
+ * opening the file to reading the information from the xml file
  * 
  */
 package com.bg.oztoll;
@@ -23,6 +24,7 @@ import org.xml.sax.SAXException;
 public class XmlReader {
 	private Document doc;
 
+	// Opens an xml file and prepares it for reading.
 	public XmlReader(String filename){
 		File file = new File(filename);
 		if (file.length()>1024){
@@ -40,7 +42,10 @@ public class XmlReader {
 			}			
 		}
 	}
-	
+	/** Protection from bad coding. If the xml file has not been opened this will return null
+	 * @param node - String value you want to retrieve the node list of
+	 * @return a node list.
+	 */
 	public NodeList getElementsByTagName(String node){
 		if (doc!=null)
 			return doc.getElementsByTagName(node);
@@ -48,6 +53,11 @@ public class XmlReader {
 			return null;
 	}
 	
+	/** Will have to check my code, as this is identical to getElementsByTagName, without the error
+	 * checking :(
+	 * @param nodeTree
+	 * @return
+	 */
 	public NodeList getNodesList(String nodeTree){
 		return doc.getElementsByTagName(nodeTree);
 	}

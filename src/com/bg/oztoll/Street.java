@@ -1,4 +1,4 @@
-/**
+/** Street defines a street, usually populated from an xml file
  * 
  */
 package com.bg.oztoll;
@@ -9,7 +9,14 @@ package com.bg.oztoll;
  */
 
 public class Street extends Coordinates{
+	// Street name
 	private String name;
+	/* Location for printing the name on the screen  in relation to the dot for the street
+	 * 0 - left
+	 * 1 - right
+	 * 2 - underneath
+	 * 3 - above
+	 */
 	private int location;
 	
 	public Street(String name, Coordinates coords){

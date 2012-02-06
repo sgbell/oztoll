@@ -16,7 +16,9 @@ public class OzTollActivity extends Activity {
         ozView = new OzTollView(this);
         setContentView(ozView);
         
-		tollData = new OzStorage().getTollData();
+		// Creates a new OzStorage object, and gets the ozTollData object it creates
+        tollData = new OzStorage().getTollData();
+        // passes ozTollData into ozTollView
 		ozView.setDataFile(tollData);
     }
 

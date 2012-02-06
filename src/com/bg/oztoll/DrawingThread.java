@@ -1,3 +1,6 @@
+/** Code from http://www.droidnova.com/playing-with-graphics-in-android-part-i,147.html
+ * Modified for my program. This is a thread used to draw the screen intermittently 
+ */
 package com.bg.oztoll;
 
 import android.graphics.Canvas;
@@ -26,6 +29,9 @@ public class DrawingThread extends Thread {
 		while (run){
 			c = null;
 			try {
+				/* The follow lines lock the canvas so that this process has full control
+				 * of the mainPanel when it calls the drawing method.
+				 */
 				c = surfaceHolder.lockCanvas(null);
 				synchronized (surfaceHolder){
 					mainPanel.OnDraw(c);

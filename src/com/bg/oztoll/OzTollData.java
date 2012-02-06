@@ -1,9 +1,10 @@
-/**
- * 
+/** This class stores all of the information extracted from the xml file, for use in our program.
+ * Established early on that i couldn't read from the xml in real time as the program would not draw
+ * the screen quick enough.
  */
 package com.bg.oztoll;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,31 +16,38 @@ import org.w3c.dom.NodeList;
  */
 public class OzTollData {
 		
-	private XmlReader xmldata;
-	private Vector<Tollway> tollways;
-	private Vector<Connection> connections;
+	private ArrayList<Tollway> tollways;
+	private ArrayList<Connection> connections;
 	private String cityName;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
 		
+	/** Initializes the vectors.
+	 */
 	public OzTollData(){
-		tollways = new Vector<Tollway>();
-		connections = new Vector<Connection>();
+		tollways = new ArrayList<Tollway>();
+		connections = new ArrayList<Connection>();
 		ozTollXML = new OzTollXML();
 	}
 	
+	/** This constructor initializes the vectors, and loads the xml file and calls
+	 *  getTollwayData to populate the data
+	 * @param filename
+	 */
 	public OzTollData(String filename){
 		this();
 		ozTollXML.setXMLReader(filename);
 		getTollwayData();
 	}
 	
-	public XmlReader getXmlReader(){
-		return xmldata;
-	}
-	
+	/**
+	 * getTollwayData - A method to populate arrays with the information stored in the xml file opened
+	 * using ozTollXML. The reason all of the information will be stored in memory, is because accessing
+	 * the xml file has proved to be time consuming when the program needs to access the xml file to
+	 * redraw the screen.
+	 */
 	public void getTollwayData(){
-		tollways = new Vector<Tollway>();
+		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
 		
 		for (int twc=0; twc < ozTollXML.getNodeListCount("tollway"); twc++){
@@ -50,10 +58,16 @@ public class OzTollData {
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"x")),
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"y")),
 											  Integer.parseInt(ozTollXML.getStreetDetail(twc, tsc, "location")));
+				/* 
+				 * I decided to use float globally for x,y details, as the screen location is stored as float
+				 */
 				if (newStreet!=null)
 					newTollway.addStreet(newStreet);
 			}
-			// Populate pathway list, which is used to draw the roads on the screen
+			/* 
+			 * Populate pathway list, which is used to draw the roads on the screen. Pathways
+			 * are the path, or road in the map.
+			 */
 			for (int pwc=0; pwc < ozTollXML.getTollPathwayCount(twc); pwc++){
 				String streets[] = ozTollXML.getTollPath(twc, pwc);
 				Street newStart, newEnd;
@@ -68,24 +82,27 @@ public class OzTollData {
 			}
 			// Populate tolls list
 			for (int tec=0; tec < ozTollXML.getTollCount(twc); tec++){
-				newTollway.addToll(getTollPointRate(twc, tec, newTollway));
+				newTollway.addToll(ozTollXML.getTollPointRate(twc, tec, newTollway));
 			}
 			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
 		}
 		
-		// Populate connections
+		// Populate connections. Connections are the direct joins between tollways.
 		NodeList connectionList = ozTollXML.getConnections();
 		if (connectionList!=null){
 			for (int tcc=0; tcc < connectionList.getLength(); tcc++){
+				// Grab the (tcc)th connection from the list in the xml file.
 				Node currentNode = connectionList.item(tcc);
 				if (currentNode!=null){
 					Element fstElmnt = (Element) currentNode;
+					// Grab the <start> tag and extract the tollway and the exit street from the tag
 					NodeList elementList = fstElmnt.getElementsByTagName("start");
 					String startTollway = ((Element)elementList.item(0)).getAttribute("tollway");
 					String startExit=((Element)elementList.item(0)).getAttribute("exit");
 					
+					// Grab the <end> tag and extract the tollway and the exit street from the tag
 					elementList = fstElmnt.getElementsByTagName("end");
 					String endTollway = ((Element)elementList.item(0)).getAttribute("tollway");
 					String endExit=((Element)elementList.item(0)).getAttribute("exit");
@@ -93,12 +110,18 @@ public class OzTollData {
 					Street start = new Street();
 					Street end = new Street();
 
+					/* The following code searches through the array to find the start and end
+					 * tollways, and grabs the street object from the tollway.
+					 */
 					for (int twc=0; twc < tollways.size(); twc++){
 						if (tollways.get(twc).getName().equalsIgnoreCase(startTollway))
 							start=tollways.get(twc).getStreetByName(startExit);
 						if (tollways.get(twc).getName().equalsIgnoreCase(endTollway))
 							end=tollways.get(twc).getStreetByName(endExit);
 					}
+					/* Creates a new Connection object with the streets objects just initialized, and the tollway
+					 *  names and adds the object to the connections array.
+					 */
 					Connection newConnection = new Connection(start, startTollway, end, endTollway);
 					connections.add(newConnection);
 				}
@@ -106,7 +129,10 @@ public class OzTollData {
 		}
 	}
 	
-	
+	/** This method finds the street with the lowest value for X, and returns the lowest value  
+	 * 
+	 * @return The lowest value for X
+	 */
 	public float getOriginX(){
 		float minX=0;
 		
@@ -119,6 +145,10 @@ public class OzTollData {
 		return minX;
 	}
 	
+	/** This returns the lowest value for Y
+	 * 
+	 * @return lowest value for Y
+	 */
 	public float getOriginY(){
 		float minY=0;
 		
@@ -191,60 +221,6 @@ public class OzTollData {
 	}
 	*/
 	
-	/**
-	 * This function is used to create a TollPoint object, with the start, and various
-	 * exits found in the XML file, with the cost for the paths.
-	 * @param newTollway 
-	 * @param vector 
-	 * @return
-	 */
-	public TollPoint getTollPointRate(int tollway, int tollpoint, Tollway tollwayData){
-		TollPoint newTollPoint = new TollPoint();
-		// Hard coding the toll types into the program.
-		String tollType[] = {"car","car-we","lcv","lcv-day",
-							 "lcv-night","hcv","hcv-day","hcv-night",
-							 "cv-day","cv-night","mc"};
-		
-		NodeList tollnodes = ozTollXML.getTollNodes(tollway);
-		Node currentToll = tollnodes.item(tollpoint);
-		Element tollElement = (Element)currentToll;
-		NodeList startNodes = tollElement.getElementsByTagName("start");
-		for (int tsc=0; tsc < startNodes.getLength(); tsc++){
-			Element startElmnt = (Element) startNodes.item(tsc);
-			if (startElmnt!= null){
-				NodeList startname = startElmnt.getChildNodes();
-				String start = ((Node) startname.item(0)).getNodeValue();
-				newTollPoint.addStart(tollwayData.getStreetByName(start));
-			}
-		}
-		NodeList exitNodes = tollElement.getElementsByTagName("exit");
-		for (int tec=0; tec < exitNodes.getLength(); tec++){
-			TollPointExit newTollPointExit = new TollPointExit();
-			Element exitElmnt = (Element) exitNodes.item(tec);
-			NodeList exitStreet = exitElmnt.getElementsByTagName("street");
-			for (int tesc=0; tesc < exitStreet.getLength(); tesc++){
-				Element exitStElmnt = (Element) exitStreet.item(tesc);
-				if (exitStElmnt!=null){
-					NodeList exitname = exitStElmnt.getChildNodes();
-					String exitSt = ((Node) exitname.item(0)).getNodeValue();
-					newTollPointExit.addExit(tollwayData.getStreetByName(exitSt));
-				}
-			}
-			
-			for (int trc=0; trc < tollType.length; trc++){
-				try {
-					TollRate tollRate = new TollRate();
-					tollRate.vehicleType=tollType[trc];
-					tollRate.rate=xmldata.getNodeData(exitNodes.item(tec), tollType[trc]);
-					newTollPointExit.addRate(tollRate);
-				} catch (NullPointerException e){
-					// do nothing if it doesn't exist
-				}
-			}
-			newTollPoint.addExit(newTollPointExit);
-		}
-		return newTollPoint;
-	}
 
 	public int getTollwayCount() {
 		return tollways.size();
