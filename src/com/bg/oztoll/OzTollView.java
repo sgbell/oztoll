@@ -70,24 +70,30 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 
 						// This makes sure the user does not move the screen too far to the west of the map, loosing the screen
 						// Need to make similar ones for north south and east
-						canvas.drawText("Tulla.X :"+drawX(tollData.getStreetX(0, 0)),0,130, name);
-						canvas.drawText("Origin[0].X :"+drawX(origin[0].getX()),0,150, name);
-						canvas.drawText("Origin[1].X :"+drawX(origin[1].getX()),0,170, name);
-						canvas.drawText("Width :"+getWidth(),0,190, name);
+						//canvas.drawText("Origin[0].X :"+drawX(origin[0].getX()),0,150, name);
+						//canvas.drawText("Origin[1].X :"+drawX(origin[1].getX()),0,170, name);
+						//canvas.drawText("Origin[1] move x:"+move.getX(), 0, 190, name);
 						
-						
-						//if ((((origin[0].getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX())>getWidth())
-						//	move.setX(getWidth()-((origin[0].getX()*70)+((getWidth()/2)-10)+screenOrigin.getX()));
-						//If the user moves the map to the east 
-						//else if ((((origin[1].getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX())<0)
-						//	move.setX(0-((origin[1].getX()*70)+(getWidth()/2)-10)+screenOrigin.getX());
-						//canvas.drawText("West X="+(((origin[1].getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX()), 0, 300, name);
-						//canvas.drawText("Move X="+(origin[1].getX()*70), 0, 320, name);
+						// Moving the map too far to the west.
+						if (drawX(origin[0].getX())>getWidth())
+							move.setX(getWidth()-(drawX(origin[0].getX())-move.getX()));
+						// Moving the map too far to the east
+						if (drawX(origin[1].getX())<0)
+							move.setX(0-(drawX(origin[1].getX())-move.getX()));
+						// Moving the map too far north
+						if (drawY(origin[0].getY())>getHeight())
+							move.setY(getHeight()-(drawY(origin[0].getY())-move.getY()));
+						/* Moving the map too far south. The reason for using 10 instead of
+						 * 0 like the east check, is so we still have the most southern point on the screen.
+						 */
+						if (drawY(origin[1].getY())<10)
+							move.setY(10-(drawY(origin[1].getY())-move.getY()));
 						
 						// The following draws the circle for the exit on the screen
 						Coordinates street = new Coordinates (
 								drawX(tollData.getStreetX(twc, twi)),
 								drawY(tollData.getStreetY(twc, twi)));
+						
 						// The following tests to see if the street coordinates are on the screen, if it is, it will draw it.
 						if ((street.getX()>-10)&&(street.getX()<getWidth()+10)&&(street.getY()>-10)&&(street.getY()<getHeight()+10)){
 							canvas.drawCircle(street.getX(), street.getY(), 10, map);
@@ -122,25 +128,27 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							}
 						}
 					}
+					
+					// Need to check the pathways to see if they are partly on the screen, if so draw them
 					// Draw the road
 					for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
 						Pathway currentPathway = tollData.getPathway(twc, pwc);
-						canvas.drawLine(((currentPathway.getStart().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
-										(currentPathway.getStart().getY()*50)+15+move.getY()+screenOrigin.getY(),
-										((currentPathway.getEnd().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
-										(currentPathway.getEnd().getY()*50)+15+move.getY()+screenOrigin.getY(),
+						canvas.drawLine(drawX(currentPathway.getStart().getX()),
+										drawY(currentPathway.getStart().getY()),
+										drawX(currentPathway.getEnd().getX()),
+										drawY(currentPathway.getEnd().getY()),
 										map);
 					}
-					
-					// Draw the connecting road between tollways
-					for (int cpc=0; cpc<tollData.getConnectionCount(); cpc++){
-						Connection currentConnection = tollData.getConnection(cpc);
-						canvas.drawLine(((currentConnection.getStart().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
-								(currentConnection.getStart().getY()*50)+15+move.getY()+screenOrigin.getY(),
-								((currentConnection.getEnd().getX()*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX(),
-								(currentConnection.getEnd().getY()*50)+15+move.getY()+screenOrigin.getY(),
-								map);						
-					}
+				}
+				// Need to check it the connecting road is on the screen, if so draw it too
+				// Draw the connecting road between tollways
+				for (int cpc=0; cpc<tollData.getConnectionCount(); cpc++){
+					Connection currentConnection = tollData.getConnection(cpc);
+					canvas.drawLine(drawX(currentConnection.getStart().getX()),
+									drawY(currentConnection.getStart().getY()),
+									drawX(currentConnection.getEnd().getX()),
+									drawY(currentConnection.getEnd().getY()),
+									map);						
 				}
 			}
 		}
