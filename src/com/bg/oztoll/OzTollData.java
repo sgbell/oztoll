@@ -133,16 +133,24 @@ public class OzTollData {
 	 * 
 	 * @return The lowest value for X
 	 */
-	public float getOriginX(){
-		float minX=0;
+	public Coordinates[] getMapLimits(){
+		Coordinates limit[] = new Coordinates[2];
+		limit[0] = new Coordinates();
+		limit[1] = new Coordinates();
 		
 		for (int twc=0; twc < tollways.size(); twc++){
 			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
-				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getX()<minX))
-					minX=tollways.get(twc).getStreets().get(ec).getX();
+				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getX()<limit[0].getX()))
+					limit[0].setX(tollways.get(twc).getStreets().get(ec).getX());
+				if (tollways.get(twc).getStreets().get(ec).getX()>limit[1].getX())
+					limit[1].setX(tollways.get(twc).getStreets().get(ec).getX());
+				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()<limit[0].getY()))
+					limit[0].setY(tollways.get(twc).getStreets().get(ec).getY());
+				if (tollways.get(twc).getStreets().get(ec).getX()>limit[1].getY())
+					limit[1].setY(tollways.get(twc).getStreets().get(ec).getY());				
 			}
 		}
-		return minX;
+		return limit;
 	}
 	
 	/** This returns the lowest value for Y

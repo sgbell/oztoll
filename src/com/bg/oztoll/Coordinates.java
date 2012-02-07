@@ -16,7 +16,8 @@ public class Coordinates {
 	}
 	
 	public Coordinates(){
-		
+		x=0;
+		y=0;
 	}
 	
 	/**
