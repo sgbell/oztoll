@@ -69,11 +69,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
 
 						// This makes sure the user does not move the screen too far to the west of the map, loosing the screen
-						// Need to make similar ones for north south and east
-						//canvas.drawText("Origin[0].X :"+drawX(origin[0].getX()),0,150, name);
-						//canvas.drawText("Origin[1].X :"+drawX(origin[1].getX()),0,170, name);
-						//canvas.drawText("Origin[1] move x:"+move.getX(), 0, 190, name);
-						
 						// Moving the map too far to the west.
 						if (drawX(origin[0].getX())>getWidth())
 							move.setX(getWidth()-(drawX(origin[0].getX())-move.getX()));
@@ -133,27 +128,45 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					// Draw the road
 					for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
 						Pathway currentPathway = tollData.getPathway(twc, pwc);
-						canvas.drawLine(drawX(currentPathway.getStart().getX()),
+						drawLine(drawX(currentPathway.getStart().getX()),
 										drawY(currentPathway.getStart().getY()),
 										drawX(currentPathway.getEnd().getX()),
 										drawY(currentPathway.getEnd().getY()),
-										map);
+										map,
+										canvas);
 					}
 				}
 				// Need to check it the connecting road is on the screen, if so draw it too
 				// Draw the connecting road between tollways
 				for (int cpc=0; cpc<tollData.getConnectionCount(); cpc++){
 					Connection currentConnection = tollData.getConnection(cpc);
-					canvas.drawLine(drawX(currentConnection.getStart().getX()),
+					drawLine(drawX(currentConnection.getStart().getX()),
 									drawY(currentConnection.getStart().getY()),
 									drawX(currentConnection.getEnd().getX()),
 									drawY(currentConnection.getEnd().getY()),
-									map);						
+									map,
+									canvas);						
 				}
 			}
 		}
 	}
 	
+	/** Draw line is a wrapper for Canvas.drawLine so it will only draw the line if it's
+	 * within the visible space. 
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * @param paint
+	 * @param canvas
+	 */
+	public void drawLine(float startX, float startY, float endX, float endY, Paint paint, Canvas canvas){
+		if ((((startX>0)&&(startX<getWidth()))||
+			((endX>0)&&(endX<getWidth())))&&
+			(((startY>0)&&(startY<getHeight()))||
+			((endY>0)&&(endY<getHeight()))))
+			canvas.drawLine(startX,	startY,	endX, endY,	paint);
+	}
 	
 	public boolean onTouchEvent(MotionEvent event){
 		synchronized (thread.getSurfaceHolder()){
