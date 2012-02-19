@@ -40,4 +40,8 @@ public class TollPointExit {
 				return true;
 		return false;
 	}
+	
+	public ArrayList<Street> getExits(){
+		return street;
+	}
 }

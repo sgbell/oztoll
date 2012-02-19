@@ -192,10 +192,6 @@
 					<start>Yarra Boulevard</start>
 					<end>Toorak Rd</end>
 				</path>
-				<path>
-					<start>Punt Rd</start>
-					<end>Swan St</end>
-				</path>
 			</pathway>
 			<tollpoint>
 				<start>Tullamarine Fwy</start>

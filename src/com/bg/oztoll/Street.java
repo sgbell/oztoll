@@ -18,6 +18,9 @@ public class Street extends Coordinates{
 	 * 3 - above
 	 */
 	private int location;
+	// Valid is used to determine if a user can click on the road.
+	private boolean valid=true;
+	
 	
 	public Street(String name, Coordinates coords){
 		super(coords.getX(),coords.getY());
@@ -54,5 +57,19 @@ public class Street extends Coordinates{
 	 */
 	public void setLocation(int location) {
 		this.location = location;
+	}
+
+	/**
+	 * @return the valid
+	 */
+	public boolean isValid() {
+		return valid;
+	}
+
+	/**
+	 * @param valid the valid to set
+	 */
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 }

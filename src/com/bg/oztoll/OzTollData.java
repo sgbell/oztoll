@@ -21,6 +21,7 @@ public class OzTollData {
 	private String cityName;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
+	public boolean finishedRead=false;
 		
 	/** Initializes the vectors.
 	 */
@@ -87,6 +88,7 @@ public class OzTollData {
 			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
+			finishedRead=true;
 		}
 		
 		// Populate connections. Connections are the direct joins between tollways.
@@ -153,22 +155,6 @@ public class OzTollData {
 		return limit;
 	}
 	
-	/** This returns the lowest value for Y
-	 * 
-	 * @return lowest value for Y
-	 */
-	public float getOriginY(){
-		float minY=0;
-		
-		for(int twc=0; twc < tollways.size(); twc++){
-			for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
-				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()>minY))
-					minY=tollways.get(twc).getStreets().get(ec).getY();
-			}
-		}
-		return minY;
-	}
-	
 	/*
 	public ArrayList<TollCharges> getFullRate(String entry, String exit){
 		int entryTollRoadId=-1, exitTollRoadId=-1, roadId=0;
@@ -228,7 +214,6 @@ public class OzTollData {
 		return tollCharges;
 	}
 	*/
-	
 
 	public int getTollwayCount() {
 		return tollways.size();
@@ -280,5 +265,40 @@ public class OzTollData {
 	
 	public Connection getConnection(int connectionID){
 		return connections.get(connectionID);
+	}
+
+	public Street getStreet(int twc, int twi) {
+		return tollways.get(twc).getStreets().get(twi);
+	}
+	
+	public String getTollwayName(int tollway){
+		return tollways.get(tollway).getName();
+	}
+	
+	public ArrayList<Street> getTollPointExits(String tollway, Street start){
+		ArrayList<Street> exits = new ArrayList<Street>();
+		for (int twc=0; twc < tollways.size(); twc++){
+			Tollway currentTollway = tollways.get(twc);
+			if (currentTollway.getName().equalsIgnoreCase(tollway)){
+				for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++){
+					TollPoint tollPoints = currentTollway.getTollPoints().get(tpc);
+					if (tollPoints.isStart(start.getName())){
+						for (int tpe=0; tpe<tollPoints.getExit().size(); tpe++){
+							TollPointExit tpExits = tollPoints.getExit().get(tpe); 
+							for (int ec=0; 
+								 ec<tpExits.getExits().size();
+								 ec++){
+								exits.add(tpExits.getExits().get(ec));
+							}
+						}
+					}
+				}
+			}
+		}
+		return exits;
+	}
+
+	public boolean finishedReading() {
+		return finishedRead;
 	}
 }
