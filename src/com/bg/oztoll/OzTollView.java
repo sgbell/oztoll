@@ -22,7 +22,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private DrawingThread thread;
 	private Thread tollDataViewBuilder;
 	private Coordinates touchStart;
-	private Street startStreet=null, endStreet=null;
 	private TollDataView tollDataView;
 	private Paint map, name;
 	private Object syncObject;
@@ -67,8 +66,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			synchronized (syncObject){
 				ArrayList<Street> streets = tollDataView.getStreets();
 				
-				canvas.drawText("screenOrigin: "+tollDataView.getScreenOrigin().getX(), 0, 170, name);
-				canvas.drawText("move: "+tollDataView.getMove().getX(), 0, 190, name);
+				canvas.drawText("screenOrigin: "+tollDataView.getScreenOrigin().getY(), 0, 170, name);
+				canvas.drawText("move: "+tollDataView.getMove().getY(), 0, 190, name);
 				// currently streets is empty. :(
 				if (streets!=null){
 					canvas.drawText("Streets: "+streets.size(), 0, 150, name);
