@@ -205,7 +205,7 @@
 		      		<hcv>3.57</hcv>
 		    	</exit>
 				<exit>
-					<street>Dyson Rd</street>
+					<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
 		      		<car>3.76</car>
 		      		<lcv>6.00</lcv>
@@ -231,7 +231,7 @@
 		  	<tollpoint>
 		    	<start>Racecourse Rd</start>
 		    	<exit>
-		      		<street>Dyson Rd</street>
+		      		<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
 		      		<car>1.88</car>
 		      		<lcv>3.00</lcv>

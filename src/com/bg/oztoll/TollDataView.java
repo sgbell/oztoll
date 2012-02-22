@@ -5,6 +5,8 @@ package com.bg.oztoll;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 /**
  * @author bugman
  *
@@ -12,13 +14,14 @@ import java.util.ArrayList;
 public class TollDataView implements Runnable{
 	private ArrayList<Street> streets;
 	private ArrayList<Pathway> pathways;
-	private Object syncObject;
+	private Object syncObject, dataSync;
 	private OzTollData tollData;
 	private String cityName;
 	private boolean stillRunning;
 	private Coordinates screenOrigin, move, origin[];
 	private int screenHeight, screenWidth;
 	private int xMin, xMax;
+	private Street startStreet, endStreet;
 
 	public TollDataView(){
 		move = new Coordinates();
@@ -29,16 +32,21 @@ public class TollDataView implements Runnable{
 	public TollDataView(OzTollData data){
 		this();
 		tollData=data;
-		cityName = "";
+		cityName = "";		
 		
-		while (!tollData.finishedReading()){
-			// just waiting for tollData to finish
-		}
-			origin=tollData.getMapLimits();
+		dataSync = tollData.getDataSync();
 	}
 	
 	public Object getSync(){
 		return syncObject;
+	}
+	
+	public void setDataSync(Object syncMe){
+		dataSync = syncMe;
+	}
+	
+	public Object getDataSync(){
+		return dataSync;
 	}
 	
 	public TollDataView(OzTollData data, int height, int width){
@@ -57,14 +65,20 @@ public class TollDataView implements Runnable{
 	
 	@Override
 	public void run() {
+		synchronized (dataSync){
+			try {
+				dataSync.wait();
+			} catch (InterruptedException e) {
+				// just wait for it
+			}
+		}
+		origin=tollData.getMapLimits();
+
 		stillRunning=true;
 		while (stillRunning){
-			
 			if (!cityName.equalsIgnoreCase(tollData.getCityName()))
 				cityName=tollData.getCityName();
-			
-			
-			if (getWidth()>0)
+			if (getWidth()>0){
 				synchronized(syncObject){
 					streets = new ArrayList<Street>();
 					pathways = new ArrayList<Pathway>();
@@ -108,15 +122,54 @@ public class TollDataView implements Runnable{
 							pathways.add(currentConnection);
 						}							
 					}
+					try {
+						syncObject.wait();
+					} catch (InterruptedException e) {
+						// just wait for screen to be moved
+					}
 				}
+				markRoads(startStreet);
+			}
 		}
 	}
 
+	/** 
+	 * This function will go through the entire map and mark the valid exits, once a
+	 * starting point has been selected.
+	 * @param validStreet
+	 */
+	public void markRoads(Street validStreet){
+		if (validStreet!=null){
+			ArrayList<Street> exitList= tollData.getTollPointExits(validStreet);
+			ArrayList<Street> tollwayConnections= new ArrayList<Street>();
+			Log.w("ozToll","Street: "+validStreet.getName());
+			Log.w("ozToll","exitList size: "+exitList.size());
+			if (exitList.size()>0)
+				for (int elc=0; elc < exitList.size(); elc++){
+					Log.w("ozToll","Exit "+elc+" : "+exitList.get(elc));
+					exitList.get(elc).setValid(true);
+					for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+						if (exitList.get(elc)==tollData.getConnection(cc).getStart())
+							tollwayConnections.add(tollData.getConnection(cc).getEnd());
+						if (exitList.get(elc)==tollData.getConnection(cc).getEnd())
+							tollwayConnections.add(tollData.getConnection(cc).getStart());
+					}
+				}
+			if (tollwayConnections.size()>0)
+				for (int tc=0; tc < tollwayConnections.size(); tc++){
+					markRoads(tollwayConnections.get(tc));
+				}
+		}
+	}
+	
 	public Coordinates getScreenOrigin() {
 		return screenOrigin;
 	}
 
 	public Coordinates getMove() {
+		synchronized (syncObject){
+			syncObject.notify();
+		}
 		return move;
 	}
 
@@ -160,7 +213,7 @@ public class TollDataView implements Runnable{
 		 *  mapPointY = (getWidth()-(15+move.getY()+screenOrigin.getY()))/50;
 		 * 
 		 */
-		return (getHeight()-(15+move.getY()+screenOrigin.getY()))/50;
+		return (getHeight()-(5+move.getY()+screenOrigin.getY()))/50;
 	}
 	
 	public float drawX(float mapPointX){
@@ -215,4 +268,35 @@ public class TollDataView implements Runnable{
 		if (drawY(origin[1].getY())<10)
 			move.setY(10-(drawY(origin[1].getY())-move.getY()));
 	}
+
+	public void findStreet(Coordinates touchStart) {
+		for (int twc=0; twc < tollData.getTollwayCount(); twc++)
+			for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
+				Street currentStreet = tollData.getStreet(twc, sc);
+				Coordinates streetCoords = new Coordinates(
+						drawX(currentStreet.getX()),
+						drawY(currentStreet.getY()));
+				
+				if ((streetCoords.getX()>touchStart.getX()-15)&&
+					(streetCoords.getX()<touchStart.getX()+15)&&
+					(streetCoords.getY()>touchStart.getY()-15)&&
+					(streetCoords.getY()<touchStart.getY()+15))
+					setStart(currentStreet);
+			}
+	}
+
+	/**
+	 * @return the start
+	 */
+	public Street getStart() {
+		return startStreet;
+	}
+
+	/**
+	 * @param start the start to set
+	 */
+	public void setStart(Street start) {
+		this.startStreet = start;
+	}
+	
 }

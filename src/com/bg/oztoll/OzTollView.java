@@ -23,12 +23,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private Thread tollDataViewBuilder;
 	private Coordinates touchStart;
 	private TollDataView tollDataView;
-	private Paint map, name;
-	private Object syncObject;
+	private Paint map, name, mapDeactivated, mapSelected;
+	private Object syncObject, dataSync;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
 
+		dataSync = tollData.getDataSync();
+		new Thread(tollData).start();
 		tollDataView = new TollDataView(this.tollData, getHeight(), getWidth());
 		syncObject = tollDataView.getSync();
 		tollDataViewBuilder = new Thread(tollDataView);
@@ -47,9 +49,13 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		map = new Paint();
 		name = new Paint();
+		mapDeactivated = new Paint();
+		mapSelected = new Paint();
 		map.setColor(Color.WHITE);
 		map.setStrokeWidth(5 / getResources().getDisplayMetrics().density);
 		name.setColor(Color.BLUE);
+		mapDeactivated.setColor(Color.GRAY);
+		mapSelected.setColor(Color.BLACK);
 	}
 
 	public void OnDraw(Canvas canvas){
@@ -66,17 +72,23 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			synchronized (syncObject){
 				ArrayList<Street> streets = tollDataView.getStreets();
 				
-				canvas.drawText("screenOrigin: "+tollDataView.getScreenOrigin().getY(), 0, 170, name);
-				canvas.drawText("move: "+tollDataView.getMove().getY(), 0, 190, name);
 				// currently streets is empty. :(
 				if (streets!=null){
-					canvas.drawText("Streets: "+streets.size(), 0, 150, name);
+					if (tollDataView.getStart()!=null)
+						canvas.drawText(tollDataView.getStart().getName(), 0, 150, name);
+
 					for (int sc=0; sc < streets.size(); sc++){
 						Coordinates currentStreet = new Coordinates(
 								tollDataView.drawX(streets.get(sc).getX()),
 								tollDataView.drawY(streets.get(sc).getY()));
 					
-						canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, map);
+						if (streets.get(sc)==tollDataView.getStart()){
+							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, map);
+							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 8, mapSelected);
+						} else if ((streets.get(sc).isValid())||(tollDataView.getStart()==null))
+							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, map);
+						else
+							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, mapDeactivated);
 						
 						String streetName = streets.get(sc).getName();
 						float txtWidth = name.measureText(streetName);
@@ -259,21 +271,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
-	/*
-	public Street findStreet(float x, float y) {
-		for (int twc=0; twc < tollData.getTollwayCount(); twc++)
-			for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
-				Street currentStreet=tollData.getStreet(twc, sc);
-				float streetX = drawX(currentStreet.getX()),
-					  streetY = drawY(currentStreet.getY());
-				
-				if ((x>streetX-10)&&(x<streetX+10))
-					if ((y>streetY-10)&&(y<streetY+10))
-						return currentStreet;
-			}
-		return null;
-	}*/
-	
 	public boolean onTouchEvent(MotionEvent event){
 		synchronized (thread.getSurfaceHolder()){
 			if (event.getAction() == MotionEvent.ACTION_DOWN){
@@ -286,6 +283,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				tollDataView.getMove().setY(event.getY()-touchStart.getY());
 				tollDataView.checkMove();
 			} else if (event.getAction() == MotionEvent.ACTION_UP){
+				if ((tollDataView.getMove().getX()==0)&&
+					(tollDataView.getMove().getY()==0)){
+					tollDataView.findStreet(touchStart);
+				}
 				tollDataView.resetMove();
 			}
 			return true;

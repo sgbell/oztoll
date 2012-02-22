@@ -10,18 +10,21 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.util.Log;
+
 /**
  * @author bugman
  *
  */
-public class OzTollData {
+public class OzTollData implements Runnable{
 		
 	private ArrayList<Tollway> tollways;
 	private ArrayList<Connection> connections;
 	private String cityName;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
-	public boolean finishedRead=false;
+	private boolean finishedRead=false;
+	private Object syncObject, dataSync;
 		
 	/** Initializes the vectors.
 	 */
@@ -38,7 +41,22 @@ public class OzTollData {
 	public OzTollData(String filename){
 		this();
 		ozTollXML.setXMLReader(filename);
-		getTollwayData();
+	}
+	
+	public void setSyncObject(Object syncMe){
+		syncObject = syncMe;
+	}
+	
+	public Object getSyncObject(){
+		return syncObject;
+	}
+	
+	public void setDataSync(Object syncMe){
+		dataSync = syncMe;
+	}
+	
+	public Object getDataSync(){
+		return dataSync;
 	}
 	
 	/**
@@ -47,7 +65,7 @@ public class OzTollData {
 	 * the xml file has proved to be time consuming when the program needs to access the xml file to
 	 * redraw the screen.
 	 */
-	public void getTollwayData(){
+	public void run(){
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
 		
@@ -88,7 +106,9 @@ public class OzTollData {
 			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
-			finishedRead=true;
+			synchronized (dataSync){
+				dataSync.notify();
+			}
 		}
 		
 		// Populate connections. Connections are the direct joins between tollways.
@@ -129,6 +149,7 @@ public class OzTollData {
 				}
 			}
 		}
+		finishedRead=true;
 	}
 	
 	/** This method finds the street with the lowest value for X, and returns the lowest value  
@@ -148,8 +169,8 @@ public class OzTollData {
 					limit[1].setX(tollways.get(twc).getStreets().get(ec).getX());
 				if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()<limit[0].getY()))
 					limit[0].setY(tollways.get(twc).getStreets().get(ec).getY());
-				if (tollways.get(twc).getStreets().get(ec).getX()>limit[1].getY())
-					limit[1].setY(tollways.get(twc).getStreets().get(ec).getY());				
+				if (tollways.get(twc).getStreets().get(ec).getY()>limit[1].getY())
+					limit[1].setY(tollways.get(twc).getStreets().get(ec).getY());
 			}
 		}
 		return limit;
@@ -275,21 +296,18 @@ public class OzTollData {
 		return tollways.get(tollway).getName();
 	}
 	
-	public ArrayList<Street> getTollPointExits(String tollway, Street start){
+	public ArrayList<Street> getTollPointExits(Street start){
 		ArrayList<Street> exits = new ArrayList<Street>();
 		for (int twc=0; twc < tollways.size(); twc++){
-			Tollway currentTollway = tollways.get(twc);
-			if (currentTollway.getName().equalsIgnoreCase(tollway)){
-				for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++){
-					TollPoint tollPoints = currentTollway.getTollPoints().get(tpc);
-					if (tollPoints.isStart(start.getName())){
-						for (int tpe=0; tpe<tollPoints.getExit().size(); tpe++){
-							TollPointExit tpExits = tollPoints.getExit().get(tpe); 
-							for (int ec=0; 
-								 ec<tpExits.getExits().size();
-								 ec++){
-								exits.add(tpExits.getExits().get(ec));
-							}
+			for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++){
+				TollPoint tollPoints = tollways.get(twc).getTollPoints().get(tpc);
+				if (tollPoints.isStart(start.getName())){
+					for (int tpe=0; tpe<tollPoints.getExit().size(); tpe++){
+						TollPointExit tpExits = tollPoints.getExit().get(tpe); 
+						for (int ec=0; 
+							 ec<tpExits.getExits().size();
+							 ec++){
+							exits.add(tpExits.getExits().get(ec));
 						}
 					}
 				}
@@ -297,8 +315,8 @@ public class OzTollData {
 		}
 		return exits;
 	}
-
-	public boolean finishedReading() {
+	
+	public boolean isFinished(){
 		return finishedRead;
 	}
 }
