@@ -56,6 +56,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		name.setColor(Color.BLUE);
 		mapDeactivated.setColor(Color.GRAY);
 		mapSelected.setColor(Color.BLACK);
+		mapSelected.setStrokeWidth((float)2.0 / getResources().getDisplayMetrics().density);
 	}
 
 	public void OnDraw(Canvas canvas){
@@ -74,17 +75,15 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				
 				// currently streets is empty. :(
 				if (streets!=null){
-					if (tollDataView.getStart()!=null)
-						canvas.drawText(tollDataView.getStart().getName(), 0, 150, name);
-
 					for (int sc=0; sc < streets.size(); sc++){
 						Coordinates currentStreet = new Coordinates(
 								tollDataView.drawX(streets.get(sc).getX()),
 								tollDataView.drawY(streets.get(sc).getY()));
 					
-						if (streets.get(sc)==tollDataView.getStart()){
+						if ((streets.get(sc)==tollDataView.getStart())||
+							(streets.get(sc)==tollDataView.getEnd())){
 							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, map);
-							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 8, mapSelected);
+							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 6, mapSelected);
 						} else if ((streets.get(sc).isValid())||(tollDataView.getStart()==null))
 							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10, map);
 						else
@@ -126,124 +125,19 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								 tollDataView.drawX(currentPathway.getEnd().getX()),
 								 tollDataView.drawY(currentPathway.getEnd().getY()),
 								 map,
-								 canvas);
+								 canvas,false);
+						if (currentPathway.isRoute())
+							drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
+									 tollDataView.drawY(currentPathway.getStart().getY()),
+									 tollDataView.drawX(currentPathway.getEnd().getX()),
+									 tollDataView.drawY(currentPathway.getEnd().getY()),
+									 mapSelected,
+									 canvas,true);
 					}
 				}
 			}
 		}
 	}
-	
-	/** Old OnDraw(Canvas canvas)
-	 * 
-	public void OnDraw(Canvas canvas){
-		ArrayList<Street> exitStreets;
-		
-		Paint map = new Paint();
-		map.setColor(Color.WHITE);
-		map.setStrokeWidth(5 / getResources().getDisplayMetrics().density);
-		Paint deadMap = new Paint();
-		deadMap.setColor(Color.GRAY);
-		Paint name = new Paint();
-		name.setColor(Color.BLUE);
-		Paint canvasColor = new Paint();
-		canvasColor.setColor(Color.BLACK);
-		
-		canvas.drawColor(Color.BLACK);
-
-		if (tollData!=null){
-			if (tollData.getTollwayCount()>0){
-				/* This is used to get the font size on the screen, which is used for displaying the
-				 * road names vertically on the map
-				 *
-				float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
-				
-				if (startStreet!=null)
-					for (int twc=0; twc < tollData.getTollwayCount(); twc++)
-						exitStreets = tollData.getTollPointExits(tollData.getTollwayName(twc), startStreet);
-				
-				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
-					for (int twi=0; twi<tollData.getStreetCount(twc); twi++){
-						// The following draws the circle for the exit on the screen
-						Coordinates street = new Coordinates (
-								drawX(tollData.getStreetX(twc, twi)),
-								drawY(tollData.getStreetY(twc, twi)));
-						
-						// The following tests to see if the street coordinates are on the screen, if it is, it will draw it.
-						if ((street.getX()>-10)&&(street.getX()<getWidth()+10)&&(street.getY()>-10)&&(street.getY()<getHeight()+10)){
-							/* This will be where we check if the point pressed is on the map, and if it is on the map
-							 * it will mark the starting circle, otherwise startToll will be reset to null.
-							 *
-							if (startStreet!=null){
-								
-								if (startStreet==tollData.getStreet(twc, twi))
-									canvas.drawCircle(street.getX(), street.getY(), 6, canvasColor);
-								if (endStreet!=null){
-									if (endStreet==tollData.getStreet(twc, twi))
-										canvas.drawCircle(street.getX(), street.getY(), 6, canvasColor);
-								}
-							} else {
-								canvas.drawCircle(street.getX(), street.getY(), 10, map);
-							}
-						
-							/* The following gets the street name, and depending on the location stored in the
-							 * xml file, it then draws the text on the screen.
-							 *
-							String streetName = tollData.getStreetName(twc, twi);
-							float txtWidth = name.measureText(streetName);
-							switch (tollData.getLocation(twc, twi)){
-								case 1:
-									// Draws to the right of the street
-									canvas.drawText(streetName, street.getX()+20 , street.getY()+5, name);
-									break;
-								case 2:
-									// Draws the text vertically below the street
-									for (int lc=0; lc < streetName.length(); lc++){
-										canvas.drawText(""+streetName.charAt(lc), street.getX()-5, street.getY()+(fontSize*lc)+25, name);
-									}
-									break;
-								case 3:
-									// Draws the text vertically above the street
-									for (int lc=0; lc < streetName.length(); lc++){
-										canvas.drawText(""+streetName.charAt(lc), street.getX()-3, street.getY()-((streetName.length()-lc)*fontSize), name);
-									}
-									break;
-								case 0:
-								default:
-									// Draws the text to the left of the street
-									canvas.drawText(streetName, street.getX()-(txtWidth+20) , street.getY()+5, name);
-									break;								
-							}
-						}
-						// Need to check the pathways to see if they are partly on the screen, if so draw them
-						// Draw the road
-						for (int pwc=0; pwc<tollData.getPathwayCount(twc); pwc++){
-							Pathway currentPathway = tollData.getPathway(twc, pwc);
-							drawLine(drawX(currentPathway.getStart().getX()),
-									 drawY(currentPathway.getStart().getY()),
-									 drawX(currentPathway.getEnd().getX()),
-									 drawY(currentPathway.getEnd().getY()),
-									 map,
-									 canvas);
-						}
-
-					}
-				}
-				
-				// Need to check it the connecting road is on the screen, if so draw it too
-				// Draw the connecting road between tollways
-				for (int cpc=0; cpc<tollData.getConnectionCount(); cpc++){
-					Connection currentConnection = tollData.getConnection(cpc);
-					drawLine(drawX(currentConnection.getStart().getX()),
-							 drawY(currentConnection.getStart().getY()),
-							 drawX(currentConnection.getEnd().getX()),
-							 drawY(currentConnection.getEnd().getY()),
-									map,
-									canvas);						
-				}
-			}
-		}
-	}
-	*/
 	
 	/** Draw line is a wrapper for Canvas.drawLine so it will only draw the line if it's
 	 * within the visible space. 
@@ -253,19 +147,22 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	 * @param endY
 	 * @param paint
 	 * @param canvas
+	 * @param markedRoad 
 	 */
-	public void drawLine(float startX, float startY, float endX, float endY, Paint paint, Canvas canvas){
+	public void drawLine(float startX, float startY, float endX, float endY, Paint paint, Canvas canvas, boolean markedRoad){
 		if ((((startX>0)&&(startX<getWidth()))||
 			 ((endX>0)&&(endX<getWidth())))&&
 			 (((startY>0)&&(startY<getHeight()))||
 			 ((endY>0)&&(endY<getHeight())))){
-			if (startX==endX){
-				startY+=10;
-				endY-=10;
-			}
-			if (startY==endY){
-				startX+=10;
-				endX-=10;
+			if (!markedRoad){
+				if (startX==endX){
+					startY+=10;
+					endY-=10;
+				}
+				if (startY==endY){
+					startX+=10;
+					endX-=10;
+				}
 			}
 			canvas.drawLine(startX,	startY,	endX, endY,	paint);
 		}

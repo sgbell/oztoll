@@ -72,10 +72,18 @@ public class TollDataView implements Runnable{
 				// just wait for it
 			}
 		}
-		origin=tollData.getMapLimits();
+		boolean lastFileRead = false;
 
 		stillRunning=true;
 		while (stillRunning){
+			// Need to make the program read getMapLimits 
+			if (!tollData.isFinished()){
+				origin=tollData.getMapLimits();
+			} else if (!lastFileRead){
+				lastFileRead = true;
+				origin=tollData.getMapLimits();
+			}
+			
 			if (!cityName.equalsIgnoreCase(tollData.getCityName()))
 				cityName=tollData.getCityName();
 			if (getWidth()>0){
@@ -129,10 +137,33 @@ public class TollDataView implements Runnable{
 					}
 				}
 				markRoads(startStreet);
+				markPaths();
 			}
 		}
 	}
 
+	public void markPaths(){
+		boolean markStart=false, markEnd=false;
+		if ((startStreet!=null)&&(endStreet!=null)){
+			for (int twc=0; twc < tollData.getTollwayCount(); twc++){
+				for (int pwc=0; pwc < tollData.getPathwayCount(twc); pwc++){
+					if ((tollData.getPathway(twc, pwc).getStart()==startStreet)||
+						(tollData.getPathway(twc, pwc).getStart()==endStreet)){
+						if ((!markStart)&&(!markEnd))
+							markStart=true;
+					}
+					if ((markStart)&&(!markEnd)){
+						tollData.getPathway(twc,pwc).setRoute(true);
+						if ((tollData.getPathway(twc, pwc).getEnd()==startStreet)||
+							(tollData.getPathway(twc, pwc).getEnd()==endStreet)){
+							markEnd=true;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	/** 
 	 * This function will go through the entire map and mark the valid exits, once a
 	 * starting point has been selected.
@@ -142,11 +173,8 @@ public class TollDataView implements Runnable{
 		if (validStreet!=null){
 			ArrayList<Street> exitList= tollData.getTollPointExits(validStreet);
 			ArrayList<Street> tollwayConnections= new ArrayList<Street>();
-			Log.w("ozToll","Street: "+validStreet.getName());
-			Log.w("ozToll","exitList size: "+exitList.size());
 			if (exitList.size()>0)
 				for (int elc=0; elc < exitList.size(); elc++){
-					Log.w("ozToll","Exit "+elc+" : "+exitList.get(elc));
 					exitList.get(elc).setValid(true);
 					for (int cc=0; cc < tollData.getConnectionCount(); cc++){
 						if (exitList.get(elc)==tollData.getConnection(cc).getStart())
@@ -281,8 +309,21 @@ public class TollDataView implements Runnable{
 					(streetCoords.getX()<touchStart.getX()+15)&&
 					(streetCoords.getY()>touchStart.getY()-15)&&
 					(streetCoords.getY()<touchStart.getY()+15))
-					setStart(currentStreet);
+					if (getStart()==null)
+						setStart(currentStreet);
+					else {
+						if (currentStreet.isValid())
+							setEnd(currentStreet);
+					}
 			}
+	}
+
+	public Street getEnd() {
+		return endStreet;
+	}
+	
+	public void setEnd(Street end) {
+		endStreet = end;
 	}
 
 	/**
