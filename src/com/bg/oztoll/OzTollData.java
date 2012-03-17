@@ -280,6 +280,119 @@ public class OzTollData implements Runnable{
 		return tollways.get(tollway).getPaths().get(pathwayItem);
 	}
 	
+	/** This function returns an array of pathways with the requested street in it
+	 * @param street
+	 * @return
+	 */
+	public ArrayList<Pathway> getPathway(Street street){
+		ArrayList<Pathway> paths = new ArrayList<Pathway>();
+		
+		for (int twc=0; twc < getTollwayCount(); twc++)
+			for (int pwc=0; pwc < getPathwayCount(twc); pwc++){
+				if ((getPathway(twc, pwc).getStart().equals(street))||
+					(getPathway(twc, pwc).getEnd().equals(street)))
+					paths.add(getPathway(twc,pwc));
+			}
+		return paths;
+	}
+	
+	/** This method takes the start and end of the pathway to mark. It will create an array
+	 * or the paths to mark, including connections.
+	 * @param start - starting point
+	 * @param end - end point
+	 * @return Array of path from Start to end
+	 */
+	public ArrayList<Pathway> getPathway(Street start, Street end){
+		ArrayList<Pathway> paths = new ArrayList<Pathway>();
+		boolean endFound = false;
+		
+		Log.w("tollData", "tollData.getPathway(Start, end)");
+		Street street=start;
+		while (!endFound){
+			ArrayList<Pathway> currentPaths = getPathway(street);
+			
+			/**
+			 *	  0,0	   1,0
+			 *     x		x										x 6,0
+			 *     
+			 *     
+			 *     			x 1,1									x 6,1
+			 *     
+			 *     
+			 *     
+			 *     			x 1,2									x 6,2
+			 *     
+			 *     						   3,3
+			 *     			x 1,3			x						x 6,3
+			 *     
+			 *     
+			 *     			x		x		x		x		x		x 6,4
+			 *     		   1,4	   2,4	   3,4	   4,4	   5,4
+			 *     
+			 *     													x 6,5
+			 *     
+			 *     
+			 *     													x 6,6
+			 */
+			
+			switch(currentPaths.size()){
+				case 1:
+					Log.w("tollData", "tollData.1 Pathway found");
+					Log.w("tollData", "tollData.currentPath Start: "+currentPaths.get(0).getStart().getName());
+					Log.w("tollData", "tollData.currentPath End: "+currentPaths.get(0).getEnd().getName());
+					paths.add(currentPaths.get(0));
+					break;
+				case 2:
+					Log.w("tollData", "tollData.2 Paths found");
+					if (paths.size()>0){
+						for (int cpc=0; cpc < currentPaths.size(); cpc++)
+							if (!currentPaths.get(cpc).equals(paths.get(paths.size()-1))){
+								Log.w("tollData", "tollData.currentPath Start: "+currentPaths.get(cpc).getStart().getName());
+								Log.w("tollData", "tollData.currentPath End: "+currentPaths.get(cpc).getEnd().getName());
+								paths.add(currentPaths.get(cpc));
+							}
+					} else {
+						
+						/**
+						 *  if (currentPaths(0)start=start){
+						 *  	if (currentPaths(0)start.x==currentPaths(0)end.x){
+						 *  		if (end.y>start.Y){
+						 * 				if (currentPaths(0)end.y>currentPaths(0)start.y)
+						 * 					paths.add(currentPaths(0));
+						 * 			} else {
+						 * 				if (currentPaths(0)end.y<currentPaths(0)start.y)
+						 * 					paths.add(currentPaths(0));
+						 * 			}
+						 * 		} else if (currentPaths(0)start.y==currentPaths(0)end.y){
+						 *			if (end.x>start.x){
+						 *				if (currentPaths(0)end.x>currentPaths(0)start.x)
+						 *					paths.add(currentPaths(0));
+						 *			} else {
+						 *				if (currentPaths(0)end.x<currentPaths(0)start.x)
+						 *					paths.add(currentPaths(0));
+						 *			}
+						 * 		}
+						 * 	}  
+						 */
+					}
+					
+					break;
+				case 3:
+					Log.w("tollData", "tollData.3 Paths found");
+					break;
+				case 0:
+				default:
+					break;
+			}
+			if (paths.size()>1);
+				street=paths.get(paths.size()-1).getEnd();
+			if ((paths.get(paths.size()-1).getEnd().equals(end))||
+				(paths.get(paths.size()-1).getStart().equals(end)))
+				endFound=true;
+		}
+		return paths;
+	}
+	
 	public int getConnectionCount(){
 		return connections.size();
 	}

@@ -137,32 +137,83 @@ public class TollDataView implements Runnable{
 					}
 				}
 				markRoads(startStreet);
-				markPaths();
+				processPath();
 			}
 		}
 	}
 
-	public void markPaths(){
-		boolean markStart=false, markEnd=false;
+	/**
+	 * This is used to mark the path on the map between the selected points.
+	 */
+	public void processPath(){
+		int startTollwayId=0, endTollwayId=0;
+		
 		if ((startStreet!=null)&&(endStreet!=null)){
+			tollData.getPathway(startStreet, endStreet);
+			
 			for (int twc=0; twc < tollData.getTollwayCount(); twc++){
-				for (int pwc=0; pwc < tollData.getPathwayCount(twc); pwc++){
-					if ((tollData.getPathway(twc, pwc).getStart()==startStreet)||
-						(tollData.getPathway(twc, pwc).getStart()==endStreet)){
-						if ((!markStart)&&(!markEnd))
-							markStart=true;
-					}
-					if ((markStart)&&(!markEnd)){
-						tollData.getPathway(twc,pwc).setRoute(true);
-						if ((tollData.getPathway(twc, pwc).getEnd()==startStreet)||
-							(tollData.getPathway(twc, pwc).getEnd()==endStreet)){
-							markEnd=true;
+				for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
+					if (tollData.getStreet(twc, sc)==startStreet)
+						startTollwayId = twc;
+					if (tollData.getStreet(twc, sc)==endStreet)
+						endTollwayId = twc;
+				}
+			}
+			
+			if (startTollwayId==endTollwayId){
+				// If start and finish is on the same tollway
+				markPaths(startTollwayId, startStreet, endStreet);
+			} else {
+				// If start and finish are on different tollways
+				for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+					Connection currentConnection = tollData.getConnection(cc);
+					// Find the connection between tollways that our starting point is in
+					if (((currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))) &&
+						(currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))))||
+						((currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId)))&&
+						(currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))))){
+						
+						currentConnection.setRoute(true);
+						if (currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))){
+							markPaths(startTollwayId, startStreet, currentConnection.getStart());
+							markPaths(endTollwayId, currentConnection.getEnd(), endStreet);
+						} else if (currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))){
+							markPaths(endTollwayId, endStreet, currentConnection.getStart());
+							markPaths(startTollwayId, startStreet, currentConnection.getEnd());
+						} else if (currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))){
+							markPaths(startTollwayId, startStreet, currentConnection.getEnd());
+							markPaths(endTollwayId, endStreet, currentConnection.getStart());
+						} else if (currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))){
+							markPaths(endTollwayId, endStreet, currentConnection.getEnd());
+							markPaths(startTollwayId, startStreet, currentConnection.getStart());
 						}
 					}
 				}
 			}
 		}
 	}
+
+	public void markPaths(int tollway, Street start, Street end){
+		boolean markStart=false, markEnd=false;
+
+		for (int pwc=0; pwc < tollData.getPathwayCount(tollway); pwc++){
+			if ((tollData.getPathway(tollway, pwc).getStart()==start)||
+				(tollData.getPathway(tollway, pwc).getStart()==end)){
+				if ((!markStart)&&(!markEnd))
+					markStart=true;
+			}
+			if ((markStart)&&(!markEnd)){
+				// Need to figure out how to make sure only the roads between start and end
+				// are marked.
+				tollData.getPathway(tollway,pwc).setRoute(true);
+				if ((tollData.getPathway(tollway, pwc).getEnd()==start)||
+					(tollData.getPathway(tollway, pwc).getEnd()==end)){
+					markEnd=true;
+				}
+			}
+		}
+	}
+	
 	
 	/** 
 	 * This function will go through the entire map and mark the valid exits, once a
@@ -311,10 +362,8 @@ public class TollDataView implements Runnable{
 					(streetCoords.getY()<touchStart.getY()+15))
 					if (getStart()==null)
 						setStart(currentStreet);
-					else {
-						if (currentStreet.isValid())
-							setEnd(currentStreet);
-					}
+					else if ((currentStreet.isValid())&&(getEnd()==null))
+						setEnd(currentStreet);
 			}
 	}
 

@@ -16,3 +16,5 @@ Thoughts and Notes for OzToll
 	and exits.
 6. Talking with Theresa, changing the layout of the text for the road names to make it more readable.
 	Roads running horizontally will have their names written vertically.
+7. Need to trace the paths when points are selected, to make sure lines only go through roads leading
+	to the exit point, and not through roads that are off the path.
