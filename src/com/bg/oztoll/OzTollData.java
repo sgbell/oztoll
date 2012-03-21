@@ -296,7 +296,8 @@ public class OzTollData implements Runnable{
 		return paths;
 	}
 	
-	/** This method takes the start and end of the pathway to mark. It will create an array
+	/** 
+	 * This method takes the start and end of the pathway to mark. It will create an array
 	 * or the paths to mark, including connections.
 	 * @param start - starting point
 	 * @param end - end point
@@ -306,8 +307,8 @@ public class OzTollData implements Runnable{
 		ArrayList<Pathway> paths = new ArrayList<Pathway>();
 		boolean endFound = false;
 		
-		Log.w("tollData", "tollData.getPathway(Start, end)");
 		Street street=start;
+		Street lastDecision=null;
 		while (!endFound){
 			ArrayList<Pathway> currentPaths = getPathway(street);
 			
@@ -337,48 +338,77 @@ public class OzTollData implements Runnable{
 			
 			switch(currentPaths.size()){
 				case 1:
-					Log.w("tollData", "tollData.1 Pathway found");
-					Log.w("tollData", "tollData.currentPath Start: "+currentPaths.get(0).getStart().getName());
-					Log.w("tollData", "tollData.currentPath End: "+currentPaths.get(0).getEnd().getName());
 					paths.add(currentPaths.get(0));
 					break;
 				case 2:
-					Log.w("tollData", "tollData.2 Paths found");
 					if (paths.size()>0){
 						for (int cpc=0; cpc < currentPaths.size(); cpc++)
 							if (!currentPaths.get(cpc).equals(paths.get(paths.size()-1))){
-								Log.w("tollData", "tollData.currentPath Start: "+currentPaths.get(cpc).getStart().getName());
-								Log.w("tollData", "tollData.currentPath End: "+currentPaths.get(cpc).getEnd().getName());
 								paths.add(currentPaths.get(cpc));
 							}
 					} else {
-						
-						/**
-						 *  if (currentPaths(0)start=start){
-						 *  	if (currentPaths(0)start.x==currentPaths(0)end.x){
-						 *  		if (end.y>start.Y){
-						 * 				if (currentPaths(0)end.y>currentPaths(0)start.y)
-						 * 					paths.add(currentPaths(0));
-						 * 			} else {
-						 * 				if (currentPaths(0)end.y<currentPaths(0)start.y)
-						 * 					paths.add(currentPaths(0));
-						 * 			}
-						 * 		} else if (currentPaths(0)start.y==currentPaths(0)end.y){
-						 *			if (end.x>start.x){
-						 *				if (currentPaths(0)end.x>currentPaths(0)start.x)
-						 *					paths.add(currentPaths(0));
-						 *			} else {
-						 *				if (currentPaths(0)end.x<currentPaths(0)start.x)
-						 *					paths.add(currentPaths(0));
-						 *			}
-						 * 		}
-						 * 	}  
-						 */
+						lastDecision=start;
+						int cpc=0;
+						boolean startFound=false;
+						while ((cpc<currentPaths.size())&&(!startFound)){
+							Pathway currentPath = currentPaths.get(cpc);
+							/**
+							 *  Start = 1,1
+							 *  End= 4,4
+							 *  
+							 *   Just take it 1 step at a time. Evaluate each and every possible 
+							 *   solution, then worry about optimizing the code.									
+							 */
+							if ((currentPath.getStart()==start)&&
+								(start.getX()==currentPath.getEnd().getX())&&
+								((currentPath.getEnd().getY()>start.getY())&&
+								 (currentPath.getEnd().getY()<end.getY()))){
+								paths.add(currentPath);
+								street = currentPath.getEnd();
+								startFound=true;
+							} else if ((currentPath.getEnd()==start)&&
+									   (start.getX()==currentPath.getStart().getX())&&
+									   ((currentPath.getStart().getY()>start.getY())&&
+									    (currentPath.getStart().getY()<end.getY()))){
+								paths.add(currentPath);
+								street = currentPath.getStart();
+								startFound=true;
+							}
+							cpc++;
+						}
 					}
 					
 					break;
 				case 3:
-					Log.w("tollData", "tollData.3 Paths found");
+					/**
+					 *  Figure out the right path to go through
+					 */
+					if (paths.size()>0){
+						lastDecision=street;
+						int cpc=0;
+						boolean pathFound=false;
+						while ((cpc<currentPaths.size())&&(!pathFound)){
+							Pathway currentPath = currentPaths.get(cpc);
+							if (!currentPath.equals(paths.get(paths.size()-1))){
+								if ((currentPath.getStart()==street)&&
+									(street.getY()==currentPath.getEnd().getY())&&
+									((currentPath.getEnd().getX()>street.getX())&&
+									 (currentPath.getEnd().getX()<end.getX()))){
+									paths.add(currentPath);
+									street = currentPath.getEnd();
+									pathFound=true;
+								} else if ((currentPath.getEnd()==street)&&
+										   (street.getY()==currentPath.getStart().getY())&&
+										   ((currentPath.getStart().getX()>street.getX())&&
+										    (currentPath.getStart().getX()<end.getX()))){
+									paths.add(currentPath);
+									street = currentPath.getEnd();
+									pathFound=true;
+								}
+							}
+							cpc++;
+						}
+					}
 					break;
 				case 0:
 				default:

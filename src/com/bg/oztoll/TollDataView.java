@@ -17,7 +17,7 @@ public class TollDataView implements Runnable{
 	private Object syncObject, dataSync;
 	private OzTollData tollData;
 	private String cityName;
-	private boolean stillRunning;
+	private boolean stillRunning, pathMarked=false;
 	private Coordinates screenOrigin, move, origin[];
 	private int screenHeight, screenWidth;
 	private int xMin, xMax;
@@ -137,7 +137,8 @@ public class TollDataView implements Runnable{
 					}
 				}
 				markRoads(startStreet);
-				processPath();
+				if (!pathMarked)
+					processPath();
 			}
 		}
 	}
@@ -146,50 +147,13 @@ public class TollDataView implements Runnable{
 	 * This is used to mark the path on the map between the selected points.
 	 */
 	public void processPath(){
-		int startTollwayId=0, endTollwayId=0;
-		
 		if ((startStreet!=null)&&(endStreet!=null)){
-			tollData.getPathway(startStreet, endStreet);
+			ArrayList<Pathway> paths=tollData.getPathway(startStreet, endStreet);
 			
-			for (int twc=0; twc < tollData.getTollwayCount(); twc++){
-				for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
-					if (tollData.getStreet(twc, sc)==startStreet)
-						startTollwayId = twc;
-					if (tollData.getStreet(twc, sc)==endStreet)
-						endTollwayId = twc;
-				}
+			for (int pc=0; pc < paths.size(); pc++){
+				paths.get(pc).setRoute(true);
 			}
-			
-			if (startTollwayId==endTollwayId){
-				// If start and finish is on the same tollway
-				markPaths(startTollwayId, startStreet, endStreet);
-			} else {
-				// If start and finish are on different tollways
-				for (int cc=0; cc < tollData.getConnectionCount(); cc++){
-					Connection currentConnection = tollData.getConnection(cc);
-					// Find the connection between tollways that our starting point is in
-					if (((currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))) &&
-						(currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))))||
-						((currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId)))&&
-						(currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))))){
-						
-						currentConnection.setRoute(true);
-						if (currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))){
-							markPaths(startTollwayId, startStreet, currentConnection.getStart());
-							markPaths(endTollwayId, currentConnection.getEnd(), endStreet);
-						} else if (currentConnection.getStartTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))){
-							markPaths(endTollwayId, endStreet, currentConnection.getStart());
-							markPaths(startTollwayId, startStreet, currentConnection.getEnd());
-						} else if (currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(startTollwayId))){
-							markPaths(startTollwayId, startStreet, currentConnection.getEnd());
-							markPaths(endTollwayId, endStreet, currentConnection.getStart());
-						} else if (currentConnection.getEndTollway().equalsIgnoreCase(tollData.getTollwayName(endTollwayId))){
-							markPaths(endTollwayId, endStreet, currentConnection.getEnd());
-							markPaths(startTollwayId, startStreet, currentConnection.getStart());
-						}
-					}
-				}
-			}
+			pathMarked=true;			
 		}
 	}
 
