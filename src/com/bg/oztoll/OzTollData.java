@@ -280,19 +280,33 @@ public class OzTollData implements Runnable{
 		return tollways.get(tollway).getPaths().get(pathwayItem);
 	}
 	
-	/** This function returns an array of pathways with the requested street in it
+	/** This function returns an array of pathways, including connections, with the
+	 *  requested street in it
 	 * @param street
-	 * @return
+	 * @return Array of Pathways
 	 */
 	public ArrayList<Pathway> getPathway(Street street){
 		ArrayList<Pathway> paths = new ArrayList<Pathway>();
 		
+		/**
+		 * Search the tollways for the street and add them to an array to be returned
+		 */
 		for (int twc=0; twc < getTollwayCount(); twc++)
 			for (int pwc=0; pwc < getPathwayCount(twc); pwc++){
 				if ((getPathway(twc, pwc).getStart().equals(street))||
 					(getPathway(twc, pwc).getEnd().equals(street)))
 					paths.add(getPathway(twc,pwc));
 			}
+		
+		/**
+		 * The following goes through the tollway connections and adds those paths to
+		 * the pathway returned too.
+		 */
+		for (int cc=0; cc < getConnectionCount(); cc++){
+			if ((getConnection(cc).getStart().equals(street))||
+					(getConnection(cc).getEnd().equals(street)))
+				paths.add((Pathway)getConnection(cc));
+		}
 		return paths;
 	}
 	
@@ -308,50 +322,75 @@ public class OzTollData implements Runnable{
 		boolean endFound = false;
 		
 		Street street=start;
-		Street lastDecision=null;
+		Pathway lastDecision=null;
 		while (!endFound){
 			ArrayList<Pathway> currentPaths = getPathway(street);
 			
-			/**
-			 *	  0,0	   1,0
-			 *     x		x										x 6,0
-			 *     
-			 *     
-			 *     			x 1,1									x 6,1
-			 *     
-			 *     
-			 *     
-			 *     			x 1,2									x 6,2
-			 *     
-			 *     						   3,3
-			 *     			x 1,3			x						x 6,3
-			 *     
-			 *     
-			 *     			x		x		x		x		x		x 6,4
-			 *     		   1,4	   2,4	   3,4	   4,4	   5,4
-			 *     
-			 *     													x 6,5
-			 *     
-			 *     
-			 *     													x 6,6
-			 */
-			
 			switch(currentPaths.size()){
 				case 1:
-					paths.add(currentPaths.get(0));
+					if (paths.size()>1){
+						if (currentPaths.get(0)!=paths.get(paths.size()-1)){
+							// If this path does not equal the last road in the array found
+							// add it
+							paths.add(currentPaths.get(0));
+						} else {
+							/**
+							 * If the single road we have is the same as the last road, ie
+							 * we hit a dead end, and not the end of our toll trip, we need to
+							 * delete the roads from here back to the last intersection to find our way
+							 * to the end of the toll trip.
+							 */
+							int pc=paths.size()-1;
+							boolean lastDecisionFound=false;
+							while ((pc>=0)&&(!lastDecisionFound)){
+								if (paths.get(pc).equals(lastDecision)){
+									lastDecisionFound=true;
+								}
+								paths.remove(pc);
+							}
+							// Need to change street now. compare lastDecision start
+							if ((paths.get(paths.size()-1).getStart()==lastDecision.getStart())||
+								(paths.get(paths.size()-1).getStart()==lastDecision.getEnd())){
+								// Setting it to opposite, so that when it's checked at the end of
+								// the while loop it will correct it.
+								street=paths.get(paths.size()-1).getEnd();
+							} else {
+								street=paths.get(paths.size()-1).getStart();
+							}
+						}
+					} else {
+						// First street only gave us 1 path, so we add it
+						paths.add(currentPaths.get(0));
+					}
 					break;
 				case 2:
 					if (paths.size()>0){
-						for (int cpc=0; cpc < currentPaths.size(); cpc++)
+						/**
+						 * If we already have streets in our array that we are collecting
+						 * we need to find which of the 2 paths grabbed with the street
+						 * we have searched for, is not in our paths array and add it
+						 */
+						int cpc=0;
+						boolean streetAdded=false;
+						while ((cpc < currentPaths.size())&&(!streetAdded)){
 							if (!currentPaths.get(cpc).equals(paths.get(paths.size()-1))){
 								paths.add(currentPaths.get(cpc));
+								streetAdded=true;
 							}
+							cpc++;
+						}
 					} else {
-						lastDecision=start;
+						/**
+						 * If we start with 2 options with which to go, we need to work out
+						 * the correct trip. Generally we guess, and follow the path to its end,
+						 * and if it's wrong we will find out in 'case 1:' and come back here, to
+						 * decide again.
+						 */
 						int cpc=0;
 						boolean startFound=false;
 						while ((cpc<currentPaths.size())&&(!startFound)){
 							Pathway currentPath = currentPaths.get(cpc);
+							//Log.w ("getPathway(Street, Street)","");
 							/**
 							 *  Start = 1,1
 							 *  End= 4,4
@@ -364,14 +403,56 @@ public class OzTollData implements Runnable{
 								((currentPath.getEnd().getY()>start.getY())&&
 								 (currentPath.getEnd().getY()<end.getY()))){
 								paths.add(currentPath);
-								street = currentPath.getEnd();
+								lastDecision=currentPath;
 								startFound=true;
 							} else if ((currentPath.getEnd()==start)&&
 									   (start.getX()==currentPath.getStart().getX())&&
 									   ((currentPath.getStart().getY()>start.getY())&&
 									    (currentPath.getStart().getY()<end.getY()))){
+								lastDecision=currentPath;
 								paths.add(currentPath);
-								street = currentPath.getStart();
+								startFound=true;
+							} else if ((currentPath.getStart()==start)&&
+									   (start.getX()==currentPath.getEnd().getX())&&
+									   ((currentPath.getEnd().getY()<start.getY())&&
+									    (currentPath.getEnd().getY()>end.getY()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
+								startFound=true;
+							} else if ((currentPath.getEnd()==start)&&
+									   (start.getX()==currentPath.getStart().getX())&&
+									   ((currentPath.getStart().getY()<start.getY())&&
+									    (currentPath.getStart().getY()>end.getY()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
+								startFound=true;
+							} else if ((currentPath.getStart()==start)&&
+									(start.getY()==currentPath.getEnd().getY())&&
+									((currentPath.getEnd().getX()<start.getX())&&
+									 (currentPath.getEnd().getX()>end.getX()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
+								startFound=true;
+							} else if ((currentPath.getEnd()==start)&&
+										(start.getY()==currentPath.getStart().getY())&&
+										((currentPath.getStart().getX()<start.getX())&&
+										 (currentPath.getStart().getX()>end.getX()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
+								startFound=true;
+							} else if ((currentPath.getStart()==start)&&
+									(start.getY()==currentPath.getEnd().getY())&&
+									((currentPath.getEnd().getX()>start.getX())&&
+									 (currentPath.getEnd().getX()<end.getX()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
+								startFound=true;
+							} else if ((currentPath.getEnd()==start)&&
+										(start.getY()==currentPath.getStart().getY())&&
+										((currentPath.getStart().getX()>start.getX())&&
+										 (currentPath.getStart().getX()<end.getX()))){
+								lastDecision=currentPath;
+								paths.add(currentPath);
 								startFound=true;
 							}
 							cpc++;
@@ -381,30 +462,118 @@ public class OzTollData implements Runnable{
 					break;
 				case 3:
 					/**
-					 *  Figure out the right path to go through
+					 *  This section of code is called when we have 3 paths with the street name
+					 *  to sort through. The program will make a guess at which road to take, if it's the wrong one,
+					 *  it will hit 'case 1:' return to here and try a different path.
 					 */
 					if (paths.size()>0){
-						lastDecision=street;
 						int cpc=0;
 						boolean pathFound=false;
 						while ((cpc<currentPaths.size())&&(!pathFound)){
 							Pathway currentPath = currentPaths.get(cpc);
-							if (!currentPath.equals(paths.get(paths.size()-1))){
+							if ((!currentPath.equals(paths.get(paths.size()-1)))&&
+								(!currentPath.equals(lastDecision))){
 								if ((currentPath.getStart()==street)&&
 									(street.getY()==currentPath.getEnd().getY())&&
 									((currentPath.getEnd().getX()>street.getX())&&
 									 (currentPath.getEnd().getX()<end.getX()))){
 									paths.add(currentPath);
-									street = currentPath.getEnd();
+									lastDecision=currentPath;
 									pathFound=true;
 								} else if ((currentPath.getEnd()==street)&&
 										   (street.getY()==currentPath.getStart().getY())&&
 										   ((currentPath.getStart().getX()>street.getX())&&
 										    (currentPath.getStart().getX()<end.getX()))){
 									paths.add(currentPath);
-									street = currentPath.getEnd();
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getEnd()==street)&&
+										   (street.getY()==currentPath.getStart().getY())&&
+										   ((currentPath.getStart().getX()<street.getX())&&
+										    (currentPath.getStart().getX()>end.getX()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getStart()==street)&&
+										   (street.getY()==currentPath.getEnd().getY())&&
+										   ((currentPath.getEnd().getX()<street.getX())&&
+										    (currentPath.getEnd().getX()>end.getX()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getEnd()==street)&&
+										   (street.getX()==currentPath.getStart().getX())&&
+										   ((currentPath.getStart().getY()<street.getY())&&
+										    (currentPath.getStart().getY()>=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getStart()==street)&&
+										   (street.getX()==currentPath.getEnd().getX())&&
+										   ((currentPath.getEnd().getY()<street.getY())&&
+										    (currentPath.getEnd().getY()>=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getEnd()==street)&&
+										   (street.getX()==currentPath.getStart().getX())&&
+										   ((currentPath.getStart().getY()>street.getY())&&
+										    (currentPath.getStart().getY()<=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+								} else if ((currentPath.getStart()==street)&&
+										   (street.getX()==currentPath.getEnd().getX())&&
+										   ((currentPath.getEnd().getY()>street.getY())&&
+										    (currentPath.getEnd().getY()<=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
 									pathFound=true;
 								}
+							}
+							cpc++;
+						}
+					} else {
+						int cpc=0;
+						boolean pathFound=false;
+						while ((!pathFound)&&(cpc<currentPaths.size())){
+							Pathway currentPath = currentPaths.get(cpc);
+							
+							if ((currentPath.getStart()==street)&&
+								(street.getY()==currentPath.getEnd().getY())&&
+								((currentPath.getEnd().getX()>street.getX())&&
+								 (currentPath.getEnd().getX()<end.getX()))){
+								paths.add(currentPath);
+								lastDecision=currentPath;
+								pathFound=true;
+							} else if ((currentPath.getStart()==street)&&
+									   (street.getX()==currentPath.getEnd().getX())&&
+									   ((currentPath.getEnd().getY()<street.getY())&&
+									    (currentPath.getEnd().getY()>=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+							} else if ((currentPath.getEnd()==street)&&
+									   (street.getX()==currentPath.getStart().getX())&&
+									   ((currentPath.getStart().getY()<street.getY())&&
+									    (currentPath.getStart().getY()>=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+							} else if ((currentPath.getStart()==street)&&
+									   (street.getX()==currentPath.getEnd().getX())&&
+									   ((currentPath.getEnd().getY()>street.getY())&&
+									    (currentPath.getEnd().getY()<=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+							} else if ((currentPath.getEnd()==street)&&
+									   (street.getX()==currentPath.getStart().getX())&&
+									   ((currentPath.getStart().getY()>street.getY())&&
+									    (currentPath.getStart().getY()<=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
 							}
 							cpc++;
 						}
@@ -414,8 +583,20 @@ public class OzTollData implements Runnable{
 				default:
 					break;
 			}
-			if (paths.size()>1);
-				street=paths.get(paths.size()-1).getEnd();
+			/**
+			 * The follow if statement works out which of the two roads in the current
+			 *  pathway is the one we just searched for, and sets the next road to be searched for
+			 *  as it will be the other end of the pathway.
+			 */
+			if (paths.size()>0)
+				if (paths.get(paths.size()-1).getStart()==street)
+					street=paths.get(paths.size()-1).getEnd();
+				else
+					street=paths.get(paths.size()-1).getStart();
+			/**
+			 * Checks to see if we have hit the other end of the user's trip so
+			 * we can finish marking roads.
+			 */
 			if ((paths.get(paths.size()-1).getEnd().equals(end))||
 				(paths.get(paths.size()-1).getStart().equals(end)))
 				endFound=true;

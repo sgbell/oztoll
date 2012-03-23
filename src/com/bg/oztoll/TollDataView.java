@@ -139,6 +139,9 @@ public class TollDataView implements Runnable{
 				markRoads(startStreet);
 				if (!pathMarked)
 					processPath();
+				else {
+					
+				}
 			}
 		}
 	}
