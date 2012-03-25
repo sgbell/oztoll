@@ -5,6 +5,7 @@ package com.bg.oztoll;
 
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +13,9 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * @author bugman
@@ -25,6 +29,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private TollDataView tollDataView;
 	private Paint map, name, mapDeactivated, mapSelected;
 	private Object syncObject, dataSync;
+	
+	private Dialog rateDialog;
+	private TextView rateDialogText;
+	private boolean rateShown=false;
 	
 	public void setDataFile(OzTollData tollData){
 		this.tollData = tollData;
@@ -57,6 +65,21 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		mapDeactivated.setColor(Color.GRAY);
 		mapSelected.setColor(Color.BLACK);
 		mapSelected.setStrokeWidth((float)2.0 / getResources().getDisplayMetrics().density);
+		
+		// Creating the rateDialog here which will be accessed from one of the other
+		rateDialog = new Dialog(context);
+		rateDialog.setContentView(R.layout.ratedialog);
+		setRateDialogText((TextView) rateDialog.findViewById(R.id.MainText));
+		rateDialog.setTitle("Trip Toll Result");
+		Button closeButton = (Button) rateDialog.findViewById(R.id.Close);
+		closeButton.setText("Close");
+		closeButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				rateDialog.dismiss();
+			}
+		});
 	}
 
 	public void OnDraw(Canvas canvas){
@@ -136,6 +159,20 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					}
 				}
 			}
+			if (tollDataView.isRateCalculated()){
+				this.getHandler().post( new Runnable() {
+
+					@Override
+					public void run() {
+						if (!rateShown){
+							rateDialogText.setText(tollDataView.getRateDialogText());
+							rateDialog.show();
+							rateShown=true;
+						}
+					}
+				});
+			}
+			
 		}
 	}
 	
@@ -216,6 +253,20 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				// keep trying until it's finished
 			}
 		}
+	}
+
+	/**
+	 * @return the rateDialogText
+	 */
+	public TextView getRateDialogText() {
+		return rateDialogText;
+	}
+
+	/**
+	 * @param rateDialogText the rateDialogText to set
+	 */
+	public void setRateDialogText(TextView rateDialogText) {
+		this.rateDialogText = rateDialogText;
 	}
 
 }
