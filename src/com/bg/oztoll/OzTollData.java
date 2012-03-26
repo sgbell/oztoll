@@ -176,65 +176,82 @@ public class OzTollData implements Runnable{
 		return limit;
 	}
 	
-	/*
-	public ArrayList<TollCharges> getFullRate(String entry, String exit){
-		int entryTollRoadId=-1, exitTollRoadId=-1, roadId=0;
-		boolean bothFound=false;
-		ArrayList<TollCharges> tollCharges = new ArrayList<TollCharges>();
-		
-		do{
-			for (int twc=0; twc < ozTollXML.getNodeListCount("tollway"); twc++)
-				if (roadId<ozTollXML.countStreets(twc))
-					if (ozTollXML.getStreetName(twc,roadId)!=null){
-						if (getStreetName(twc,roadId).equals(entry))
-							entryTollRoadId=twc;
-						if (getStreetName(twc,roadId).equals(exit))
-							exitTollRoadId=twc;
-					}
-			roadId++;
-			if ((entryTollRoadId>-1)&&(exitTollRoadId>-1))
-				bothFound=true;
-		} while (!bothFound);
-		if (entryTollRoadId==exitTollRoadId){
-			TollCharges newTollCharges= new TollCharges();
-			newTollCharges.tollway=ozTollXML.getTollwayName(entryTollRoadId);
-			newTollCharges.tolls=getTollRate(entry,exit,entryTollRoadId);
-			tollCharges.add(newTollCharges);
-		} else {
-			 * Need to read the connections tag from the xml file
-			 * and then call getTollRate twice, and add charges together
-			 * for a total. *
-			NodeList nodeList = xmldata.getElementsByTagName("connection");
-			if (nodeList!=null){
-				String toll1Exit,
-					   toll2Entry;
-				for (int conc=0; conc < nodeList.getLength(); conc++){
-					Node currentNode = nodeList.item(conc);
-					String tollwayName=xmldata.getNodeAttribute(currentNode, "start", "tollway", 0);
-					if (tollwayName.equals(ozTollXML.getTollwayName(entryTollRoadId))){
-						toll1Exit=xmldata.getNodeAttribute(currentNode,"start", "exit", 0);
-						TollCharges newTollCharges = new TollCharges();
-						newTollCharges.tollway=ozTollXML.getTollwayName(entryTollRoadId);
-						newTollCharges.tolls=getTollRate(entry,toll1Exit,entryTollRoadId);
-						tollCharges.add(newTollCharges);
-					}
-				}
-				for (int conc=0; conc < nodeList.getLength(); conc++){
-					Node currentNode = nodeList.item(conc);
-					String tollwayName=xmldata.getNodeAttribute(currentNode, "end", "tollway", 0);
-					if (tollwayName.equals(ozTollXML.getTollwayName(exitTollRoadId))){
-						toll2Entry=xmldata.getNodeAttribute(currentNode,"end", "exit", 0);
-						TollCharges newTollCharges = new TollCharges();
-						newTollCharges.tollway=ozTollXML.getTollwayName(exitTollRoadId);
-						newTollCharges.tolls=getTollRate(toll2Entry,exit,exitTollRoadId);
-						tollCharges.add(newTollCharges);
+	public TollCharges getTollRate(Street start, Street end, Tollway tollway){
+		TollCharges charges= new TollCharges();
+		for (int tc=0; tc<tollway.getTollPoints().size(); tc++){
+			TollPoint currentTollPoint = tollway.getTollPoints().get(tc); 
+			if (currentTollPoint.isStart(start.getName())){
+				for (int tpe=0; tpe < currentTollPoint.getExit().size(); tpe++){
+					TollPointExit currentExit = currentTollPoint.getExit().get(tpe);
+					if (currentExit.isExit(end.getName())){
+						charges.tollway=tollway.getName();
+						charges.tolls=currentExit.getRates();
 					}
 				}
 			}
 		}
-		return tollCharges;
+		return charges;
 	}
-	*/
+	
+	/**
+	 * This function calculates the Toll Rates and returns it to be displayed
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public ArrayList<TollCharges> getFullRate(Street start, Street end){
+		Tollway startTollway=null, endTollway=null;
+		ArrayList<TollCharges> charges = new ArrayList<TollCharges>();
+		
+		for (int twc=0; twc < tollways.size(); twc++){
+			for (int sc=0; sc < tollways.get(twc).getStreets().size(); sc++){
+				if (tollways.get(twc).getStreets().get(sc).equals(start)){
+					startTollway = tollways.get(twc);
+				}
+				if (tollways.get(twc).getStreets().get(sc).equals(end)){
+					endTollway = tollways.get(twc);
+				}
+			}
+		}
+		
+		// Single Tollway
+		if (startTollway.equals(endTollway)){
+			charges.add(getTollRate(start, end, startTollway));
+		} else {
+			// Multiple Tollways
+			// This code only allows for 2 tollways so far. I will recode this area
+			// when the tollways demand travel through 3 tollways.
+			Connection currentConnection=null;
+			int cc=0;
+			while ((currentConnection==null)&&(cc<connections.size())){
+				if (((connections.get(cc).getStartTollway().equalsIgnoreCase(startTollway.getName()))&&
+					(connections.get(cc).getEndTollway().equalsIgnoreCase(endTollway.getName())))||
+					((connections.get(cc).getStartTollway().equalsIgnoreCase(endTollway.getName()))&&
+					(connections.get(cc).getEndTollway().equalsIgnoreCase(startTollway.getName())))){
+					currentConnection = connections.get(cc);
+				}
+				cc++;
+			}
+			if (currentConnection!=null){
+				Street startTollwayEnd, endTollwayStart;
+				
+				if (currentConnection.getStartTollway().equals(startTollway.getName())){
+					startTollwayEnd=currentConnection.getStart();
+				} else {
+					startTollwayEnd=currentConnection.getEnd();
+				}
+				charges.add(getTollRate(start,startTollwayEnd,startTollway));
+				if (currentConnection.getEndTollway().equals(endTollway.getName())){
+					endTollwayStart=currentConnection.getEnd();
+				} else {
+					endTollwayStart=currentConnection.getStart();
+				}
+				charges.add(getTollRate(endTollwayStart,end,endTollway));
+			}
+		}
+		
+		return charges;
+	}
 
 	public int getTollwayCount() {
 		return tollways.size();

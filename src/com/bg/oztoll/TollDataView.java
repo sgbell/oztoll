@@ -140,8 +140,38 @@ public class TollDataView implements Runnable{
 				if (!pathMarked)
 					processPath();
 				if (pathMarked){
-					rateDialogText = "Testing Dialog Text Box, is this working?";
-					
+					ArrayList<TollCharges> tolls = tollData.getFullRate(startStreet, endStreet);
+					// CDATA is not the way to format text in TextView. need to do some more research
+					// so the messagebox shows the information to the user.
+					rateDialogText = "";
+					for (int tc=0; tc < tolls.size(); tc++){
+						TollCharges currentToll = tolls.get(tc);
+						rateDialogText += "<h2>Tollway - "+currentToll.tollway+"</h2><br>";
+						for (int trc=0; trc < currentToll.tolls.size(); trc++){
+							if (currentToll.tolls.get(trc).rate!=null){
+								String vehicleType="";
+								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
+									vehicleType="Car";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
+									vehicleType="Car - Weekend Travel";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv"))
+									vehicleType="Light Commercial Vehicle";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv"))
+									vehicleType="Heavy Commercial Vehicle";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-day"))
+									vehicleType="Heavy Commercial Vehicle - Daytime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-night"))
+									vehicleType="Heavy Commercial Vehicle - Nighttime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-day"))
+									vehicleType="Heavy/Light Commercial Vehicle - Daytime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-night"))
+									vehicleType="Heavy/Light Commercial Vehicle - Nighttime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("mc"))
+									vehicleType="Motor Cycle";
+								rateDialogText += vehicleType+" - "+currentToll.tolls.get(trc).rate+"<br>";
+							}
+						}
+					}
 					rateCalculated=true;					
 				}
 			}

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -165,7 +166,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					@Override
 					public void run() {
 						if (!rateShown){
-							rateDialogText.setText(tollDataView.getRateDialogText());
+							rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
 							rateDialog.show();
 							rateShown=true;
 						}
