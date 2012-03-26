@@ -141,35 +141,76 @@ public class TollDataView implements Runnable{
 					processPath();
 				if (pathMarked){
 					ArrayList<TollCharges> tolls = tollData.getFullRate(startStreet, endStreet);
-					// CDATA is not the way to format text in TextView. need to do some more research
-					// so the messagebox shows the information to the user.
+					ArrayList<TollRate> totalCharges = new ArrayList<TollRate>();						
+					String[] tollNames = {"Car", "Car - Weekend Travel", "Light Commercial Vehicle",
+							  "Heavy Commercial Vehicle", "Heavy Commercial Vehicle - Daytime",
+							  "Heavy Commercial Vehicle - Nighttime", 
+							  "Heavy/Light Commercial Vehicle - Daytime",
+							  "Heavy/Light Commercial Vehicle - Nighttime",
+							  "Motorcycle"};
+					for (int trc=0; trc < 9; trc++){
+						TollRate newTollrate = new TollRate();
+						newTollrate.vehicleType=tollNames[trc];
+						newTollrate.rate="0.0";
+						totalCharges.add(newTollrate);
+					}
+
 					rateDialogText = "";
 					for (int tc=0; tc < tolls.size(); tc++){
 						TollCharges currentToll = tolls.get(tc);
+						
 						rateDialogText += "<h2>Tollway - "+currentToll.tollway+"</h2><br>";
 						for (int trc=0; trc < currentToll.tolls.size(); trc++){
 							if (currentToll.tolls.get(trc).rate!=null){
 								String vehicleType="";
-								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
+								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
 									vehicleType="Car";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
+									totalCharges.get(0).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(0).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we")){
 									vehicleType="Car - Weekend Travel";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv"))
+									totalCharges.get(1).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(1).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv")){
 									vehicleType="Light Commercial Vehicle";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv"))
+									totalCharges.get(2).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(2).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv")){
 									vehicleType="Heavy Commercial Vehicle";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-day"))
+									totalCharges.get(3).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(3).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-day")){
 									vehicleType="Heavy Commercial Vehicle - Daytime";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-night"))
+									totalCharges.get(4).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(4).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-night")){
 									vehicleType="Heavy Commercial Vehicle - Nighttime";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-day"))
+									totalCharges.get(5).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(5).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-day")){
 									vehicleType="Heavy/Light Commercial Vehicle - Daytime";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-night"))
+									totalCharges.get(6).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(6).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-night")){
 									vehicleType="Heavy/Light Commercial Vehicle - Nighttime";
-								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("mc"))
+									totalCharges.get(7).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(7).rate));
+								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("mc")){
 									vehicleType="Motor Cycle";
-								rateDialogText += vehicleType+" - "+currentToll.tolls.get(trc).rate+"<br>";
+									totalCharges.get(8).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+											Float.parseFloat(totalCharges.get(8).rate));
+								}
+								rateDialogText += "<b>"+vehicleType+"</b><br>"+currentToll.tolls.get(trc).rate+"<br>";
 							}
+						}
+					}
+					if (tolls.size()>1){
+						//Need to go through the array and combine entries like lcv day & night
+						// and hcv day & night
+						rateDialogText += "<h2>Total Toll Payments</h2>";
+						for (int trc=0; trc < 9; trc++){
+							rateDialogText += "<b>"+totalCharges.get(trc).vehicleType+"</b><br>"+
+											  totalCharges.get(trc).rate+"<br>";
 						}
 					}
 					rateCalculated=true;					
