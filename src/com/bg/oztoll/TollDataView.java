@@ -220,7 +220,7 @@ public class TollDataView implements Runnable{
 						rateDialogText += "<h2>Total Toll Payments</h2>";
 						for (int trc=0; trc < 7; trc++){
 							rateDialogText += "<b>"+totalCharges.get(trc).vehicleType+"</b><br>"+
-											  totalCharges.get(trc).rate+"<br>";
+											  String.format("%.2f", totalCharges.get(trc).rate)+"<br>";
 						}
 					}
 					rateCalculated=true;					
