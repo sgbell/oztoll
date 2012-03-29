@@ -149,7 +149,6 @@ public class OzTollData implements Runnable{
 		
 		// Populate tolls list
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
-			Log.w("OzTollData", "run - TollwayCount="+twc);
 			for (int tec=0; tec < ozTollXML.getTollCount(twc); tec++){
 				tollways.get(twc).addToll(ozTollXML.getTollPointRate(twc, tec, tollways.get(twc)));
 			}

@@ -16,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -70,15 +71,16 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		// Creating the rateDialog here which will be accessed from one of the other
 		rateDialog = new Dialog(context);
 		rateDialog.setContentView(R.layout.ratedialog);
-		setRateDialogText((TextView) rateDialog.findViewById(R.id.MainText));
+		setRateDialogText((TextView) rateDialog.findViewById(R.id.mainText));
 		rateDialog.setTitle("Trip Toll Result");
-		Button closeButton = (Button) rateDialog.findViewById(R.id.Close);
+		Button closeButton = (Button) rateDialog.findViewById(R.id.close);
 		closeButton.setText("Close");
 		closeButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				rateDialog.dismiss();
+				((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(FOCUS_UP);
 			}
 		});
 	}
@@ -169,6 +171,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
 							rateDialog.show();
 							rateShown=true;
+							tollDataView.setRateCalculated(false);
 						}
 					}
 				});
@@ -243,7 +246,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
 		boolean retry = true;
 		thread.setRunning(false);
 		while (retry){
@@ -271,7 +273,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void reset() {
-		
+		tollDataView.setEnd(null);
+		tollDataView.setStart(null);
+		tollDataView.resetPaths();
+		rateShown=false;
 	}
-
 }

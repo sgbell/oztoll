@@ -5,6 +5,8 @@ package com.bg.oztoll;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 /**
  * @author bugman
  *
@@ -18,7 +20,6 @@ public class TollDataView implements Runnable{
 	private boolean stillRunning, pathMarked=false;
 	private Coordinates screenOrigin, move, origin[];
 	private int screenHeight, screenWidth;
-	private int xMin, xMax;
 	private Street startStreet, endStreet;
 	private String rateDialogText;
 	private boolean rateCalculated=false;
@@ -475,5 +476,21 @@ public class TollDataView implements Runnable{
 	 */
 	public void setRateCalculated(boolean rateCalculated) {
 		this.rateCalculated = rateCalculated;
+	}
+
+	public void resetPaths() {
+		for (int twc=0; twc < tollData.getTollwayCount(); twc++){
+			for (int pwc=0; pwc < tollData.getPathwayCount(twc); pwc++){
+				tollData.getPathway(twc, pwc).setRoute(false);
+			}
+			for (int tec=0; tec < tollData.getStreetCount(twc); tec++){
+				tollData.getStreet(twc, tec).setValid(false);
+			}
+		}
+		for (int cc=0; cc < tollData.getConnectionCount(); cc++)
+			tollData.getConnection(cc).setRoute(false);
+		
+		pathMarked=false;
+		rateDialogText="";
 	}
 }
