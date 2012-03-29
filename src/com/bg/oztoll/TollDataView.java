@@ -136,7 +136,8 @@ public class TollDataView implements Runnable{
 						// just wait for screen to be moved
 					}
 				}
-				markRoads(startStreet);
+				if (tollData.isFinished())
+					markRoads(startStreet);
 				if (!pathMarked)
 					processPath();
 				if (pathMarked){
@@ -220,7 +221,7 @@ public class TollDataView implements Runnable{
 						rateDialogText += "<h2>Total Toll Payments</h2>";
 						for (int trc=0; trc < 7; trc++){
 							rateDialogText += "<b>"+totalCharges.get(trc).vehicleType+"</b><br>"+
-											  String.format("%.2f", totalCharges.get(trc).rate)+"<br>";
+											  String.format("%.2f", Float.parseFloat(totalCharges.get(trc).rate))+"<br>";
 						}
 					}
 					rateCalculated=true;					
@@ -406,22 +407,24 @@ public class TollDataView implements Runnable{
 	}
 
 	public void findStreet(Coordinates touchStart) {
-		for (int twc=0; twc < tollData.getTollwayCount(); twc++)
-			for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
-				Street currentStreet = tollData.getStreet(twc, sc);
-				Coordinates streetCoords = new Coordinates(
-						drawX(currentStreet.getX()),
-						drawY(currentStreet.getY()));
-				
-				if ((streetCoords.getX()>touchStart.getX()-15)&&
-					(streetCoords.getX()<touchStart.getX()+15)&&
-					(streetCoords.getY()>touchStart.getY()-15)&&
-					(streetCoords.getY()<touchStart.getY()+15))
-					if (getStart()==null)
-						setStart(currentStreet);
-					else if ((currentStreet.isValid())&&(getEnd()==null))
-						setEnd(currentStreet);
-			}
+		if (tollData.isFinished()){
+			for (int twc=0; twc < tollData.getTollwayCount(); twc++)
+				for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
+					Street currentStreet = tollData.getStreet(twc, sc);
+					Coordinates streetCoords = new Coordinates(
+							drawX(currentStreet.getX()),
+							drawY(currentStreet.getY()));
+					
+					if ((streetCoords.getX()>touchStart.getX()-15)&&
+						(streetCoords.getX()<touchStart.getX()+15)&&
+						(streetCoords.getY()>touchStart.getY()-15)&&
+						(streetCoords.getY()<touchStart.getY()+15))
+						if (getStart()==null)
+							setStart(currentStreet);
+						else if ((currentStreet.isValid())&&(getEnd()==null))
+							setEnd(currentStreet);
+				}
+		}
 	}
 
 	public Street getEnd() {
@@ -472,5 +475,5 @@ public class TollDataView implements Runnable{
 	 */
 	public void setRateCalculated(boolean rateCalculated) {
 		this.rateCalculated = rateCalculated;
-	}	
+	}
 }

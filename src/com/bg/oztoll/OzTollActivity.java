@@ -1,9 +1,10 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 
 public class OzTollActivity extends Activity {
@@ -27,4 +28,22 @@ public class OzTollActivity extends Activity {
 		ozView.setDataFile(tollData);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu){
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.layout.menu, menu);
+    	
+    	return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item){
+    	switch (item.getItemId()) {
+    		case R.id.settings:
+    			break;
+    		case R.id.reset:
+    			ozView.reset();
+    			break;
+    	}
+    	
+    	return true;
+    }
 }

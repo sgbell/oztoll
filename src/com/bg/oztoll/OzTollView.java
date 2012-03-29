@@ -270,4 +270,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		this.rateDialogText = rateDialogText;
 	}
 
+	public void reset() {
+		
+	}
+
 }

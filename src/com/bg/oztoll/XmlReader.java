@@ -69,6 +69,29 @@ public class XmlReader {
 	 * @param index - values to select along the way
 	 * @return
 	 */
+	public NodeList getNodesList(String[] nodeTree, int[] index, Node startNode){
+		Node currentNode = startNode;
+		for (int ntc=0; ntc < nodeTree.length; ntc++){
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element fstElmnt = (Element) currentNode;
+				NodeList workingNodeList = fstElmnt.getElementsByTagName(nodeTree[ntc]);
+				if (ntc==(nodeTree.length-1)){
+					return workingNodeList;
+				} else {
+					currentNode = workingNodeList.item(index[ntc]);
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Attempting to create a method that will return a NodeList dependant on an array
+	 * of nodes for a tree.
+	 * @param nodeTree - Strings of the node path to take 
+	 * @param index - values to select along the way
+	 * @return
+	 */
 	public NodeList getNodesList(String[] nodeTree, int[] index){
 		NodeList nodeList = doc.getElementsByTagName(nodeTree[0]);
 		Node currentNode = nodeList.item(index[0]);

@@ -69,10 +69,11 @@ public class OzTollData implements Runnable{
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
 		
-		for (int twc=0; twc < ozTollXML.getNodeListCount("tollway"); twc++){
+		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
 			// Populate the streets list in the tollway class
-			for (int tsc=0; tsc < ozTollXML.countStreets(twc); tsc++){
+			for (int tsc=0; tsc < ozTollXML.getStreetCount(twc); tsc++){
+				
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"x")),
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"y")),
@@ -98,10 +99,6 @@ public class OzTollData implements Runnable{
 						newEnd = newTollway.getStreets().get(sc);
 				}
 				newTollway.addPath(newStart, newEnd);
-			}
-			// Populate tolls list
-			for (int tec=0; tec < ozTollXML.getTollCount(twc); tec++){
-				newTollway.addToll(ozTollXML.getTollPointRate(twc, tec, newTollway));
 			}
 			
 			// Array storing all tollways for current city
@@ -149,6 +146,15 @@ public class OzTollData implements Runnable{
 				}
 			}
 		}
+		
+		// Populate tolls list
+		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
+			Log.w("OzTollData", "run - TollwayCount="+twc);
+			for (int tec=0; tec < ozTollXML.getTollCount(twc); tec++){
+				tollways.get(twc).addToll(ozTollXML.getTollPointRate(twc, tec, tollways.get(twc)));
+			}
+		}
+
 		finishedRead=true;
 	}
 	
