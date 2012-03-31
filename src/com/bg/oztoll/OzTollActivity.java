@@ -1,6 +1,7 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +22,11 @@ public class OzTollActivity extends Activity {
         ozView = new OzTollView(this);
         setContentView(ozView);
         
+        AssetManager assetMan = getAssets();
         // Creates a new OzStorage object, and gets the ozTollData object it creates
-        tollData = new OzStorage().getTollData();
+        //tollData = new OzStorage().getTollData();
+        // Have changed the code so that melbourne.xml is stored in the assets folder
+        tollData = new OzTollData("melbourne.xml", assetMan);
         tollData.setDataSync(dataSync);
         // passes ozTollData into ozTollView
 		ozView.setDataFile(tollData);

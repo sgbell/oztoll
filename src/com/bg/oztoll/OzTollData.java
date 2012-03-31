@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.util.Log;
+import android.content.res.AssetManager;
 
 /**
  * @author bugman
@@ -37,7 +37,13 @@ public class OzTollData implements Runnable{
 	/** This constructor initializes the vectors, and loads the xml file and calls
 	 *  getTollwayData to populate the data
 	 * @param filename
+	 * @param assetMan 
 	 */
+	public OzTollData(String filename, AssetManager assetMan){
+		this();
+		ozTollXML.setXMLReader(filename,assetMan);
+	}
+	
 	public OzTollData(String filename){
 		this();
 		ozTollXML.setXMLReader(filename);
@@ -635,7 +641,13 @@ public class OzTollData implements Runnable{
 	}
 
 	public Street getStreet(int twc, int twi) {
-		return tollways.get(twc).getStreets().get(twi);
+		if (tollways.size()>0)
+			if (tollways.get(0).getStreets().size()>0)
+				return tollways.get(twc).getStreets().get(twi);
+			else
+				return null;
+		else
+			return null;
 	}
 	
 	public String getTollwayName(int tollway){

@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.util.Log;
+import android.content.res.AssetManager;
 
 /**
  * @author bugman
@@ -31,8 +31,12 @@ public class OzTollXML {
 	public OzTollXML(){
 	}
 	
-	public void setXMLReader(String filename){
-		xmldata = new XmlReader(filename);	
+	public void setXMLReader(String filename, AssetManager assetMan){
+		xmldata = new XmlReader(filename, assetMan);
+	}
+
+	public void setXMLReader(String filename) {
+		xmldata = new XmlReader(filename);
 	}
 	
 	/**

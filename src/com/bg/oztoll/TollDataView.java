@@ -19,10 +19,12 @@ public class TollDataView implements Runnable{
 	private String cityName;
 	private boolean stillRunning, pathMarked=false;
 	private Coordinates screenOrigin, move, origin[];
-	private int screenHeight, screenWidth;
+	private int screenHeight=0, screenWidth=0;
 	private Street startStreet, endStreet;
 	private String rateDialogText;
 	private boolean rateCalculated=false;
+	private float screenXMultiplier,
+				  screenYMultiplier;
 
 	public TollDataView(){
 		move = new Coordinates();
@@ -300,6 +302,10 @@ public class TollDataView implements Runnable{
 		}
 	}
 	
+	public void resetScreenOrigin(){
+		screenOrigin = new Coordinates();
+	}
+	
 	public Coordinates getScreenOrigin() {
 		return screenOrigin;
 	}
@@ -321,7 +327,7 @@ public class TollDataView implements Runnable{
 	// Determine minimum value for X in street coords for display on screen
 	// return integer.
 	public float minX(){
-		return ((10-move.getX()-screenOrigin.getX()-(getWidth()/2))/70)-1;
+		return (((10*screenXMultiplier)-move.getX()-screenOrigin.getX()-(getWidth()/2))/(70*screenXMultiplier))-(1*screenXMultiplier);
 		
 		/**  0 = ((mapPointX*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX();
 		 *   0-move.getX()-screenOrigin.getX() = ((mapPointX*70)+(getWidth()/2)-10)
@@ -333,11 +339,11 @@ public class TollDataView implements Runnable{
 	// Determine Maximum value for X in street coords for display on screen
 	// return integer.
 	public float maxX(){
-		return (20-move.getX()-screenOrigin.getX()+(getWidth()/2))/70;
+		return ((20*screenXMultiplier)-move.getX()-screenOrigin.getX()+(getWidth()/2))/(70*screenXMultiplier);
 	}
 	
 	public float minY(){
-		return (-(15+move.getY()+screenOrigin.getY()))/50;
+		return (-((15*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
 		/**
 		 *   0 = (mapPointY*50)+15+move.getY()+screenOrigin.getY();
 		 *   0-(15+move.getY()+screenOrigin.getY()) = mapPointY*50
@@ -351,15 +357,15 @@ public class TollDataView implements Runnable{
 		 *  mapPointY = (getWidth()-(15+move.getY()+screenOrigin.getY()))/50;
 		 * 
 		 */
-		return (getHeight()-(5+move.getY()+screenOrigin.getY()))/50;
+		return (getHeight()-((5*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
 	}
 	
 	public float drawX(float mapPointX){
-		return ((mapPointX*70)+(getWidth()/2)-10)+move.getX()+screenOrigin.getX();
+		return ((mapPointX*(70*screenXMultiplier))+(getWidth()/2)-(10*screenXMultiplier))+move.getX()+screenOrigin.getX();
 	}
 	
 	public float drawY(float mapPointY){
-		return (mapPointY*50)+15+move.getY()+screenOrigin.getY();
+		return (mapPointY*50*screenYMultiplier)+(15*screenYMultiplier)+move.getY()+screenOrigin.getY();
 	}
 
 	/**
@@ -391,20 +397,25 @@ public class TollDataView implements Runnable{
 	}
 
 	public void checkMove(){
-		/* This makes sure the user does not move the screen too far to the west of the
-		 * map, loosing the map moving the screen too far to the west. */
-		if (drawX(origin[0].getX())>getWidth()-1)
-			move.setX(getWidth()-(drawX(origin[0].getX())-move.getX()));
-		// Moving the map too far to the east
-		if (drawX(origin[1].getX())<1)
-			move.setX(0-(drawX(origin[1].getX())-move.getX()));
-		// Moving the map too far north
-		if (drawY(origin[0].getY())>getHeight()-1)
-			move.setY(getHeight()-(drawY(origin[0].getY())-move.getY()));
-		/* Moving the map too far south. The reason for using 10 instead of 0 like the 
-		 * east check, is so we still have the most southern point on the screen. */
-		if (drawY(origin[1].getY())<10)
-			move.setY(10-(drawY(origin[1].getY())-move.getY()));
+		if (origin!=null){
+			if ((origin[0]!=null)&&(getWidth()!=0)&&
+				(origin[1]!=null)&&(getHeight()!=0)){
+				/* This makes sure the user does not move the screen too far to the west of the
+				 * map, losing the map moving the screen too far to the west. */
+				if (drawX(origin[0].getX())>getWidth()-1)
+					move.setX(getWidth()-(drawX(origin[0].getX())-move.getX()));
+				// Moving the map too far to the east
+				if (drawX(origin[1].getX())<1)
+					move.setX(0-(drawX(origin[1].getX())-move.getX()));
+				// Moving the map too far north
+				if (drawY(origin[0].getY())>getHeight()-1)
+					move.setY(getHeight()-(drawY(origin[0].getY())-move.getY()));
+				/* Moving the map too far south. The reason for using 10 instead of 0 like the 
+				 * east check, is so we still have the most southern point on the screen. */
+				if (drawY(origin[1].getY())<10)
+					move.setY(10-(drawY(origin[1].getY())-move.getY()));
+			}
+		}
 	}
 
 	public void findStreet(Coordinates touchStart) {
@@ -416,10 +427,10 @@ public class TollDataView implements Runnable{
 							drawX(currentStreet.getX()),
 							drawY(currentStreet.getY()));
 					
-					if ((streetCoords.getX()>touchStart.getX()-15)&&
-						(streetCoords.getX()<touchStart.getX()+15)&&
-						(streetCoords.getY()>touchStart.getY()-15)&&
-						(streetCoords.getY()<touchStart.getY()+15))
+					if ((streetCoords.getX()>touchStart.getX()-(20*screenXMultiplier))&&
+						(streetCoords.getX()<touchStart.getX()+(20*screenXMultiplier))&&
+						(streetCoords.getY()>touchStart.getY()-(20*screenYMultiplier))&&
+						(streetCoords.getY()<touchStart.getY()+(20*screenYMultiplier)))
 						if (getStart()==null)
 							setStart(currentStreet);
 						else if ((currentStreet.isValid())&&(getEnd()==null))
@@ -492,5 +503,13 @@ public class TollDataView implements Runnable{
 		
 		pathMarked=false;
 		rateDialogText="";
+	}
+
+	public void setXMultiplier(float screenMultiplier) {
+		screenXMultiplier=screenMultiplier;
+	}
+	
+	public void setYMultiplier(float screenMultiplier) {
+		screenYMultiplier=screenMultiplier;
 	}
 }

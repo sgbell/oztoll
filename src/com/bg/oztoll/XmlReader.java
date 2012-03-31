@@ -6,6 +6,7 @@ package com.bg.oztoll;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +17,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import android.content.res.AssetManager;
 
 /**
  * @author bugman
@@ -42,6 +45,26 @@ public class XmlReader {
 			}			
 		}
 	}
+	
+	public XmlReader(String filename, AssetManager assetMan) {
+		InputStream input;
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		try {
+			input = assetMan.open(filename);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			doc = db.parse(input);
+			doc.getDocumentElement().normalize();
+		} catch (ParserConfigurationException e) {
+			// exception
+		} catch (IOException e) {
+			// exception
+		} catch (SAXException e) {
+			// exception
+		}
+	}
+
+
+
 	/** Protection from bad coding. If the xml file has not been opened this will return null
 	 * @param node - String value you want to retrieve the node list of
 	 * @return a node list.
