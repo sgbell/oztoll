@@ -107,7 +107,7 @@
 					<location>2</location>
 				</street>
 				<street>
-					<name>Yarra Boulevard</name>
+					<name>Yarra Blvd</name>
 					<y>7</y>
 					<x>9</x>
 					<location>3</location>
@@ -186,10 +186,10 @@
 				</path>
 				<path>
 					<start>Gibdon St</start>
-					<end>Yarra Boulevard</end>
+					<end>Yarra Blvd</end>
 				</path>
 				<path>
-					<start>Yarra Boulevard</start>
+					<start>Yarra Blvd</start>
 					<end>Toorak Rd</end>
 				</path>
 			</pathway>
@@ -358,7 +358,7 @@
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Burnley St</start>
-		    	<start>Yarra Boulevard</start>
+		    	<start>Yarra Blvd</start>
 		    	<exit>
 		      		<street>Toorak Rd</street>
 		      		<car>1.88</car>
@@ -370,7 +370,7 @@
 		    	<start>Toorak Rd</start>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<street>Yarra Boulevard</street>
+		      		<street>Yarra Blvd</street>
 		      		<car>1.88</car>
 		      		<lcv>3.00</lcv>
 		      		<hcv>3.57</hcv>
