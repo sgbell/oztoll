@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="vehicleArray">
+    <item>Car</item>
+    <item>Light Commercial Vehicle</item>
+    <item>Heavy Commercial Vehicle</item>
+    <item>Motorcycle</item>
+    <item>All</item>
+</string-array>
+<string-array name="vehicleValues">
+    <item>car</item>
+    <item>lcv</item>
+    <item>hcv</item>
+    <item>motorcycle</item>
+    <item>all</item>
+</string-array>
+    <string-array name="views">
+        <item>Map</item>
+        <item>List</item>
+    </string-array>
+    <string-array name="viewValue">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

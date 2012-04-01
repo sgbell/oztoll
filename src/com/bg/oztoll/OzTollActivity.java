@@ -1,8 +1,11 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +33,9 @@ public class OzTollActivity extends Activity {
         tollData.setDataSync(dataSync);
         // passes ozTollData into ozTollView
 		ozView.setDataFile(tollData);
+		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		String strVehicleType = SP.getString("vehicleType", "car");
+		String strViewType = SP.getString("viewType", "1");
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -42,12 +48,13 @@ public class OzTollActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item){
     	switch (item.getItemId()) {
     		case R.id.settings:
+    			Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
+    			startActivity(intent);
     			break;
     		case R.id.reset:
     			ozView.reset();
     			break;
     	}
-    	
     	return true;
     }
 }

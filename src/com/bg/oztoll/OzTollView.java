@@ -310,11 +310,17 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		thread.setRunning(true);
-		thread.start();
+		try {
+			thread.start();
+		} catch (Exception e){
+			thread = new DrawingThread(getHolder(), this);
+			thread.start();
+		}
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+
 		boolean retry = true;
 		thread.setRunning(false);
 		while (retry){

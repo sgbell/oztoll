@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference android:title="Vehicle Type"
+        			android:summary="Select the type of vehicle you would like to see Toll Results for"
+        			android:key="vehicleType"
+        			android:defaultValue="car"
+        			android:entries="@array/vehicleArray"
+        			android:entryValues="@array/vehicleValues" />
+    <ListPreference android:title="View Type"
+        			android:summary="Select which view of the data you want to use"
+        			android:key="viewType"
+        			android:defaultValue="1"
+        			android:entries="@array/views"
+        			android:entryValues="@array/viewValue"/>
+</PreferenceScreen>

@@ -24,6 +24,10 @@ public class DrawingThread extends Thread {
 		this.run = run;
 	}
 	
+	public boolean isRunning(){
+		return run;
+	}
+	
 	public void run(){
 		Canvas c;
 		while (run){
