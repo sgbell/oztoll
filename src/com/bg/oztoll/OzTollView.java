@@ -313,12 +313,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			 ((endY>0)&&(endY<getHeight())))){
 			if (!markedRoad){
 				if (startX==endX){
-					startY+=((10*screenYMultiplier)-1);
-					endY-=((10*screenYMultiplier)-1);
+					startY+=((10*screenYMultiplier)-(1*screenYMultiplier));
+					endY-=((10*screenYMultiplier)-(1*screenYMultiplier));
 				}
 				if (startY==endY){
-					startX+=((10*screenXMultiplier)-1);
-					endX-=((10*screenXMultiplier)-1);
+					startX+=((10*screenXMultiplier)-(1*screenXMultiplier));
+					endX-=((10*screenXMultiplier)-(1*screenXMultiplier));
 				}
 			}
 			canvas.drawLine(startX,	startY,	endX, endY,	paint);

@@ -347,6 +347,7 @@ public class OzTollData implements Runnable{
 	 */
 	public ArrayList<Pathway> getPathway(Street start, Street end){
 		ArrayList<Pathway> paths = new ArrayList<Pathway>();
+		//ArrayList<Pathway> decisions = new ArrayList<Pathway>();
 		boolean endFound = false;
 		
 		Street street=start;
@@ -375,6 +376,7 @@ public class OzTollData implements Runnable{
 									lastDecisionFound=true;
 								}
 								paths.remove(pc);
+								pc--;
 							}
 							// Need to change street now. compare lastDecision start
 							if ((paths.get(paths.size()-1).getStart()==lastDecision.getStart())||

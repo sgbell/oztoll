@@ -243,7 +243,7 @@ public class TollDataView implements Runnable{
 			for (int pc=0; pc < paths.size(); pc++){
 				paths.get(pc).setRoute(true);
 			}
-			pathMarked=true;			
+			pathMarked=true;
 		}
 	}
 
