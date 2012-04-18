@@ -33,9 +33,23 @@ public class OzTollActivity extends Activity {
         tollData.setDataSync(dataSync);
         // passes ozTollData into ozTollView
 		ozView.setDataFile(tollData);
-		SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		String strVehicleType = SP.getString("vehicleType", "car");
-		String strViewType = SP.getString("viewType", "1");
+		SharedPreferences sP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		tollData.setPreferences(sP);
+		
+		// if "vehicleType" exists, the program has been run previously, and as such, it will
+		// start normally.
+		if (!sP.contains("vehicleType")){
+			// First time run, it will oopent he preferences window to get the user to select
+			// how they want to view the system, ie from drop down boxes or the map
+			openPreferences();
+		}
+		// Need to pass these into TollDataView so it's thread can figure out which 
+		// tolls to put in the Toll Dialog.
+		/**
+			String strVehicleType = SP.getString("vehicleType", "car");
+			String strViewType = SP.getString("viewType", "1");
+			ozView.setVehicleType(strVehicleType);
+			*/
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -45,11 +59,15 @@ public class OzTollActivity extends Activity {
     	return true;
     }
     
+    public void openPreferences(){
+			Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
+			startActivity(intent);
+    }
+    
     public boolean onOptionsItemSelected(MenuItem item){
     	switch (item.getItemId()) {
     		case R.id.settings:
-    			Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
-    			startActivity(intent);
+    			openPreferences();
     			break;
     		case R.id.reset:
     			ozView.reset();

@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 
 /**
@@ -25,6 +26,7 @@ public class OzTollData implements Runnable{
 	public String connectionsTest;
 	private boolean finishedRead=false;
 	private Object syncObject, dataSync;
+	private SharedPreferences sharedPreferences;
 		
 	/** Initializes the vectors.
 	 */
@@ -678,5 +680,13 @@ public class OzTollData implements Runnable{
 	
 	public boolean isFinished(){
 		return finishedRead;
+	}
+
+	public void setPreferences(SharedPreferences sP) {
+		sharedPreferences = sP;
+	}
+	
+	public SharedPreferences getPreferences(){
+		return sharedPreferences;
 	}
 }

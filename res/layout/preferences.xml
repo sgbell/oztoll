@@ -6,10 +6,8 @@
         			android:defaultValue="car"
         			android:entries="@array/vehicleArray"
         			android:entryValues="@array/vehicleValues" />
-    <ListPreference android:title="View Type"
-        			android:summary="Select which view of the data you want to use"
-        			android:key="viewType"
-        			android:defaultValue="1"
-        			android:entries="@array/views"
-        			android:entryValues="@array/viewValue"/>
+    <CheckBoxPreference android:title="Map view"
+        			 	android:defaultValue="true"
+        			 	android:summary="If selected, will show a basic map for you to select your Toll."
+        			 	android:key="applicationView" />
 </PreferenceScreen>

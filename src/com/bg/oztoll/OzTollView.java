@@ -231,21 +231,22 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					}
 				}
 			}
-			if (tollDataView.isRateCalculated()){
-				this.getHandler().post( new Runnable() {
+			synchronized (tollDataView){
+				if (tollDataView.isRateCalculated()){
+					this.getHandler().post( new Runnable() {
 
-					@Override
-					public void run() {
-						if (!rateShown){
-							rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
-							rateDialog.show();
-							rateShown=true;
-							tollDataView.setRateCalculated(false);
+						@Override
+						public void run() {
+							if (!rateShown){
+								rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
+								rateDialog.show();
+								rateShown=true;
+								tollDataView.setRateCalculated(false);
+							}
 						}
-					}
-				});
-			}
-			
+					});
+				}	
+			}			
 		}
 	}
 	
@@ -349,9 +350,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void reset() {
-		tollDataView.setEnd(null);
-		tollDataView.setStart(null);
-		tollDataView.resetPaths();
-		rateShown=false;
+		synchronized (tollDataView){
+			tollDataView.setEnd(null);
+			tollDataView.setStart(null);
+			tollDataView.resetPaths();
+			tollDataView.setRateCalculated(false);
+			rateShown=false;			
+		}
 	}
 }

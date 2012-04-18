@@ -14,12 +14,4 @@
     <item>motorcycle</item>
     <item>all</item>
 </string-array>
-    <string-array name="views">
-        <item>Map</item>
-        <item>List</item>
-    </string-array>
-    <string-array name="viewValue">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
 </resources>
