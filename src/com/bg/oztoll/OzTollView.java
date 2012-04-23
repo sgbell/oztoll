@@ -37,7 +37,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			screenYMultiplier=0;
 	
 	private Dialog rateDialog;
-	private TextView rateDialogText;
 	private boolean rateShown=false,
 					textSizeAdjusted=false;
 	
@@ -46,7 +45,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 
 		dataSync = tollData.getDataSync();
 		new Thread(tollData).start();
-		tollDataView = new TollDataView(this.tollData, getHeight(), getWidth());
+		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		syncObject = tollDataView.getSync();
 		tollDataViewBuilder = new Thread(tollDataView);
 		tollDataViewBuilder.start();
@@ -74,7 +73,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		// Creating the rateDialog here which will be accessed from one of the other
 		rateDialog = new Dialog(context);
 		rateDialog.setContentView(R.layout.ratedialog);
-		setRateDialogText((TextView) rateDialog.findViewById(R.id.mainText));
 		rateDialog.setTitle("Trip Toll Result");
 		Button closeButton = (Button) rateDialog.findViewById(R.id.close);
 		closeButton.setText("Close");
@@ -238,7 +236,13 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						@Override
 						public void run() {
 							if (!rateShown){
-								rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
+								rateDialog.setTitle("Trip Toll Result");
+								//rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
+								/* need to create the dialog in tolldataview, ie using a layout
+								 * add the text to the window, which will then be dropped into
+								 * the scrollview here.
+								 */
+								((ScrollView)rateDialog.findViewById(R.id.scrollView)).addView(tollDataView.getRateDialog());
 								rateDialog.show();
 								rateShown=true;
 								tollDataView.setRateCalculated(false);
@@ -335,20 +339,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	/**
-	 * @return the rateDialogText
-	 */
-	public TextView getRateDialogText() {
-		return rateDialogText;
+	public Dialog getRateDialog(){
+		return rateDialog;
 	}
-
-	/**
-	 * @param rateDialogText the rateDialogText to set
-	 */
-	public void setRateDialogText(TextView rateDialogText) {
-		this.rateDialogText = rateDialogText;
+	
+	public void setRateDialog(Dialog newDialog){
+		rateDialog = newDialog;
 	}
-
+	
 	public void reset() {
 		synchronized (tollDataView){
 			tollDataView.setEnd(null);

@@ -5,7 +5,10 @@ package com.bg.oztoll;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * @author bugman
@@ -23,6 +26,8 @@ public class TollDataView implements Runnable{
 	private Street startStreet, endStreet;
 	private String rateDialogText;
 	private boolean rateCalculated=false;
+	private Context appContext;
+	private LinearLayout rateLayout;
 	private float screenXMultiplier,
 				  screenYMultiplier;
 
@@ -52,10 +57,11 @@ public class TollDataView implements Runnable{
 		return dataSync;
 	}
 	
-	public TollDataView(OzTollData data, int height, int width){
+	public TollDataView(OzTollData data, int height, int width, Context context){
 		this(data);
 		setHeight(height);
 		setWidth(width);
+		appContext=context;
 	}
 	
 	public ArrayList<Street> getStreets(){
@@ -157,74 +163,41 @@ public class TollDataView implements Runnable{
 						totalCharges.add(newTollrate);
 					}
 
-					rateDialogText = "";
+					String selectedVehicle = tollData.getPreferences().getString("vehicleType", "car");
+					/* Need to create a linearLayout, and put all the stuff in it for
+					 * ozView to then read to show the user.
+					 * http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
+					 */
+					rateLayout = new LinearLayout(appContext);
+					rateLayout.setOrientation(LinearLayout.VERTICAL);
+					TextView tollTitle = new TextView(appContext);
+					
+					String title="";
+					
+					if (selectedVehicle.equalsIgnoreCase("car")){
+						title="Car";
+					} else if (selectedVehicle.equalsIgnoreCase("lcv")){
+						title="Light Commercial Vehicle";
+					} else if (selectedVehicle.equalsIgnoreCase("hcv")){
+						title="Heavy Commercial Vehicle";
+					} else if (selectedVehicle.equalsIgnoreCase("motorcycle")){
+						title="Motorcycle";
+					} else if (selectedVehicle.equalsIgnoreCase("all")){
+						title="All";
+					}
+					tollTitle.setText(title);
+					rateLayout.addView(tollTitle);
+					
 					for (int tc=0; tc < tolls.size(); tc++){
 						TollCharges currentToll = tolls.get(tc);
-						rateDialogText += "<h2>Tollway - "+currentToll.tollway+"</h2><br>";
-						for (int trc=0; trc < currentToll.tolls.size(); trc++){
-							if (currentToll.tolls.get(trc).rate!=null){
-								String vehicleType="";
-								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
-									vehicleType="Car";
-									totalCharges.get(0).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(0).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we")){
-									vehicleType="Car - Weekend Travel";
-									totalCharges.get(1).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(1).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv")){
-									vehicleType="Light Commercial Vehicle";
-									totalCharges.get(2).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(2).rate));
-									totalCharges.get(3).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(3).rate));									
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv")){
-									vehicleType="Heavy Commercial Vehicle";
-									totalCharges.get(4).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(4).rate));
-									totalCharges.get(5).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(5).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-day")){
-									vehicleType="Heavy Commercial Vehicle - Daytime";
-									totalCharges.get(4).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(4).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-night")){
-									vehicleType="Heavy Commercial Vehicle - Nighttime";
-									totalCharges.get(5).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(5).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-day")){
-									vehicleType="Heavy/Light Commercial Vehicle - Daytime";
-									totalCharges.get(2).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(2).rate));
-									totalCharges.get(4).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(4).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-night")){
-									vehicleType="Heavy/Light Commercial Vehicle - Nighttime";
-									totalCharges.get(3).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(3).rate));
-									totalCharges.get(5).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(5).rate));
-								}else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("mc")){
-									vehicleType="Motor Cycle";
-									totalCharges.get(6).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
-											Float.parseFloat(totalCharges.get(6).rate));
-								}
-								rateDialogText += "<b>"+vehicleType+"</b><br>"+currentToll.tolls.get(trc).rate+"<br>";
-							} else if (trc-1>=0){
-									// If the current tollroad does not have weekend rates for cars, add the car to the 
-									// car weekend entry.
-									if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we")){
-										totalCharges.get(1).rate=Float.toString(Float.parseFloat(currentToll.tolls.get(trc-1).rate)+
-												Float.parseFloat(totalCharges.get(1).rate));
-								}
-							}
-						}
-					}
-					if (tolls.size()>1){
-						rateDialogText += "<h2>Total Toll Payments</h2>";
-						for (int trc=0; trc < 7; trc++){
-							rateDialogText += "<b>"+totalCharges.get(trc).vehicleType+"</b><br>"+
-											  String.format("%.2f", Float.parseFloat(totalCharges.get(trc).rate))+"<br>";
+						
+						// Going to search through the toll Charges for the right stuff :)
+						if (selectedVehicle.equalsIgnoreCase("car")){
+							int tollCount=0;
+							boolean carTollFound=false;
+							boolean carWETollFound=false;
+							
+							//currentToll.tolls.get(tollCount)
 						}
 					}
 					rateCalculated=true;					
@@ -464,15 +437,15 @@ public class TollDataView implements Runnable{
 	/**
 	 * @return the rateDialogText
 	 */
-	public String getRateDialogText() {
-		return rateDialogText;
+	public LinearLayout getRateDialog() {
+		return rateLayout;
 	}
 
 	/**
 	 * @param rateDialogText the rateDialogText to set
 	 */
-	public void setRateDialogText(String rateDialogText) {
-		this.rateDialogText = rateDialogText;
+	public void setRateDialog(LinearLayout rateDialog) {
+		rateLayout = rateDialog;
 	}
 
 	/**
