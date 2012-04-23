@@ -150,20 +150,11 @@ public class TollDataView implements Runnable{
 				if (!pathMarked)
 					processPath();
 				if (pathMarked){
+					String selectedVehicle = tollData.getPreferences().getString("vehicleType", "car");
+
 					ArrayList<TollCharges> tolls = tollData.getFullRate(startStreet, endStreet);
 					ArrayList<TollRate> totalCharges = new ArrayList<TollRate>();
-					String[] tollNames = {"Car", "Car - Weekend Travel", "Light Commercial Vehicle - Daytime",
-							  "Light Commercial Vehicle - Night time", "Heavy Commercial Vehicle - Daytime",
-							  "Heavy Commercial Vehicle - Night time", 
-							  "Motorcycle"};
-					for (int trc=0; trc < 7; trc++){
-						TollRate newTollrate = new TollRate();
-						newTollrate.vehicleType=tollNames[trc];
-						newTollrate.rate="0.0";
-						totalCharges.add(newTollrate);
-					}
-
-					String selectedVehicle = tollData.getPreferences().getString("vehicleType", "car");
+					
 					/* Need to create a linearLayout, and put all the stuff in it for
 					 * ozView to then read to show the user.
 					 * http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
@@ -176,6 +167,95 @@ public class TollDataView implements Runnable{
 					
 					if (selectedVehicle.equalsIgnoreCase("car")){
 						title="Car";
+						tollTitle.setText(title);
+						rateLayout.addView(tollTitle);
+						
+						for (int tc=0; tc < tolls.size(); tc++){
+							TollCharges currentToll = tolls.get(tc);
+							int tollTypeCount=0;
+							for (int trc=0; trc < currentToll.tolls.size(); trc++){
+								if (currentToll.tolls.get(trc).vehicleType.contains("car"))
+									tollTypeCount++;
+							}
+							switch (tollTypeCount){
+								case 0:
+									// Don't want to display anything if it doesn't exist at least once.
+									break;
+								case 1:
+									// If it exists only once in the toll Array, it will put the charge on the one line with the
+									// tollway Name.
+									LinearLayout tollwayLayout = new LinearLayout(appContext);
+									tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
+									TextView tollwayName = new TextView(appContext);
+									tollwayName.setText(currentToll.tollway);
+									tollwayLayout.addView(tollwayName);
+									int trc=0;
+									boolean found=false;
+									while ((trc<currentToll.tolls.size())&&
+											(!found)){
+										if (currentToll.tolls.get(trc).vehicleType.contains("car")){
+											TextView tollwayCharge = new TextView(appContext);
+											tollwayCharge.setText(currentToll.tolls.get(trc).rate);
+											tollwayLayout.addView(tollwayCharge);
+											rateLayout.addView(tollwayLayout);
+											found=true;
+										}
+									}
+									/* Might want to do some error checking just to make sure that this code is only executed when found
+									 * This is not a suggestion!!!!!!!
+									 */
+									if (tolls.size()>1){
+										if (totalCharges.size()<1){
+											TollRate currentRate = new TollRate();
+											if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
+												currentRate.vehicleType="Car";
+												currentRate.rate=currentToll.tolls.get(trc).rate;
+												totalCharges.add(currentRate);
+											} else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we")){
+												currentRate.vehicleType="Car - Weekend";
+												currentRate.rate=currentToll.tolls.get(trc).rate;
+												totalCharges.add(currentRate);
+											}
+										} else {
+											int ttrc=0;
+											found=false;
+											while ((ttrc<totalCharges.size())&&(!found)){
+												if ((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))&&
+													(totalCharges.get(ttrc).vehicleType.equalsIgnoreCase("Car"))){
+													totalCharges.get(ttrc).rate = Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+															Float.parseFloat(totalCharges.get(ttrc).rate));
+													found=true;
+												}
+												if ((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))&&
+														(totalCharges.get(ttrc).vehicleType.equalsIgnoreCase("Car - Weekend"))){
+														totalCharges.get(ttrc).rate = Float.toString(Float.parseFloat(currentToll.tolls.get(trc).rate)+
+																Float.parseFloat(totalCharges.get(ttrc).rate));
+														found=true;
+												}
+												ttrc++;
+											}
+											if (!found){
+												TollRate currentRate = new TollRate();
+												if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
+													currentRate.vehicleType="Car";
+													currentRate.rate=currentToll.tolls.get(trc).rate;
+													totalCharges.add(currentRate);
+												} else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we")){
+													currentRate.vehicleType="Car - Weekend";
+													currentRate.rate=currentToll.tolls.get(trc).rate;
+													totalCharges.add(currentRate);
+												}
+											}
+										}
+									}
+									break;
+								default:
+									// More than one type of toll for this vehicle
+									
+									
+							}
+						}
+						
 					} else if (selectedVehicle.equalsIgnoreCase("lcv")){
 						title="Light Commercial Vehicle";
 					} else if (selectedVehicle.equalsIgnoreCase("hcv")){
@@ -185,21 +265,8 @@ public class TollDataView implements Runnable{
 					} else if (selectedVehicle.equalsIgnoreCase("all")){
 						title="All";
 					}
-					tollTitle.setText(title);
-					rateLayout.addView(tollTitle);
+
 					
-					for (int tc=0; tc < tolls.size(); tc++){
-						TollCharges currentToll = tolls.get(tc);
-						
-						// Going to search through the toll Charges for the right stuff :)
-						if (selectedVehicle.equalsIgnoreCase("car")){
-							int tollCount=0;
-							boolean carTollFound=false;
-							boolean carWETollFound=false;
-							
-							//currentToll.tolls.get(tollCount)
-						}
-					}
 					rateCalculated=true;					
 				}
 			}
