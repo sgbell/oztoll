@@ -174,7 +174,8 @@ public class TollDataView implements Runnable{
 					wrapContentParams.setMargins(0, 0, 0, -30);
 					
 					String title="";
-					
+					String singleTollResult="0.0";
+
 					if (selectedVehicle.equalsIgnoreCase("car")){
 						title="<h2>Car</h2>";
 						tollTitle.setText(Html.fromHtml(title));
@@ -228,12 +229,12 @@ public class TollDataView implements Runnable{
 											tollwayLayout.addView(tollwayCharge);
 											rateLayout.addView(tollwayLayout);
 											found=true;
-										}
-										trc++;
+										} else
+											trc++;
 									}
 									/* If the path selected has more than 1 tollway we need to create the totalCharges array
 									 */
-									if (tolls.size()>1)
+									if (tolls.size()>1){
 										// if there are no entries in totalCharges yet, add the first.
 										if (totalCharges.size()<1){
 											TollRate currentRate = new TollRate();
@@ -249,9 +250,11 @@ public class TollDataView implements Runnable{
 														Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
 											} else
 												// If the is only 1 car toll, but more than one in totalCharges.
-												for (int ttc=0; ttc < totalCharges.size(); ttc++)
+												for (int ttc=0; ttc < totalCharges.size(); ttc++){
 													totalCharges.get(ttc).rate = Float.toString(
 															Float.parseFloat(totalCharges.get(ttc).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
+												}
+									}
 									break;
 								default:
 									// More than one type of toll for this vehicle
@@ -290,24 +293,27 @@ public class TollDataView implements Runnable{
 													currentRate.rate = currentToll.tolls.get(trc).rate;
 													totalCharges.add(currentRate);
 												} else
-													if (totalCharges.size()==1)
-														if (totalCharges.get(0).vehicleType.equalsIgnoreCase(variation))
+													if (totalCharges.size()==1){
+														if (totalCharges.get(0).vehicleType.equalsIgnoreCase(variation)){
+															singleTollResult= totalCharges.get(0).rate;
 															totalCharges.get(0).rate = Float.toString(
-																	Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));															
-														else {
+																	Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
+														} else {
 															TollRate currentRate = new TollRate();
 															currentRate.vehicleType = variation;
-															currentRate.rate = currentToll.tolls.get(trc).rate;
+															currentRate.rate = Float.toString(
+																	Float.parseFloat(singleTollResult)+Float.parseFloat(currentToll.tolls.get(trc).rate));
 															totalCharges.add(currentRate);
 														}
-													else
+													} else
 														for (int ttc=0; ttc < totalCharges.size(); ttc++)
 															if (((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))&&
 																(totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Work days")))||
 																((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))&&
-																 (totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Weekends"))))
+																 (totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Weekends")))){
 																totalCharges.get(ttc).rate = Float.toString(
 																	Float.parseFloat(totalCharges.get(ttc).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
+															}
 											}
 											ttfound++;
 										}
