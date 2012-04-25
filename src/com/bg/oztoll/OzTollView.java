@@ -242,7 +242,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								 * add the text to the window, which will then be dropped into
 								 * the scrollview here.
 								 */
-								((ScrollView)rateDialog.findViewById(R.id.scrollView)).addView(tollDataView.getRateDialog());
+								ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
+								dialogScroll.removeAllViews();
+								dialogScroll.addView(tollDataView.getRateDialog());
 								rateDialog.show();
 								rateShown=true;
 								tollDataView.setRateCalculated(false);

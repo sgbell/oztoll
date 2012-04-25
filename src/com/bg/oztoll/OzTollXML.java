@@ -231,13 +231,11 @@ public class OzTollXML {
 			}
 			
 			for (int trc=0; trc < tollType.length; trc++){
-				try {
-					TollRate tollRate = new TollRate();
+				TollRate tollRate = new TollRate();
+				tollRate.rate=xmldata.getNodeData(exitNodes.item(tec), tollType[trc]);
+				if (tollRate.rate!=null){
 					tollRate.vehicleType=tollType[trc];
-					tollRate.rate=xmldata.getNodeData(exitNodes.item(tec), tollType[trc]);
 					newTollPointExit.addRate(tollRate);
-				} catch (NullPointerException e){
-					// do nothing if the tollType does not exist
 				}
 			}
 			newTollPoint.addExit(newTollPointExit);
