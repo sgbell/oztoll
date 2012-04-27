@@ -260,6 +260,7 @@ public class TollDataView implements Runnable{
 					/* If the path selected has more than 1 tollway we need to create the totalCharges array
 					 */
 					if (tolls.size()>1){
+						
 						// if there are no entries in totalCharges yet, add the first.
 						if (totalCharges.size()<1){
 							TollRate currentRate = new TollRate();
@@ -307,14 +308,46 @@ public class TollDataView implements Runnable{
 						// and not just cars
 						if ((isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle))||
 							(selectedVehicle.equalsIgnoreCase("all"))){
-							if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
-								variation = "Work days";
-							else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
-								variation = "Weekends";
-							else if (currentToll.tolls.get(trc).vehicleType.contains("cv-day"))
-								variation = "Day time";
-							else if (currentToll.tolls.get(trc).vehicleType.contains("cv-night"))
-								variation = "Night time";
+							if (!selectedVehicle.equalsIgnoreCase("all")){
+								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
+									variation = "Week days";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
+									variation = "Weekends";
+								else if (currentToll.tolls.get(trc).vehicleType.contains("cv-day"))
+									variation = "Day time";
+								else if (currentToll.tolls.get(trc).vehicleType.contains("cv-night"))
+									variation = "Night time";
+							} else {
+								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
+									boolean otherFound=false;
+									for (int check=0; check<currentToll.tolls.size(); check++)
+										if (currentToll.tolls.get(check).vehicleType.equalsIgnoreCase("car-we"))
+											otherFound=true;
+									if (otherFound)
+										variation="Week days";
+									else
+										variation="Car";
+								} else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
+									variation="Weekends";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv"))
+									variation="Light Commercial Vehicle";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv"))
+									variation="Heavy Commercial Vehicle";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-day"))
+									variation="Heavy Commercial Vehicle Daytime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("hcv-night"))
+									variation="Heavy Commercial Vehicle Nighttime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-day"))
+									variation="Commercial Vehicle Daytime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("cv-night"))
+									variation="Commercial Vehicle Nighttime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv-day"))
+									variation="Light Commercial Vehicle Daytime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("lcv-night"))
+									variation="Light Commercial Vehicle Nighttime";
+								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("mc"))
+									variation="Motorcycle";
+							}
 							
 							/* The following adds the content to the dialog Window */
 							LinearLayout tollRateLayout = new LinearLayout(appContext);
@@ -331,197 +364,53 @@ public class TollDataView implements Runnable{
 							/* If there is more than 1 tollway in the path, we add it to the total charges */
 							if (tolls.size()>1){
 								if (totalCharges.size()<1){
+									// Adds the first tollway to the totalCharges Array
 									TollRate currentRate = new TollRate();
 									currentRate.vehicleType = variation;
 									currentRate.rate = currentToll.tolls.get(trc).rate;
 									totalCharges.add(currentRate);
-								} else
-									if (totalCharges.size()==1){
-										if (totalCharges.get(0).vehicleType.equalsIgnoreCase(variation)){
-											singleTollResult= totalCharges.get(0).rate;
-											totalCharges.get(0).rate = Float.toString(
-													Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-										} else {
-											TollRate currentRate = new TollRate();
-											currentRate.vehicleType = variation;
-											currentRate.rate = Float.toString(
-													Float.parseFloat(singleTollResult)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-											totalCharges.add(currentRate);
+								} else {
+									// If there is 1 or more tolls in the totalCharges array
+									boolean totalChargeFound=false;
+									for (int ttc=0; ttc < totalCharges.size(); ttc++){
+										if (totalCharges.get(ttc).vehicleType.equalsIgnoreCase(variation)){
+											totalCharges.get(ttc).rate = Float.toString(
+													Float.parseFloat(totalCharges.get(ttc).rate)+
+													Float.parseFloat(currentToll.tolls.get(trc).rate));
+											totalChargeFound=true;
 										}
-									} else
-										for (int ttc=0; ttc < totalCharges.size(); ttc++)
-											if (((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))&&
-												(totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Work days")))||
-												((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))&&
-												 (totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Weekends")))){
-												totalCharges.get(ttc).rate = Float.toString(
-													Float.parseFloat(totalCharges.get(ttc).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-											}
-							}
-							
-							
-							ttfound++;
-						}
-						trc++;
-					}
-					break;
-			}
-		}
-		/** What lies beneath is the correct code for decoding the car tolls
-		 * 
-		title="<h2>Car</h2>";
-		tollTitle.setText(Html.fromHtml(title));
-		tollTitle.setPadding(10, 0, 0, 0);
-		tollTitle.setLayoutParams(fillParentParams);
-		
-		rateLayout.addView(tollTitle);
-		
-		for (int tc=0; tc < tolls.size(); tc++){
-			TollCharges currentToll = tolls.get(tc);
-			
-			* The following toll loop will search the current toll Array for any tolls relating to the selected vehicle
-			* toll.
-			*
-			int tollTypeCount=0;
-			int trc=0;
-			TextView tollwayName = new TextView(appContext);
-			
-			for (trc=0; trc < currentToll.tolls.size(); trc++){
-				if (currentToll.tolls.get(trc).vehicleType.contains("car"))
-					tollTypeCount++;
-			}
-			* This switch statement is dependant on how many tolls are found in the current Array
-			 *
-			switch (tollTypeCount){
-				case 0:
-					// Don't want to display anything if it doesn't exist at least once.
-					break;
-				case 1:
-					// If it exists only once in the toll Array, it will put the charge on the one line with the
-					// tollway Name.
-					LinearLayout tollwayLayout = new LinearLayout(appContext);
-					tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
-					tollwayName.setText(Html.fromHtml("<h3>"+currentToll.tollway+"</h3>"));
-					tollwayName.setPadding(10, 0, 20, 0);
-
-					tollwayLayout.addView(tollwayName);
-					tollwayLayout.setLayoutParams(wrapContentParams);
-					
-					* The following while loop will traverse through the currentToll list to find the only
-					 * entry in the toll list relating to the selected vehicle, and will add it to the rateLayout.
-					 * As there is only one, 
-					 *
-					trc=0;
-					boolean found=false;
-					while ((trc<currentToll.tolls.size())&&
-							(!found)){
-						if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
-							TextView tollwayCharge = new TextView(appContext);
-							tollwayCharge.setText(currentToll.tolls.get(trc).rate);
-							tollwayLayout.addView(tollwayCharge);
-							rateLayout.addView(tollwayLayout);
-							found=true;
-						} else
-							trc++;
-					}
-					* If the path selected has more than 1 tollway we need to create the totalCharges array
-					 *
-					if (tolls.size()>1){
-						// if there are no entries in totalCharges yet, add the first.
-						if (totalCharges.size()<1){
-							TollRate currentRate = new TollRate();
-							if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car")){
-								currentRate.vehicleType="Work days";
-								currentRate.rate=currentToll.tolls.get(trc).rate;
-								totalCharges.add(currentRate);
-							}
-						} else
-							// if there is 1 or more entries in totalCharges
-							if (totalCharges.size()==1){
-								totalCharges.get(0).rate = Float.toString(
-										Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-							} else
-								// If the is only 1 car toll, but more than one in totalCharges.
-								for (int ttc=0; ttc < totalCharges.size(); ttc++){
-									totalCharges.get(ttc).rate = Float.toString(
-											Float.parseFloat(totalCharges.get(ttc).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
+									}
+									if (!totalChargeFound){
+										TollRate currentRate = new TollRate();
+										currentRate.vehicleType = variation;
+										currentRate.rate = currentToll.tolls.get(trc).rate;
+										totalCharges.add(currentRate);
+									}
 								}
-					}
-					break;
-				default:
-					// More than one type of toll for this vehicle
-					tollwayName.setText(Html.fromHtml("<h3>"+currentToll.tollway+"</h3>"));
-					tollwayName.setPadding(10, 0, 0, 0);
-					tollwayName.setLayoutParams(fillParentParams);
-					rateLayout.addView(tollwayName);
-					
-					String variation ="";
-					
-					trc=0;
-					int ttfound=0;
-					while ((trc<currentToll.tolls.size())&&
-							(ttfound<tollTypeCount)){
-						if (currentToll.tolls.get(trc).vehicleType.contains("car")){
-							if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
-								variation = "Work days";
-							else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
-								variation = "Weekends";
-							
-							LinearLayout tollRateLayout = new LinearLayout(appContext);
-							tollRateLayout.setOrientation(LinearLayout.HORIZONTAL);
-							TextView rateTitle = new TextView(appContext);
-							rateTitle.setText(variation);
-							rateTitle.setPadding(10, 0, 10, 0);
-							tollRateLayout.addView(rateTitle);
-							TextView rateValue = new TextView(appContext);
-							rateValue.setText(currentToll.tolls.get(trc).rate);
-							tollRateLayout.addView(rateValue);
-							rateLayout.addView(tollRateLayout);
-							
-							if (tolls.size()>1){
-								if (totalCharges.size()<1){
-									TollRate currentRate = new TollRate();
-									currentRate.vehicleType = variation;
-									currentRate.rate = currentToll.tolls.get(trc).rate;
-									totalCharges.add(currentRate);
-								} else
-									if (totalCharges.size()==1){
-										if (totalCharges.get(0).vehicleType.equalsIgnoreCase(variation)){
-											singleTollResult= totalCharges.get(0).rate;
-											totalCharges.get(0).rate = Float.toString(
-													Float.parseFloat(totalCharges.get(0).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-										} else {
-											TollRate currentRate = new TollRate();
-											currentRate.vehicleType = variation;
-											currentRate.rate = Float.toString(
-													Float.parseFloat(singleTollResult)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-											totalCharges.add(currentRate);
-										}
-									} else
-										for (int ttc=0; ttc < totalCharges.size(); ttc++)
-											if (((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))&&
-												(totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Work days")))||
-												((currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))&&
-												 (totalCharges.get(ttc).vehicleType.equalsIgnoreCase("Weekends")))){
-												totalCharges.get(ttc).rate = Float.toString(
-													Float.parseFloat(totalCharges.get(ttc).rate)+Float.parseFloat(currentToll.tolls.get(trc).rate));
-											}
 							}
 							ttfound++;
 						}
 						trc++;
 					}
+					break;
 			}
 		}
-		*/
+	
+		/* The following code will create the total entry */
 		if (tolls.size()>1){
+			int tcc=0;
+			while (tcc<totalCharges.size()){
+				// need to search to see if car, lcv, hcv, and cv exists to combine them
+				tcc++;
+			}
+			
 			TextView tollTotalTitle = new TextView(appContext);
 			tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
 			tollTotalTitle.setPadding(10, 0, 0, 0);
 			tollTotalTitle.setLayoutParams(fillParentParams);
 			rateLayout.addView(tollTotalTitle);
 
-			for (int tcc=0; tcc < totalCharges.size(); tcc++){
+			for (tcc=0; tcc < totalCharges.size(); tcc++){
 				LinearLayout totalLine = new LinearLayout(appContext);
 				totalLine.setOrientation(LinearLayout.HORIZONTAL);
 				TextView totalType = new TextView(appContext);
