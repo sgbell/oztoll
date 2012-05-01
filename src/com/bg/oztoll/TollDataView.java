@@ -398,12 +398,98 @@ public class TollDataView implements Runnable{
 	
 		/* The following code will create the total entry */
 		if (tolls.size()>1){
+						
 			int tcc=0;
 			while (tcc<totalCharges.size()){
 				// need to search to see if car, lcv, hcv, and cv exists to combine them
+				
+				/* The following block of code searchs the totalCharges for a 'Car' entry to combine
+				 * it with The weekdays/weekend charges for cars.
+				 */
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("car")){
+					int carCount=0;
+					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Week days"))||
+							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("weekends"))){
+							totalCharges.get(tcc2).rate = Float.toString(
+									Float.parseFloat(totalCharges.get(tcc2).rate)+
+									Float.parseFloat(totalCharges.get(tcc).rate));
+							carCount++;
+						}
+					}
+					if (carCount>0){
+						totalCharges.remove(tcc);
+					}
+				}
+				
+				
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Light Commercial Vehicle")){
+					int lcvCount=0;
+					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Daytime"))||
+							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Nighttime"))){
+							totalCharges.get(tcc2).rate = Float.toString(
+									Float.parseFloat(totalCharges.get(tcc2).rate)+
+									Float.parseFloat(totalCharges.get(tcc).rate));
+							lcvCount++;
+						}
+					}
+					if (lcvCount>0){
+						totalCharges.remove(tcc);
+					}
+				}
+				
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle")){
+					int hcvCount=0;
+					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Daytime"))||
+							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Nighttime"))){
+							totalCharges.get(tcc2).rate = Float.toString(
+									Float.parseFloat(totalCharges.get(tcc2).rate)+
+									Float.parseFloat(totalCharges.get(tcc).rate));
+							hcvCount++;
+						}
+					}
+					if (hcvCount>0){
+						totalCharges.remove(tcc);
+					}
+				}
+				
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Daytime")){
+					int cvCount=0;
+					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Daytime"))||
+							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Daytime"))){
+							totalCharges.get(tcc2).rate = Float.toString(
+									Float.parseFloat(totalCharges.get(tcc2).rate)+
+									Float.parseFloat(totalCharges.get(tcc).rate));
+							cvCount++;
+						}
+					}
+					if (cvCount>0){
+						totalCharges.remove(tcc);
+					}
+				}
+
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Nighttime")){
+					int cvCount=0;
+					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Nighttime"))||
+							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Nighttime"))){
+							totalCharges.get(tcc2).rate = Float.toString(
+									Float.parseFloat(totalCharges.get(tcc2).rate)+
+									Float.parseFloat(totalCharges.get(tcc).rate));
+							cvCount++;
+						}
+					}
+					if (cvCount>0){
+						totalCharges.remove(tcc);
+					}
+				}
+
 				tcc++;
 			}
-			
+						
 			TextView tollTotalTitle = new TextView(appContext);
 			tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
 			tollTotalTitle.setPadding(10, 0, 0, 0);
@@ -426,6 +512,13 @@ public class TollDataView implements Runnable{
 		rateCalculated=true;					
 	}
 
+	public boolean convertTollTotal(int from, String[] to, ArrayList<TollRate> totalCharges){
+		
+		
+		
+		return true;
+	}
+	
 	/** This is used to test if the Toll rate is found in the processToll method
 	 * @param tollType
 	 * @param selectedVehicle
