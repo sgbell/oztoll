@@ -400,96 +400,103 @@ public class TollDataView implements Runnable{
 		if (tolls.size()>1){
 						
 			int tcc=0;
-			while (tcc<totalCharges.size()){
+			boolean second=false;
+			while ((tcc<totalCharges.size())&&(!second)){
+				
 				// need to search to see if car, lcv, hcv, and cv exists to combine them
-				
-				/* The following block of code searchs the totalCharges for a 'Car' entry to combine
-				 * it with The weekdays/weekend charges for cars.
-				 */
+				ArrayList<String> matchingValues = new ArrayList<String>();
 				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("car")){
-					int carCount=0;
-					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
-						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Week days"))||
-							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("weekends"))){
-							totalCharges.get(tcc2).rate = Float.toString(
-									Float.parseFloat(totalCharges.get(tcc2).rate)+
-									Float.parseFloat(totalCharges.get(tcc).rate));
-							carCount++;
+					matchingValues.add("Week days");
+					matchingValues.add("weekends");
+					convertTollTotal(tcc, matchingValues, totalCharges);
+				} else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("light commercial vehicle")){
+					matchingValues.add("Light Commercial Vehicle Daytime");
+					matchingValues.add("Light Commercial Vehicle Nighttime");
+					if(!convertTollTotal(tcc, matchingValues, totalCharges)){
+						boolean commFound=false;
+						for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+							if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Commercial Vehicle Daytime"))||
+								(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Commercial Vehicle Nighttime")))
+								commFound=true;
+						}
+						if (commFound){
+							TollRate newTollRate;
+							for (int mvc=0; mvc<matchingValues.size(); mvc++){
+								newTollRate = new TollRate();
+								newTollRate.vehicleType=matchingValues.get(mvc);
+								newTollRate.rate=totalCharges.get(tcc).rate;
+								totalCharges.add(newTollRate);
+							}
+							
+							totalCharges.remove(tcc);
+							matchingValues = new ArrayList<String>();
+							tcc=-1;
 						}
 					}
-					if (carCount>0){
-						totalCharges.remove(tcc);
-					}
-				}
-				
-				
-				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Light Commercial Vehicle")){
-					int lcvCount=0;
-					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
-						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Daytime"))||
-							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Nighttime"))){
-							totalCharges.get(tcc2).rate = Float.toString(
-									Float.parseFloat(totalCharges.get(tcc2).rate)+
-									Float.parseFloat(totalCharges.get(tcc).rate));
-							lcvCount++;
+				} else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle")){
+					matchingValues.add("Heavy Commercial Vehicle Daytime");
+					matchingValues.add("Heavy Commercial Vehicle Nighttime");
+					if(!convertTollTotal(tcc, matchingValues, totalCharges)){
+						boolean commFound=false;
+						for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
+							if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Commercial Vehicle Daytime"))||
+								(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Commercial Vehicle Nighttime")))
+								commFound=true;
+						}
+						if (commFound){
+							TollRate newTollRate;
+							for (int mvc=0; mvc<matchingValues.size(); mvc++){
+								newTollRate = new TollRate();
+								newTollRate.vehicleType=matchingValues.get(mvc);
+								newTollRate.rate=totalCharges.get(tcc).rate;
+								totalCharges.add(newTollRate);
+							}
+							
+							totalCharges.remove(tcc);
+							matchingValues = new ArrayList<String>();
+							tcc=-1;
 						}
 					}
-					if (lcvCount>0){
-						totalCharges.remove(tcc);
-					}
-				}
-				
-				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle")){
-					int hcvCount=0;
+				} else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Daytime")){
+					boolean lcvConvert=false;
+					boolean hcvConvert=false;
 					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
-						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Daytime"))||
-							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Nighttime"))){
-							totalCharges.get(tcc2).rate = Float.toString(
-									Float.parseFloat(totalCharges.get(tcc2).rate)+
-									Float.parseFloat(totalCharges.get(tcc).rate));
-							hcvCount++;
+						if (totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("light commercial vehicle"))
+							lcvConvert=true;
+						if (totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("heavy commercial vehicle"))
+							hcvConvert=true;
+					}
+					if ((!lcvConvert)&&(!hcvConvert)){
+						matchingValues.add("Light Commercial Vehicle Daytime");
+						matchingValues.add("Heavy Commercial Vehicle Daytime");
+						if(convertTollTotal(tcc, matchingValues, totalCharges)){
+							tcc=-1;
 						}
 					}
-					if (hcvCount>0){
-						totalCharges.remove(tcc);
-					}
-				}
-				
-				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Daytime")){
-					int cvCount=0;
+				} else 	if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Nighttime")){
+					boolean lcvConvert=false;
+					boolean hcvConvert=false;
 					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
-						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Daytime"))||
-							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Daytime"))){
-							totalCharges.get(tcc2).rate = Float.toString(
-									Float.parseFloat(totalCharges.get(tcc2).rate)+
-									Float.parseFloat(totalCharges.get(tcc).rate));
-							cvCount++;
+						if (totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("light commercial vehicle"))
+							lcvConvert=true;
+						if (totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("heavy commercial vehicle"))
+							hcvConvert=true;
+					}
+					if ((!lcvConvert)&&(!hcvConvert)){
+						matchingValues.add("Light Commercial Vehicle Nighttime");
+						matchingValues.add("Heavy Commercial Vehicle Nighttime");
+						if(convertTollTotal(tcc, matchingValues, totalCharges)){
+							tcc=-1;
 						}
 					}
-					if (cvCount>0){
-						totalCharges.remove(tcc);
-					}
 				}
-
-				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Commercial Vehicle Nighttime")){
-					int cvCount=0;
-					for (int tcc2=0; tcc2<totalCharges.size(); tcc2++){
-						if ((totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Light Commercial Vehicle Nighttime"))||
-							(totalCharges.get(tcc2).vehicleType.equalsIgnoreCase("Heavy Commercial Vehicle Nighttime"))){
-							totalCharges.get(tcc2).rate = Float.toString(
-									Float.parseFloat(totalCharges.get(tcc2).rate)+
-									Float.parseFloat(totalCharges.get(tcc).rate));
-							cvCount++;
-						}
-					}
-					if (cvCount>0){
-						totalCharges.remove(tcc);
-					}
-				}
-
 				tcc++;
+				if (tcc>=totalCharges.size()){
+					tcc=0;
+					second=true;
+				}
 			}
-						
+			
 			TextView tollTotalTitle = new TextView(appContext);
 			tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
 			tollTotalTitle.setPadding(10, 0, 0, 0);
@@ -500,6 +507,11 @@ public class TollDataView implements Runnable{
 				LinearLayout totalLine = new LinearLayout(appContext);
 				totalLine.setOrientation(LinearLayout.HORIZONTAL);
 				TextView totalType = new TextView(appContext);
+				if (selectedVehicle.equalsIgnoreCase("all"))
+					if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Week days"))
+						totalCharges.get(tcc).vehicleType="Car - Week days";
+					else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekends"))
+						totalCharges.get(tcc).vehicleType="Car - Weekends";
 				totalType.setText(totalCharges.get(tcc).vehicleType);
 				totalType.setPadding(10, 0, 10, 0);
 				totalLine.addView(totalType);
@@ -512,11 +524,31 @@ public class TollDataView implements Runnable{
 		rateCalculated=true;					
 	}
 
-	public boolean convertTollTotal(int from, String[] to, ArrayList<TollRate> totalCharges){
+	/** This is used to merge toll totals.
+	 * 
+	 * @param from
+	 * @param to
+	 * @param totalCharges
+	 * @return
+	 */
+	public boolean convertTollTotal(int from, ArrayList<String> to, ArrayList<TollRate> totalCharges){
 		
-		
-		
-		return true;
+		int itemCount=0;
+		for (int tcc=0; tcc<totalCharges.size(); tcc++){
+			for (int toCount=0; toCount< to.size(); toCount++){
+				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase(to.get(toCount))){
+					totalCharges.get(tcc).rate = Float.toString(
+							Float.parseFloat(totalCharges.get(tcc).rate)+
+							Float.parseFloat(totalCharges.get(from).rate));
+					itemCount++;
+				}
+			}
+		}
+		if (itemCount>0){
+			totalCharges.remove(from);
+			return true;
+		}
+		return false;
 	}
 	
 	/** This is used to test if the Toll rate is found in the processToll method
