@@ -19,37 +19,42 @@ public class OzTollActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	String cityFilename; 
+    	
     	dataSync = new Object();
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ozView = new OzTollView(this);
-        setContentView(ozView);
         
-        AssetManager assetMan = getAssets();
-        // Creates a new OzStorage object, and gets the ozTollData object it creates
-        //tollData = new OzStorage().getTollData();
-        // Have changed the code so that melbourne.xml is stored in the assets folder
-        tollData = new OzTollData("melbourne.xml", assetMan);
-        tollData.setDataSync(dataSync);
-        // passes ozTollData into ozTollView
-		ozView.setDataFile(tollData);
-		SharedPreferences sP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		tollData.setPreferences(sP);
-		
+        // This is where the application's preferences are stored
+        SharedPreferences sP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
 		// if "vehicleType" exists, the program has been run previously, and as such, it will
 		// start normally.
 		if (!sP.contains("vehicleType")){
 			// First time run, it will oopent he preferences window to get the user to select
 			// how they want to view the system, ie from drop down boxes or the map
 			openPreferences();
+			
+			// Need to set melbourne.xml as the file to open here.
 		}
-		// Need to pass these into TollDataView so it's thread can figure out which 
-		// tolls to put in the Toll Dialog.
-		/**
-			String strVehicleType = SP.getString("vehicleType", "car");
-			String strViewType = SP.getString("viewType", "1");
-			ozView.setVehicleType(strVehicleType);
-			*/
+		cityFilename = sP.getString("cityFile", "melbourne.xml");
+		
+		AssetManager assetMan = getAssets();
+        // Creates a new OzStorage object, and gets the ozTollData object it creates
+        //tollData = new OzStorage().getTollData();
+        // Have changed the code so that melbourne.xml is stored in the assets folder
+        tollData = new OzTollData(cityFilename, assetMan);
+        tollData.setDataSync(dataSync);
+		tollData.setPreferences(sP);
+        
+        new Thread(tollData).start();
+        
+        if (sP.getBoolean("applicationView", true)){
+            ozView = new OzTollView(this, tollData);
+            setContentView(ozView);
+        } else {
+        	// Drop down list
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

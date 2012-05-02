@@ -44,14 +44,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		this.tollData = tollData;
 
 		dataSync = tollData.getDataSync();
-		new Thread(tollData).start();
+//		new Thread(tollData).start();
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		syncObject = tollDataView.getSync();
 		tollDataViewBuilder = new Thread(tollDataView);
 		tollDataViewBuilder.start();
 	}
 	
-	public OzTollView(Context context) {
+	public OzTollView(Context context, OzTollData tollData) {
 		super(context);
 		getHolder().addCallback(this);
 		
@@ -84,6 +84,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(FOCUS_UP);
 			}
 		});
+		
+		setDataFile(tollData);
 	}
 
 	/**
