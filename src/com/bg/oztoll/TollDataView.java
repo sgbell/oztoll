@@ -497,26 +497,40 @@ public class TollDataView implements Runnable{
 				}
 			}
 			
-			TextView tollTotalTitle = new TextView(appContext);
-			tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
-			tollTotalTitle.setPadding(10, 0, 0, 0);
-			tollTotalTitle.setLayoutParams(fillParentParams);
-			rateLayout.addView(tollTotalTitle);
+			if (totalCharges.size()>1){
+				TextView tollTotalTitle = new TextView(appContext);
+				tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
+				tollTotalTitle.setPadding(10, 0, 0, 0);
+				tollTotalTitle.setLayoutParams(fillParentParams);
+				rateLayout.addView(tollTotalTitle);
 
-			for (tcc=0; tcc < totalCharges.size(); tcc++){
+				for (tcc=0; tcc < totalCharges.size(); tcc++){
+					LinearLayout totalLine = new LinearLayout(appContext);
+					totalLine.setOrientation(LinearLayout.HORIZONTAL);
+					TextView totalType = new TextView(appContext);
+					if (selectedVehicle.equalsIgnoreCase("all"))
+						if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Week days"))
+							totalCharges.get(tcc).vehicleType="Car - Week days";
+						else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekends"))
+							totalCharges.get(tcc).vehicleType="Car - Weekends";
+					totalType.setText(totalCharges.get(tcc).vehicleType);
+					totalType.setPadding(10, 0, 10, 0);
+					totalLine.addView(totalType);
+					TextView totalValue = new TextView(appContext);
+					totalValue.setText(totalCharges.get(tcc).rate);
+					totalLine.addView(totalValue);
+					rateLayout.addView(totalLine);
+				}
+			} else if (totalCharges.size()==1){
 				LinearLayout totalLine = new LinearLayout(appContext);
 				totalLine.setOrientation(LinearLayout.HORIZONTAL);
-				TextView totalType = new TextView(appContext);
-				if (selectedVehicle.equalsIgnoreCase("all"))
-					if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Week days"))
-						totalCharges.get(tcc).vehicleType="Car - Week days";
-					else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekends"))
-						totalCharges.get(tcc).vehicleType="Car - Weekends";
-				totalType.setText(totalCharges.get(tcc).vehicleType);
-				totalType.setPadding(10, 0, 10, 0);
-				totalLine.addView(totalType);
+				TextView tollTotalTitle = new TextView(appContext);
+				tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls </h3>"));
+				tollTotalTitle.setPadding(10, 0, 0, 0);
+				totalLine.addView(tollTotalTitle);
+				
 				TextView totalValue = new TextView(appContext);
-				totalValue.setText(totalCharges.get(tcc).rate);
+				totalValue.setText(totalCharges.get(0).rate);
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}
