@@ -53,7 +53,7 @@ public class OzTollActivity extends Activity {
             ozView = new OzTollView(this, tollData);
             setContentView(ozView);
         } else {
-        	// Drop down list
+        	setContentView(R.layout.textrate);
         }
     }
 
