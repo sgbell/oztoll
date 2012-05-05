@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 public class OzTollActivity extends Activity {
 	private OzTollData tollData;
@@ -53,6 +55,20 @@ public class OzTollActivity extends Activity {
             ozView = new OzTollView(this, tollData);
             setContentView(ozView);
         } else {
+        	synchronized (dataSync){
+        		try {
+        			dataSync.wait();
+        		} catch (InterruptedException e){
+        			// just wait for it
+        		}
+        	}
+        	/* Going about this all wrong. looks like I will have to create a seperate activity to use list activity (or some activity
+        	 * named similar). I will need 3 activities. 1 to start, 1 for Map view of OzToll, and 1 for the list version.
+        	 * 
+        	 * Fix this tomorrow
+        	 */
+        	OzTollTextView ozTextView = new OzTollTextView(tollData);
+        	ozTextView.addStreets((LinearLayout) findViewById(R.id.streetList));
         	setContentView(R.layout.textrate);
         }
     }
