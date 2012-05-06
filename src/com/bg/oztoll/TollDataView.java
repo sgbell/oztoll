@@ -81,7 +81,10 @@ public class TollDataView implements Runnable{
 	public void run() {
 		synchronized (dataSync){
 			try {
-				dataSync.wait();
+				// Put in this condition so that if tollData has finished reading the file, the app wont be put to sleep
+				// waiting for the data to be read
+				if (!tollData.isFinished())
+					dataSync.wait();
 			} catch (InterruptedException e) {
 				// just wait for it
 			}

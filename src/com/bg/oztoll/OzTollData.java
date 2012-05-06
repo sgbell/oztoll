@@ -162,6 +162,9 @@ public class OzTollData implements Runnable{
 			}
 		}
 
+		synchronized (dataSync){
+			dataSync.notify();
+		}
 		finishedRead=true;
 	}
 	

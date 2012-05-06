@@ -18,7 +18,10 @@ import android.widget.LinearLayout;
  *
  */
 public class OzTollTextActivity extends Activity {
-
+	private OzTollApplication global;
+	private SharedPreferences preferences;
+	private Intent mapView, textView;
+	
 	public OzTollTextActivity(){
 		
 	}
@@ -26,25 +29,12 @@ public class OzTollTextActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 		
-		OzTollApplication global = (OzTollApplication)getApplication();
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		global = (OzTollApplication)getApplication();
+		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	
-		synchronized (global.getDatasync()){
-    		try {
-    			global.getDatasync().wait();
-    		} catch (InterruptedException e){
-    			// just wait for it
-    		}
-    	}
-    	/* Going about this all wrong. looks like I will have to create a seperate activity to use list activity (or some activity
-    	 * named similar). I will need 3 activities. 1 to start, 1 for Map view of OzToll, and 1 for the list version.
-    	 * 
-    	 * Fix this tomorrow
-    	 */
-    	OzTollTextView ozTextView = new OzTollTextView(global.getTollData());
-    	ozTextView.addStreets((LinearLayout) findViewById(R.id.streetList));
-    	setContentView(R.layout.textrate);
-    	global.setTextViewStarted(true);
+		if (global.getDatasync()==null){
+			global.setDatasync(new Object());
+		}
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,5 +59,47 @@ public class OzTollTextActivity extends Activity {
     			break;
     	}
     	return true;
+    }
+    
+    protected void onStop(){
+    	setResult(2);
+    	
+    	super.onStop();
+    }
+    
+    protected void onDestroy(){
+    	setResult(2);
+    	super.onDestroy();
+    }
+    
+    public void onResume(){
+    	super.onResume();
+    	
+		global = (OzTollApplication)getApplication();
+		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    	
+		if (global.getDatasync()==null){
+			global.setDatasync(new Object());
+		}
+
+		// If this activity is resumed, and the user has not changed the view to map view
+		if (!preferences.getBoolean("applicationView", true)){
+	    	synchronized (global.getDatasync()){
+	    		try {
+	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data
+	    			if (!global.getTollData().isFinished())
+	    				global.getDatasync().wait();
+	    		} catch (InterruptedException e){
+	    			// just wait for it
+	    		}
+	    	}
+	    	OzTollTextView ozTextView = new OzTollTextView(global.getTollData());
+	    	ozTextView.addStreets((LinearLayout) findViewById(R.id.streetList));
+	    	setContentView(R.layout.textrate);
+		} else {
+			// If user has just returned to view after changing the preference, end the view to switch to mapView
+			setResult(1);
+			finish();
+		}
     }
 }

@@ -29,9 +29,6 @@ public class OzTollMapActivity extends Activity {
 		OzTollApplication global = (OzTollApplication)getApplication();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
-		ozView = new OzTollView(this, global.getTollData());
-		setContentView(ozView);
-		global.setMapViewStarted(true);
 	}
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,5 +53,33 @@ public class OzTollMapActivity extends Activity {
     			break;
     	}
     	return true;
+    }
+    
+    protected void onStop(){
+    	setResult(2);
+    	
+    	super.onStop();
+    }
+    
+    protected void onDestroy(){
+    	setResult(2);
+    	super.onDestroy();
+    }
+    
+    public void onResume(){
+    	super.onResume();
+    	
+		OzTollApplication global = (OzTollApplication)getApplication();
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		
+		if (preferences.getBoolean("applicationView", true)){
+			// if view is mapView
+			ozView = new OzTollView(this, global.getTollData());
+			setContentView(ozView);
+		} else {
+			// if user has just changed the preference to text view
+			setResult(1);
+			finish();
+		}
     }
 }

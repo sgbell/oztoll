@@ -13,7 +13,8 @@ import android.app.Application;
 public class OzTollApplication extends Application {
 	private OzTollData tollData;
 	private Object datasync, viewChange;
-	private boolean isMapViewStarted=false, isTextViewStarted=false;
+	private boolean isMapViewStarted=false, // This is used to tell the program if mapView has been started 
+					isTextViewStarted=false; // This is used to tell the program if TextView has been started
 	
 	/**
 	 * 
