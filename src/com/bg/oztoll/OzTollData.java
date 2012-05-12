@@ -284,6 +284,25 @@ public class OzTollData implements Runnable{
 	public int getTollCount(int twc) {
 		return tollways.get(twc).getTollPoints().size();
 	}
+	
+	public Street getStreet(String tollway, String streetName){
+		boolean tollwayFound=false, streetFound=false;
+		int twc=0, sc=0;
+		while ((twc<tollways.size())&&
+				(!tollwayFound)){
+			if (tollways.get(twc).getName().equalsIgnoreCase(tollway))
+				tollwayFound=true;
+		}
+		while ((sc<tollways.get(twc).getStreets().size())&&
+				(!streetFound)){
+			if (tollways.get(twc).getStreets().get(sc).getName().equalsIgnoreCase(streetName))
+				streetFound=true;
+		}
+		if ((tollwayFound)&&(streetFound))
+			return tollways.get(twc).getStreets().get(sc);
+		else
+				return null;	
+	}
 
 	public float getStreetX(int twc, int twi) {
 		return tollways.get(twc).getStreets().get(twi).getX();
@@ -646,7 +665,7 @@ public class OzTollData implements Runnable{
 	public Connection getConnection(int connectionID){
 		return connections.get(connectionID);
 	}
-
+	
 	public Street getStreet(int twc, int twi) {
 		if (tollways.size()>0)
 			if (tollways.get(0).getStreets().size()>0)

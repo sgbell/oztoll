@@ -11,7 +11,8 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 /**
  * @author bugman
@@ -20,7 +21,6 @@ import android.widget.LinearLayout;
 public class OzTollTextActivity extends Activity {
 	private OzTollApplication global;
 	private SharedPreferences preferences;
-	private Intent mapView, textView;
 	
 	public OzTollTextActivity(){
 		
@@ -93,9 +93,11 @@ public class OzTollTextActivity extends Activity {
 	    			// just wait for it
 	    		}
 	    	}
-	    	OzTollTextView ozTextView = new OzTollTextView(global.getTollData());
-	    	ozTextView.addStreets((LinearLayout) findViewById(R.id.streetList));
 	    	setContentView(R.layout.textrate);
+	    	OzTollTextView ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData());
+	    	ozTextView.setExListView((ExpandableListView)findViewById(R.id.streetList));
+	    	Thread ozTextViewThread = new Thread(ozTextView);
+	    	ozTextViewThread.start();
 		} else {
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);
