@@ -680,6 +680,20 @@ public class OzTollData implements Runnable{
 		return tollways.get(tollway).getName();
 	}
 	
+	public String getTollwayName(Street currentStreet){
+		boolean tollwayFound=false;
+		int twc=0;
+		while ((twc<tollways.size())&&
+				(!tollwayFound)){
+			if (tollways.get(twc).getStreets().contains(currentStreet))
+				tollwayFound=true;
+			else
+				twc++;
+		}
+		
+		return tollways.get(twc).getName();
+	}
+	
 	public ArrayList<Street> getTollPointExits(Street start){
 		ArrayList<Street> exits = new ArrayList<Street>();
 		for (int twc=0; twc < tollways.size(); twc++){

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
@@ -23,6 +24,8 @@ public class OzTollTextView implements Runnable{
 	private ExpandableListView listView;
 	private ExpandableListAdapter adapter;
 	private Street start, finish;
+	private boolean shownExits;
+	private Object threadSync;
 	
 	public OzTollTextView(){
 		
@@ -30,6 +33,8 @@ public class OzTollTextView implements Runnable{
 
 	public OzTollTextView(OzTollData data) {
 		tollData = data;
+		shownExits=false;
+		threadSync= new Object();
 	}
 
 	public OzTollTextView(Context context, OzTollData data) {
@@ -53,11 +58,86 @@ public class OzTollTextView implements Runnable{
 	}
 	*/
 	
-	public void populateStreets(){
-		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
-			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-				adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
+	public void showExits(){
+		if (!shownExits){
+			Log.w ("OzTollTextView","showExits() called");
+			if (start!=null){
+				Log.w ("OzTollTextView","Start="+start.getName());
+				adapter.resetView();
+				ArrayList<Street> validExits = tollData.getTollPointExits(start);
+				Connection connectingRoad = null;
+				boolean connectionFound=false;
+				String tollway = tollData.getTollwayName(start);
+				Log.w ("OzTollTextView","showExits(): validExits.size()="+validExits.size());
+
+				for (int sc=0;sc<validExits.size();sc++){
+					adapter.addStreet(tollway, validExits.get(sc).getName());
+					Log.w ("OzTollTextView","showExits(): addStreets="+validExits.get(sc).getName());
+					int cc=0;
+					if (!connectionFound){
+						while ((cc<tollData.getConnectionCount())&&
+								(!connectionFound)){
+							if ((tollData.getConnection(cc).getStartTollway().equalsIgnoreCase(tollway))&&
+								((tollData.getConnection(cc).getStart().equals(start))||
+								 (tollData.getConnection(cc).getEnd().equals(start)))){
+								connectionFound=true;
+							} else {
+								cc++;
+							}
+						}
+						if (connectionFound){
+							connectingRoad=tollData.getConnection(cc);
+						}
+					}
+				}
+				if (connectingRoad!=null){
+					String otherTollway=null;
+					if (connectingRoad.getStartTollway().equalsIgnoreCase(tollway)){
+						validExits = tollData.getTollPointExits(connectingRoad.getEnd());
+						otherTollway = connectingRoad.getEndTollway();
+					}else{
+						validExits = tollData.getTollPointExits(connectingRoad.getStart());
+						otherTollway = connectingRoad.getStartTollway();
+					}
+					for (int sc=0; sc<validExits.size();sc++){
+							adapter.addStreet(otherTollway, validExits.get(sc).getName());
+					}
+				}
 			}
+			shownExits=true;
+		}
+	}
+	
+	
+	public void showDialog(){
+		
+	}
+	
+	public void populateStreets(){
+		if (!tollData.isFinished()){
+			Log.w ("OzTollTextView","populateStreets(): before dataSync.wait()");
+			synchronized(tollData.getDataSync()){
+				try {
+					if (!tollData.isFinished()){
+						tollData.getDataSync().wait();
+					}
+				} catch (InterruptedException e){
+					// just wait for it
+				}
+			}
+			Log.w ("OzTollTextView","populateStreets(): after dataSync.wait()");
+			for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+				for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
+					adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
+				}
+		} else {
+			if (start!=null){
+				if (finish==null)
+					showExits();
+				else
+					showDialog();
+			}
+		}
 		
 		handler.sendEmptyMessage(1);
 	}
@@ -66,9 +146,16 @@ public class OzTollTextView implements Runnable{
 	public void run() {
 		boolean stillRunning=true;
 		while (stillRunning){
-			if (!tollData.isFinished()){
-				populateStreets();
+			if (tollData.isFinished()){
+				synchronized (threadSync){
+					try {
+						threadSync.wait();
+					} catch (InterruptedException e){
+						// do nothing
+					}
+				}
 			}
+			populateStreets();
 		}
 	}
 
@@ -85,52 +172,24 @@ public class OzTollTextView implements Runnable{
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
+				Log.w ("OzTollTextView","onChildClick() called");
+				if (tollData.isFinished()){
+					synchronized (tollData.getDataSync()){
+						tollData.getDataSync().notify();
+					}
+					synchronized (threadSync){
+						threadSync.notify();
+					}
+				}
 				String tollway=(String)adapter.getGroup(groupPosition);
 				String street=(String)adapter.getChild(groupPosition, childPosition);
 				if (start==null){
 					start=tollData.getStreet(tollway, street);
-					// The code from here down, should be shifted to the thread, so it doesn't lock up the interface. oops
-					if (start!=null){
-						adapter.resetView();
-						ArrayList<Street> validExits = tollData.getTollPointExits(start);
-						Connection connectingRoad = null;
-						boolean connectionFound=false;
-						for (int sc=0;sc<validExits.size();sc++){
-							adapter.addStreet(tollway, validExits.get(sc).getName());
-							int cc=0;
-							if (!connectionFound){
-								while ((cc<tollData.getConnectionCount())&&
-										(!connectionFound)){
-									if ((tollData.getConnection(cc).getStartTollway().equalsIgnoreCase(tollway))&&
-										((tollData.getConnection(cc).getStart().getName().equalsIgnoreCase(street))||
-										 (tollData.getConnection(cc).getEnd().getName().equalsIgnoreCase(street)))){
-										connectionFound=true;
-									}
-								}
-								if (connectionFound){
-									connectingRoad=tollData.getConnection(cc);
-								}
-							}
-						}
-						if (connectingRoad!=null){
-							String otherTollway=null;
-							if (connectingRoad.getStartTollway().equalsIgnoreCase(tollway)){
-								validExits = tollData.getTollPointExits(connectingRoad.getEnd());
-								otherTollway = connectingRoad.getEndTollway();
-							}else{
-								validExits = tollData.getTollPointExits(connectingRoad.getStart());
-								otherTollway = connectingRoad.getStartTollway();
-							}
-							for (int sc=0; sc<validExits.size();sc++){
-									adapter.addStreet(otherTollway, validExits.get(sc).getName());
-							}
-						}
-					}
-				} else {
-					
+					Log.w ("OzTollTextView","start:"+start.getName());
+				}else if (finish==null){
+					finish=tollData.getStreet(tollway, street);
 				}
-				
-				handler.sendEmptyMessage(1);
+
 				return true;
 			}
 		});
