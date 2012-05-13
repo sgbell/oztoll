@@ -162,10 +162,10 @@ public class OzTollData implements Runnable{
 			}
 		}
 
+		finishedRead=true;
 		synchronized (dataSync){
 			dataSync.notify();
 		}
-		finishedRead=true;
 	}
 	
 	/** This method finds the street with the lowest value for X, and returns the lowest value  
