@@ -7,12 +7,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * @author bugman
@@ -94,8 +99,8 @@ public class OzTollTextActivity extends Activity {
 	    		}
 	    	}
 	    	setContentView(R.layout.textrate);
-	    	OzTollTextView ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData());
-	    	ozTextView.setExListView((ExpandableListView)findViewById(R.id.streetList));
+	    	OzTollTextView ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
+	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
 	    	Thread ozTextViewThread = new Thread(ozTextView);
 	    	ozTextViewThread.start();
 		} else {
@@ -104,4 +109,16 @@ public class OzTollTextActivity extends Activity {
 			finish();
 		}
     }
+    
+    final Handler handler = new Handler(){
+    	public void handleMessage(Message msg){
+    		if (msg.what==1){
+    			TextView headingText = (TextView)findViewById(R.id.heading);
+    			headingText.setText((String)msg.obj);
+    		} else if (msg.what==2){
+    			TextView startStreet = (TextView)findViewById(R.id.startStreet);
+    			startStreet.setText((String)msg.obj);
+    		}
+    	}
+    };
 }

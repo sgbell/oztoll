@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * @author bugman
@@ -26,9 +28,11 @@ public class OzTollTextView implements Runnable{
 	private Street start, finish;
 	private boolean shownExits;
 	private Object threadSync;
+	private Handler mainHandler;
 	
-	public OzTollTextView(){
-		
+	public OzTollTextView(Context context, OzTollData ozTollData, Handler handler2){
+		this(context,ozTollData);
+		mainHandler=handler2;
 	}
 
 	public OzTollTextView(OzTollData data) {
@@ -44,44 +48,34 @@ public class OzTollTextView implements Runnable{
 				new ArrayList<ArrayList<String>>());
 	}
 
-	/*
-	public void addStreets(ListView listView) {
-		adapter = new ArrayAdapter<String>(appContext, R.layout.list_street, streets);
-		listView.setAdapter(adapter);
-		
-		for (int twc=0; twc<tollData.getTollwayCount(); twc++){
-			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-				streets.add(tollData.getStreetName(twc, sc));
-				adapter.notifyDataSetChanged();
-			}
-		}
-	}
-	*/
-	
 	public void showExits(){
 		if (!shownExits){
-			Log.w ("OzTollTextView","showExits() called");
 			if (start!=null){
-				Log.w ("OzTollTextView","Start="+start.getName());
+				Message msg = mainHandler.obtainMessage();
+				msg.what=2;
+				String startText = "Start Street: "+start.getName();
+				msg.obj = startText;
+				mainHandler.sendMessage(msg);
+				
+				msg = mainHandler.obtainMessage();
+				msg.what=1;
+				String heading = "Please select Exit Street";
+				msg.obj = heading;
+				mainHandler.sendMessage(msg);
+				
 				adapter.resetView();
 				ArrayList<Street> validExits = tollData.getTollPointExits(start);
-				Connection connectingRoad = null;
-				boolean connectionFound=false;
 				String tollway = tollData.getTollwayName(start);
-				Log.w ("OzTollTextView","showExits(): validExits.size()="+validExits.size());
 
 				for (int sc=0;sc<validExits.size();sc++){
 					adapter.addStreet(tollway, validExits.get(sc).getName());
-					Log.w ("OzTollTextView","showExits(): addStreets="+validExits.get(sc).getName());
 					
 					for (int cc=0; cc<tollData.getConnectionCount(); cc++){
-						if (((tollData.getConnection(cc).getStartTollway().equalsIgnoreCase(tollway))&&
-							 (tollData.getConnection(cc).getStart().equals(start)))||
-							 ((tollData.getConnection(cc).getEndTollway().equalsIgnoreCase(tollway))&&
-							  (tollData.getConnection(cc).getEnd().equals(start)))){
+						if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
+							 (tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
 							ArrayList<Street> childValidExits;
 							String otherTollway;
-							if (tollData.getConnection(cc).getStart().equals(start)){
+							if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
 								childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
 								otherTollway = tollData.getConnection(cc).getEndTollway();
 							} else {
@@ -89,7 +83,7 @@ public class OzTollTextView implements Runnable{
 								otherTollway = tollData.getConnection(cc).getStartTollway();
 							}
 							for (int csc=0; csc<childValidExits.size();csc++){
-								adapter.addStreet(otherTollway, childValidExits.get(sc).getName());
+								adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
 							}
 						}
 					}
@@ -106,13 +100,11 @@ public class OzTollTextView implements Runnable{
 	}
 	
 	public void populateStreets(){
-		Log.w ("ozToll","populateStreets() called");
 		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
 				if (((!tollData.getStreet(twc, sc).isValid()) && (start==null))||
 					((start!=null)&&(tollData.getStreet(twc, sc).isValid()))){
 					adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
-					Log.w ("ozToll",tollData.getStreetName(twc,sc)+" added");
 				}
 			}
 		
@@ -121,6 +113,8 @@ public class OzTollTextView implements Runnable{
 
 	@Override
 	public void run() {
+		// working here, need to grab heading textview and give the user instructions.
+		//TextView heading = 
 		boolean stillRunning=true;
 		while (stillRunning){
 			if (!tollData.isFinished()){
@@ -132,11 +126,21 @@ public class OzTollTextView implements Runnable{
 					}
 				}
 				populateStreets();
+				Message msg = mainHandler.obtainMessage();
+				String heading = "Please Select Starting Street";
+				msg.what = 1;
+				msg.obj= heading;
+				mainHandler.sendMessage(msg);
 			} else {
-				if (adapter.getGroupCount()<1)
+				if (adapter.getGroupCount()<1){
 					populateStreets();
+					Message msg = mainHandler.obtainMessage();
+					String heading = "Please Select Starting Street";
+					msg.what = 1;
+					msg.obj= heading;
+					mainHandler.sendMessage(msg);
+				}
 				synchronized (threadSync){
-					Log.w ("ozToll","threadSync sleep");
 					try {
 						threadSync.wait();
 					} catch (InterruptedException e){
@@ -158,7 +162,7 @@ public class OzTollTextView implements Runnable{
 		return listView;
 	}
 
-	public void setExListView(ExpandableListView exListView) {
+	public void setListView(ExpandableListView exListView) {
 		listView = exListView;
 		listView.setAdapter(adapter);
 		
@@ -171,9 +175,11 @@ public class OzTollTextView implements Runnable{
 				String street=(String)adapter.getChild(groupPosition, childPosition);
 				if (start==null){
 					start=tollData.getStreet(tollway, street);
-					Log.w ("OzTollTextView","start:"+start.getName());
-					synchronized (threadSync){
-						threadSync.notify();
+					if (start!=null){
+						
+						synchronized (threadSync){
+							threadSync.notify();
+						}
 					}
 				}else if (finish==null){
 					finish=tollData.getStreet(tollway, street);
@@ -188,7 +194,6 @@ public class OzTollTextView implements Runnable{
 	}
 	
 	private Handler handler = new Handler(){
-		
 		public void handleMessage(Message msg){
 			adapter.notifyDataSetChanged();
 			super.handleMessage(msg);

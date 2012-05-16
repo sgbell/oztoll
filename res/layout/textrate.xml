@@ -2,19 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:id="@+id/mainLayout" >
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:id="@+id/textContentLayout"
         android:orientation="vertical" >
-
+        
         <TextView
-            android:id="@+id/heading"
+            android:id="@+id/startStreet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
+        
         <ExpandableListView
             android:id="@+id/streetList"
             android:layout_width="fill_parent"
