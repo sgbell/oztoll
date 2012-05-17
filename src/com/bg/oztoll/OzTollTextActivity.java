@@ -4,6 +4,7 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,9 +15,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -26,6 +31,8 @@ import android.widget.TextView;
 public class OzTollTextActivity extends Activity {
 	private OzTollApplication global;
 	private SharedPreferences preferences;
+	private Dialog rateDialog;
+	private OzTollTextView ozTextView;
 	
 	public OzTollTextActivity(){
 		
@@ -60,7 +67,7 @@ public class OzTollTextActivity extends Activity {
     			openPreferences();
     			break;
     		case R.id.reset:
-    			// this is the reset setting
+    			ozTextView.reset();
     			break;
     	}
     	return true;
@@ -99,8 +106,9 @@ public class OzTollTextActivity extends Activity {
 	    		}
 	    	}
 	    	setContentView(R.layout.textrate);
-	    	OzTollTextView ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
+	    	ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
 	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
+	    	rateDialog = new Dialog(this);
 	    	Thread ozTextViewThread = new Thread(ozTextView);
 	    	ozTextViewThread.start();
 		} else {
@@ -118,6 +126,24 @@ public class OzTollTextActivity extends Activity {
     		} else if (msg.what==2){
     			TextView startStreet = (TextView)findViewById(R.id.startStreet);
     			startStreet.setText((String)msg.obj);
+    		} else if (msg.what==3){
+    			rateDialog.setContentView(R.layout.ratedialog);
+    			rateDialog.setTitle("Trip Toll Result");
+    			ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
+				dialogScroll.removeAllViews();
+				dialogScroll.addView((LinearLayout)msg.obj);
+    			Button closeButton = (Button) rateDialog.findViewById(R.id.close);
+    			closeButton.setText("Close");
+    			closeButton.setOnClickListener(new OnClickListener(){
+
+    				@Override
+    				public void onClick(View v) {
+    					rateDialog.dismiss();
+    					((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_UP);
+    				}
+    			});
+    			
+				rateDialog.show();
     		}
     	}
     };

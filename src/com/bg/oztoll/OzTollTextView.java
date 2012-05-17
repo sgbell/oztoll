@@ -25,7 +25,7 @@ public class OzTollTextView implements Runnable{
 	private Context appContext;
 	private ExpandableListView listView;
 	private ExpandableListAdapter adapter;
-	private Street start, finish;
+	private Street start=null, finish=null;
 	private boolean shownExits;
 	private Object threadSync;
 	private Handler mainHandler;
@@ -49,6 +49,7 @@ public class OzTollTextView implements Runnable{
 	}
 
 	public void showExits(){
+		Log.w ("ozToll","showExits() called");
 		if (!shownExits){
 			if (start!=null){
 				Message msg = mainHandler.obtainMessage();
@@ -96,10 +97,16 @@ public class OzTollTextView implements Runnable{
 	
 	
 	public void showDialog(){
+		Message msg = mainHandler.obtainMessage();
+		msg.what=3;
+		LinearLayout rateLayout = tollData.processToll(start, finish, appContext);
+		msg.obj=rateLayout;	
 		
+		mainHandler.sendMessage(msg);
 	}
 	
 	public void populateStreets(){
+		Log.w ("ozToll", "populateStreets() called");
 		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
 				if (((!tollData.getStreet(twc, sc).isValid()) && (start==null))||
@@ -111,6 +118,26 @@ public class OzTollTextView implements Runnable{
 		handler.sendEmptyMessage(1);
 	}
 
+
+	public void reset(){
+		Log.w ("ozToll","reset() called");
+		start=null;
+		finish=null;
+		shownExits=false;
+		
+		Message msg = mainHandler.obtainMessage();
+		msg.what=2;
+		String startText = "";
+		msg.obj = startText;
+		mainHandler.sendMessage(msg);
+		
+		adapter.resetView();
+		handler.sendEmptyMessage(1);
+		synchronized (threadSync){
+			threadSync.notify();
+		}
+	}
+	
 	@Override
 	public void run() {
 		// working here, need to grab heading textview and give the user instructions.
@@ -176,7 +203,6 @@ public class OzTollTextView implements Runnable{
 				if (start==null){
 					start=tollData.getStreet(tollway, street);
 					if (start!=null){
-						
 						synchronized (threadSync){
 							threadSync.notify();
 						}
