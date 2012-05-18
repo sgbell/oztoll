@@ -49,7 +49,6 @@ public class OzTollTextView implements Runnable{
 	}
 
 	public void showExits(){
-		Log.w ("ozToll","showExits() called");
 		if (!shownExits){
 			if (start!=null){
 				Message msg = mainHandler.obtainMessage();
@@ -89,12 +88,24 @@ public class OzTollTextView implements Runnable{
 						}
 					}
 				}
+				collapseGroups();
+				
 				handler.sendEmptyMessage(1);
 			}
 			shownExits=true;
 		}
 	}
 	
+	public void collapseGroups(){
+		mainHandler.post(new Runnable(){
+
+			@Override
+			public void run() {
+				for (int groupCount=0; groupCount < adapter.getGroupCount(); groupCount++)
+					listView.collapseGroup(groupCount);
+			}
+		});
+	}
 	
 	public void showDialog(){
 		Message msg = mainHandler.obtainMessage();
@@ -106,7 +117,6 @@ public class OzTollTextView implements Runnable{
 	}
 	
 	public void populateStreets(){
-		Log.w ("ozToll", "populateStreets() called");
 		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
 				if (((!tollData.getStreet(twc, sc).isValid()) && (start==null))||
@@ -115,12 +125,13 @@ public class OzTollTextView implements Runnable{
 				}
 			}
 		
+		collapseGroups();
+		
 		handler.sendEmptyMessage(1);
 	}
 
 
 	public void reset(){
-		Log.w ("ozToll","reset() called");
 		start=null;
 		finish=null;
 		shownExits=false;
@@ -198,19 +209,21 @@ public class OzTollTextView implements Runnable{
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
-				String tollway=(String)adapter.getGroup(groupPosition);
-				String street=(String)adapter.getChild(groupPosition, childPosition);
-				if (start==null){
-					start=tollData.getStreet(tollway, street);
-					if (start!=null){
+				if (tollData.isFinished()){
+					String tollway=(String)adapter.getGroup(groupPosition);
+					String street=(String)adapter.getChild(groupPosition, childPosition);
+					if (start==null){
+						start=tollData.getStreet(tollway, street);
+						if (start!=null){
+							synchronized (threadSync){
+								threadSync.notify();
+							}
+						}
+					}else if (finish==null){
+						finish=tollData.getStreet(tollway, street);
 						synchronized (threadSync){
 							threadSync.notify();
 						}
-					}
-				}else if (finish==null){
-					finish=tollData.getStreet(tollway, street);
-					synchronized (threadSync){
-						threadSync.notify();
 					}
 				}
 

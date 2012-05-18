@@ -4,6 +4,7 @@
  */
 package com.bg.oztoll;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -758,10 +759,8 @@ public class OzTollData implements Runnable{
 		}
 	}
 	
-	//public LinearLayout processToll(ArrayList<TollCharges> tolls, String selectedVehicle, Context appContext){
 	public LinearLayout processToll(Street start, Street finish, Context appContext){
 		String title="";
-		//String singleTollResult="0.0";
 		
 		String selectedVehicle = getPreferences().getString("vehicleType", "car");
 		ArrayList<TollCharges> tolls = getFullRate(start, finish);
@@ -867,10 +866,11 @@ public class OzTollData implements Runnable{
 							if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 								
 								if (selectedVehicle.equalsIgnoreCase("car"))
-									currentRate.vehicleType="Week days";
-								else if ((selectedVehicle.equalsIgnoreCase("lcv"))||
-										 (selectedVehicle.equalsIgnoreCase("hcv")))
-									currentRate.vehicleType="Day time";
+									currentRate.vehicleType="Car";
+								else if (selectedVehicle.equalsIgnoreCase("lcv"))
+									currentRate.vehicleType="light commercial vehicle";
+								else if (selectedVehicle.equalsIgnoreCase("hcv"))
+									currentRate.vehicleType="Heavy Commercial Vehicle";
 								else if (selectedVehicle.equalsIgnoreCase("motorcycle"))
 									currentRate.vehicleType="Motorcycle";
 								
@@ -996,7 +996,7 @@ public class OzTollData implements Runnable{
 			}
 		}
 	
-		/* The following code will create the total entry */
+		/* The following code will compress the total entry */
 		if (tolls.size()>1){
 						
 			int tcc=0;
@@ -1007,7 +1007,7 @@ public class OzTollData implements Runnable{
 				ArrayList<String> matchingValues = new ArrayList<String>();
 				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("car")){
 					matchingValues.add("Week days");
-					matchingValues.add("weekends");
+					matchingValues.add("Weekends");
 					convertTollTotal(tcc, matchingValues, totalCharges);
 				} else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("light commercial vehicle")){
 					matchingValues.add("Light Commercial Vehicle Daytime");
@@ -1147,14 +1147,14 @@ public class OzTollData implements Runnable{
 	 * @return
 	 */
 	public boolean convertTollTotal(int from, ArrayList<String> to, ArrayList<TollRate> totalCharges){
-		
 		int itemCount=0;
+		
 		for (int tcc=0; tcc<totalCharges.size(); tcc++){
 			for (int toCount=0; toCount< to.size(); toCount++){
 				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase(to.get(toCount))){
-					totalCharges.get(tcc).rate = Float.toString(
-							Float.parseFloat(totalCharges.get(tcc).rate)+
-							Float.parseFloat(totalCharges.get(from).rate));
+					totalCharges.get(tcc).rate = Float.toString((float)Math.round(
+							(Float.parseFloat(totalCharges.get(tcc).rate)+
+							 Float.parseFloat(totalCharges.get(from).rate))*100)/100);
 					itemCount++;
 				}
 			}

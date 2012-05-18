@@ -35,7 +35,6 @@ public class OzTollTextActivity extends Activity {
 	private OzTollTextView ozTextView;
 	
 	public OzTollTextActivity(){
-		
 	}
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -120,30 +119,35 @@ public class OzTollTextActivity extends Activity {
     
     final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
-    		if (msg.what==1){
-    			TextView headingText = (TextView)findViewById(R.id.heading);
-    			headingText.setText((String)msg.obj);
-    		} else if (msg.what==2){
-    			TextView startStreet = (TextView)findViewById(R.id.startStreet);
-    			startStreet.setText((String)msg.obj);
-    		} else if (msg.what==3){
-    			rateDialog.setContentView(R.layout.ratedialog);
-    			rateDialog.setTitle("Trip Toll Result");
-    			ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
-				dialogScroll.removeAllViews();
-				dialogScroll.addView((LinearLayout)msg.obj);
-    			Button closeButton = (Button) rateDialog.findViewById(R.id.close);
-    			closeButton.setText("Close");
-    			closeButton.setOnClickListener(new OnClickListener(){
+    		switch (msg.what){
+    			case 1:
+        			TextView headingText = (TextView)findViewById(R.id.heading);
+        			headingText.setText((String)msg.obj);
+    				break;
+    			case 2:
+        			TextView startStreet = (TextView)findViewById(R.id.startStreet);
+        			startStreet.setText((String)msg.obj);
+    				break;
+    			case 3:
+        			rateDialog.setContentView(R.layout.ratedialog);
+        			
+        			rateDialog.setTitle("Trip Toll Result");
+        			ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
+    				dialogScroll.removeAllViews();
+    				dialogScroll.addView((LinearLayout)msg.obj);
+        			Button closeButton = (Button) rateDialog.findViewById(R.id.close);
+        			closeButton.setText("Close");
+        			closeButton.setOnClickListener(new OnClickListener(){
 
-    				@Override
-    				public void onClick(View v) {
-    					rateDialog.dismiss();
-    					((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_UP);
-    				}
-    			});
-    			
-				rateDialog.show();
+        				@Override
+        				public void onClick(View v) {
+        					rateDialog.dismiss();
+        					((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_UP);
+        				}
+        			});
+        			
+    				rateDialog.show();
+    				break;
     		}
     	}
     };
