@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,8 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -33,6 +37,7 @@ public class OzTollTextActivity extends Activity {
 	private SharedPreferences preferences;
 	private Dialog rateDialog;
 	private OzTollTextView ozTextView;
+	private Activity thisActivity=this;
 	
 	public OzTollTextActivity(){
 	}
@@ -105,9 +110,10 @@ public class OzTollTextActivity extends Activity {
 	    		}
 	    	}
 	    	setContentView(R.layout.textrate);
-	    	ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
+
+    		ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
 	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
-	    	rateDialog = new Dialog(this);
+	    	//rateDialog = new Dialog(this);
 	    	Thread ozTextViewThread = new Thread(ozTextView);
 	    	ozTextViewThread.start();
 		} else {
@@ -129,13 +135,18 @@ public class OzTollTextActivity extends Activity {
         			startStreet.setText((String)msg.obj);
     				break;
     			case 3:
-        			rateDialog.setContentView(R.layout.ratedialog);
+    				rateDialog = new Dialog(thisActivity);
+        			if (preferences.getString("vehicleType", "car").equalsIgnoreCase("all"))
+        				rateDialog.setContentView(R.layout.allratedialog);
+        			else
+        				rateDialog.setContentView(R.layout.ratedialog);
         			
         			rateDialog.setTitle("Trip Toll Result");
         			ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
     				dialogScroll.removeAllViews();
     				dialogScroll.addView((LinearLayout)msg.obj);
-        			Button closeButton = (Button) rateDialog.findViewById(R.id.close);
+    				
+    				Button closeButton = (Button) rateDialog.findViewById(R.id.close);
         			closeButton.setText("Close");
         			closeButton.setOnClickListener(new OnClickListener(){
 

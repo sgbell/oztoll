@@ -4,7 +4,6 @@
  */
 package com.bg.oztoll;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -15,7 +14,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -864,7 +862,9 @@ public class OzTollData implements Runnable{
 						if (totalCharges.size()<1){
 							TollRate currentRate = new TollRate();
 							if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
-								
+
+								// Set the single tolls to a single toll rate name, to be distinguished down below when
+								// the totals are merged
 								if (selectedVehicle.equalsIgnoreCase("car"))
 									currentRate.vehicleType="Car";
 								else if (selectedVehicle.equalsIgnoreCase("lcv"))

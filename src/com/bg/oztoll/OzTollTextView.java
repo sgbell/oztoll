@@ -165,19 +165,19 @@ public class OzTollTextView implements Runnable{
 				}
 				populateStreets();
 				Message msg = mainHandler.obtainMessage();
-				String heading = "Please Select Starting Street";
+				String heading = "Please Wait, loading Data";
 				msg.what = 1;
 				msg.obj= heading;
 				mainHandler.sendMessage(msg);
 			} else {
 				if (adapter.getGroupCount()<1){
 					populateStreets();
-					Message msg = mainHandler.obtainMessage();
-					String heading = "Please Select Starting Street";
-					msg.what = 1;
-					msg.obj= heading;
-					mainHandler.sendMessage(msg);
 				}
+				Message msg = mainHandler.obtainMessage();
+				String heading = "Please Select Starting Street";
+				msg.what = 1;
+				msg.obj= heading;
+				mainHandler.sendMessage(msg);
 				synchronized (threadSync){
 					try {
 						threadSync.wait();
