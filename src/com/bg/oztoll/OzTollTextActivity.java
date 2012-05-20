@@ -113,7 +113,6 @@ public class OzTollTextActivity extends Activity {
 
     		ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
 	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
-	    	//rateDialog = new Dialog(this);
 	    	Thread ozTextViewThread = new Thread(ozTextView);
 	    	ozTextViewThread.start();
 		} else {

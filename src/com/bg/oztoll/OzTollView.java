@@ -11,6 +11,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -33,6 +36,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private TollDataView tollDataView;
 	private Paint map, name, mapDeactivated, mapSelected;
 	private Object syncObject, dataSync;
+	private Context appContext;
+	private Handler mainHandler;
 	float   screenXMultiplier=0,
 			screenYMultiplier=0;
 	
@@ -51,9 +56,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		tollDataViewBuilder.start();
 	}
 	
-	public OzTollView(Context context, OzTollData tollData) {
+	public OzTollView(Context context, OzTollData tollData, Handler handler) {
 		super(context);
 		getHolder().addCallback(this);
+		mainHandler = handler;
 		
 		thread = new DrawingThread(getHolder(), this);
 		
@@ -69,21 +75,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		name.setColor(Color.BLACK);
 		mapDeactivated.setColor(Color.RED);
 		mapSelected.setColor(Color.GREEN);
-		
-		// Creating the rateDialog here which will be accessed from one of the other
-		rateDialog = new Dialog(context);
-		rateDialog.setContentView(R.layout.ratedialog);
-		rateDialog.setTitle("Trip Toll Result");
-		Button closeButton = (Button) rateDialog.findViewById(R.id.close);
-		closeButton.setText("Close");
-		closeButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				rateDialog.dismiss();
-				((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(FOCUS_UP);
-			}
-		});
 		
 		setDataFile(tollData);
 	}
@@ -232,27 +223,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 			synchronized (tollDataView){
-				if (tollDataView.isRateCalculated()){
-					this.getHandler().post( new Runnable() {
-
-						@Override
-						public void run() {
-							if (!rateShown){
-								rateDialog.setTitle("Trip Toll Result");
-								//rateDialogText.setText(Html.fromHtml(tollDataView.getRateDialogText()));
-								/* need to create the dialog in tolldataview, ie using a layout
-								 * add the text to the window, which will then be dropped into
-								 * the scrollview here.
-								 */
-								ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
-								dialogScroll.removeAllViews();
-								dialogScroll.addView(tollDataView.getRateDialog());
-								rateDialog.show();
-								rateShown=true;
-								tollDataView.setRateCalculated(false);
-							}
-						}
-					});
+				if ((tollDataView.isRateCalculated())&&(!rateShown)){
+					Message msg = mainHandler.obtainMessage();
+					msg.what=3;
+					LinearLayout rateLayout = tollDataView.getRateDialog();
+					msg.obj=rateLayout;	
+					
+					mainHandler.sendMessage(msg);
+					rateShown=true;
 				}	
 			}			
 		}
@@ -357,7 +335,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			tollDataView.setStart(null);
 			tollDataView.resetPaths();
 			tollDataView.setRateCalculated(false);
-			rateShown=false;			
+			rateShown=false;
 		}
 	}
 }
