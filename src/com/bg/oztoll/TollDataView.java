@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.text.Html;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
@@ -350,7 +352,7 @@ public class TollDataView implements Runnable{
 		}
 	}
 
-	public void findStreet(Coordinates touchStart) {
+	public void findStreet(Coordinates touchStart, Paint textFont) {
 		if (tollData.isFinished()){
 			for (int twc=0; twc < tollData.getTollwayCount(); twc++)
 				for (int sc=0; sc < tollData.getStreetCount(twc); sc++){
@@ -359,6 +361,26 @@ public class TollDataView implements Runnable{
 							drawX(currentStreet.getX()),
 							drawY(currentStreet.getY()));
 					
+					/*
+					Rect bounds = new Rect();
+					textFont.getTextBounds(currentStreet.getName(), 0, currentStreet.getName().length(), bounds);
+					switch (currentStreet.getLocation()){
+						case 1:
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+						case 0:
+						default:
+							streetCoords is already Transformed
+							each case I need to take the text bounds too
+							from currentStreet.getX()-(txtWidth+(20*screenXMultiplier)), currentStreet.getY()+(5*screenYMultiplier) to height and width 
+							break;
+					}
+					*/
+					
+					// The if statement to check if the street is selected
 					if ((streetCoords.getX()>touchStart.getX()-(20*screenXMultiplier))&&
 						(streetCoords.getX()<touchStart.getX()+(20*screenXMultiplier))&&
 						(streetCoords.getY()>touchStart.getY()-(20*screenYMultiplier))&&

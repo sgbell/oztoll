@@ -142,7 +142,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				adjustTextSize();
 			}
 			
-			float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
+			//float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
 			
 			/* This is used to get the font size on the screen, which is used for displaying the
 			 * road names vertically on the map
@@ -277,9 +277,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				tollDataView.getMove().setY(event.getY()-touchStart.getY());
 				tollDataView.checkMove();
 			} else if (event.getAction() == MotionEvent.ACTION_UP){
-				if ((tollDataView.getMove().getX()==0)&&
-					(tollDataView.getMove().getY()==0)){
-					tollDataView.findStreet(touchStart);
+				if ((tollDataView.getMove().getX()>-3)&&(tollDataView.getMove().getX()<3)&&
+					(tollDataView.getMove().getY()>-3)&&(tollDataView.getMove().getY()<3)){
+					tollDataView.findStreet(touchStart,name);
 				}
 				tollDataView.resetMove();
 			}
@@ -291,7 +291,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
