@@ -373,6 +373,7 @@ public class TollDataView implements Runnable{
 							break;
 						case 0:
 						default:
+							
 							streetCoords is already Transformed
 							each case I need to take the text bounds too
 							from currentStreet.getX()-(txtWidth+(20*screenXMultiplier)), currentStreet.getY()+(5*screenYMultiplier) to height and width 
