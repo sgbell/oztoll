@@ -370,14 +370,17 @@ public class TollDataView implements Runnable{
 					switch (currentStreet.getLocation()){
 						case 1:
 							minX = streetCoords.getX()-(20*screenXMultiplier);
+							// maxX adds the length of the text away
 							maxX = streetCoords.getX()+(20*screenXMultiplier)+(bounds.right-bounds.left);
 							minY = streetCoords.getY()-(20*screenYMultiplier);
 							maxY = streetCoords.getY()+(20*screenYMultiplier);
 							break;
 						case 2:
+							// minX and maxX are around the text width which is printed in the middle of the street point
 							minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
 							maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
 							minY = streetCoords.getY()-(20*screenYMultiplier);
+							// maxY is the height of the text above the street point
 							maxY = streetCoords.getY()+((bounds.bottom-bounds.top)+(25*screenYMultiplier));
 							break;
 						case 3:
@@ -401,12 +404,22 @@ public class TollDataView implements Runnable{
 						(touchStart.getY()>minY)&&
 						(touchStart.getY()<maxY)){
 						if (getStart()==null)
+							// If no selection has been made yet
 							setStart(currentStreet);
 						else if (currentStreet==getStart()){
+							// If the user deselects the start road
 							setStart(null);
+							// calling resetPaths resets the paths and the valid streets
 							resetPaths();
 						} else if ((currentStreet.isValid())&&(getEnd()==null))
+							// If the user selects the end road
 							setEnd(currentStreet);
+						else if (currentStreet==getEnd()){
+							// If the user deselects the end road
+							setEnd(null);
+							resetPaths();
+							setRateCalculated(false);
+						}
 					}
 				}
 		}
