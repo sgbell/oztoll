@@ -361,35 +361,53 @@ public class TollDataView implements Runnable{
 							drawX(currentStreet.getX()),
 							drawY(currentStreet.getY()));
 					
-					/*
 					Rect bounds = new Rect();
 					textFont.getTextBounds(currentStreet.getName(), 0, currentStreet.getName().length(), bounds);
+					float minX=0, maxX=0, minY=0, maxY=0;
+					/* The following switch statement will set the min/max x/y values needed for the current street
+					 * to check if the street is selected by the user.
+					 */
 					switch (currentStreet.getLocation()){
 						case 1:
+							minX = streetCoords.getX()-(20*screenXMultiplier);
+							maxX = streetCoords.getX()+(20*screenXMultiplier)+(bounds.right-bounds.left);
+							minY = streetCoords.getY()-(20*screenYMultiplier);
+							maxY = streetCoords.getY()+(20*screenYMultiplier);
 							break;
 						case 2:
+							minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
+							maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
+							minY = streetCoords.getY()-(20*screenYMultiplier);
+							maxY = streetCoords.getY()+((bounds.bottom-bounds.top)+(25*screenYMultiplier));
 							break;
 						case 3:
+							minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
+							maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
+							minY = streetCoords.getY()-((20*screenYMultiplier)+(bounds.bottom-bounds.top));
+							maxY = streetCoords.getY()+(20*screenYMultiplier);
 							break;
 						case 0:
 						default:
-							
-							streetCoords is already Transformed
-							each case I need to take the text bounds too
-							from currentStreet.getX()-(txtWidth+(20*screenXMultiplier)), currentStreet.getY()+(5*screenYMultiplier) to height and width 
+							minX = streetCoords.getX()-((bounds.right-bounds.left)+(20*screenXMultiplier));
+							maxX = streetCoords.getX()+(20*screenXMultiplier);
+							minY = streetCoords.getY()-(20*screenYMultiplier);
+							maxY = streetCoords.getY()+(20*screenYMultiplier);
 							break;
 					}
-					*/
 					
 					// The if statement to check if the street is selected
-					if ((streetCoords.getX()>touchStart.getX()-(20*screenXMultiplier))&&
-						(streetCoords.getX()<touchStart.getX()+(20*screenXMultiplier))&&
-						(streetCoords.getY()>touchStart.getY()-(20*screenYMultiplier))&&
-						(streetCoords.getY()<touchStart.getY()+(20*screenYMultiplier)))
+					if ((touchStart.getX()>minX)&&
+						(touchStart.getX()<maxX)&&
+						(touchStart.getY()>minY)&&
+						(touchStart.getY()<maxY)){
 						if (getStart()==null)
 							setStart(currentStreet);
-						else if ((currentStreet.isValid())&&(getEnd()==null))
+						else if (currentStreet==getStart()){
+							setStart(null);
+							resetPaths();
+						} else if ((currentStreet.isValid())&&(getEnd()==null))
 							setEnd(currentStreet);
+					}
 				}
 		}
 	}
