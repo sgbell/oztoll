@@ -141,7 +141,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				//Log.w ("ozToll","adjusting Text Size");
 				adjustTextSize();
 			}
-			
+
+			canvas.drawText("x-"+tollDataView.getMove().getX(), 0, 300, name);
+			canvas.drawText("y-"+tollDataView.getMove().getY(), 0, 315, name);
+
 			//float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
 			
 			/* This is used to get the font size on the screen, which is used for displaying the
