@@ -40,6 +40,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private Handler mainHandler;
 	float   screenXMultiplier=0,
 			screenYMultiplier=0;
+	private ArrayList<Coordinates> eventCoords;
 	
 	private Dialog rateDialog;
 	private boolean rateShown=false,
@@ -53,6 +54,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		syncObject = tollDataView.getSync();
 		tollDataViewBuilder = new Thread(tollDataView);
+		tollDataViewBuilder.setName("TollDataView");
 		tollDataViewBuilder.start();
 	}
 	
@@ -62,10 +64,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		mainHandler = handler;
 		
 		thread = new DrawingThread(getHolder(), this);
+		thread.setName("Drawing Thread");
 		
 		setFocusable(true);
 		
 		touchStart = new Coordinates(0,0);
+		eventCoords = new ArrayList<Coordinates>();
 		
 		map = new Paint();
 		name = new Paint();
@@ -141,9 +145,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				//Log.w ("ozToll","adjusting Text Size");
 				adjustTextSize();
 			}
-
-			canvas.drawText("x-"+tollDataView.getMove().getX(), 0, 300, name);
-			canvas.drawText("y-"+tollDataView.getMove().getY(), 0, 315, name);
 
 			//float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
 			
@@ -240,7 +241,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				if ((tollDataView.getEnd()==null)&&(rateShown)){
 					rateShown=false;
 				}
-			}			
+			}
+			synchronized (tollDataView.getMoveSync()){
+				tollDataView.getMoveSync().notify();
+			}
 		}
 	}
 	
@@ -280,6 +284,13 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				touchStart.setX(event.getX());
 				touchStart.setY(event.getY());
 			} else if (event.getAction() == MotionEvent.ACTION_MOVE){
+				Coordinates newCoords = new Coordinates();
+				newCoords.setX(event.getX()-touchStart.getX());
+				newCoords.setY(event.getY()-touchStart.getY());
+				if (eventCoords.size()>1){
+					eventCoords.remove(0);
+				}
+				eventCoords.add(newCoords);
 				// move is a class storing where the screen is moving when a user drags the screen
 				tollDataView.getMove().setX(event.getX()-touchStart.getX());
 				tollDataView.getMove().setY(event.getY()-touchStart.getY());
@@ -289,7 +300,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					(tollDataView.getMove().getY()>-3)&&(tollDataView.getMove().getY()<3)){
 					tollDataView.findStreet(touchStart,name);
 				}
-				tollDataView.resetMove();
+				tollDataView.resetMove(eventCoords);
 			}
 			return true;
 		}

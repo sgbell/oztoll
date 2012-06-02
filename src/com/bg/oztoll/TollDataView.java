@@ -24,15 +24,19 @@ import android.widget.TextView;
 public class TollDataView implements Runnable{
 	private ArrayList<Street> streets;
 	private ArrayList<Pathway> pathways;
-	private Object syncObject, dataSync;
+	private Object syncObject, 
+	               dataSync,
+	               moveSync;
 	private OzTollData tollData;
-	private String cityName;
-	private boolean stillRunning, pathMarked=false;
+	private String cityName,
+				   rateDialogText;
+	private boolean stillRunning, 
+					pathMarked=false,
+					rateCalculated=false;
 	private Coordinates screenOrigin, move, origin[];
-	private int screenHeight=0, screenWidth=0;
+	private int screenHeight=0, 
+				screenWidth=0;
 	private Street startStreet, endStreet;
-	private String rateDialogText;
-	private boolean rateCalculated=false;
 	private Context appContext;
 	private LinearLayout rateLayout;
 	private float screenXMultiplier,
@@ -42,6 +46,7 @@ public class TollDataView implements Runnable{
 		move = new Coordinates();
 		screenOrigin = new Coordinates();
 		syncObject = new Object();
+		moveSync = new Object();
 	}
 	
 	public TollDataView(OzTollData data){
@@ -50,6 +55,10 @@ public class TollDataView implements Runnable{
 		cityName = "";		
 		
 		dataSync = tollData.getDataSync();
+	}
+	
+	public Object getMoveSync(){
+		return moveSync;
 	}
 	
 	public Object getSync(){
@@ -235,7 +244,7 @@ public class TollDataView implements Runnable{
 				}
 		}
 	}
-	
+
 	public void resetScreenOrigin(){
 		screenOrigin = new Coordinates();
 	}
@@ -251,11 +260,62 @@ public class TollDataView implements Runnable{
 		return move;
 	}
 
-	public void resetMove() {
-		screenOrigin.updateX(move.getX());
-		screenOrigin.updateY(move.getY());
-		move.setX(0);
-		move.setY(0);
+	public void resetMove(ArrayList<Coordinates> eventHistory) {
+		final ArrayList<Coordinates> moveHistory = eventHistory;
+		/* 
+		 * The following inline Thread is used to make the map scroll for a little bit after the user has moved the
+		 * map.
+		 */
+		(new Thread(){
+			public void run(){
+				if (moveHistory.size()>0)
+					for (int endMoveCount=0; endMoveCount<20; endMoveCount++){
+						move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
+						move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
+						checkMove();
+						synchronized (syncObject){
+							syncObject.notify();
+						}
+						// Created moveSync so the DrawingThread will wake this thread up. so the movement of the map
+						// happens.
+						synchronized (moveSync){
+							try {
+								moveSync.wait();
+							} catch (InterruptedException e) {
+							//just pausing for half a second							
+							}
+						}
+					}
+
+				screenOrigin.updateX(move.getX());
+				screenOrigin.updateY(move.getY());
+				move.setX(0);
+				move.setY(0);
+			}
+		}).start();
+	
+		/*
+		 * Process moving map after the user stops moving it.
+		 */
+		/*
+		if (moveEnd){
+			if (endMoveCount<20){
+				endMoveCount++;
+				move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
+				move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
+				checkMove();
+			} else {
+				moveEnd=false;
+				endMoveCount=0;
+
+				screenOrigin.updateX(move.getX());
+				screenOrigin.updateY(move.getY());
+				move.setX(0);
+				move.setY(0);
+			}
+		}
+		*/
+		
 	}
 
 	// Determine minimum value for X in street coords for display on screen
