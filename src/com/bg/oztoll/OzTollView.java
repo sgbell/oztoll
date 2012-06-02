@@ -180,12 +180,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 6*screenXMultiplier, mapSelected);
 						} else if ((streets.get(sc).isValid())||(tollDataView.getStart()==null))
 							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10*screenXMultiplier, map);
-						else
-							canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10*screenXMultiplier, mapDeactivated);
 						
 						String streetName = streets.get(sc).getName();
 						float txtWidth = name.measureText(streetName);
-						switch (streets.get(sc).getLocation()){
+						if ((tollDataView.getStart()==null)||
+							(streets.get(sc).isValid())||
+							(streets.get(sc)==tollDataView.getStart())||
+							(streets.get(sc)==tollDataView.getEnd())){
+							switch (streets.get(sc).getLocation()){
 							case 1:
 								// Draws to the right of the street
 								canvas.drawText(streetName, currentStreet.getX()+(20*screenXMultiplier) , currentStreet.getY()+(5*screenYMultiplier), name);
@@ -203,6 +205,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								// Draws the text to the left of the street
 								canvas.drawText(streetName, currentStreet.getX()-(txtWidth+(20*screenXMultiplier)), currentStreet.getY()+(5*screenYMultiplier), name);
 								break;								
+							}
 						}
 					}
 				}
@@ -210,6 +213,52 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				if (paths!=null){
 					for (int pc=0; pc< paths.size(); pc++){
 						Pathway currentPathway = paths.get(pc);
+						if (tollDataView.getStart()!=null){
+							if (currentPathway.getStart().getX()==currentPathway.getEnd().getX()){
+								if ((!currentPathway.getStart().isValid())&&(
+									(currentPathway.getStart()!=tollDataView.getStart())||
+									(currentPathway.getStart()!=tollDataView.getEnd()))){
+									// Need to work here tomorrow
+									drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
+											 (tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
+											 tollDataView.drawX(currentPathway.getStart().getX()),
+											 (tollDataView.drawY(currentPathway.getStart().getY())+(20*screenYMultiplier)),
+											 mapDeactivated,
+											 canvas,false);
+								}
+								if ((!currentPathway.getEnd().isValid())&&
+									((currentPathway.getStart()!=tollDataView.getStart())||
+									(currentPathway.getStart()!=tollDataView.getEnd()))){
+									drawLine(tollDataView.drawX(currentPathway.getEnd().getX()),
+											 (tollDataView.drawY(currentPathway.getEnd().getY())-(10*screenYMultiplier)),
+											 tollDataView.drawX(currentPathway.getEnd().getX()),
+											 (tollDataView.drawY(currentPathway.getEnd().getY())+(20*screenYMultiplier)),
+											 mapDeactivated,
+											 canvas,false);
+								}
+							} else if (currentPathway.getStart().getY()==currentPathway.getEnd().getY()){
+								if ((!currentPathway.getStart().isValid())&&
+									((currentPathway.getStart()!=tollDataView.getStart())||
+									(currentPathway.getStart()!=tollDataView.getEnd()))){
+									drawLine((tollDataView.drawX(currentPathway.getStart().getX())),
+											 tollDataView.drawY(currentPathway.getStart().getY()),
+											 (tollDataView.drawX(currentPathway.getStart().getX())+(20*screenXMultiplier)),
+											 tollDataView.drawY(currentPathway.getStart().getY()),
+											 mapDeactivated,
+											 canvas,false);
+								}
+								if ((!currentPathway.getEnd().isValid())&&
+									((currentPathway.getEnd()!=tollDataView.getStart())||
+									(currentPathway.getEnd()!=tollDataView.getEnd()))){
+									drawLine(((tollDataView.drawX(currentPathway.getEnd().getX()))-(20*screenXMultiplier)),
+											 tollDataView.drawY(currentPathway.getEnd().getY()),
+											 (tollDataView.drawX(currentPathway.getEnd().getX())),
+											 tollDataView.drawY(currentPathway.getEnd().getY()),
+											 mapDeactivated,
+											 canvas,false);
+								}
+							} 
+						}
 						drawLine((tollDataView.drawX(currentPathway.getStart().getX())),
 								 (tollDataView.drawY(currentPathway.getStart().getY())),
 								 (tollDataView.drawX(currentPathway.getEnd().getX())),
@@ -301,6 +350,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					tollDataView.findStreet(touchStart,name);
 				}
 				tollDataView.resetMove(eventCoords);
+				eventCoords= new ArrayList<Coordinates>();
 			}
 			return true;
 		}

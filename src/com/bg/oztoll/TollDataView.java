@@ -32,7 +32,8 @@ public class TollDataView implements Runnable{
 				   rateDialogText;
 	private boolean stillRunning, 
 					pathMarked=false,
-					rateCalculated=false;
+					rateCalculated=false,
+					noRoadsMoverStarted=false;
 	private Coordinates screenOrigin, move, origin[];
 	private int screenHeight=0, 
 				screenWidth=0;
@@ -158,6 +159,39 @@ public class TollDataView implements Runnable{
 							pathways.add(currentConnection);
 						}							
 					}
+					if ((pathways.size()==0)&&(streets.size()==0)){
+						// If nothing on the screen we need to move the map to get it there
+						if (!noRoadsMoverStarted){
+							(new Thread(){
+								public void run(){
+									noRoadsMoverStarted=true;
+									while (streets.size()<1){
+										if ((minX()>-3)&&(maxX()<12)){
+											if (maxY()<7){
+												move.updateY(-1);
+											} else if (minY()>5){
+												move.updateY(1);
+											}
+											checkMove();
+										} else if (minX()<=-3){
+											move.updateX(-1);
+										}
+										synchronized(syncObject){
+											syncObject.notify();
+										}
+										synchronized(moveSync){
+											try {
+												moveSync.wait();
+											} catch (InterruptedException e) {
+												//just moving the stuff around
+											}
+										}
+									}
+									noRoadsMoverStarted=false;
+								}
+							}).start();
+						}
+					}
 					try {
 						syncObject.wait();
 					} catch (InterruptedException e) {
@@ -268,7 +302,7 @@ public class TollDataView implements Runnable{
 		 */
 		(new Thread(){
 			public void run(){
-				if (moveHistory.size()>0)
+				if (moveHistory.size()>1)
 					for (int endMoveCount=0; endMoveCount<20; endMoveCount++){
 						move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
 						move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
@@ -294,28 +328,6 @@ public class TollDataView implements Runnable{
 			}
 		}).start();
 	
-		/*
-		 * Process moving map after the user stops moving it.
-		 */
-		/*
-		if (moveEnd){
-			if (endMoveCount<20){
-				endMoveCount++;
-				move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
-				move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
-				checkMove();
-			} else {
-				moveEnd=false;
-				endMoveCount=0;
-
-				screenOrigin.updateX(move.getX());
-				screenOrigin.updateY(move.getY());
-				move.setX(0);
-				move.setY(0);
-			}
-		}
-		*/
-		
 	}
 
 	// Determine minimum value for X in street coords for display on screen
