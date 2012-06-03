@@ -168,13 +168,13 @@ public class TollDataView implements Runnable{
 									while (streets.size()<1){
 										if ((minX()>-3)&&(maxX()<12)){
 											if (maxY()<7){
-												move.updateY(-1);
+												screenOrigin.updateY(-1);
 											} else if (minY()>5){
-												move.updateY(1);
+												screenOrigin.updateY(1);
 											}
 											checkMove();
 										} else if (minX()<=-3){
-											move.updateX(-1);
+											screenOrigin.updateX(-1);
 										}
 										synchronized(syncObject){
 											syncObject.notify();
