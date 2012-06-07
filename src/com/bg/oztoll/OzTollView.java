@@ -50,7 +50,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		this.tollData = tollData;
 
 		dataSync = tollData.getDataSync();
-//		new Thread(tollData).start();
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		syncObject = tollDataView.getSync();
 		tollDataViewBuilder = new Thread(tollDataView);
@@ -93,8 +92,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		tollDataView.setWidth(getWidth());
 		tollDataView.setHeight(getHeight());
-		//Log.w("ozToll", "onSizeChanged() getWidth :"+getWidth());
-		//Log.w("ozToll", "onSizeChanged() getHeight :"+getHeight());
 		if (getWidth()>getHeight()){
 			screenXMultiplier=(float)getWidth()/381;
 			screenYMultiplier=(float)getHeight()/240;
@@ -102,8 +99,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			screenXMultiplier=(float)getWidth()/240;
 			screenYMultiplier=(float)getHeight()/381;
 		}
-		//Log.w("ozToll", "onSizeChanged() screenX :"+screenXMultiplier);
-		//Log.w("ozToll", "onSizeChanged() screenY :"+screenYMultiplier);
 		
 		tollDataView.setXMultiplier(screenXMultiplier);
 		tollDataView.setYMultiplier(screenYMultiplier);
@@ -146,8 +141,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				adjustTextSize();
 			}
 
-			//float fontSize = name.getFontMetrics().bottom - name.getFontMetrics().top -2;
-			
 			/* This is used to get the font size on the screen, which is used for displaying the
 			 * road names vertically on the map
 			 * 
@@ -215,26 +208,23 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						Pathway currentPathway = paths.get(pc);
 						if (tollDataView.getStart()!=null){
 							if (currentPathway.getStart().getX()==currentPathway.getEnd().getX()){
-								if ((!currentPathway.getStart().isValid())&&(
-									(currentPathway.getStart()!=tollDataView.getStart())||
-									(currentPathway.getStart()!=tollDataView.getEnd()))){
-									// Need to work here tomorrow
-									drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
-											 (tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
-											 tollDataView.drawX(currentPathway.getStart().getX()),
-											 (tollDataView.drawY(currentPathway.getStart().getY())+(20*screenYMultiplier)),
-											 mapDeactivated,
-											 canvas,false);
-								}
-								if ((!currentPathway.getEnd().isValid())&&
-									((currentPathway.getStart()!=tollDataView.getStart())||
-									(currentPathway.getStart()!=tollDataView.getEnd()))){
-									drawLine(tollDataView.drawX(currentPathway.getEnd().getX()),
-											 (tollDataView.drawY(currentPathway.getEnd().getY())-(10*screenYMultiplier)),
-											 tollDataView.drawX(currentPathway.getEnd().getX()),
-											 (tollDataView.drawY(currentPathway.getEnd().getY())+(20*screenYMultiplier)),
-											 mapDeactivated,
-											 canvas,false);
+								if ((currentPathway.getStart()!=tollDataView.getStart())||
+									(currentPathway.getStart()!=tollDataView.getEnd())){
+									if (!currentPathway.getStart().isValid())
+										// Need to work here tomorrow
+										drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
+												 (tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
+												 tollDataView.drawX(currentPathway.getStart().getX()),
+												 (tollDataView.drawY(currentPathway.getStart().getY())+(20*screenYMultiplier)),
+												 mapDeactivated,
+												 canvas,false);
+									if (!currentPathway.getEnd().isValid())
+										drawLine(tollDataView.drawX(currentPathway.getEnd().getX()),
+												 (tollDataView.drawY(currentPathway.getEnd().getY())-(10*screenYMultiplier)),
+												 tollDataView.drawX(currentPathway.getEnd().getX()),
+												 (tollDataView.drawY(currentPathway.getEnd().getY())+(20*screenYMultiplier)),
+												 mapDeactivated,
+												 canvas,false);
 								}
 							} else if (currentPathway.getStart().getY()==currentPathway.getEnd().getY()){
 								if ((!currentPathway.getStart().isValid())&&
