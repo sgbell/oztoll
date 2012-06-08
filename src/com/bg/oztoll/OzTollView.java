@@ -13,16 +13,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 /**
  * @author bugman
@@ -78,7 +72,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		name.setColor(Color.BLACK);
 		mapDeactivated.setColor(Color.RED);
 		mapSelected.setColor(Color.GREEN);
-		
+
 		setDataFile(tollData);
 	}
 
@@ -104,7 +98,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		tollDataView.setYMultiplier(screenYMultiplier);
 		map.setStrokeWidth((6*screenXMultiplier) / getResources().getDisplayMetrics().density);
 		mapSelected.setStrokeWidth((float)(3*screenXMultiplier) / getResources().getDisplayMetrics().density);
-		
+
 		synchronized (syncObject){
 			tollDataView.resetScreenOrigin();
 			syncObject.notify();
@@ -207,46 +201,58 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					for (int pc=0; pc< paths.size(); pc++){
 						Pathway currentPathway = paths.get(pc);
 						if (tollDataView.getStart()!=null){
+							// The current if statement covers the vertical lines
 							if (currentPathway.getStart().getX()==currentPathway.getEnd().getX()){
-								if ((currentPathway.getStart()!=tollDataView.getStart())||
-									(currentPathway.getStart()!=tollDataView.getEnd())){
-									if (!currentPathway.getStart().isValid())
-										// Need to work here tomorrow
-										drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
-												 (tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
-												 tollDataView.drawX(currentPathway.getStart().getX()),
-												 (tollDataView.drawY(currentPathway.getStart().getY())+(20*screenYMultiplier)),
-												 mapDeactivated,
-												 canvas,false);
-									if (!currentPathway.getEnd().isValid())
-										drawLine(tollDataView.drawX(currentPathway.getEnd().getX()),
-												 (tollDataView.drawY(currentPathway.getEnd().getY())-(10*screenYMultiplier)),
-												 tollDataView.drawX(currentPathway.getEnd().getX()),
-												 (tollDataView.drawY(currentPathway.getEnd().getY())+(20*screenYMultiplier)),
-												 mapDeactivated,
-												 canvas,false);
-								}
-							} else if (currentPathway.getStart().getY()==currentPathway.getEnd().getY()){
+								/* If the current spot is an invalid exit for the selected starting point, and is not the start
+								 * or finish, this if statement will replace the bottom half of a circle with a line.
+								 */
 								if ((!currentPathway.getStart().isValid())&&
-									((currentPathway.getStart()!=tollDataView.getStart())||
-									(currentPathway.getStart()!=tollDataView.getEnd()))){
-									drawLine((tollDataView.drawX(currentPathway.getStart().getX())),
-											 tollDataView.drawY(currentPathway.getStart().getY()),
-											 (tollDataView.drawX(currentPathway.getStart().getX())+(20*screenXMultiplier)),
-											 tollDataView.drawY(currentPathway.getStart().getY()),
-											 mapDeactivated,
-											 canvas,false);
-								}
+									(currentPathway.getStart()!=tollDataView.getStart())&&
+									(currentPathway.getStart()!=tollDataView.getEnd()))
+										drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
+												(tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
+												tollDataView.drawX(currentPathway.getStart().getX()),
+												(tollDataView.drawY(currentPathway.getStart().getY())+(20*screenYMultiplier)),
+												map,
+												canvas,false);
+								/* If the current spot is an invalid exit for the selected starting point, and is not the start
+								 * or finish, this if statement will replace the top half of a circle with a line. 
+								 */
 								if ((!currentPathway.getEnd().isValid())&&
-									((currentPathway.getEnd()!=tollDataView.getStart())||
-									(currentPathway.getEnd()!=tollDataView.getEnd()))){
-									drawLine(((tollDataView.drawX(currentPathway.getEnd().getX()))-(20*screenXMultiplier)),
-											 tollDataView.drawY(currentPathway.getEnd().getY()),
-											 (tollDataView.drawX(currentPathway.getEnd().getX())),
-											 tollDataView.drawY(currentPathway.getEnd().getY()),
-											 mapDeactivated,
-											 canvas,false);
-								}
+									(currentPathway.getEnd()!=tollDataView.getStart())&&
+									(currentPathway.getEnd()!=tollDataView.getEnd()))
+										drawLine(tollDataView.drawX(currentPathway.getEnd().getX()),
+												(tollDataView.drawY(currentPathway.getEnd().getY())-(20*screenYMultiplier)),
+												tollDataView.drawX(currentPathway.getEnd().getX()),
+												(tollDataView.drawY(currentPathway.getEnd().getY())+(10*screenYMultiplier)),
+												map,
+												canvas,false);
+							} else if (currentPathway.getStart().getY()==currentPathway.getEnd().getY()){
+								// Horizontal Roads, marking the map when a street is gone
+								/* If the current spot is an invalid exit for the selected starting point, and is not the start
+								 * or finish, this if statement will replace the right half of a circle with a line.
+								 */
+								if ((!currentPathway.getStart().isValid())&&
+									(currentPathway.getStart()!=tollDataView.getStart())&&
+									(currentPathway.getStart()!=tollDataView.getEnd()))
+										drawLine((tollDataView.drawX(currentPathway.getStart().getX())-(10*screenXMultiplier)),
+												tollDataView.drawY(currentPathway.getStart().getY()),
+												(tollDataView.drawX(currentPathway.getStart().getX())+(20*screenXMultiplier)),
+												tollDataView.drawY(currentPathway.getStart().getY()),
+												map,
+												canvas,false);
+								/* If the current spot is an invalid exit for the selected starting point, and is not the start
+								 * or finish, this if statement will replace the left half of a circle with a line.
+								 */
+								if ((!currentPathway.getEnd().isValid())&&
+									(currentPathway.getEnd()!=tollDataView.getStart())&&
+									(currentPathway.getEnd()!=tollDataView.getEnd()))
+										drawLine(((tollDataView.drawX(currentPathway.getEnd().getX()))-(20*screenXMultiplier)),
+												tollDataView.drawY(currentPathway.getEnd().getY()),
+												(tollDataView.drawX(currentPathway.getEnd().getX())+(10*screenXMultiplier)),
+												tollDataView.drawY(currentPathway.getEnd().getY()),
+												map,
+												canvas,false);
 							} 
 						}
 						drawLine((tollDataView.drawX(currentPathway.getStart().getX())),

@@ -165,16 +165,52 @@ public class TollDataView implements Runnable{
 							(new Thread(){
 								public void run(){
 									noRoadsMoverStarted=true;
+									final int MOVEUP=0, // This is used to tell the for loop after the while loop which
+											  MOVEDOWN=1, // way to continue moving the map
+											  MOVELEFT=2,
+											  NOMOVEMENT=3;
+									
+									int movement=NOMOVEMENT;
+											  
 									while (streets.size()<1){
+										// Hard coding this for the melbourne tollways. I will need to rewrite this
+										// for other freeways
 										if ((minX()>-3)&&(maxX()<12)){
 											if (maxY()<7){
 												screenOrigin.updateY(-1);
+												movement=MOVEUP;
 											} else if (minY()>5){
 												screenOrigin.updateY(1);
+												movement=MOVEDOWN;
 											}
 											checkMove();
 										} else if (minX()<=-3){
 											screenOrigin.updateX(-1);
+											movement=MOVELEFT;
+										}
+										synchronized(syncObject){
+											syncObject.notify();
+										}
+										synchronized(moveSync){
+											try {
+												moveSync.wait();
+											} catch (InterruptedException e) {
+												//just moving the stuff around
+											}
+										}
+									}
+									// Adding a little Extra movement of the map so that it doesn't show just the tip of an exit
+									for (int movingCount=0; movingCount<10; movingCount++){
+										switch (movement){
+											case MOVEUP:
+												screenOrigin.updateY(-1);
+												break;
+											case MOVEDOWN:
+												screenOrigin.updateY(1);
+												break;
+											case MOVELEFT:
+												screenOrigin.updateX(-1);
+												break;
 										}
 										synchronized(syncObject){
 											syncObject.notify();
