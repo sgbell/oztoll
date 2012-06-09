@@ -505,7 +505,10 @@ public class TollDataView implements Runnable{
 							maxY = streetCoords.getY()+(20*screenYMultiplier);
 							break;
 					}
-					
+
+					if ((twc==0)&&(sc==0))
+						Log.d("tdv", "Bounds of street:("+minX+","+minY+")("+maxX+","+maxY+")");
+
 					// The if statement to check if the street is selected
 					if ((touchStart.getX()>minX)&&
 						(touchStart.getX()<maxX)&&
