@@ -324,30 +324,38 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public boolean onTouchEvent(MotionEvent event){
 		synchronized (thread.getSurfaceHolder()){
-			if (event.getAction() == MotionEvent.ACTION_DOWN){
-				// touchStart records when the use pressing the screen.
-				touchStart.setX(event.getX());
-				touchStart.setY(event.getY());
-			} else if (event.getAction() == MotionEvent.ACTION_MOVE){
-				Coordinates newCoords = new Coordinates();
-				newCoords.setX(event.getX()-touchStart.getX());
-				newCoords.setY(event.getY()-touchStart.getY());
-				if (eventCoords.size()>1){
-					eventCoords.remove(0);
-				}
-				eventCoords.add(newCoords);
-				// move is a class storing where the screen is moving when a user drags the screen
-				tollDataView.getMove().setX(event.getX()-touchStart.getX());
-				tollDataView.getMove().setY(event.getY()-touchStart.getY());
-				tollDataView.checkMove();
-			} else if (event.getAction() == MotionEvent.ACTION_UP){
-				if ((tollDataView.getMove().getX()>-3)&&(tollDataView.getMove().getX()<3)&&
-					(tollDataView.getMove().getY()>-3)&&(tollDataView.getMove().getY()<3)){
-					tollDataView.findStreet(touchStart,name);
-				}
-				tollDataView.resetMove(eventCoords);
-				eventCoords= new ArrayList<Coordinates>();
+			switch (event.getAction() & MotionEvent.ACTION_MASK){
+				case MotionEvent.ACTION_DOWN:
+					// touchStart records when the use pressing the screen.
+					touchStart.setX(event.getX());
+					touchStart.setY(event.getY());
+					break;
+				case MotionEvent.ACTION_MOVE:
+					Coordinates newCoords = new Coordinates();
+					newCoords.setX(event.getX()-touchStart.getX());
+					newCoords.setY(event.getY()-touchStart.getY());
+					if (eventCoords.size()>1){
+						eventCoords.remove(0);
+					}
+					eventCoords.add(newCoords);
+					// move is a class storing where the screen is moving when a user drags the screen
+					tollDataView.getMove().setX(event.getX()-touchStart.getX());
+					tollDataView.getMove().setY(event.getY()-touchStart.getY());
+					tollDataView.checkMove();
+					break;
+				case MotionEvent.ACTION_UP:
+				case MotionEvent.ACTION_POINTER_UP:
+					if ((tollDataView.getMove().getX()>-3)&&(tollDataView.getMove().getX()<3)&&
+							(tollDataView.getMove().getY()>-3)&&(tollDataView.getMove().getY()<3)){
+							tollDataView.findStreet(touchStart,name);
+						}
+						tollDataView.resetMove(eventCoords);
+						eventCoords= new ArrayList<Coordinates>();
+					break;
+				case MotionEvent.ACTION_POINTER_DOWN:
+					break;
 			}
+
 			return true;
 		}
 	}
