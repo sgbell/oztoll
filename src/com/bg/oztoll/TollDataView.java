@@ -4,18 +4,10 @@
 package com.bg.oztoll;
 
 import java.util.ArrayList;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.text.Html;
-import android.util.Log;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * @author bugman
@@ -33,7 +25,8 @@ public class TollDataView implements Runnable{
 	private boolean stillRunning, 
 					pathMarked=false,
 					rateCalculated=false,
-					noRoadsMoverStarted=false;
+					noRoadsMoverStarted=false,
+					endMoveMoverStarted=false;
 	private Coordinates screenOrigin, move, origin[];
 	private int screenHeight=0, 
 				screenWidth=0;
@@ -200,7 +193,13 @@ public class TollDataView implements Runnable{
 										}
 									}
 									// Adding a little Extra movement of the map so that it doesn't show just the tip of an exit
-									for (int movingCount=0; movingCount<10; movingCount++){
+									int moveMax=0;
+									if (movement==MOVELEFT){
+										moveMax=20;
+									} else {
+										moveMax=screenHeight/4;
+									}
+									for (int movingCount=0; movingCount<moveMax; movingCount++){
 										switch (movement){
 											case MOVEUP:
 												screenOrigin.updateY(-1);
@@ -233,14 +232,6 @@ public class TollDataView implements Runnable{
 					} catch (InterruptedException e) {
 						// just wait for screen to be moved
 					}
-				}
-				if (tollData.isFinished())
-					markRoads(startStreet);
-				if (!pathMarked)
-					processPath();
-				if (pathMarked){
-					rateLayout = tollData.processToll(startStreet, endStreet, appContext);
-					rateCalculated=true;
 				}
 			}
 		}
@@ -330,6 +321,10 @@ public class TollDataView implements Runnable{
 		return move;
 	}
 
+	public void stopMove(){
+		endMoveMoverStarted=false;
+	}
+	
 	public void resetMove(ArrayList<Coordinates> eventHistory) {
 		final ArrayList<Coordinates> moveHistory = eventHistory;
 		/* 
@@ -338,29 +333,38 @@ public class TollDataView implements Runnable{
 		 */
 		(new Thread(){
 			public void run(){
-				if (moveHistory.size()>1)
-					for (int endMoveCount=0; endMoveCount<20; endMoveCount++){
-						move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
-						move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
-						checkMove();
-						synchronized (syncObject){
-							syncObject.notify();
-						}
-						// Created moveSync so the DrawingThread will wake this thread up. so the movement of the map
-						// happens.
-						synchronized (moveSync){
-							try {
-								moveSync.wait();
-							} catch (InterruptedException e) {
-							//just pausing for half a second							
+				if (!endMoveMoverStarted){
+				endMoveMoverStarted=true;
+
+					if (moveHistory.size()>1)
+						for (int endMoveCount=0; endMoveCount<20; endMoveCount++){
+							if (endMoveMoverStarted){
+								move.updateX(moveHistory.get(1).getX()-moveHistory.get(0).getX());
+								move.updateY(moveHistory.get(1).getY()-moveHistory.get(0).getY());
+								checkMove();
+								synchronized (syncObject){
+									syncObject.notify();
+								}
+								// Created moveSync so the DrawingThread will wake this thread up. so the movement of the map
+								// happens.
+								synchronized (moveSync){
+									try {
+										moveSync.wait();
+									} catch (InterruptedException e) {
+										//just pausing for half a second							
+									}
+								}
 							}
 						}
-					}
 
-				screenOrigin.updateX(move.getX());
-				screenOrigin.updateY(move.getY());
-				move.setX(0);
-				move.setY(0);
+					screenOrigin.updateX(move.getX());
+					screenOrigin.updateY(move.getY());
+					move.setX(0);
+					move.setY(0);
+					endMoveMoverStarted=false;
+				} else {
+					endMoveMoverStarted=false;
+				}
 			}
 		}).start();
 	
@@ -511,22 +515,47 @@ public class TollDataView implements Runnable{
 						(touchStart.getX()<maxX)&&
 						(touchStart.getY()>minY)&&
 						(touchStart.getY()<maxY)){
-						if (getStart()==null)
+						if (getStart()==null){
 							// If no selection has been made yet
 							setStart(currentStreet);
-						else if (currentStreet==getStart()){
+							markRoads(startStreet);
+							try {
+								syncObject.notify();
+							} catch (IllegalMonitorStateException e){
+								// just so it wont crash
+							}
+						} else if (currentStreet==getStart()){
 							// If the user deselects the start road
 							setStart(null);
 							// calling resetPaths resets the paths and the valid streets
 							resetPaths();
-						} else if ((currentStreet.isValid())&&(getEnd()==null))
+							try {
+								syncObject.notify();
+							} catch (IllegalMonitorStateException e){
+								// just so it wont crash
+							}
+						} else if ((currentStreet.isValid())&&(getEnd()==null)){
 							// If the user selects the end road
 							setEnd(currentStreet);
-						else if (currentStreet==getEnd()){
+							processPath();
+							rateLayout = tollData.processToll(startStreet, endStreet, appContext);
+							rateCalculated=true;
+							try {
+								syncObject.notify();
+							} catch (IllegalMonitorStateException e){
+								// just so it wont crash
+							}
+						} else if (currentStreet==getEnd()){
 							// If the user deselects the end road
 							setEnd(null);
 							resetPaths();
+							markRoads(startStreet);
 							setRateCalculated(false);
+							try {
+								syncObject.notify();
+							} catch (IllegalMonitorStateException e){
+								// just so it wont crash
+							}
 						}
 					}
 				}

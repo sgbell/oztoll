@@ -115,8 +115,12 @@ public class OzTollData implements Runnable{
 			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
-			synchronized (dataSync){
-				dataSync.notify();
+			try {
+				synchronized (dataSync){
+					dataSync.notify();
+				}
+			} catch (NullPointerException e){
+				// Ignore Null pointer that occurs when the program is exiting
 			}
 		}
 		
@@ -167,8 +171,12 @@ public class OzTollData implements Runnable{
 		}
 
 		finishedRead=true;
-		synchronized (dataSync){
-			dataSync.notify();
+		try {
+			synchronized (dataSync){
+				dataSync.notify();
+			}
+		} catch (NullPointerException e){
+			// Ignore Null pointer that occurs when the program is exiting
 		}
 	}
 	
