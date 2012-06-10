@@ -403,7 +403,7 @@ public class TollDataView implements Runnable{
 		 *  mapPointY = (getWidth()-(15+move.getY()+screenOrigin.getY()))/50;
 		 * 
 		 */
-		return (getHeight()-((5*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
+		return ((getHeight()-30)-((5*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
 	}
 	
 	public float drawX(float mapPointX){
@@ -411,7 +411,7 @@ public class TollDataView implements Runnable{
 	}
 	
 	public float drawY(float mapPointY){
-		return (mapPointY*50*screenYMultiplier)+(15*screenYMultiplier)+move.getY()+screenOrigin.getY();
+		return (mapPointY*50*screenYMultiplier)+(15*screenYMultiplier)+move.getY()+screenOrigin.getY()+30;
 	}
 
 	/**
