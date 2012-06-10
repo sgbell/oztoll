@@ -4,6 +4,7 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.text.Html;
 
 /**
  * @author bugman
@@ -27,7 +29,7 @@ import android.widget.TextView;
  */
 public class OzTollMapActivity extends Activity {
 	private OzTollView ozView;
-	private Dialog rateDialog;
+	private Dialog rateDialog, startDialog;
 	private SharedPreferences preferences;
 	private Activity thisActivity=this;
 
@@ -81,6 +83,16 @@ public class OzTollMapActivity extends Activity {
 		OzTollApplication global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
+		if (preferences.getBoolean("firstRun", true)){
+			Message msg = handler.obtainMessage();
+			msg.what=4;
+			
+			handler.sendMessage(msg);
+			SharedPreferences.Editor edit = preferences.edit();
+			edit.putBoolean("firstRun", false);
+			edit.commit();
+		}
+		
 		if (preferences.getBoolean("applicationView", true)){
 			// if view is mapView
 			ozView = new OzTollView(this, global.getTollData(), handler);
@@ -120,6 +132,24 @@ public class OzTollMapActivity extends Activity {
         			
     				rateDialog.show();
     				break;
+    			case 4:
+    				startDialog = new Dialog(thisActivity);
+    				startDialog.setContentView(R.layout.welcome);
+    				startDialog.setTitle("Welcome");
+
+    				TextView welcomeText = (TextView) startDialog.findViewById(R.id.welcomeText);
+    				welcomeText.setText(Html.fromHtml(getString(R.string.welcome)));
+    				Button closeButton2 = (Button) startDialog.findViewById(R.id.WelcomeClose);
+        			closeButton2.setText("Close");
+        			closeButton2.setOnClickListener(new OnClickListener(){
+
+        				@Override
+        				public void onClick(View v) {
+        					startDialog.dismiss();
+        				}
+        			});
+        			
+    				startDialog.show();
     		}
     	}
     };

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OzToll</string>
+    <string name="welcome">
+        <![CDATA[
+        Welcome to OzToll<br />
+        Please Check your Settings.<br />
+        Two modes are available:<br />
+        * Map Mode<br />
+        * Text Mode<br />
+        <br />
+        You can also change the result options.]]>
+    </string>
 </resources>

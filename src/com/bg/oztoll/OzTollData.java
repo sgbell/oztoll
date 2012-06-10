@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -458,11 +459,11 @@ public class OzTollData implements Runnable{
 						 * and if it's wrong we will find out in 'case 1:' and come back here, to
 						 * decide again.
 						 */
+						Log.d("OzTollData","2 streets to choose from");
 						int cpc=0;
 						boolean startFound=false;
 						while ((cpc<currentPaths.size())&&(!startFound)){
 							Pathway currentPath = currentPaths.get(cpc);
-							//Log.w ("getPathway(Street, Street)","");
 							/**
 							 *  Start = 1,1
 							 *  End= 4,4
@@ -526,8 +527,16 @@ public class OzTollData implements Runnable{
 								lastDecision=currentPath;
 								paths.add(currentPath);
 								startFound=true;
+							} else if (((currentPath.getStart()==start)&&(currentPath.getEnd()==end))||
+									   ((currentPath.getStart()==end)&&(currentPath.getEnd()==start))){
+								paths.add(currentPath);
+								startFound=true;
 							}
 							cpc++;
+							if (startFound){
+								Log.d("ozTollData","Start is found");
+								Log.d("ozTollData","path Size is:"+paths.size());
+							}
 						}
 					}
 					

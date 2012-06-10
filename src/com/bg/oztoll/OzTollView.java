@@ -36,7 +36,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			screenYMultiplier=0,
 			originalXMultiplier=0,
 			originalYMultiplier=0,
-			oldDist = 1f;
+			oldDist = 1f,
+			totalScale = 1f;
 	private ArrayList<Coordinates> eventCoords;
 	
 	// We can be in one of these 3 states
@@ -121,16 +122,16 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		name = new Paint();
 		float textSize = name.getTextSize();
 		// setting correct text size for screen
-		//Log.w ("ozToll","tollData.getStreetName(0,0) :"+tollData.getStreetName(0, 0));
 		name.setTextSize(100);
 		name.setTextScaleX(1.0f);
 		Rect bounds = new Rect();
 		name.getTextBounds(tollData.getStreetName(0, 0), 0, tollData.getStreetName(0, 0).length(), bounds);
 		int textHeight = bounds.bottom-bounds.top;
-		//Log.w("ozToll", "adjustTextSize :"+textHeight);
 				
 		// Setting Text Height
 		name.setTextSize(((float)(textSize*screenXMultiplier)/(float)textHeight)*100f);
+		message.setTextSize(((float)(textSize*getWidth()/240)/(float)textHeight)*100f);
+		tollDataView.setMessageBoxSize(message.getTextSize());
 
 		textSizeAdjusted=true;
 	}
@@ -309,14 +310,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				synchronized (tollDataView.getMoveSync()){
 					tollDataView.getMoveSync().notify();
 				}
-				canvas.drawRect(0, 0, getWidth(), 30, map);
+				canvas.drawRect(0, 0, getWidth(), message.getTextSize()+5, map);
 				if (!tollData.isFinished()){
-					canvas.drawText("Please wait while toll data is loaded", 0, 25, message);
+					canvas.drawText("Please wait while toll data is loaded", 0, message.getTextSize(), message);
 				} else {
 					if (tollDataView.getStart()==null){
-						canvas.drawText("Please select starting point", 0, 25, message);
+						canvas.drawText("Please select starting point", 0, message.getTextSize(), message);
 					} else {
-						canvas.drawText("Please select exit point", 0, 25, message);
+						canvas.drawText("Please select exit point", 0, message.getTextSize(), message);
 					}
 				}
 			}
@@ -379,14 +380,22 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						float newDist = spacing(event);
 						if (newDist > 10f){
 							float scale = newDist / oldDist;
-							if (scale < 0.5f){
-								scale = 0.5f;
-							} else if (scale > 3f){
-								scale = 3f;
+							// totalScale is the scale overall, before the user adjusts the scale with the pinch zoom.
+							totalScale = totalScale*scale;
+							if (totalScale < 0.5f){
+								totalScale = 0.5f;
+							} else if (totalScale > 3f){
+								totalScale = 3f;
 							}
-							screenXMultiplier=originalXMultiplier*scale;
-							screenYMultiplier=originalYMultiplier*scale;
+							/* To make it easier to zoom, I saved the Screen Multipliers, for use like this in
+							 *  the original(X,Y)Multipler variables.
+							 */
+							screenXMultiplier=originalXMultiplier*totalScale;
+							screenYMultiplier=originalYMultiplier*totalScale;
 							scaleChanged=true;
+							synchronized (syncObject){
+								syncObject.notify();
+							}
 						}
 					}
 					break;

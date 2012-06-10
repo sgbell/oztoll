@@ -34,7 +34,8 @@ public class TollDataView implements Runnable{
 	private Context appContext;
 	private LinearLayout rateLayout;
 	private float screenXMultiplier,
-				  screenYMultiplier;
+				  screenYMultiplier,
+				  messageLineSize;
 
 	public TollDataView(){
 		move = new Coordinates();
@@ -403,7 +404,7 @@ public class TollDataView implements Runnable{
 		 *  mapPointY = (getWidth()-(15+move.getY()+screenOrigin.getY()))/50;
 		 * 
 		 */
-		return ((getHeight()-30)-((5*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
+		return ((getHeight())-((5*screenYMultiplier)+move.getY()+screenOrigin.getY()))/(50*screenYMultiplier);
 	}
 	
 	public float drawX(float mapPointX){
@@ -411,7 +412,7 @@ public class TollDataView implements Runnable{
 	}
 	
 	public float drawY(float mapPointY){
-		return (mapPointY*50*screenYMultiplier)+(15*screenYMultiplier)+move.getY()+screenOrigin.getY()+30;
+		return (mapPointY*50*screenYMultiplier)+(15*screenYMultiplier)+move.getY()+screenOrigin.getY();
 	}
 
 	/**
@@ -525,14 +526,16 @@ public class TollDataView implements Runnable{
 								// just so it wont crash
 							}
 						} else if (currentStreet==getStart()){
-							// If the user deselects the start road
-							setStart(null);
-							// calling resetPaths resets the paths and the valid streets
-							resetPaths();
-							try {
-								syncObject.notify();
-							} catch (IllegalMonitorStateException e){
-								// just so it wont crash
+							if (getEnd()==null){
+								// If the user deselects the start road
+								setStart(null);
+								// calling resetPaths resets the paths and the valid streets
+								resetPaths();
+								try {
+									syncObject.notify();
+								} catch (IllegalMonitorStateException e){
+									// just so it wont crash
+								}
 							}
 						} else if ((currentStreet.isValid())&&(getEnd()==null)){
 							// If the user selects the end road
@@ -634,5 +637,9 @@ public class TollDataView implements Runnable{
 	
 	public void setYMultiplier(float screenMultiplier) {
 		screenYMultiplier=screenMultiplier;
+	}
+
+	public void setMessageBoxSize(float textSize) {
+		messageLineSize=textSize;
 	}
 }

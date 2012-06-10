@@ -30,15 +30,6 @@ public class OzTollActivity extends Activity {
         
         // This is where the application's preferences are stored
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
-		// if "vehicleType" exists, the program has been run previously, and as such, it will
-		// start normally.
-		if (!preferences.contains("vehicleType")){
-			// First time run, it will oopent he preferences window to get the user to select
-			// how they want to view the system, ie from drop down boxes or the map
-			openPreferences();
-		}
-		
     }
 
     /**
@@ -67,12 +58,12 @@ public class OzTollActivity extends Activity {
    				global.setMapViewStarted(true);
    			}
         } else {
-        	if (!global.isTextViewStarted()){
-        		// If applicationView=text and textView is not Started, Start it
+         	if (!global.isTextViewStarted()){
+          		// If applicationView=text and textView is not Started, Start it
                	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
                	startActivityForResult(textView,0);
                	global.setTextViewStarted(true);
-        	}
+         	}
         }
     }
     
@@ -84,25 +75,25 @@ public class OzTollActivity extends Activity {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         if ((preferences.getBoolean("applicationView", true))&&
-        	(!global.isMapViewStarted())){
-        		// same as above.
-				mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
-				startActivityForResult(mapView, 0);
-				global.setMapViewStarted(true);
-				// Just clearing the textViewStarted boolean
-	           	global.setTextViewStarted(false);
-        } else if ((!preferences.getBoolean("applicationView", true))&&
-            	(!global.isTextViewStarted())){
-           	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
-           	startActivityForResult(textView,0);
-           	global.setTextViewStarted(true);
-			// Just clearing the mapViewStarted boolean
-			global.setMapViewStarted(false);
-        } else {
-        	// Clearing both boolean values and exiting the app
-        	global.setTextViewStarted(false);
-        	global.setMapViewStarted(false);
-        	finish();
-        }
+               	(!global.isMapViewStarted())){
+            	// same as above.
+        		mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
+        		startActivityForResult(mapView, 0);
+        		global.setMapViewStarted(true);
+        		// Just clearing the textViewStarted boolean
+        	   	global.setTextViewStarted(false);
+            } else if ((!preferences.getBoolean("applicationView", true))&&
+                   	   (!global.isTextViewStarted())){
+                textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
+                startActivityForResult(textView,0);
+                global.setTextViewStarted(true);
+        		// Just clearing the mapViewStarted boolean
+        		global.setMapViewStarted(false);
+            } else {
+               	// Clearing both boolean values and exiting the app
+               	global.setTextViewStarted(false);
+               	global.setMapViewStarted(false);
+               	finish();
+            }        	
     }
 }

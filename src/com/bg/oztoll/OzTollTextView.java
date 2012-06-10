@@ -114,6 +114,7 @@ public class OzTollTextView implements Runnable{
 		msg.obj=rateLayout;	
 		
 		mainHandler.sendMessage(msg);
+		finish=null;
 	}
 	
 	public void populateStreets(){
