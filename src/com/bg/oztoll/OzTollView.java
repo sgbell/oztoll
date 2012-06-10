@@ -29,7 +29,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private Thread tollDataViewBuilder;
 	private Coordinates touchStart;
 	private TollDataView tollDataView;
-	private Paint map, name, mapSelected;
+	private Paint map, name, mapSelected, message;
 	private Object syncObject, dataSync;
 	private Handler mainHandler;
 	float   screenXMultiplier=0,
@@ -80,6 +80,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		map.setColor(Color.BLACK);
 		name.setColor(Color.BLACK);
 		mapSelected.setColor(Color.GREEN);
+		message = new Paint();
+		message.setColor(Color.WHITE);
 
 		setDataFile(tollData);
 	}
@@ -306,6 +308,16 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 				synchronized (tollDataView.getMoveSync()){
 					tollDataView.getMoveSync().notify();
+				}
+				canvas.drawRect(0, 0, getWidth(), 30, map);
+				if (!tollData.isFinished()){
+					canvas.drawText("Please wait while toll data is loaded", 0, 25, message);
+				} else {
+					if (tollDataView.getStart()==null){
+						canvas.drawText("Please select starting point", 0, 25, message);
+					} else {
+						canvas.drawText("Please select exit point", 0, 25, message);
+					}
 				}
 			}
 		}
