@@ -357,7 +357,6 @@
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
-		    	<start>Burnley St</start>
 		    	<start>Yarra Blvd</start>
 		    	<exit>
 		      		<street>Toorak Rd</street>

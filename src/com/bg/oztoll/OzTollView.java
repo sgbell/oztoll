@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -185,12 +186,15 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								(streets.get(sc)==tollDataView.getEnd())){
 								canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10*screenXMultiplier, map);
 								canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 6*screenXMultiplier, mapSelected);
-							} else if ((streets.get(sc).isValid())||(tollDataView.getStart()==null))
+							} else if ((tollDataView.getStart()==null)&&
+									   (!tollData.isFinished())){
+								canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10*screenXMultiplier, map);
+							} else if (streets.get(sc).isValid())
 								canvas.drawCircle(currentStreet.getX(), currentStreet.getY(), 10*screenXMultiplier, map);
 							
 							String streetName = streets.get(sc).getName();
 							float txtWidth = name.measureText(streetName);
-							if ((tollDataView.getStart()==null)||
+							if (((tollDataView.getStart()==null)&&(!tollData.isFinished()))||
 								(streets.get(sc).isValid())||
 								(streets.get(sc)==tollDataView.getStart())||
 								(streets.get(sc)==tollDataView.getEnd())){
@@ -220,15 +224,15 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					if (paths!=null){
 						for (int pc=0; pc< paths.size(); pc++){
 							Pathway currentPathway = paths.get(pc);
-							if (tollDataView.getStart()!=null){
+							//if (tollDataView.getStart()!=null){
 								// The current if statement covers the vertical lines
 								if (currentPathway.getStart().getX()==currentPathway.getEnd().getX()){
 									/* If the current spot is an invalid exit for the selected starting point, and is not the start
 									 * or finish, this if statement will replace the bottom half of a circle with a line.
 									 */
 									if ((!currentPathway.getStart().isValid())&&
-										(currentPathway.getStart()!=tollDataView.getStart())&&
-										(currentPathway.getStart()!=tollDataView.getEnd()))
+										((currentPathway.getStart()!=tollDataView.getStart())&&
+										(currentPathway.getStart()!=tollDataView.getEnd())))
 											drawLine(tollDataView.drawX(currentPathway.getStart().getX()),
 													(tollDataView.drawY(currentPathway.getStart().getY())-(10*screenYMultiplier)),
 													tollDataView.drawX(currentPathway.getStart().getX()),
@@ -274,7 +278,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 													map,
 													canvas,false);
 								} 
-							}
+							//}	
 							drawLine((tollDataView.drawX(currentPathway.getStart().getX())),
 									 (tollDataView.drawY(currentPathway.getStart().getY())),
 									 (tollDataView.drawX(currentPathway.getEnd().getX())),
@@ -319,7 +323,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					} else if (tollDataView.getEnd()==null) {
 						canvas.drawText("Please select exit point", 0, message.getTextSize(), message);
 					} else {
-						canvas.drawText("Clear selection To continue", 0, message.getTextSize(), message);
+						canvas.drawText("Clear selection to continue", 0, message.getTextSize(), message);
 					}
 					
 				}

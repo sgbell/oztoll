@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -170,6 +169,8 @@ public class OzTollData implements Runnable{
 				tollways.get(twc).addToll(ozTollXML.getTollPointRate(twc, tec, tollways.get(twc)));
 			}
 		}
+		
+		setValidStarts();
 
 		finishedRead=true;
 		try {
@@ -282,6 +283,20 @@ public class OzTollData implements Runnable{
 		return charges;
 	}
 
+	public void setValidStarts(){
+		for (int twc=0; twc < tollways.size(); twc++)
+			for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++)
+				tollways.get(twc).getTollPoints().get(tpc).setStartValid();
+	}
+	
+	public void setStreetsToInvalid(){
+		for (int twc=0; twc< getTollwayCount(); twc++){
+			for (int sc=0; sc < getStreetCount(twc); sc++){
+				getStreet(twc, sc).setValid(false);
+			}
+		}
+	}
+	
 	public int getTollwayCount() {
 		return tollways.size();
 	}
@@ -459,7 +474,6 @@ public class OzTollData implements Runnable{
 						 * and if it's wrong we will find out in 'case 1:' and come back here, to
 						 * decide again.
 						 */
-						Log.d("OzTollData","2 streets to choose from");
 						int cpc=0;
 						boolean startFound=false;
 						while ((cpc<currentPaths.size())&&(!startFound)){
@@ -474,7 +488,7 @@ public class OzTollData implements Runnable{
 							if ((currentPath.getStart()==start)&&
 								(start.getX()==currentPath.getEnd().getX())&&
 								((currentPath.getEnd().getY()>start.getY())&&
-								 (currentPath.getEnd().getY()<end.getY()))){
+								 (currentPath.getEnd().getY()<=end.getY()))){
 								paths.add(currentPath);
 								lastDecision=currentPath;
 								startFound=true;
@@ -495,7 +509,7 @@ public class OzTollData implements Runnable{
 							} else if ((currentPath.getEnd()==start)&&
 									   (start.getX()==currentPath.getStart().getX())&&
 									   ((currentPath.getStart().getY()<start.getY())&&
-									    (currentPath.getStart().getY()>end.getY()))){
+									    (currentPath.getStart().getY()>=end.getY()))){
 								lastDecision=currentPath;
 								paths.add(currentPath);
 								startFound=true;
@@ -509,7 +523,7 @@ public class OzTollData implements Runnable{
 							} else if ((currentPath.getEnd()==start)&&
 										(start.getY()==currentPath.getStart().getY())&&
 										((currentPath.getStart().getX()<start.getX())&&
-										 (currentPath.getStart().getX()>end.getX()))){
+										 (currentPath.getStart().getX()>=end.getX()))){
 								lastDecision=currentPath;
 								paths.add(currentPath);
 								startFound=true;
@@ -532,11 +546,8 @@ public class OzTollData implements Runnable{
 								paths.add(currentPath);
 								startFound=true;
 							}
+							
 							cpc++;
-							if (startFound){
-								Log.d("ozTollData","Start is found");
-								Log.d("ozTollData","path Size is:"+paths.size());
-							}
 						}
 					}
 					

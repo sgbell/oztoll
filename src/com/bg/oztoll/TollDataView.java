@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 /**
@@ -241,9 +242,9 @@ public class TollDataView implements Runnable{
 	/**
 	 * This is used to mark the path on the map between the selected points.
 	 */
-	public void processPath(){
-		if ((startStreet!=null)&&(endStreet!=null)){
-			ArrayList<Pathway> paths=tollData.getPathway(startStreet, endStreet);
+	public void processPath(Street start, Street end){
+		if ((start!=null)&&(end!=null)){
+			ArrayList<Pathway> paths=tollData.getPathway(start, end);
 			
 			for (int pc=0; pc < paths.size(); pc++){
 				paths.get(pc).setRoute(true);
@@ -516,10 +517,17 @@ public class TollDataView implements Runnable{
 						(touchStart.getX()<maxX)&&
 						(touchStart.getY()>minY)&&
 						(touchStart.getY()<maxY)){
-						if (getStart()==null){
+						if ((getStart()==null)&&(currentStreet.isValid())){
 							// If no selection has been made yet
 							setStart(currentStreet);
+							tollData.setStreetsToInvalid();
 							markRoads(startStreet);
+							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+								if (tollData.getConnection(cc).getStart()==startStreet)
+									markRoads(tollData.getConnection(cc).getEnd());
+								else if (tollData.getConnection(cc).getEnd()==startStreet)
+									markRoads(tollData.getConnection(cc).getStart());
+							}
 							try {
 								syncObject.notify();
 							} catch (IllegalMonitorStateException e){
@@ -540,8 +548,29 @@ public class TollDataView implements Runnable{
 						} else if ((currentStreet.isValid())&&(getEnd()==null)){
 							// If the user selects the end road
 							setEnd(currentStreet);
-							processPath();
-							rateLayout = tollData.processToll(startStreet, endStreet, appContext);
+							boolean otherToll=false;
+							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+								if (tollData.getConnection(cc).getStart()==startStreet)
+									otherToll=true;
+								else if (tollData.getConnection(cc).getEnd()==startStreet)
+									otherToll=true;
+							}
+							if (otherToll){
+								for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+									if (tollData.getConnection(cc).getStart()==startStreet){
+										rateLayout = tollData.processToll(tollData.getConnection(cc).getEnd(), endStreet, appContext);
+										tollData.getConnection(cc).setRoute(true);
+										processPath(tollData.getConnection(cc).getEnd(),endStreet);
+									} else if (tollData.getConnection(cc).getEnd()==startStreet){
+										rateLayout = tollData.processToll(tollData.getConnection(cc).getStart(), endStreet, appContext);
+										tollData.getConnection(cc).setRoute(true);
+										processPath(tollData.getConnection(cc).getStart(),endStreet);
+									}
+								}
+							} else {
+								processPath(startStreet,endStreet);
+								rateLayout = tollData.processToll(startStreet, endStreet, appContext);
+							}
 							rateCalculated=true;
 							try {
 								syncObject.notify();
@@ -552,7 +581,15 @@ public class TollDataView implements Runnable{
 							// If the user deselects the end road
 							setEnd(null);
 							resetPaths();
+							tollData.setStreetsToInvalid();
 							markRoads(startStreet);
+							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+								if (tollData.getConnection(cc).getStart()==startStreet){
+									markRoads(tollData.getConnection(cc).getEnd());
+								} else if (tollData.getConnection(cc).getEnd()==startStreet){
+									markRoads(tollData.getConnection(cc).getStart());
+								}
+							}
 							setRateCalculated(false);
 							try {
 								syncObject.notify();
@@ -626,6 +663,8 @@ public class TollDataView implements Runnable{
 		}
 		for (int cc=0; cc < tollData.getConnectionCount(); cc++)
 			tollData.getConnection(cc).setRoute(false);
+
+		tollData.setValidStarts();
 		
 		pathMarked=false;
 		rateDialogText="";

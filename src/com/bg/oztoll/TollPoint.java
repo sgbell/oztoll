@@ -29,6 +29,11 @@ public class TollPoint {
 		return false;
 	}
 	
+	public void setStartValid(){
+		for (int svc=0; svc < start.size(); svc++)
+			start.get(svc).setValid(true);
+	}
+	
 	public ArrayList<TollPointExit> getExit(){
 		return exit;
 	}
