@@ -57,12 +57,6 @@ public class OzTollTextView implements Runnable{
 				msg.obj = startText;
 				mainHandler.sendMessage(msg);
 				
-				msg = mainHandler.obtainMessage();
-				msg.what=1;
-				String heading = "Please select Exit Street";
-				msg.obj = heading;
-				mainHandler.sendMessage(msg);
-				
 				adapter.resetView();
 				ArrayList<Street> validExits = tollData.getTollPointExits(start);
 				String tollway = tollData.getTollwayName(start);
@@ -175,7 +169,13 @@ public class OzTollTextView implements Runnable{
 					populateStreets();
 				}
 				Message msg = mainHandler.obtainMessage();
-				String heading = "Please Select Starting Street";
+				String heading="";
+				
+				if (start==null){
+					heading = "Please Select Starting Street";
+				} else if (finish==null){
+					heading = "Please Select Exit Street";
+				}
 				msg.what = 1;
 				msg.obj= heading;
 				mainHandler.sendMessage(msg);

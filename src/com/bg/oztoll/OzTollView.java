@@ -316,9 +316,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				} else {
 					if (tollDataView.getStart()==null){
 						canvas.drawText("Please select starting point", 0, message.getTextSize(), message);
-					} else {
+					} else if (tollDataView.getEnd()==null) {
 						canvas.drawText("Please select exit point", 0, message.getTextSize(), message);
+					} else {
+						canvas.drawText("Clear selection To continue", 0, message.getTextSize(), message);
 					}
+					
 				}
 			}
 		}
