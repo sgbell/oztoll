@@ -548,8 +548,6 @@ public class TollDataView implements Runnable{
 						} else if ((currentStreet.isValid())&&(getEnd()==null)){
 							// If the user selects the end road
 							setEnd(currentStreet);
-							
-
 							processPath(startStreet,endStreet);
 							rateLayout = tollData.processToll(startStreet, endStreet, appContext);
 							rateCalculated=true;

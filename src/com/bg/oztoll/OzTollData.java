@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -270,13 +271,15 @@ public class OzTollData implements Runnable{
 				} else {
 					startTollwayEnd=currentConnection.getEnd();
 				}
-				charges.add(getTollRate(start,startTollwayEnd,startTollway));
+				if (start!=startTollwayEnd)
+					charges.add(getTollRate(start,startTollwayEnd,startTollway));
 				if (currentConnection.getEndTollway().equals(endTollway.getName())){
 					endTollwayStart=currentConnection.getEnd();
 				} else {
 					endTollwayStart=currentConnection.getStart();
 				}
-				charges.add(getTollRate(endTollwayStart,end,endTollway));
+				if (end!=endTollwayStart)
+					charges.add(getTollRate(endTollwayStart,end,endTollway));
 			}
 		}
 		
@@ -530,7 +533,7 @@ public class OzTollData implements Runnable{
 							} else if ((currentPath.getStart()==start)&&
 									(start.getY()==currentPath.getEnd().getY())&&
 									((currentPath.getEnd().getX()>start.getX())&&
-									 (currentPath.getEnd().getX()<end.getX()))){
+									 (currentPath.getEnd().getX()<=end.getX()))){
 								lastDecision=currentPath;
 								paths.add(currentPath);
 								startFound=true;
@@ -663,6 +666,13 @@ public class OzTollData implements Runnable{
 									   (street.getX()==currentPath.getStart().getX())&&
 									   ((currentPath.getStart().getY()>street.getY())&&
 									    (currentPath.getStart().getY()<=end.getY()))){
+									paths.add(currentPath);
+									lastDecision=currentPath;
+									pathFound=true;
+							} else if ((currentPath.getEnd()==street)&&
+									   (street.getY()==currentPath.getStart().getY())&&
+									   ((currentPath.getStart().getX()<street.getX())&&
+									    (currentPath.getStart().getX()>=end.getX()))){
 									paths.add(currentPath);
 									lastDecision=currentPath;
 									pathFound=true;
@@ -802,7 +812,7 @@ public class OzTollData implements Runnable{
 		rateLayout.setOrientation(LinearLayout.VERTICAL);
 		tollTitle = new TextView(appContext);
 
-		// LinearLayout.LayoutParams to shortern the height of the textview
+		// LinearLayout.LayoutParams to shorten the height of the textview
 		fillParentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 		fillParentParams.setMargins(0, 0, 0, -30);
 		wrapContentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
