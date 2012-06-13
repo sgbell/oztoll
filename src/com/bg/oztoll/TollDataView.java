@@ -548,29 +548,10 @@ public class TollDataView implements Runnable{
 						} else if ((currentStreet.isValid())&&(getEnd()==null)){
 							// If the user selects the end road
 							setEnd(currentStreet);
-							boolean otherToll=false;
-							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
-								if (tollData.getConnection(cc).getStart()==startStreet)
-									otherToll=true;
-								else if (tollData.getConnection(cc).getEnd()==startStreet)
-									otherToll=true;
-							}
-							if (otherToll){
-								for (int cc=0; cc < tollData.getConnectionCount(); cc++){
-									if (tollData.getConnection(cc).getStart()==startStreet){
-										rateLayout = tollData.processToll(tollData.getConnection(cc).getEnd(), endStreet, appContext);
-										tollData.getConnection(cc).setRoute(true);
-										processPath(tollData.getConnection(cc).getEnd(),endStreet);
-									} else if (tollData.getConnection(cc).getEnd()==startStreet){
-										rateLayout = tollData.processToll(tollData.getConnection(cc).getStart(), endStreet, appContext);
-										tollData.getConnection(cc).setRoute(true);
-										processPath(tollData.getConnection(cc).getStart(),endStreet);
-									}
-								}
-							} else {
-								processPath(startStreet,endStreet);
-								rateLayout = tollData.processToll(startStreet, endStreet, appContext);
-							}
+							
+
+							processPath(startStreet,endStreet);
+							rateLayout = tollData.processToll(startStreet, endStreet, appContext);
 							rateCalculated=true;
 							try {
 								syncObject.notify();
@@ -578,7 +559,7 @@ public class TollDataView implements Runnable{
 								// just so it wont crash
 							}
 						} else if (currentStreet==getEnd()){
-							// If the user deselects the end road
+							// If the user de-selects the end road
 							setEnd(null);
 							resetPaths();
 							tollData.setStreetsToInvalid();

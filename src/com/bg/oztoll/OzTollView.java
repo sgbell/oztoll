@@ -395,7 +395,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								totalScale = 3f;
 							}
 							/* To make it easier to zoom, I saved the Screen Multipliers, for use like this in
-							 *  the original(X,Y)Multipler variables.
+							 *  the original(X,Y)Multiplier variables.
 							 */
 							screenXMultiplier=originalXMultiplier*totalScale;
 							screenYMultiplier=originalYMultiplier*totalScale;
