@@ -114,8 +114,7 @@ public class OzTollTextView implements Runnable{
 	public void populateStreets(){
 		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-				if (((!tollData.getStreet(twc, sc).isValid()) && (start==null))||
-					((start!=null)&&(tollData.getStreet(twc, sc).isValid()))){
+				if (tollData.getStreet(twc, sc).isValid()){
 					adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
 				}
 			}
