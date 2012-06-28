@@ -382,9 +382,22 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							totalScale = totalScale*scale;
 							if (totalScale < 0.5f){
 								totalScale = 0.5f;
+								oldDist=newDist;
 							} else if (totalScale > 3f){
 								totalScale = 3f;
+								oldDist=newDist;
 							}
+							Log.d("oztollView", "Total Scale = "+totalScale+"Scale = "+scale);
+							
+							
+							/* Start program
+							 * totalScale = 1;
+							 * 
+							 * Squeeze Fingers
+							 * scale = 
+							 * 
+							 */
+							
 							/* To make it easier to zoom, I saved the Screen Multipliers, for use like this in
 							 *  the original(X,Y)Multiplier variables.
 							 */
