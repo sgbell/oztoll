@@ -38,7 +38,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			originalXMultiplier=0,
 			originalYMultiplier=0,
 			oldDist = 1f,
-			totalScale = 1f;
+			totalScale = 1f,
+			lastScale;
 	private ArrayList<Coordinates> eventCoords;
 	
 	// We can be in one of these 3 states
@@ -378,8 +379,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						float newDist = spacing(event);
 						if (newDist > 10f){
 							float scale = newDist / oldDist;
+							lastScale = (1f - scale)/10;
 							// totalScale is the scale overall, before the user adjusts the scale with the pinch zoom.
-							totalScale = totalScale*scale;
+							totalScale = totalScale-lastScale;
 							if (totalScale < 0.5f){
 								totalScale = 0.5f;
 								oldDist=newDist;
@@ -387,8 +389,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								totalScale = 3f;
 								oldDist=newDist;
 							}
-							Log.d("oztollView", "Total Scale = "+totalScale+"Scale = "+scale);
-							
+							Log.d("oztollView", "Total Scale = "+totalScale+" Scale = "+scale+" LastScale = "+lastScale);
 							
 							/* Start program
 							 * totalScale = 1;
@@ -427,6 +428,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case MotionEvent.ACTION_POINTER_DOWN:
 					oldDist = spacing(event);
+					lastScale=1f;
 					if (oldDist > 10f){
 						mode=ZOOM;
 					}
