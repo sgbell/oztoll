@@ -140,6 +140,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void OnDraw(Canvas canvas){
 		if (canvas!=null){
+			canvas.save();
+			
+			canvas.scale(totalScale, totalScale);
+			
+			canvas.restore();
+			
 			canvas.drawColor(Color.WHITE);
 			
 			if (tollDataView!= null){
@@ -389,7 +395,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								totalScale = 3f;
 								oldDist=newDist;
 							}
-							Log.d("oztollView", "Total Scale = "+totalScale+" Scale = "+scale+" LastScale = "+lastScale);
+							//Log.d("oztollView", "Total Scale = "+totalScale+" Scale = "+scale+" LastScale = "+lastScale);
 							
 							/* Start program
 							 * totalScale = 1;
@@ -402,16 +408,18 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 							/* To make it easier to zoom, I saved the Screen Multipliers, for use like this in
 							 *  the original(X,Y)Multiplier variables.
 							 */
-							screenXMultiplier=originalXMultiplier*totalScale;
-							screenYMultiplier=originalYMultiplier*totalScale;
-							tollDataView.setXMultiplier(screenXMultiplier);
-							tollDataView.setYMultiplier(screenYMultiplier);
-							map.setStrokeWidth((6*screenXMultiplier) / getResources().getDisplayMetrics().density);
-							mapSelected.setStrokeWidth((float)(3*screenXMultiplier) / getResources().getDisplayMetrics().density);
-							adjustTextSize();
-							synchronized (syncObject){
-								syncObject.notify();
-							}
+							// Change the screenXMultiplier so that its not using totalScale
+							// and rescale the canvas instead.
+							//screenXMultiplier=originalXMultiplier*totalScale;
+							//screenYMultiplier=originalYMultiplier*totalScale;
+							//tollDataView.setXMultiplier(screenXMultiplier);
+							//tollDataView.setYMultiplier(screenYMultiplier);
+							//map.setStrokeWidth((6*screenXMultiplier) / getResources().getDisplayMetrics().density);
+							//mapSelected.setStrokeWidth((float)(3*screenXMultiplier) / getResources().getDisplayMetrics().density);
+							//adjustTextSize();
+							//synchronized (syncObject){
+							//	syncObject.notify();
+							//}
 						}
 					}
 					break;
