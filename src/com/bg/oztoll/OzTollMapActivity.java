@@ -4,6 +4,7 @@
 package com.bg.oztoll;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -30,8 +31,10 @@ import android.text.Html;
 public class OzTollMapActivity extends Activity {
 	private OzTollView ozView;
 	private Dialog rateDialog, startDialog;
+	private ProgressDialog progDialog;
 	private SharedPreferences preferences;
 	private Activity thisActivity=this;
+	private boolean loadingShown=false;
 
 	public OzTollMapActivity(){
 		
@@ -150,6 +153,25 @@ public class OzTollMapActivity extends Activity {
         			});
         			
     				startDialog.show();
+    				break;
+    			case 5:
+    				// This case is used to display the loading dialog
+    				if (!loadingShown){
+        				progDialog = new ProgressDialog(thisActivity);
+        				progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        				progDialog.setMessage("Loading...");
+        				loadingShown=true;
+        				progDialog.show();
+    				} else {
+    					progDialog.setProgress(progDialog.getProgress()+1);
+    				}
+    				break;
+    			case 6:
+    				// This case is used to remove the loading dialog
+    				if (loadingShown=true){
+    					progDialog.dismiss();
+    				}
+    				break;
     		}
     	}
     };

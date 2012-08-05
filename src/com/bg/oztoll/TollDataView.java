@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 /**
@@ -21,10 +20,8 @@ public class TollDataView implements Runnable{
 	               dataSync,
 	               moveSync;
 	private OzTollData tollData;
-	private String cityName,
-				   rateDialogText;
+	private String cityName;
 	private boolean stillRunning, 
-					pathMarked=false,
 					rateCalculated=false,
 					noRoadsMoverStarted=false,
 					endMoveMoverStarted=false;
@@ -35,8 +32,7 @@ public class TollDataView implements Runnable{
 	private Context appContext;
 	private LinearLayout rateLayout;
 	private float screenXMultiplier,
-				  screenYMultiplier,
-				  messageLineSize;
+				  screenYMultiplier;
 
 	public TollDataView(){
 		move = new Coordinates();
@@ -249,7 +245,6 @@ public class TollDataView implements Runnable{
 			for (int pc=0; pc < paths.size(); pc++){
 				paths.get(pc).setRoute(true);
 			}
-			pathMarked=true;
 		}
 	}
 
@@ -644,9 +639,6 @@ public class TollDataView implements Runnable{
 			tollData.getConnection(cc).setRoute(false);
 
 		tollData.setValidStarts();
-		
-		pathMarked=false;
-		rateDialogText="";
 	}
 
 	public void setXMultiplier(float screenMultiplier) {
@@ -655,9 +647,5 @@ public class TollDataView implements Runnable{
 	
 	public void setYMultiplier(float screenMultiplier) {
 		screenYMultiplier=screenMultiplier;
-	}
-
-	public void setMessageBoxSize(float textSize) {
-		messageLineSize=textSize;
 	}
 }

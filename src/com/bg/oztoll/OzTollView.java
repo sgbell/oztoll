@@ -6,6 +6,7 @@ package com.bg.oztoll;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -64,10 +65,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		tollDataViewBuilder.start();
 	}
 	
-	public OzTollView(Context context, OzTollData tollData, Handler handler) {
+	public OzTollView(Context context){
 		super(context);
 		getHolder().addCallback(this);
-		mainHandler = handler;
 		
 		thread = new DrawingThread(getHolder(), this);
 		thread.setName("Drawing Thread");
@@ -85,10 +85,19 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		mapSelected.setColor(Color.GREEN);
 		message = new Paint();
 		message.setColor(Color.WHITE);
+	}
+	
+	public OzTollView(Context context, OzTollData tollData, Handler handler) {
+		this(context);
+		mainHandler = handler;
 
 		setDataFile(tollData);
 	}
-
+	
+	public void setHandler(Handler handler){
+		mainHandler = handler;
+	}
+	
 	/**
 	 * This method Overrides the onSizeChanged, so we can make calculations for canvas size,
 	 * and text size.
@@ -133,7 +142,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		// Setting Text Height
 		name.setTextSize(((float)(textSize*screenXMultiplier)/(float)textHeight)*100f);
 		message.setTextSize(((float)(textSize*getWidth()/240)/(float)textHeight)*100f);
-		tollDataView.setMessageBoxSize(message.getTextSize());
+		//tollDataView.setMessageBoxSize(message.getTextSize());
 
 		textSizeAdjusted=true;
 	}
@@ -143,9 +152,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.save();
 			
 			canvas.scale(totalScale, totalScale);
-			
-			canvas.restore();
-			
+
 			canvas.drawColor(Color.WHITE);
 			
 			if (tollDataView!= null){
@@ -312,6 +319,16 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				synchronized (tollDataView.getMoveSync()){
 					tollDataView.getMoveSync().notify();
 				}
+				if (!tollData.isFinished()){
+					Message newMessage = mainHandler.obtainMessage();
+					newMessage.what=5;
+					mainHandler.sendMessage(newMessage);
+				} else {
+					Message newMessage = mainHandler.obtainMessage();
+					newMessage.what=6;
+					mainHandler.sendMessage(newMessage);
+				}
+				/*
 				canvas.drawRect(0, 0, getWidth(), message.getTextSize()+5, map);
 				if (!tollData.isFinished()){
 					canvas.drawText("Please wait while toll data is loaded", 0, message.getTextSize(), message);
@@ -325,8 +342,12 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					
 				}
+				*/
+				
 			}
 		}
+		
+		canvas.restore();
 	}
 	
 	/** Draw line is a wrapper for Canvas.drawLine so it will only draw the line if it's
@@ -395,31 +416,6 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 								totalScale = 3f;
 								oldDist=newDist;
 							}
-							//Log.d("oztollView", "Total Scale = "+totalScale+" Scale = "+scale+" LastScale = "+lastScale);
-							
-							/* Start program
-							 * totalScale = 1;
-							 * 
-							 * Squeeze Fingers
-							 * scale = 
-							 * 
-							 */
-							
-							/* To make it easier to zoom, I saved the Screen Multipliers, for use like this in
-							 *  the original(X,Y)Multiplier variables.
-							 */
-							// Change the screenXMultiplier so that its not using totalScale
-							// and rescale the canvas instead.
-							//screenXMultiplier=originalXMultiplier*totalScale;
-							//screenYMultiplier=originalYMultiplier*totalScale;
-							//tollDataView.setXMultiplier(screenXMultiplier);
-							//tollDataView.setYMultiplier(screenYMultiplier);
-							//map.setStrokeWidth((6*screenXMultiplier) / getResources().getDisplayMetrics().density);
-							//mapSelected.setStrokeWidth((float)(3*screenXMultiplier) / getResources().getDisplayMetrics().density);
-							//adjustTextSize();
-							//synchronized (syncObject){
-							//	syncObject.notify();
-							//}
 						}
 					}
 					break;
