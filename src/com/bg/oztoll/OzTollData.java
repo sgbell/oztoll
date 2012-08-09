@@ -32,6 +32,7 @@ public class OzTollData implements Runnable{
 	private boolean finishedRead=false;
 	private Object syncObject, dataSync;
 	private SharedPreferences sharedPreferences;
+	private Street start, finish;
 		
 	/** Initializes the vectors.
 	 */
@@ -1202,5 +1203,21 @@ public class OzTollData implements Runnable{
 			return true;
 		}
 		return false;
+	}
+
+	public Street getStart() {
+		return start;
+	}
+
+	public void setStart(Street start) {
+		this.start = start;
+	}
+
+	public Street getFinish() {
+		return finish;
+	}
+
+	public void setFinish(Street finish) {
+		this.finish = finish;
 	}
 }

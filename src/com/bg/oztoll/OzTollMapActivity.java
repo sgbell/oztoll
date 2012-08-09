@@ -5,6 +5,7 @@ package com.bg.oztoll;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.AlertDialog;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -34,8 +35,13 @@ public class OzTollMapActivity extends Activity {
 	private ProgressDialog progDialog;
 	private SharedPreferences preferences;
 	private Activity thisActivity=this;
-	private boolean loadingShown=false;
+	private boolean loadingShown=false, startShown=false,
+					finishShown=false;
+	private OzTollApplication global;
+	private AlertDialog alert;
+	private AlertDialog.Builder builder;
 
+	
 	public OzTollMapActivity(){
 		
 	}
@@ -83,7 +89,7 @@ public class OzTollMapActivity extends Activity {
     public void onResume(){
     	super.onResume();
     	
-		OzTollApplication global = (OzTollApplication)getApplication();
+		global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
 		if (preferences.getBoolean("firstRun", true)){
@@ -100,6 +106,8 @@ public class OzTollMapActivity extends Activity {
 			// if view is mapView
 			ozView = new OzTollView(this, global.getTollData(), handler);
 			setContentView(ozView);
+			// Creates a new dialog
+			builder = new AlertDialog.Builder(thisActivity);
 		} else {
 			// if user has just changed the preference to text view
 			setResult(1);
@@ -169,10 +177,44 @@ public class OzTollMapActivity extends Activity {
     			case 6:
     				// This case is used to remove the loading dialog
     				if (loadingShown=true){
-    					progDialog.dismiss();
+    					if (progDialog!=null)
+    						if (progDialog.isShowing())
+    							progDialog.dismiss();
+    					
+    					if (global.getTollData().getStart()==null){
+    						if (!startShown){
+        						showMessage("Please select your Entry point");
+        						startShown=true;
+    						}
+    					} else if (global.getTollData().getFinish()==null){
+    						if (!finishShown){
+    							showMessage("Please select your Exit point");
+    							finishShown=true;
+    						}
+    					} else {
+    						
+    					}
     				}
     				break;
     		}
     	}
     };
+    
+    public void showMessage(String message){
+    	//Code Block for showing “Please select your starting point and Exit Point”
+		// This is the message
+		builder.setMessage(message);
+		alert = builder.create();
+		// Show it on the screen
+		alert.show();
+
+		// This handler is created to dismiss the dialog after 3 seconds
+		Handler alertHandler = new Handler();
+	    alertHandler.postDelayed(new Runnable(){
+	    							public void run(){
+	    								alert.cancel();
+	    								alert.dismiss();
+	    							}
+		    					 }, 10000);
+    }
 }
