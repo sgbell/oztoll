@@ -41,6 +41,9 @@ public class TollDataView implements Runnable{
 		screenOrigin = new Coordinates();
 		syncObject = new Object();
 		moveSync = new Object();
+		
+		streets = new ArrayList<Street>();
+		pathways = new ArrayList<Pathway>();
 	}
 	
 	public TollDataView(OzTollData data){
@@ -110,16 +113,15 @@ public class TollDataView implements Runnable{
 				cityName=tollData.getCityName();
 			if (getWidth()>0){
 				synchronized(syncObject){
-					streets = new ArrayList<Street>();
-					pathways = new ArrayList<Pathway>();
 					for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 						for (int tsc=0; tsc<tollData.getStreetCount(twc); tsc++){
-							if ((tollData.getStreetX(twc, tsc)>minX()) &&
-							    (tollData.getStreetX(twc, tsc)<maxX()) &&
-							    (tollData.getStreetY(twc, tsc)>minY()) &&
-							    (tollData.getStreetY(twc, tsc)<maxY())){
-								streets.add(tollData.getStreet(twc, tsc));
+							boolean streetFound=false;
+							for (int streetCount=0; streetCount<streets.size(); streetCount++){
+								if (tollData.getStreet(twc, tsc).equals(streets.get(streetCount)))
+									streetFound=true;
 							}
+							if (!streetFound)
+								streets.add(tollData.getStreet(twc, tsc));
 						}
 						for (int pwc=0; pwc<tollData.getPathwayCount(twc);pwc++){
 							Pathway currentPathway = tollData.getPathway(twc, pwc);
