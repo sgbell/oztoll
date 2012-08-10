@@ -138,6 +138,7 @@ public class OzTollMapActivity extends Activity {
         				public void onClick(View v) {
         					rateDialog.dismiss();
         					((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_UP);
+        					showMessage("Please clear selection");
         				}
         			});
         			
@@ -186,19 +187,27 @@ public class OzTollMapActivity extends Activity {
         						showMessage("Please select your Entry point");
         						startShown=true;
     						}
-    					} else if (global.getTollData().getFinish()==null){
-    						if (!finishShown){
-    							showMessage("Please select your Exit point");
-    							finishShown=true;
-    						}
     					} else {
-    						
+    						if (global.getTollData().getFinish()==null){
+    							if (!finishShown){
+    								showMessage("Please select your Exit point");
+    								finishShown=true;
+    							}
+    						}
     					}
     				}
+    				break;
+    			case 7:
+    				startShown=false;
+    				break;
+    			case 8:
+    				finishShown=false;
     				break;
     		}
     	}
     };
+    
+    // TollDataView Lines 536 & 568 to send handler messages.
     
     public void showMessage(String message){
     	//Code Block for showing “Please select your starting point and Exit Point”
@@ -215,6 +224,6 @@ public class OzTollMapActivity extends Activity {
 	    								alert.cancel();
 	    								alert.dismiss();
 	    							}
-		    					 }, 10000);
+		    					 }, 5000);
     }
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.LinearLayout;
 
 /**
@@ -32,6 +34,7 @@ public class TollDataView implements Runnable{
 	private LinearLayout rateLayout;
 	private float screenXMultiplier,
 				  screenYMultiplier;
+	private Handler mainHandler;
 
 	public TollDataView(){
 		move = new Coordinates();
@@ -533,6 +536,10 @@ public class TollDataView implements Runnable{
 								setStart(null);
 								// calling resetPaths resets the paths and the valid streets
 								resetPaths();
+								// Send handler to reset shownStart to false
+								Message msg = mainHandler.obtainMessage();
+								msg.what=7;
+								mainHandler.sendMessage(msg);
 								try {
 									syncObject.notify();
 								} catch (IllegalMonitorStateException e){
@@ -564,6 +571,9 @@ public class TollDataView implements Runnable{
 								}
 							}
 							setRateCalculated(false);
+							Message msg = mainHandler.obtainMessage();
+							msg.what=8;
+							mainHandler.sendMessage(msg);
 							try {
 								syncObject.notify();
 							} catch (IllegalMonitorStateException e){
@@ -646,5 +656,13 @@ public class TollDataView implements Runnable{
 	
 	public void setYMultiplier(float screenMultiplier) {
 		screenYMultiplier=screenMultiplier;
+	}
+
+	public Handler getMainHandler() {
+		return mainHandler;
+	}
+
+	public void setMainHandler(Handler mainHandler) {
+		this.mainHandler = mainHandler;
 	}
 }

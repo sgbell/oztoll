@@ -60,6 +60,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		dataSync = tollData.getDataSync();
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		syncObject = tollDataView.getSync();
+		tollDataView.setMainHandler(mainHandler);
 		tollDataViewBuilder = new Thread(tollDataView);
 		tollDataViewBuilder.setName("TollDataView");
 		tollDataViewBuilder.start();
@@ -305,7 +306,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						Message msg = mainHandler.obtainMessage();
 						msg.what=3;
 						LinearLayout rateLayout = tollDataView.getRateDialog();
-						msg.obj=rateLayout;	
+						msg.obj=rateLayout;
 						
 						mainHandler.sendMessage(msg);
 						rateShown=true;
