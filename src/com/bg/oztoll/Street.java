@@ -19,7 +19,7 @@ public class Street extends Coordinates{
 	 */
 	private int location;
 	// Valid is used to determine if a user can click on the road.
-	private boolean valid=false;
+	private boolean valid=true;
 	
 	
 	public Street(String name, Coordinates coords){
