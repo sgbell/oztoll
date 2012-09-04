@@ -37,12 +37,14 @@ public class TollDataView implements Runnable{
 				  mapSelected, 	// selected map exit & pathway when start and end both selected
 				  name;			// Exit names
 	private float density;		// screen density
+	private Coordinates canvasMins;
 
 	public TollDataView(){
 		syncObject = new Object();
 		moveSync = new Object();
-		tollwayMap = Bitmap.createBitmap(1024, 768, Bitmap.Config.ARGB_8888);
+		tollwayMap = Bitmap.createBitmap(1100, 768, Bitmap.Config.ARGB_8888);
 		mapCanvas = new Canvas(tollwayMap);
+		canvasMins= new Coordinates();
 		
 		map = new Paint();
 		name = new Paint();
@@ -63,7 +65,6 @@ public class TollDataView implements Runnable{
 	}
 	
 	public void resizeView(float density){
-		Log.w("tollDataView", "resizeView - density:"+density);
 		// Setting the font
 		name.setColor(Color.BLACK);
 		float textSize = name.getTextSize();
@@ -106,24 +107,95 @@ public class TollDataView implements Runnable{
 	
 	@Override
 	public void run() {
-		synchronized (dataSync){
-			try {
-				// Put in this condition so that if tollData has finished reading the file, the app wont be put to sleep
-				// waiting for the data to be read
-				if (!tollData.isFinished())
-					dataSync.wait();
-			} catch (InterruptedException e) {
-				// just wait for it
-			}
-		}
-		
 		stillRunning=true;
 		while (stillRunning){
+			synchronized (dataSync){
+				try {
+					// Put in this condition so that if tollData has finished reading the file, the app wont be put to sleep
+					// waiting for the data to be read
+					dataSync.wait();
+				} catch (InterruptedException e) {
+					// just wait for it
+				}
+			}
+
 			if (!cityName.equalsIgnoreCase(tollData.getCityName()))
 				cityName=tollData.getCityName();
 
-			mapCanvas.drawColor(Color.WHITE);
 			synchronized(syncObject){
+				Coordinates[] mapSize = new Coordinates[2];
+				mapSize[0] = new Coordinates();
+				mapSize[1] = new Coordinates();
+				canvasMins = new Coordinates();
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++)
+					for (int tsc=0; tsc<tollData.getStreetCount(twc); tsc++){
+						Street currentStreet = tollData.getStreet(twc, tsc);
+						float nameLength = (name.measureText(currentStreet.getName()));
+						switch (currentStreet.getLocation()){
+							case 1:
+								if ((drawX(currentStreet.getX())+nameLength)>mapSize[1].getX())
+									mapSize[1].setX(drawX(currentStreet.getX())+(nameLength+20));
+								if ((drawX(currentStreet.getX())-20)<mapSize[0].getX())
+									mapSize[0].setX(drawX(currentStreet.getX())-20);
+								if (((drawY(currentStreet.getY())+5)>mapSize[1].getY()))
+									mapSize[1].setY(drawY(currentStreet.getY())+5);
+								if (((drawY(currentStreet.getY())-(5+name.getTextSize()))<mapSize[0].getY()))
+									mapSize[0].setY(drawY(currentStreet.getY())-(5+name.getTextSize()));
+								Log.w("ozToll",currentStreet.getName()+" - "+
+												(drawX(currentStreet.getX())-20)+","+
+												(drawY(currentStreet.getY())-(5+name.getTextSize())));
+								break;
+							case 2:
+								if ((drawX(currentStreet.getX())-(nameLength/2))<mapSize[0].getX())
+									mapSize[0].setX((drawX(currentStreet.getX())-(nameLength/2)));
+								if ((drawX(currentStreet.getX())+(nameLength/2))<mapSize[1].getX())
+									mapSize[1].setX((drawX(currentStreet.getX())+(nameLength/2)));
+								if ((drawY(currentStreet.getY())+25+name.getTextSize())>mapSize[1].getY())
+									mapSize[1].setY(drawY(currentStreet.getY())+25);
+								if ((drawY(currentStreet.getY())-20)<mapSize[0].getY())
+									mapSize[0].setY(drawY(currentStreet.getY())-20);
+								Log.w("ozToll",currentStreet.getName()+" - "+
+										(drawX(currentStreet.getX())-(nameLength/2))+","+
+										(drawY(currentStreet.getY())-20));
+								break;
+							case 3:
+								if ((drawX(currentStreet.getX())-(nameLength/2))<mapSize[0].getX())
+									mapSize[0].setX((drawX(currentStreet.getX())-(nameLength/2)));
+								if ((drawX(currentStreet.getX())+(nameLength/2))<mapSize[1].getX())
+									mapSize[1].setX((drawX(currentStreet.getX())+(nameLength/2)));
+								if ((drawY(currentStreet.getY())-(20+name.getTextSize())<mapSize[0].getY()))
+									mapSize[0].setY(drawY(currentStreet.getY())-(20+name.getTextSize()));
+								if ((drawY(currentStreet.getY())+10)>mapSize[1].getY())
+									mapSize[1].setY(drawY(currentStreet.getY())+10);
+								Log.w("ozToll",currentStreet.getName()+" - "+
+										(drawX(currentStreet.getX())-(nameLength/2))+","+
+										(drawY(currentStreet.getY())-(20+name.getTextSize())));
+								break;
+							case 0:
+							default:
+								if ((drawX(currentStreet.getX())-nameLength)<mapSize[0].getX())
+									mapSize[0].setX(drawX(currentStreet.getX())-(nameLength+20));
+								if ((drawX(currentStreet.getX())+20)>mapSize[1].getY())
+									mapSize[1].setX(drawX(currentStreet.getX())+20);
+								if (((drawY(currentStreet.getY())+5)>mapSize[1].getY()))
+									mapSize[1].setY(drawY(currentStreet.getY())+5);
+								if (((drawY(currentStreet.getY())-(5+name.getTextSize()))<mapSize[0].getY()))
+									mapSize[0].setY(drawY(currentStreet.getY())-(5+name.getTextSize()));
+								Log.w("ozToll",currentStreet.getName()+" - "+
+										(drawX(currentStreet.getX())-(nameLength+20))+","+
+										(drawY(currentStreet.getY())-(5+name.getTextSize())));
+								break;
+						}
+					}
+				canvasMins.setX(0-mapSize[0].getX());
+				canvasMins.setY(0-mapSize[0].getY());
+				Log.w ("ozToll","Image Mins :"+((Float)(mapSize[0].getX())).intValue()+","+((Float)(mapSize[0].getY())).intValue());
+				tollwayMap = Bitmap.createBitmap((((Float)(mapSize[1].getX()-mapSize[0].getX())).intValue()+10), (((Float)(mapSize[1].getY()-mapSize[0].getY())).intValue()+10), Bitmap.Config.ARGB_8888);
+				Log.w ("ozToll","Image Size :"+tollwayMap.getWidth()+","+tollwayMap.getHeight());
+				mapCanvas = new Canvas(tollwayMap);
+
+				mapCanvas.drawColor(Color.WHITE);
+
 				// Draw the map here
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int tsc=0; tsc<tollData.getStreetCount(twc); tsc++){
@@ -165,15 +237,10 @@ public class TollDataView implements Runnable{
 
 					for (int tpc=0; tpc<tollData.getPathwayCount(twc); tpc++)
 						drawPathway(tollData.getPathway(twc, tpc));
+					
 				}
 				for (int cc=0; cc<tollData.getConnectionCount(); cc++)
 					drawPathway(tollData.getConnection(cc));
-				
-				try {
-					syncObject.wait();
-				} catch (InterruptedException e) {
-					// just wait for screen to be moved
-				}
 			}
 		}
 	}
@@ -321,11 +388,11 @@ public class TollDataView implements Runnable{
 	}
 	
 	public float drawX(float mapPointX){
-		return (mapPointX*70)+110;
+		return (mapPointX*70)+canvasMins.getX();
 	}
 	
 	public float drawY(float mapPointY){
-		return (mapPointY*50)+15;
+		return (mapPointY*50)+canvasMins.getY();
 	}
 
 	public void findStreet(Coordinates touchStart) {

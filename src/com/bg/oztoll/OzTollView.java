@@ -29,7 +29,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	private OzTollData tollData = null;
 	private DrawingThread thread;
 	private Thread tollDataViewBuilder;
-	private Coordinates touchStart;
+	private Coordinates touchStart, origin, imageLocation;
 	private TollDataView tollDataView;
 	private Object syncObject, dataSync;
 	private Handler mainHandler;
@@ -41,6 +41,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			totalScale = 1.0f,
 			lastScale;
 	private ArrayList<Coordinates> eventCoords;
+	
+	private boolean fullMapLoaded=false; 
 	
 	// We can be in one of these 3 states
 	static final int NONE = 0;
@@ -76,6 +78,8 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 		
 		touchStart = new Coordinates(0,0);
+		imageLocation = new Coordinates(0,0);
+		origin = new Coordinates(0,0);
 		eventCoords = new ArrayList<Coordinates>();
 	}
 	
@@ -98,19 +102,30 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	public void onSizeChanged(int w, int h, int oldw, int oldh){
 		super.onSizeChanged(w, h, oldw, oldh);
 		
-		//tollDataView.resizeView(getResources().getDisplayMetrics().density);
 	}
 	
 	public void OnDraw(Canvas canvas){
 		if (canvas!=null){
-			canvas.save();
-			
-			canvas.scale(totalScale, totalScale);
-			canvas.drawColor(Color.WHITE);
-			
-			canvas.drawBitmap(tollDataView.getTollwayMap(), 0, 0, null);
-			
-			canvas.restore();
+			synchronized(syncObject){
+				canvas.save();
+				
+				canvas.scale(totalScale, totalScale);
+				canvas.drawColor(Color.WHITE);
+				
+				canvas.drawBitmap(tollDataView.getTollwayMap(), ((imageLocation.getX()+origin.getX())*totalScale), ((imageLocation.getY()+origin.getY())*totalScale), null);
+				
+				if (!tollData.isFinished()){
+					Message newMessage = mainHandler.obtainMessage();
+					newMessage.what=5;
+					mainHandler.sendMessage(newMessage);
+				} else {
+					Message newMessage = mainHandler.obtainMessage();
+					newMessage.what=6;
+					mainHandler.sendMessage(newMessage);
+				}
+				
+				canvas.restore();
+			}
 		}
 	}
 	
@@ -131,7 +146,11 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 						if (eventCoords.size()>1){
 							eventCoords.remove(0);
 						}
+						// event Coords will be used to calculate drift later
 						eventCoords.add(newCoords);
+						// This should move the image around
+						imageLocation.setX(newCoords.getX());
+						imageLocation.setY(newCoords.getY());
 					} else if (mode==ZOOM){
 						float newDist = spacing(event);
 						if (newDist > 10f){
@@ -153,6 +172,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_POINTER_UP:
 					// Need to figure out if where the user pressed is a street
 					// tollDataView.findStreet(touchStart);
+					origin.updateX(imageLocation.getX());
+					origin.updateY(imageLocation.getY());
+					imageLocation.reset();
 					eventCoords= new ArrayList<Coordinates>();
 					mode = NONE;
 					break;

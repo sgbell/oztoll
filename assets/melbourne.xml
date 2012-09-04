@@ -6,115 +6,115 @@
 			<exit>
 				<street>
 					<name>Tullamarine Fwy</name>
-					<y>0</y>
+					<y>2</y>
 					<x>0</x>
 					<location>0</location>
 				</street>
 				<street>
 					<name>Bell St</name>
-					<y>0</y>
-					<x>1</x>
-					<location>1</location>
-				</street>
-				<street>
-					<name>Moreland Rd</name>
-					<y>1</y>
-					<x>1</x>
-					<location>0</location>
-				</street>
-				<street>
-					<name>Brunswick Rd</name>
 					<y>2</y>
 					<x>1</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Flemington Rd</name>
+					<name>Moreland Rd</name>
 					<y>3</y>
 					<x>1</x>
 					<location>0</location>
 				</street>
 				<street>
-					<name>Racecourse Rd</name>
+					<name>Brunswick Rd</name>
 					<y>4</y>
 					<x>1</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Dynon Rd</name>
+					<name>Flemington Rd</name>
 					<y>5</y>
 					<x>1</x>
 					<location>0</location>
 				</street>
 				<street>
-					<name>Footscray Rd</name>
+					<name>Racecourse Rd</name>
 					<y>6</y>
+					<x>1</x>
+					<location>1</location>
+				</street>
+				<street>
+					<name>Dynon Rd</name>
+					<y>7</y>
+					<x>1</x>
+					<location>0</location>
+				</street>
+				<street>
+					<name>Footscray Rd</name>
+					<y>8</y>
 					<x>1</x>
 					<location>0</location>
 				</street>
 				<street>
 					<name>West Gate Fwy</name>
-					<y>7</y>
+					<y>9</y>
 					<x>1</x>
 					<location>0</location>
 				</street>
 				<street>
 					<name>Kings Way</name>
-					<y>7</y>
+					<y>9</y>
 					<x>2</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Power St</name>
-					<y>7</y>
+					<y>9</y>
 					<x>3</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Exhibition St</name>
-					<y>6</y>
+					<y>8</y>
 					<x>4</x>
 					<location>3</location>
 				</street>
 				<street>
 					<name>Swan St</name>
-					<y>7</y>
+					<y>9</y>
 					<x>4</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Punt Rd</name>
-					<y>7</y>
+					<y>9</y>
 					<x>5</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Church St</name>
-					<y>7</y>
+					<y>9</y>
 					<x>6</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Burnley St</name>
-					<y>7</y>
+					<y>9</y>
 					<x>7</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Gibdon St</name>
-					<y>7</y>
+					<y>9</y>
 					<x>8</x>
 					<location>2</location>
 				</street>
 				<street>
 					<name>Yarra Blvd</name>
-					<y>7</y>
+					<y>9</y>
 					<x>9</x>
 					<location>3</location>
 				</street>
 				<street>
 					<name>Toorak Rd</name>
-					<y>7</y>
+					<y>9</y>
 					<x>10</x>
 					<location>2</location>
 				</street>
@@ -531,103 +531,103 @@
 			<exit>
 				<street>
 					<name>Springvale Rd</name>
-					<y>-2</y>
+					<y>0</y>
 					<x>11</x>
 					<location>0</location>
 				</street>
 				<street>
 					<name>Ringwood Bypass</name>
-					<y>-2</y>
-					<x>12</x>
-					<location>1</location>
-				</street>
-				<street>
-					<name>Maroondah Hwy</name>
-					<y>-1</y>
-					<x>12</x>
-					<location>1</location>
-				</street>
-				<street>
-					<name>Canterbury Rd</name>
 					<y>0</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Boronia Rd</name>
+					<name>Maroondah Hwy</name>
 					<y>1</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Burwood Hwy</name>
+					<name>Canterbury Rd</name>
 					<y>2</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>High St Rd</name>
+					<name>Boronia Rd</name>
 					<y>3</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Ferntree Gully Rd</name>
+					<name>Burwood Hwy</name>
 					<y>4</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Wellington Rd</name>
+					<name>High St Rd</name>
 					<y>5</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Police Rd</name>
+					<name>Ferntree Gully Rd</name>
 					<y>6</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Monash Fwy</name>
+					<name>Wellington Rd</name>
 					<y>7</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Princes Hwy</name>
+					<name>Police Rd</name>
 					<y>8</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Cheltenham Rd</name>
+					<name>Monash Fwy</name>
 					<y>9</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Dandenong Bypass</name>
+					<name>Princes Hwy</name>
 					<y>10</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Greens Rd</name>
+					<name>Cheltenham Rd</name>
 					<y>11</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 				<street>
-					<name>Thompson Rd</name>
+					<name>Dandenong Bypass</name>
 					<y>12</y>
+					<x>12</x>
+					<location>1</location>
+				</street>
+				<street>
+					<name>Greens Rd</name>
+					<y>13</y>
+					<x>12</x>
+					<location>1</location>
+				</street>
+				<street>
+					<name>Thompson Rd</name>
+					<y>14</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
 	    		<street>
 					<name>Frankston Fwy</name>
-					<y>13</y>
+					<y>15</y>
 					<x>12</x>
 					<location>1</location>
 				</street>
