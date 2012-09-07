@@ -297,6 +297,7 @@ public class OzTollData implements Runnable{
 		for (int twc=0; twc< getTollwayCount(); twc++){
 			for (int sc=0; sc < getStreetCount(twc); sc++){
 				getStreet(twc, sc).setValid(false);
+				//Log.w("ozToll","findStreet().setStreetsToInvalid().Street"+getStreet(twc,sc).getName());
 			}
 		}
 	}

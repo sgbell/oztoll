@@ -102,6 +102,14 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	public void onSizeChanged(int w, int h, int oldw, int oldh){
 		super.onSizeChanged(w, h, oldw, oldh);
 		
+		if (getWidth()>getHeight()){
+			tollDataView.setXMultiplier((float)getWidth()/381);
+			tollDataView.setYMultiplier((float)getHeight()/240);
+		} else {
+			tollDataView.setXMultiplier((float)getWidth()/240);
+			tollDataView.setYMultiplier((float)getHeight()/381);
+		}
+		tollDataView.resizeView(getResources().getDisplayMetrics().density);
 	}
 	
 	public void OnDraw(Canvas canvas){
@@ -118,6 +126,11 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					Message newMessage = mainHandler.obtainMessage();
 					newMessage.what=5;
 					mainHandler.sendMessage(newMessage);
+					try {
+						dataSync.notify();
+					} catch (IllegalMonitorStateException e){
+						// just so it wont crash
+					}
 				} else {
 					Message newMessage = mainHandler.obtainMessage();
 					newMessage.what=6;
@@ -171,7 +184,13 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_POINTER_UP:
 					// Need to figure out if where the user pressed is a street
-					// tollDataView.findStreet(touchStart);
+					// If map is only dragged like 3 pixels the app will treat it as 
+					// a map selection.
+					if ((imageLocation.getX()>-3)&&(imageLocation.getX()<3)&&
+						(imageLocation.getY()>-3)&&(imageLocation.getY()<3)&&
+						(mode==DRAG))
+						tollDataView.findStreet(touchStart,origin);
+					
 					origin.updateX(imageLocation.getX());
 					origin.updateY(imageLocation.getY());
 					imageLocation.reset();
