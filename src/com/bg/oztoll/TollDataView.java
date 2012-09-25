@@ -187,13 +187,17 @@ public class TollDataView implements Runnable{
 				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 					for (int tsc=0; tsc<tollData.getStreetCount(twc); tsc++){
 						Street currentStreet = tollData.getStreet(twc, tsc);
-						if ((currentStreet.isValid())||(!tollData.isFinished()))
+						if ((currentStreet.isValid())||(!tollData.isFinished())||
+							(currentStreet==tollData.getStart())||
+							(currentStreet==tollData.getFinish()))
 							mapCanvas.drawCircle(drawX(currentStreet.getX()), drawY(currentStreet.getY()), 10*xMultiplier, map);
+						
+						/*
+						 * Marking the map
 						if ((currentStreet==tollData.getStart())||
 							(currentStreet==tollData.getFinish())){
-							mapCanvas.drawCircle(drawX(currentStreet.getX()), drawY(currentStreet.getY()), 10*xMultiplier, map);
 							mapCanvas.drawCircle(drawX(currentStreet.getX()), drawY(currentStreet.getY()), 6*xMultiplier, mapSelected);
-						}
+						}*/
 						
 						String streetName = currentStreet.getName();
 						float txtWidth = name.measureText(streetName);
@@ -225,11 +229,29 @@ public class TollDataView implements Runnable{
 					}
 
 					for (int tpc=0; tpc<tollData.getPathwayCount(twc); tpc++)
-						drawPathway(tollData.getPathway(twc, tpc));
-					
+						drawPathway(tollData.getPathway(twc, tpc),map);
+				}
+
+				for (int cc=0; cc<tollData.getConnectionCount(); cc++)
+					drawPathway(tollData.getConnection(cc),map);
+				
+				// Marking the map, (pathway and start and end)
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
+					for (int tsc=0; tsc<tollData.getStreetCount(twc); tsc++){
+						Street currentStreet = tollData.getStreet(twc, tsc);
+						// if street is start or end. mark it with a selected circle
+						if ((currentStreet==tollData.getStart())||
+							(currentStreet==tollData.getFinish()))
+							mapCanvas.drawCircle(drawX(currentStreet.getX()), drawY(currentStreet.getY()), 6*xMultiplier, mapSelected);
+					}
+					for (int tpc=0; tpc<tollData.getPathwayCount(twc); tpc++)
+						if (tollData.getPathway(twc,tpc).isRoute())
+							drawPathway(tollData.getPathway(twc, tpc),mapSelected);
 				}
 				for (int cc=0; cc<tollData.getConnectionCount(); cc++)
-					drawPathway(tollData.getConnection(cc));
+					if (tollData.getConnection(cc).isRoute())
+						drawPathway(tollData.getConnection(cc),mapSelected);
+				
 			}
 		}
 	}
@@ -238,7 +260,7 @@ public class TollDataView implements Runnable{
 	 * 
 	 * @param currentPathway
 	 */
-	public void drawPathway(Pathway currentPathway){
+	public void drawPathway(Pathway currentPathway, Paint paint){
 		Coordinates line[] = new Coordinates[2];
 		line[0] = new Coordinates(drawX(currentPathway.getStart().getX()),
 								  drawY(currentPathway.getStart().getY()));
@@ -246,6 +268,7 @@ public class TollDataView implements Runnable{
 								  drawY(currentPathway.getEnd().getY()));
 
 		if (tollData.getStart()!=null){
+			// Vertical Line Drawing here
 			if (line[0].getX()==line[1].getX()){
 				/* If the current spot is an invalid exit for the selected starting point, and is not the start
 				 * or finish, this if statement will replace the bottom half of a circle with a line.
@@ -253,6 +276,10 @@ public class TollDataView implements Runnable{
 				if ((!currentPathway.getStart().isValid())&&
 					(currentPathway.getStart()!=tollData.getStart())&&
 					(currentPathway.getStart()!=tollData.getFinish())){
+					if (line[0].getY()<line[1].getY())
+						line[0].setY(line[0].getY()-(10*yMultiplier));
+					else
+						line[0].setY(line[0].getY()+(10*yMultiplier));
 				}
 				/* If the current spot is an invalid exit for the selected starting point, and is not the start
 				 * or finish, this if statement will replace the top half of a circle with a line. 
@@ -260,7 +287,12 @@ public class TollDataView implements Runnable{
 				if ((!currentPathway.getEnd().isValid())&&
 					(currentPathway.getEnd()!=tollData.getStart())&&
 					(currentPathway.getEnd()!=tollData.getFinish())){
+					if (line[0].getY()<line[1].getY())
+						line[1].setY(line[1].getY()+(10*yMultiplier));
+					else
+						line[1].setY(line[1].getY()-(10*yMultiplier));
 				}
+			// Horizontal Line drawing here
 			} else if (line[0].getY()==line[1].getY()){
 				// Horizontal Roads, marking the map when a street is gone
 				/* If the current spot is an invalid exit for the selected starting point, and is not the start
@@ -269,7 +301,10 @@ public class TollDataView implements Runnable{
 				if ((!currentPathway.getStart().isValid())&&
 					(currentPathway.getStart()!=tollData.getStart())&&
 					(currentPathway.getStart()!=tollData.getFinish())){
-					line[0].setX(line[0].getX()+(5*xMultiplier));
+					if (line[0].getX()<line[1].getX())
+						line[0].setX(line[0].getX()-(10*xMultiplier));
+					else
+						line[0].setX(line[0].getX()+(10*xMultiplier));
 				}
 				/* If the current spot is an invalid exit for the selected starting point, and is not the start
 				 * or finish, this if statement will replace the left half of a circle with a line.
@@ -277,27 +312,13 @@ public class TollDataView implements Runnable{
 				if ((!currentPathway.getEnd().isValid())&&
 					(currentPathway.getEnd()!=tollData.getStart())&&
 					(currentPathway.getEnd()!=tollData.getFinish())){
-					
+					if (line[0].getX()<line[1].getX())
+						line[1].setX(line[1].getX()+(10*xMultiplier));
+					else
+						line[1].setX(line[1].getX()-(10*xMultiplier));
 				}
 			}			
 		}
-		
-		/*  Below is the code to fix the lines
-		 *  startX and startY are currentPathway.getStart.getX() and getY()
-		 * 
-		 * 	if (!markedRoad){
-		 *		if (startX==endX){
-		 *			startY+=((10*screenYMultiplier)-(1*screenYMultiplier));
-		 *			endY-=((10*screenYMultiplier)-(1*screenYMultiplier));
-		 *		}
-		 *		if (startY==endY){
-		 *			startX+=((10*screenXMultiplier)-(1*screenXMultiplier));
-		 *			endX-=((10*screenXMultiplier)-(1*screenXMultiplier));
-		 *		}
-		 *	}
-		 *	canvas.drawLine(startX,	startY,	endX, endY,	paint);
-		 */
-		
 		
 		if (line[0].getX()==line[1].getX()){
 			if (line[0].getY()<line[1].getY()){
@@ -322,13 +343,7 @@ public class TollDataView implements Runnable{
 				 		   line[0].getY(),
 				 		   line[1].getX(),
 				 		   line[1].getY(),
-				 		   map);
-		if (currentPathway.isRoute())
-			mapCanvas.drawLine(line[0].getX(),
-					 		   line[0].getY(),
-					 		   line[1].getX(),
-					 		   line[1].getY(),
-					 		   mapSelected);
+				 		   paint);
 	}
 	
 	/** This function is used to get the map for OzTollView
