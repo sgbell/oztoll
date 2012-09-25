@@ -136,7 +136,23 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					newMessage.what=6;
 					mainHandler.sendMessage(newMessage);
 				}
-				
+				synchronized (tollDataView){
+					if ((tollDataView.isRateCalculated())&&(!rateShown)){
+						Message msg = mainHandler.obtainMessage();
+						msg.what=3;
+						LinearLayout rateLayout = tollDataView.getRateDialog();
+						msg.obj=rateLayout;	
+						
+						mainHandler.sendMessage(msg);
+						rateShown=true;
+					}
+					// Added the following if statement, so that if the user deselects the end street, and the dialog has been shown
+					// it will reset the value that tells the system the rate has been shown.
+					if ((tollDataView.getEnd()==null)&&(rateShown)){
+						rateShown=false;
+					}
+				}
+
 				canvas.restore();
 			}
 		}
