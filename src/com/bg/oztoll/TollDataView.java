@@ -356,84 +356,108 @@ public class TollDataView implements Runnable{
 				sc=0;
 			while ((!streetFound)&&(twc<tollData.getTollwayCount())){
 				Street currentStreet = tollData.getStreet(twc, sc);
-				Coordinates streetCoords = new Coordinates(
-						drawX(currentStreet.getX()),
-						drawY(currentStreet.getY()));
 				
-				Rect bounds = new Rect();
-				name.getTextBounds(currentStreet.getName(), 0, currentStreet.getName().length(), bounds);
-				float minX=0, maxX=0, minY=0, maxY=0;
-				/* The following switch statement will set the min/max x/y values needed for the current street
-				 * to check if the street is selected by the user.
-				 */
-				switch (currentStreet.getLocation()){
-					case 1:
-						minX = streetCoords.getX()-(20*xMultiplier);
-						// maxX adds the length of the text away
-						maxX = streetCoords.getX()+((20+bounds.right-bounds.left)*xMultiplier);
-						minY = streetCoords.getY()-(20*xMultiplier);
-						maxY = streetCoords.getY()+(20*xMultiplier);
-						break;
-					case 2:
-						// minX and maxX are around the text width which is printed in the middle of the street point
-						minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
-						maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
-						minY = streetCoords.getY()-(20*xMultiplier);
-						// maxY is the height of the text above the street point
-						maxY = streetCoords.getY()+((bounds.bottom-bounds.top)+(25));
-						break;
-					case 3:
-						minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
-						maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
-						minY = streetCoords.getY()-((20+bounds.bottom-bounds.top)*xMultiplier);
-						maxY = streetCoords.getY()+(20*xMultiplier);
-						break;
-					case 0:
-					default:
-						minX = streetCoords.getX()-((bounds.right-bounds.left+20)*xMultiplier);
-						maxX = streetCoords.getX()+(20*xMultiplier);
-						minY = streetCoords.getY()-(20*xMultiplier);
-						maxY = streetCoords.getY()+(20*xMultiplier);
-						break;
-				}
-				Log.w ("ozToll","findStreet(): minX="+minX+", maxX="+maxX+", minY="+minY+", maxY="+maxY);
-				Log.w ("ozToll","findStreet() Street:"+currentStreet.getName()+
-								": {"+currentStreet.getX()+","+currentStreet.getY()+"}{"+
-								streetCoords.getX()+","+streetCoords.getY()+"}" +
-								" Location:"+currentStreet.getLocation());
-
-				// The if statement to check if the street is selected
-				if ((touchStart.getX()>minX)&&
-					(touchStart.getX()<maxX)&&
-					(touchStart.getY()>minY)&&
-					(touchStart.getY()<maxY)){
-					if ((getStart()==null)&&(currentStreet.isValid())){
-						// If no selection has been made yet
-						setStart(currentStreet);
-						//Log.w ("ozToll","findStreet() :"+currentStreet.getName());
-						tollData.setStreetsToInvalid();
-						markRoads(tollData.getStart());
-						for (int cc=0; cc < tollData.getConnectionCount(); cc++){
-							if (tollData.getConnection(cc).getStart()==tollData.getStart())
-								markRoads(tollData.getConnection(cc).getEnd());
-							else if (tollData.getConnection(cc).getEnd()==tollData.getStart())
-								markRoads(tollData.getConnection(cc).getStart());
-						}
-						streetFound=true;
-						//Log.w("ozToll","findStreet().notify()");
-						synchronized(dataSync){
-							try {
-								dataSync.notify();
-							} catch (IllegalMonitorStateException e){
-								// just so it wont crash
+				if (currentStreet!=null){
+					Log.w("ozToll","street:"+currentStreet.getName());
+					Coordinates streetCoords = new Coordinates(
+							drawX(currentStreet.getX()),
+							drawY(currentStreet.getY()));
+					
+					Rect bounds = new Rect();
+					name.getTextBounds(currentStreet.getName(), 0, currentStreet.getName().length(), bounds);
+					float minX=0, maxX=0, minY=0, maxY=0;
+					/* The following switch statement will set the min/max x/y values needed for the current street
+					 * to check if the street is selected by the user.
+					 */
+					switch (currentStreet.getLocation()){
+						case 1:
+							minX = streetCoords.getX()-(20*xMultiplier);
+							// maxX adds the length of the text away
+							maxX = streetCoords.getX()+((20+bounds.right-bounds.left)*xMultiplier);
+							minY = streetCoords.getY()-(20*xMultiplier);
+							maxY = streetCoords.getY()+(20*xMultiplier);
+							break;
+						case 2:
+							// minX and maxX are around the text width which is printed in the middle of the street point
+							minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
+							maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
+							minY = streetCoords.getY()-(20*xMultiplier);
+							// maxY is the height of the text above the street point
+							maxY = streetCoords.getY()+((bounds.bottom-bounds.top)+(25));
+							break;
+						case 3:
+							minX = streetCoords.getX()-((bounds.right-bounds.left)/2);
+							maxX = streetCoords.getX()+((bounds.right-bounds.left)/2);
+							minY = streetCoords.getY()-((20+bounds.bottom-bounds.top)*xMultiplier);
+							maxY = streetCoords.getY()+(20*xMultiplier);
+							break;
+						case 0:
+						default:
+							minX = streetCoords.getX()-((bounds.right-bounds.left+20)*xMultiplier);
+							maxX = streetCoords.getX()+(20*xMultiplier);
+							minY = streetCoords.getY()-(20*xMultiplier);
+							maxY = streetCoords.getY()+(20*xMultiplier);
+							break;
+					}
+					/*
+					Log.w ("ozToll","findStreet(): minX="+minX+", maxX="+maxX+", minY="+minY+", maxY="+maxY);
+					Log.w ("ozToll","findStreet() Street:"+currentStreet.getName()+
+									": {"+currentStreet.getX()+","+currentStreet.getY()+"}{"+
+									streetCoords.getX()+","+streetCoords.getY()+"}" +
+									" Location:"+currentStreet.getLocation());
+					*/
+					
+					// The if statement to check if the street is selected
+					if ((touchStart.getX()>minX)&&
+						(touchStart.getX()<maxX)&&
+						(touchStart.getY()>minY)&&
+						(touchStart.getY()<maxY)){
+						if ((getStart()==null)&&(currentStreet.isValid())){
+							// If no selection has been made yet
+							setStart(currentStreet);
+							//Log.w ("ozToll","findStreet() :"+currentStreet.getName());
+							tollData.setStreetsToInvalid();
+							markRoads(tollData.getStart());
+							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+								if (tollData.getConnection(cc).getStart()==tollData.getStart())
+									markRoads(tollData.getConnection(cc).getEnd());
+								else if (tollData.getConnection(cc).getEnd()==tollData.getStart())
+									markRoads(tollData.getConnection(cc).getStart());
 							}
-						}
-					} else if (currentStreet==getStart()){
-						if (getEnd()==null){
-							// If the user deselects the start road
-							setStart(null);
-							// calling resetPaths resets the paths and the valid streets
-							resetPaths();
+							streetFound=true;
+							//Log.w("ozToll","findStreet().notify()");
+							synchronized(dataSync){
+								try {
+									dataSync.notify();
+								} catch (IllegalMonitorStateException e){
+									// just so it wont crash
+								}
+							}
+						} else if (currentStreet==getStart()){
+							if (getEnd()==null){
+								// If the user deselects the start road
+								setStart(null);
+								// calling resetPaths resets the paths and the valid streets
+								resetPaths();
+								streetFound=true;
+								synchronized(dataSync){
+									try {
+										dataSync.notify();
+									} catch (IllegalMonitorStateException e){
+										// just so it wont crash
+									}
+								}
+								// Send handler to reset shownStart to false
+								Message msg = mainHandler.obtainMessage();
+								msg.what=7;
+								mainHandler.sendMessage(msg);
+							}
+						} else if ((currentStreet.isValid())&&(getEnd()==null)){
+							// If the user selects the end road
+							setEnd(currentStreet);
+							processPath(tollData.getStart(),tollData.getFinish());
+							rateLayout = tollData.processToll(tollData.getStart(), tollData.getFinish(), appContext);
+							rateCalculated=true;
 							streetFound=true;
 							synchronized(dataSync){
 								try {
@@ -442,60 +466,41 @@ public class TollDataView implements Runnable{
 									// just so it wont crash
 								}
 							}
-							// Send handler to reset shownStart to false
+						} else if (currentStreet==getEnd()){
+							// If the user de-selects the end road
+							setEnd(null);
+							resetPaths();
+							tollData.setStreetsToInvalid();
+							markRoads(tollData.getStart());
+							for (int cc=0; cc < tollData.getConnectionCount(); cc++){
+								if (tollData.getConnection(cc).getStart()==tollData.getStart()){
+									markRoads(tollData.getConnection(cc).getEnd());
+								} else if (tollData.getConnection(cc).getEnd()==tollData.getStart()){
+									markRoads(tollData.getConnection(cc).getStart());
+								}
+							}
+							streetFound=true;
+							synchronized(dataSync){
+								try {
+									dataSync.notify();
+								} catch (IllegalMonitorStateException e){
+									// just so it wont crash
+								}
+							}
+							setRateCalculated(false);
 							Message msg = mainHandler.obtainMessage();
-							msg.what=7;
+							msg.what=8;
 							mainHandler.sendMessage(msg);
 						}
-					} else if ((currentStreet.isValid())&&(getEnd()==null)){
-						// If the user selects the end road
-						setEnd(currentStreet);
-						processPath(tollData.getStart(),tollData.getFinish());
-						rateLayout = tollData.processToll(tollData.getStart(), tollData.getFinish(), appContext);
-						rateCalculated=true;
-						streetFound=true;
-						synchronized(dataSync){
-							try {
-								dataSync.notify();
-							} catch (IllegalMonitorStateException e){
-								// just so it wont crash
-							}
-						}
-					} else if (currentStreet==getEnd()){
-						// If the user de-selects the end road
-						setEnd(null);
-						resetPaths();
-						tollData.setStreetsToInvalid();
-						markRoads(tollData.getStart());
-						for (int cc=0; cc < tollData.getConnectionCount(); cc++){
-							if (tollData.getConnection(cc).getStart()==tollData.getStart()){
-								markRoads(tollData.getConnection(cc).getEnd());
-							} else if (tollData.getConnection(cc).getEnd()==tollData.getStart()){
-								markRoads(tollData.getConnection(cc).getStart());
-							}
-						}
-						streetFound=true;
-						synchronized(dataSync){
-							try {
-								dataSync.notify();
-							} catch (IllegalMonitorStateException e){
-								// just so it wont crash
-							}
-						}
-						setRateCalculated(false);
-						Message msg = mainHandler.obtainMessage();
-						msg.what=8;
-						mainHandler.sendMessage(msg);
 					}
 				}
 				sc++;
-				if (sc>tollData.getTollCount(twc)){
+				if (sc>tollData.getStreetCount(twc)){
 					twc++;
 					sc=0;
 				}
+
 			}
-			
-			
 		}
 	}
 

@@ -51,28 +51,9 @@ public class OzTollMapActivity extends Activity {
 		
 	}
 	
-	public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.layout.menu, menu);
-    	
-    	return true;
-	}
-	
     public void openPreferences(){
 			Intent intent = new Intent (OzTollMapActivity.this, AppPreferences.class);
 			startActivity(intent);
-    }
-    
-    public boolean onOptionsItemSelected(MenuItem item){
-    	switch (item.getItemId()) {
-    		case R.id.settings:
-    			openPreferences();
-    			break;
-    		case R.id.reset:
-    			ozView.reset();
-    			break;
-    	}
-    	return true;
     }
     
     protected void onStop(){

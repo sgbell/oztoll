@@ -717,8 +717,8 @@ public class OzTollData implements Runnable{
 	}
 	
 	public Street getStreet(int twc, int twi) {
-		if (tollways.size()>0)
-			if (tollways.get(0).getStreets().size()>0)
+		if (twc<tollways.size())
+			if (twi<tollways.get(twc).getStreets().size())
 				return tollways.get(twc).getStreets().get(twi);
 			else
 				return null;
