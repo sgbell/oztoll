@@ -7,26 +7,18 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 
 /**
  * @author bugman
@@ -53,28 +45,9 @@ public class OzTollTextActivity extends Activity {
 		}
 	}
 	
-	public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.layout.menu, menu);
-    	
-    	return true;
-	}
-	
     public void openPreferences(){
 			Intent intent = new Intent (OzTollTextActivity.this, AppPreferences.class);
 			startActivity(intent);
-    }
-    
-    public boolean onOptionsItemSelected(MenuItem item){
-    	switch (item.getItemId()) {
-    		case R.id.settings:
-    			openPreferences();
-    			break;
-    		case R.id.reset:
-    			ozTextView.reset();
-    			break;
-    	}
-    	return true;
     }
     
     protected void onStop(){
