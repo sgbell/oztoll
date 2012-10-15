@@ -3,6 +3,11 @@
  */
 package com.bg.oztoll;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,7 +31,7 @@ import android.text.Html;
  * @author bugman
  *
  */
-public class OzTollMapActivity extends Activity {
+public class OzTollMapActivity extends SherlockActivity {
 	private OzTollView ozView;
 	private Dialog rateDialog, startDialog;
 	private ProgressDialog progDialog;
@@ -48,7 +53,25 @@ public class OzTollMapActivity extends Activity {
 		
 	}
 	
-    public void openPreferences(){
+	public boolean onCreateOptionsMenu (Menu menu){
+		//http://avilyne.com/?p=180
+		
+		MenuItem miPrefs = menu.add("Preferences");
+		miPrefs.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		
+		miPrefs.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				openPreferences();
+				return true;
+			}
+		});
+		
+		return true;
+	}
+	
+	public void openPreferences(){
 			Intent intent = new Intent (OzTollMapActivity.this, AppPreferences.class);
 			startActivity(intent);
     }
@@ -82,6 +105,7 @@ public class OzTollMapActivity extends Activity {
 		
 		if (preferences.getBoolean("applicationView", true)){
 			// if view is mapView
+			// the line below is causing the program to crash
 			ozView = new OzTollView(this, global.getTollData(), handler);
 			setContentView(ozView);
 			// Creates a new dialog
@@ -188,7 +212,7 @@ public class OzTollMapActivity extends Activity {
     // TollDataView Lines 536 & 568 to send handler messages.
     
     public void showMessage(String message){
-    	//Code Block for showing “Please select your starting point and Exit Point”
+    	//Code Block for showing ���Please select your starting point and Exit Point���
 		// This is the message
 		builder.setMessage(message);
 		alert = builder.create();

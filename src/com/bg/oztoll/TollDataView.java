@@ -44,6 +44,7 @@ public class TollDataView implements Runnable{
 	public TollDataView(){
 		syncObject = new Object();
 		moveSync = new Object();
+		// out of memory error below
 		tollwayMap = Bitmap.createBitmap(1100, 768, Bitmap.Config.ARGB_8888);
 		mapCanvas = new Canvas(tollwayMap);
 		canvasMins= new Coordinates();
@@ -55,6 +56,7 @@ public class TollDataView implements Runnable{
 	
 	public TollDataView(OzTollData data){
 		this();
+		//the above line
 		tollData=data;
 		cityName = "";		
 		
@@ -63,6 +65,7 @@ public class TollDataView implements Runnable{
 	
 	public TollDataView(OzTollData data, int height, int width, Context context){
 		this(data);
+		// the above line is involved
 		appContext=context;
 	}
 	
@@ -178,6 +181,7 @@ public class TollDataView implements Runnable{
 					}
 				canvasMins.setX(0-mapSize[0].getX());
 				canvasMins.setY(0-mapSize[0].getY());
+				tollwayMap.recycle();
 				tollwayMap = Bitmap.createBitmap((((Float)(mapSize[1].getX()-mapSize[0].getX())).intValue()+10), (((Float)(mapSize[1].getY()-mapSize[0].getY())).intValue()+10), Bitmap.Config.ARGB_8888);
 				mapCanvas = new Canvas(tollwayMap);
 

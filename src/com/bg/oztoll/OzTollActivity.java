@@ -1,13 +1,13 @@
 package com.bg.oztoll;
 
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-public class OzTollActivity extends Activity {
+public class OzTollActivity extends SherlockActivity {
 	private Intent mapView, textView;
 	private OzTollApplication global;
 	private SharedPreferences preferences;
@@ -31,15 +31,6 @@ public class OzTollActivity extends Activity {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     }
 
-    /**
-     * openPreferences is used to start the preferenced Dialog. on application startup
-     */
-    public void openPreferences(){
-			Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
-			startActivity(intent);
-    }
-    
-    
     /**
      * onResume is called after onCreate, or when an app is still in memory and resumed.
      */

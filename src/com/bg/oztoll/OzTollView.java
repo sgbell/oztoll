@@ -59,6 +59,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		this.tollData = tollData;
 
 		dataSync = tollData.getDataSync();
+		// following line is causing the crash
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
 		tollDataView.resizeView(getResources().getDisplayMetrics().density);
 		syncObject = tollDataView.getSync();
@@ -87,6 +88,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		this(context);
 		mainHandler = handler;
 
+		// This is causing it to crash
 		setDataFile(tollData);
 	}
 	
@@ -257,6 +259,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				// keep trying until it's finished
 			}
 		}
+		tollDataView.getTollwayMap().recycle();
 	}
 
 	public Dialog getRateDialog(){

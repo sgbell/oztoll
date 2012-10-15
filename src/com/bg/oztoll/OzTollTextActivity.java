@@ -3,6 +3,11 @@
  */
 package com.bg.oztoll;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -24,7 +29,7 @@ import android.widget.TextView;
  * @author bugman
  *
  */
-public class OzTollTextActivity extends Activity {
+public class OzTollTextActivity extends SherlockActivity {
 	private OzTollApplication global;
 	private SharedPreferences preferences;
 	private Dialog rateDialog;
@@ -43,6 +48,24 @@ public class OzTollTextActivity extends Activity {
 		if (global.getDatasync()==null){
 			global.setDatasync(new Object());
 		}
+	}
+	
+	public boolean onCreateOptionsMenu (Menu menu){
+		//http://avilyne.com/?p=180
+		
+		MenuItem miPrefs = menu.add("Preferences");
+		miPrefs.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		
+		miPrefs.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				openPreferences();
+				return true;
+			}
+		});
+		
+		return true;
 	}
 	
     public void openPreferences(){
