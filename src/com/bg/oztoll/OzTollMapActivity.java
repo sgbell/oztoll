@@ -3,10 +3,11 @@
  */
 package com.bg.oztoll;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.google.android.maps.MapView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,7 +32,7 @@ import android.text.Html;
  * @author bugman
  *
  */
-public class OzTollMapActivity extends SherlockActivity {
+public class OzTollMapActivity extends SherlockMapActivity {
 	private OzTollView ozView;
 	private Dialog rateDialog, startDialog;
 	private ProgressDialog progDialog;
@@ -105,9 +106,12 @@ public class OzTollMapActivity extends SherlockActivity {
 		
 		if (preferences.getBoolean("applicationView", true)){
 			// if view is mapView
-			// the line below is causing the program to crash
-			ozView = new OzTollView(this, global.getTollData(), handler);
-			setContentView(ozView);
+			setContentView(R.layout.oztoll_map);
+			MapView mapView = (MapView) findViewById(R.id.oztollmap);
+			mapView.setBuiltInZoomControls(true);
+			
+			
+			
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
 		} else {
@@ -228,4 +232,10 @@ public class OzTollMapActivity extends SherlockActivity {
 	    							}
 		    					 }, 5000);
     }
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
