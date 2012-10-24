@@ -61,7 +61,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 		dataSync = tollData.getDataSync();
 		// following line is causing the crash
 		tollDataView = new TollDataView(tollData, getHeight(), getWidth(), getContext());
-		tollDataView.resizeView(getResources().getDisplayMetrics().density);
+		//tollDataView.resizeView(getResources().getDisplayMetrics().density);
 		syncObject = tollDataView.getSync();
 		tollDataView.setMainHandler(mainHandler);
 		tollDataViewBuilder = new Thread(tollDataView);
@@ -103,7 +103,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public void onSizeChanged(int w, int h, int oldw, int oldh){
 		super.onSizeChanged(w, h, oldw, oldh);
-		
+		/*
 		if (getWidth()>getHeight()){
 			tollDataView.setXMultiplier((float)getWidth()/381);
 			tollDataView.setYMultiplier((float)getHeight()/240);
@@ -112,6 +112,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			tollDataView.setYMultiplier((float)getHeight()/381);
 		}
 		tollDataView.resizeView(getResources().getDisplayMetrics().density);
+		*/
 	}
 	
 	public void OnDraw(Canvas canvas){
@@ -121,8 +122,9 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				
 				canvas.scale(totalScale, totalScale);
 				canvas.drawColor(Color.WHITE);
+			
 				
-				canvas.drawBitmap(tollDataView.getTollwayMap(), ((imageLocation.getX()+origin.getX())*totalScale), ((imageLocation.getY()+origin.getY())*totalScale), null);
+				//canvas.drawBitmap(tollDataView.getTollwayMap(), ((imageLocation.getX()+origin.getX())*totalScale), ((imageLocation.getY()+origin.getY())*totalScale), null);
 				
 				if (!tollData.isFinished()){
 					Message newMessage = mainHandler.obtainMessage();
@@ -139,6 +141,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					mainHandler.sendMessage(newMessage);
 				}
 				synchronized (tollDataView){
+					/*
 					if ((tollDataView.isRateCalculated())&&(!rateShown)){
 						Message msg = mainHandler.obtainMessage();
 						msg.what=3;
@@ -150,9 +153,10 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					}
 					// Added the following if statement, so that if the user deselects the end street, and the dialog has been shown
 					// it will reset the value that tells the system the rate has been shown.
+					
 					if ((tollDataView.getEnd()==null)&&(rateShown)){
 						rateShown=false;
-					}
+					}*/
 				}
 
 				canvas.restore();
@@ -207,7 +211,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 					if ((imageLocation.getX()>-3)&&(imageLocation.getX()<3)&&
 						(imageLocation.getY()>-3)&&(imageLocation.getY()<3)&&
 						(mode==DRAG))
-						tollDataView.findStreet(touchStart,origin);
+						//tollDataView.findStreet(touchStart,origin);
 					
 					origin.updateX(imageLocation.getX());
 					origin.updateY(imageLocation.getY());
@@ -259,7 +263,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 				// keep trying until it's finished
 			}
 		}
-		tollDataView.getTollwayMap().recycle();
+		//tollDataView.getTollwayMap().recycle();
 	}
 
 	public Dialog getRateDialog(){
@@ -269,7 +273,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 	public void setRateDialog(Dialog newDialog){
 		rateDialog = newDialog;
 	}
-	
+	/*
 	public void reset() {
 		synchronized (tollDataView){
 			tollDataView.setEnd(null);
@@ -278,7 +282,7 @@ public class OzTollView extends SurfaceView implements SurfaceHolder.Callback {
 			tollDataView.setRateCalculated(false);
 			rateShown=false;
 		}
-	}
+	}*/
 	
 	private float spacing(MotionEvent event){
 		float x = event.getX(0) - event.getX(1);

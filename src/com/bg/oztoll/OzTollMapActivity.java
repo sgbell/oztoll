@@ -3,11 +3,14 @@
  */
 package com.bg.oztoll;
 
+import java.util.List;
+
 import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,7 +36,7 @@ import android.text.Html;
  *
  */
 public class OzTollMapActivity extends SherlockMapActivity {
-	private OzTollView ozView;
+	//private OzTollView ozView;
 	private Dialog rateDialog, startDialog;
 	private ProgressDialog progDialog;
 	private SharedPreferences preferences;
@@ -43,6 +46,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	private OzTollApplication global;
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
+	private TollDataView tollDataView;
 
 	
 	public OzTollMapActivity(){
@@ -106,14 +110,55 @@ public class OzTollMapActivity extends SherlockMapActivity {
 		
 		if (preferences.getBoolean("applicationView", true)){
 			// if view is mapView
+			// Sets the layout to the map View Layout
 			setContentView(R.layout.oztoll_map);
+			// Grab the map
 			MapView mapView = (MapView) findViewById(R.id.oztollmap);
+			// Set zoom on the map
 			mapView.setBuiltInZoomControls(true);
-			
-			
 			
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
+
+			/* Before we go and create a thread to handle adding the streets to the overlay,
+			 and doing any modifications to them, try doing it here
+			
+			 synchronize on ozTollData.datasync()
+			 	if tollData has not finished reading the datafile
+			 		call handler 5
+			 		datasync wait
+			 	
+			 	populate overlay with streets
+			 	call handler 6
+			 */ 
+			synchronized(global.getTollData().getDataSync()){
+				while (!global.getTollData().isFinished()){
+					Message newMessage = handler.obtainMessage();
+					newMessage.what = 5;
+					handler.dispatchMessage(newMessage);
+					try {
+						global.getTollData().getDataSync().wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+					}
+				}
+				// populate overlay array
+				List<Overlay> mapOverlays = mapView.getOverlays();
+				MapOverlay itemizedOverlay = new MapOverlay(); // need to finish this line
+				// Add streets to overlay
+				mapOverlays.add(itemizedOverlay);
+				
+				Message newMessage = handler.obtainMessage();
+				newMessage.what = 6;
+				handler.dispatchMessage(newMessage);
+			}
+			/*
+			tollDataView = new TollDataView(global.getTollData());
+			tollDataView.setMainHandler(handler);
+			Thread tollDataViewBuilder = new Thread(tollDataView);
+			tollDataViewBuilder.setName("TollDataView");
+			tollDataViewBuilder.start();
+			*/
 		} else {
 			// if user has just changed the preference to text view
 			setResult(1);
@@ -216,7 +261,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
     // TollDataView Lines 536 & 568 to send handler messages.
     
     public void showMessage(String message){
-    	//Code Block for showing ���Please select your starting point and Exit Point���
+    	//Code Block for showing "Please select your starting point and Exit Point"
 		// This is the message
 		builder.setMessage(message);
 		alert = builder.create();
@@ -235,7 +280,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

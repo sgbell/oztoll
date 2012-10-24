@@ -3,6 +3,7 @@
 	<name>OzToll</name>
 	<comment></comment>
 	<projects>
+		<project>abs</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -89,41 +89,18 @@ public class OzTollData implements Runnable{
 			for (int tsc=0; tsc < ozTollXML.getStreetCount(twc); tsc++){
 				
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
-											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"x")),
-											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"y")),
-											  Integer.parseInt(ozTollXML.getStreetDetail(twc, tsc, "location")));
+											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"longitude")),
+											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"latitude")),
+											  -1);
 				/* 
 				 * I decided to use float globally for x,y details, as the screen location is stored as float
 				 */
 				if (newStreet!=null)
 					newTollway.addStreet(newStreet);
 			}
-			/* 
-			 * Populate pathway list, which is used to draw the roads on the screen. Pathways
-			 * are the path, or road in the map.
-			 */
-			for (int pwc=0; pwc < ozTollXML.getTollPathwayCount(twc); pwc++){
-				String streets[] = ozTollXML.getTollPath(twc, pwc);
-				Street newStart, newEnd;
-				newStart = newEnd = new Street();
-				for (int sc=0; sc < newTollway.getStreets().size(); sc++){
-					if (newTollway.getStreets().get(sc).getName().equalsIgnoreCase(streets[0]))
-						newStart = newTollway.getStreets().get(sc);
-					if (newTollway.getStreets().get(sc).getName().equalsIgnoreCase(streets[1]))
-						newEnd = newTollway.getStreets().get(sc);
-				}
-				newTollway.addPath(newStart, newEnd);
-			}
 			
 			// Array storing all tollways for current city
 			tollways.add(newTollway);
-			try {
-				synchronized (dataSync){
-					dataSync.notify();
-				}
-			} catch (NullPointerException e){
-				// Ignore Null pointer that occurs when the program is exiting
-			}
 		}
 		
 		// Populate connections. Connections are the direct joins between tollways.

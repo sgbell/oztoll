@@ -6,193 +6,100 @@
 			<exit>
 				<street>
 					<name>Tullamarine Fwy</name>
-					<y>2</y>
-					<x>0</x>
-					<location>0</location>
+					<longitude>144904518</longitude>
+					<latitude>-37735426</latitude>
 				</street>
 				<street>
 					<name>Bell St</name>
-					<y>2</y>
-					<x>1</x>
-					<location>1</location>
+					<longitude>144929388</longitude>
+					<latitude>-37736597</latitude>
 				</street>
 				<street>
 					<name>Moreland Rd</name>
-					<y>3</y>
-					<x>1</x>
-					<location>0</location>
+					<longitude>144935589</longitude>
+					<latitude>-37752072</latitude>
 				</street>
 				<street>
 					<name>Brunswick Rd</name>
-					<y>4</y>
-					<x>1</x>
-					<location>1</location>
+					<longitude>144937048</longitude>
+					<latitude>-37773971</latitude>
 				</street>
 				<street>
 					<name>Flemington Rd</name>
-					<y>5</y>
-					<x>1</x>
-					<location>0</location>
+					<longitude>144939430</longitude>
+					<latitude>-37786386</latitude>
 				</street>
 				<street>
 					<name>Racecourse Rd</name>
-					<y>6</y>
-					<x>1</x>
-					<location>1</location>
+					<longitude>144937928</longitude>
+					<latitude>-37788912</latitude>
 				</street>
 				<street>
 					<name>Dynon Rd</name>
-					<y>7</y>
-					<x>1</x>
-					<location>0</location>
+					<longitude>144934494</longitude>
+					<latitude>-37889120</latitude>
 				</street>
 				<street>
 					<name>Footscray Rd</name>
-					<y>8</y>
-					<x>1</x>
-					<location>0</location>
+					<longitude>144933572</longitude>
+					<latitude>-37809360</latitude>
 				</street>
 				<street>
 					<name>West Gate Fwy</name>
-					<y>9</y>
-					<x>1</x>
-					<location>0</location>
+					<longitude>144930718</longitude>
+					<latitude>-37826463</latitude>
 				</street>
 				<street>
 					<name>Kings Way</name>
-					<y>9</y>
-					<x>2</x>
-					<location>2</location>
+					<longitude>144962025</longitude>
+					<latitude>-37827582</latitude>
 				</street>
 				<street>
 					<name>Power St</name>
-					<y>9</y>
-					<x>3</x>
-					<location>2</location>
+					<longitude>144965630</longitude>
+					<latitude>-37826514</latitude>
 				</street>
 				<street>
 					<name>Exhibition St</name>
-					<y>8</y>
-					<x>4</x>
-					<location>3</location>
+					<longitude>144972389</longitude>
+					<latitude>-37816073</latitude>
 				</street>
 				<street>
 					<name>Swan St</name>
-					<y>9</y>
-					<x>4</x>
-					<location>2</location>
+					<longitude>144978418</longitude>
+					<latitude>-37823260</latitude>
 				</street>
 				<street>
 					<name>Punt Rd</name>
-					<y>9</y>
-					<x>5</x>
-					<location>2</location>
+					<longitude>144987988</longitude>
+					<latitude>-37828972</latitude>
 				</street>
 				<street>
 					<name>Church St</name>
-					<y>9</y>
-					<x>6</x>
-					<location>2</location>
+					<longitude>144996614</longitude>
+					<latitude>-37833819</latitude>
 				</street>
 				<street>
 					<name>Burnley St</name>
-					<y>9</y>
-					<x>7</x>
-					<location>2</location>
+					<longitude>145006099</longitude>
+					<latitude>-37830616</latitude>
 				</street>
 				<street>
 					<name>Gibdon St</name>
-					<y>9</y>
-					<x>8</x>
-					<location>2</location>
+					<longitude>145010433</longitude>
+					<latitude>-37830734</latitude>
 				</street>
 				<street>
 					<name>Yarra Blvd</name>
-					<y>9</y>
-					<x>9</x>
-					<location>3</location>
+					<longitude>145018523</longitude>
+					<latitude>-37830836</latitude>
 				</street>
 				<street>
 					<name>Toorak Rd</name>
-					<y>9</y>
-					<x>10</x>
-					<location>2</location>
+					<longitude>145039594</longitude>
+					<latitude>-37844681</latitude>
 				</street>
 			</exit>
-			<pathway>
-				<path>
-					<start>Tullamarine Fwy</start>
-					<end>Bell St</end>
-				</path>
-				<path>
-					<start>Bell St</start>
-					<end>Moreland Rd</end>
-				</path>
-				<path>
-					<start>Moreland Rd</start>
-					<end>Brunswick Rd</end>
-				</path>
-				<path>
-					<start>Brunswick Rd</start>
-					<end>Flemington Rd</end>
-				</path>
-				<path>
-					<start>Flemington Rd</start>
-					<end>Racecourse Rd</end>
-				</path>
-				<path>
-					<start>Racecourse Rd</start>
-					<end>Dynon Rd</end>
-				</path>
-				<path>
-					<start>Dynon Rd</start>
-					<end>Footscray Rd</end>
-				</path>
-				<path>
-					<start>Footscray Rd</start>
-					<end>West Gate Fwy</end>
-				</path>
-				<path>
-					<start>West Gate Fwy</start>
-					<end>Kings Way</end>
-				</path>
-				<path>
-					<start>Kings Way</start>
-					<end>Power St</end>
-				</path>
-				<path>
-					<start>Exhibition St</start>
-					<end>Swan St</end>
-				</path>
-				<path>
-					<start>Power St</start>
-					<end>Swan St</end>
-				</path>
-				<path>
-					<start>Swan St</start>
-					<end>Punt Rd</end>
-				</path>
-				<path>
-					<start>Punt Rd</start>
-					<end>Church St</end>
-				</path>
-				<path>
-					<start>Church St</start>
-					<end>Burnley St</end>
-				</path>
-				<path>
-					<start>Burnley St</start>
-					<end>Gibdon St</end>
-				</path>
-				<path>
-					<start>Gibdon St</start>
-					<end>Yarra Blvd</end>
-				</path>
-				<path>
-					<start>Yarra Blvd</start>
-					<end>Toorak Rd</end>
-				</path>
-			</pathway>
 			<tollpoint>
 				<start>Tullamarine Fwy</start>
 		    	<start>Bell St</start>
@@ -531,173 +438,90 @@
 			<exit>
 				<street>
 					<name>Springvale Rd</name>
-					<y>0</y>
-					<x>11</x>
-					<location>0</location>
+					<longitude>145178039</longitude>
+					<latitude>-37803850</latitude>
 				</street>
 				<street>
 					<name>Ringwood Bypass</name>
-					<y>0</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145215676</longitude>
+					<latitude>-37813310</latitude>
 				</street>
 				<street>
 					<name>Maroondah Hwy</name>
-					<y>1</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145216813</longitude>
+					<latitude>-37817209</latitude>
 				</street>
 				<street>
 					<name>Canterbury Rd</name>
-					<y>2</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145217521</longitude>
+					<latitude>-37832378</latitude>
 				</street>
 				<street>
 					<name>Boronia Rd</name>
-					<y>3</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145217049</longitude>
+					<latitude>-37846206</latitude>
 				</street>
 				<street>
 					<name>Burwood Hwy</name>
-					<y>4</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145211942</longitude>
+					<latitude>-37861183</latitude>
 				</street>
 				<street>
 					<name>High St Rd</name>
-					<y>5</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145212672</longitude>
+					<latitude>-37876835</latitude>
 				</street>
 				<street>
 					<name>Ferntree Gully Rd</name>
-					<y>6</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145215290</longitude>
+					<latitude>-37903015</latitude>
 				</street>
 				<street>
 					<name>Wellington Rd</name>
-					<y>7</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145213144</longitude>
+					<latitude>-37925429</latitude>
 				</street>
 				<street>
 					<name>Police Rd</name>
-					<y>8</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145207114</longitude>
+					<latitude>-37938833</latitude>
 				</street>
 				<street>
 					<name>Monash Fwy</name>
-					<y>9</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145205247</longitude>
+					<latitude>-37945534</latitude>
 				</street>
 				<street>
 					<name>Princes Hwy</name>
-					<y>10</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145194840</longitude>
+					<latitude>-37967394</latitude>
 				</street>
 				<street>
 					<name>Cheltenham Rd</name>
-					<y>11</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145191793</longitude>
+					<latitude>-37992578</latitude>
 				</street>
 				<street>
 					<name>Dandenong Bypass</name>
-					<y>12</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145191764</longitude>
+					<latitude>-38001219</latitude>
 				</street>
 				<street>
 					<name>Greens Rd</name>
-					<y>13</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145188425</longitude>
+					<latitude>-38011295</latitude>
 				</street>
 				<street>
 					<name>Thompson Rd</name>
-					<y>14</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145181944</longitude>
+					<latitude>-38070494</latitude>
 				</street>
 	    		<street>
 					<name>Frankston Fwy</name>
-					<y>15</y>
-					<x>12</x>
-					<location>1</location>
+					<longitude>145145767</longitude>
+					<latitude>-38096757</latitude>
 				</street>
 		  	</exit>
-	  	  	<pathway>
-	  	  		<path>
-	  	  			<start>Springvale Rd</start>
-	  	  			<end>Ringwood Bypass</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Ringwood Bypass</start>
-	  	  			<end>Maroondah Hwy</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Maroondah Hwy</start>
-	  	  			<end>Canterbury Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Canterbury Rd</start>
-	  	  			<end>Boronia Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Boronia Rd</start>
-	  	  			<end>Burwood Hwy</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Burwood Hwy</start>
-	  	  			<end>High St Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>High St Rd</start>
-	  	  			<end>Ferntree Gully Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Ferntree Gully Rd</start>
-	  	  			<end>Wellington Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Wellington Rd</start>
-	  	  			<end>Police Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Police Rd</start>
-	  	  			<end>Monash Fwy</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Monash Fwy</start>
-	  	  			<end>Princes Hwy</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Princes Hwy</start>
-	  	  			<end>Cheltenham Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Cheltenham Rd</start>
-	  	  			<end>Dandenong Bypass</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Dandenong Bypass</start>
-	  	  			<end>Greens Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Greens Rd</start>
-	  	  			<end>Thompson Rd</end>
-	  	  		</path>
-	  	  		<path>
-	  	  			<start>Thompson Rd</start>
-	  	  			<end>Frankston Fwy</end>
-	  	  		</path>
-	  	  	</pathway>
 	  	  	<tollpoint>
 		  		<start>Police Rd</start>
 		  		<start>Monash Fwy</start>
