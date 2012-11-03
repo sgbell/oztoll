@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
@@ -20,19 +21,21 @@ import com.google.android.maps.OverlayItem;
  */
 public class MapOverlay extends ItemizedOverlay {
 	
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	private ArrayList<OverlayStreet> mOverlays = new ArrayList<OverlayStreet>();
 	private Context mContext;
+	private Drawable selectedRoad;
 
 	public MapOverlay(Drawable arg0) {
 		super(boundCenterBottom(arg0));
 	}
 	
-	public MapOverlay(Drawable defaultMarker, Context context){
+	public MapOverlay(Drawable defaultMarker, Drawable selectedMarker, Context context){
 		super (boundCenterBottom(defaultMarker));
 		mContext = context;
+		selectedRoad = selectedMarker;
 	}
 	
-	public void addOverlay(OverlayItem overlay){
+	public void addOverlay(OverlayStreet overlay){
 		mOverlays.add(overlay);
 		populate();
 	}
@@ -41,7 +44,7 @@ public class MapOverlay extends ItemizedOverlay {
 	 * @see com.google.android.maps.ItemizedOverlay#createItem(int)
 	 */
 	@Override
-	protected OverlayItem createItem(int arg0) {
+	protected OverlayStreet createItem(int arg0) {
 		// TODO Auto-generated method stub
 		return mOverlays.get(arg0);
 	}
@@ -51,16 +54,11 @@ public class MapOverlay extends ItemizedOverlay {
 	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return mOverlays.size();
 	}
 
 	protected boolean onTap(int index){
-		OverlayItem item = mOverlays.get(index);
-		AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-		dialog.setTitle(item.getTitle());
-		dialog.setMessage(item.getSnippet());
-		dialog.show();
+		OverlayStreet item = mOverlays.get(index);
 		return true;
 	}
 	

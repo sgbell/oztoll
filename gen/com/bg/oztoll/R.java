@@ -787,7 +787,9 @@ containing a value of this type.
         public static final int abs__tab_selected_holo=0x7f020052;
         public static final int abs__tab_selected_pressed_holo=0x7f020053;
         public static final int abs__tab_unselected_pressed_holo=0x7f020054;
-        public static final int icon=0x7f020055;
+        public static final int activeroad=0x7f020055;
+        public static final int icon=0x7f020056;
+        public static final int selectedroad=0x7f020057;
     }
     public static final class id {
         public static final int WelcomeClose=0x7f040032;

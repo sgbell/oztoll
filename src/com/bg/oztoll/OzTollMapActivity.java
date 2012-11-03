@@ -9,8 +9,10 @@ import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,10 +20,12 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -139,12 +143,25 @@ public class OzTollMapActivity extends SherlockMapActivity {
 					try {
 						global.getTollData().getDataSync().wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 					}
 				}
 				// populate overlay array
 				List<Overlay> mapOverlays = mapView.getOverlays();
-				MapOverlay itemizedOverlay = new MapOverlay(); // need to finish this line
+				// The following two lines are the images used to mark the exits on the map
+				Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
+				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
+				// Creation of the overlay for the map
+				MapOverlay itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this);
+				
+				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++){
+					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
+						if (global.getTollData().getStreet(twc, tsc).isValid()){
+							OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
+							itemizedOverlay.addOverlay(item);
+						}
+					}
+				}
+				
 				// Add streets to overlay
 				mapOverlays.add(itemizedOverlay);
 				

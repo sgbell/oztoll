@@ -11,11 +11,7 @@ package com.bg.oztoll;
 public class Street extends Coordinates{
 	// Street name
 	private String name;
-	/* Location for printing the name on the screen  in relation to the dot for the street
-	 * 0 - left
-	 * 1 - right
-	 * 2 - underneath
-	 * 3 - above
+	/* Location is the exit number in the city's tolls, according to listing in the xml file
 	 */
 	private int location;
 	// Valid is used to determine if a user can click on the road.

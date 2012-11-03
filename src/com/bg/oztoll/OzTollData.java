@@ -82,6 +82,7 @@ public class OzTollData implements Runnable{
 	public void run(){
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
+		int streetCounter=0;
 		
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
@@ -91,7 +92,7 @@ public class OzTollData implements Runnable{
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"longitude")),
 											  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"latitude")),
-											  -1);
+											  streetCounter++);
 				/* 
 				 * I decided to use float globally for x,y details, as the screen location is stored as float
 				 */

@@ -1,6 +1,7 @@
 /** This is code that I found in a tutorial at
  *  http://techdroid.kbeanie.com/2010/09/expandablelistview-on-android.html
- * 
+ *  This class is used in the OzToll Text Activity, so that the user can select the
+ *  streets from a list to get the cost of their trip.
  */
 package com.bg.oztoll;
 
