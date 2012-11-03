@@ -51,6 +51,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
 	private TollDataView tollDataView;
+	private MapOverlay itemizedOverlay;
 
 	
 	public OzTollMapActivity(){
@@ -152,7 +153,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
 				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 				// Creation of the overlay for the map
-				MapOverlay itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this, handler);
+				itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this, handler);
 				
 				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++)
@@ -275,7 +276,15 @@ public class OzTollMapActivity extends SherlockMapActivity {
     				if (global.getTollData()!=null){
     					if (global.getTollData().getStart()==null){
     						global.getTollData().setStart((Street)msg.obj);
-    						global.getTollData().setStreetsToInvalid();
+
+    						itemizedOverlay.clearOverlay();
+    						for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
+    							for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++)
+    								if (global.getTollData().getStreet(twc, tsc).isValid()){
+    									OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
+    									itemizedOverlay.addOverlay(item);
+    								}
+
     						
     						Message newMessage = handler.obtainMessage();
     						newMessage.what=6;

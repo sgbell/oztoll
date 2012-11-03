@@ -61,6 +61,10 @@ public class MapOverlay extends ItemizedOverlay {
 		return mOverlays.size();
 	}
 
+	public void clearOverlay(){
+		mOverlays.clear();
+	}
+	
 	/** onTap is used to identify the street that is selected so we can then work with it
 	 * 
 	 */

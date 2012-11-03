@@ -280,6 +280,32 @@ public class OzTollData implements Runnable{
 		}
 	}
 	
+	/** 
+	 * This function will go through the entire map and mark the valid exits, once a
+	 * starting point has been selected.
+	 * @param validStreet
+	 */
+	public void markRoads(Street validStreet){
+		if (validStreet!=null){
+			ArrayList<Street> exitList= getTollPointExits(validStreet);
+			ArrayList<Street> tollwayConnections= new ArrayList<Street>();
+			if (exitList.size()>0)
+				for (int elc=0; elc < exitList.size(); elc++){
+					exitList.get(elc).setValid(true);
+					for (int cc=0; cc < getConnectionCount(); cc++){
+						if (exitList.get(elc)==getConnection(cc).getStart())
+							tollwayConnections.add(getConnection(cc).getEnd());
+						if (exitList.get(elc)==getConnection(cc).getEnd())
+							tollwayConnections.add(getConnection(cc).getStart());
+					}
+				}
+			if (tollwayConnections.size()>0)
+				for (int tc=0; tc < tollwayConnections.size(); tc++){
+					markRoads(tollwayConnections.get(tc));
+				}
+		}
+	}
+	
 	public int getTollwayCount() {
 		return tollways.size();
 	}
@@ -1190,6 +1216,8 @@ public class OzTollData implements Runnable{
 
 	public void setStart(Street start) {
 		this.start = start;
+		setStreetsToInvalid();
+		markRoads(start);
 	}
 
 	public Street getFinish() {
