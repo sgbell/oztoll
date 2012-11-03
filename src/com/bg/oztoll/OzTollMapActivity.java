@@ -123,7 +123,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 			
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
-
+			
 			/* Before we go and create a thread to handle adding the streets to the overlay,
 			 and doing any modifications to them, try doing it here
 			
@@ -143,6 +143,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 					try {
 						global.getTollData().getDataSync().wait();
 					} catch (InterruptedException e) {
+						
 					}
 				}
 				// populate overlay array
@@ -151,16 +152,14 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
 				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 				// Creation of the overlay for the map
-				MapOverlay itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this);
+				MapOverlay itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this, handler);
 				
-				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++){
-					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
+				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
+					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++)
 						if (global.getTollData().getStreet(twc, tsc).isValid()){
 							OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
 							itemizedOverlay.addOverlay(item);
 						}
-					}
-				}
 				
 				// Add streets to overlay
 				mapOverlays.add(itemizedOverlay);
@@ -270,6 +269,19 @@ public class OzTollMapActivity extends SherlockMapActivity {
     				break;
     			case 8:
     				finishShown=false;
+    				break;
+    			// case 9 is when a street exit has been selected on the map
+    			case 9:
+    				if (global.getTollData()!=null){
+    					if (global.getTollData().getStart()==null){
+    						global.getTollData().setStart((Street)msg.obj);
+    						global.getTollData().setStreetsToInvalid();
+    						
+    						Message newMessage = handler.obtainMessage();
+    						newMessage.what=6;
+    						handler.sendMessage(newMessage);
+    					}
+    				}
     				break;
     		}
     	}

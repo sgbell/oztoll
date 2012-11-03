@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
@@ -24,15 +26,17 @@ public class MapOverlay extends ItemizedOverlay {
 	private ArrayList<OverlayStreet> mOverlays = new ArrayList<OverlayStreet>();
 	private Context mContext;
 	private Drawable selectedRoad;
+	private Handler mHandler;
 
 	public MapOverlay(Drawable arg0) {
 		super(boundCenterBottom(arg0));
 	}
 	
-	public MapOverlay(Drawable defaultMarker, Drawable selectedMarker, Context context){
+	public MapOverlay(Drawable defaultMarker, Drawable selectedMarker, Context context, Handler handler){
 		super (boundCenterBottom(defaultMarker));
 		mContext = context;
 		selectedRoad = selectedMarker;
+		mHandler = handler;
 	}
 	
 	public void addOverlay(OverlayStreet overlay){
@@ -57,8 +61,15 @@ public class MapOverlay extends ItemizedOverlay {
 		return mOverlays.size();
 	}
 
+	/** onTap is used to identify the street that is selected so we can then work with it
+	 * 
+	 */
 	protected boolean onTap(int index){
 		OverlayStreet item = mOverlays.get(index);
+		Message newMessage = mHandler.obtainMessage();
+		newMessage.what=9;
+		newMessage.obj=item.getStreet();
+		mHandler.dispatchMessage(newMessage);
 		return true;
 	}
 	
