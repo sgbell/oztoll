@@ -82,7 +82,7 @@ public class OzTollData implements Runnable{
 	public void run(){
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
-		int streetCounter=0;
+		int streetCounter=1;
 		
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
@@ -801,6 +801,18 @@ public class OzTollData implements Runnable{
 		}
 	}
 	
+	/** Originally processToll was written with the start & finish being passed in, but as the program has
+	 * evolved, the start & finish have been stored in this object.
+	 * @param appContext
+	 * @return
+	 */
+	public LinearLayout processToll(Context appContext){
+		if ((getStart()!=null)&&(getFinish()!=null))
+			return processToll(getStart(),getFinish(), appContext);
+		else
+			return null;
+	}
+	
 	public LinearLayout processToll(Street start, Street finish, Context appContext){
 		String title="";
 		
@@ -819,7 +831,7 @@ public class OzTollData implements Runnable{
 		tollTitle = new TextView(appContext);
 
 		// LinearLayout.LayoutParams to shorten the height of the textview
-		fillParentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+		fillParentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 		fillParentParams.setMargins(0, 0, 0, -30);
 		wrapContentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 		wrapContentParams.setMargins(0, 0, 0, -30);

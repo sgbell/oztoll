@@ -9,11 +9,8 @@ import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -50,8 +47,8 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	private OzTollApplication global;
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
-	private TollDataView tollDataView;
 	private MapOverlay itemizedOverlay;
+	private LinearLayout rateLayout;
 
 	
 	public OzTollMapActivity(){
@@ -153,14 +150,14 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
 				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 				// Creation of the overlay for the map
-				itemizedOverlay = new MapOverlay(defaultActiveRoad, selectedRoad, this, handler);
+				itemizedOverlay = new MapOverlay(defaultActiveRoad, this, handler, global.getTollData());
 				
 				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++)
-						if (global.getTollData().getStreet(twc, tsc).isValid()){
-							OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
-							itemizedOverlay.addOverlay(item);
-						}
+					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
+						OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
+						itemizedOverlay.addOverlay(item);
+					}
+				itemizedOverlay.doPopulate();
 				
 				// Add streets to overlay
 				mapOverlays.add(itemizedOverlay);
@@ -273,24 +270,44 @@ public class OzTollMapActivity extends SherlockMapActivity {
     				break;
     			// case 9 is when a street exit has been selected on the map
     			case 9:
+    				OverlayStreet item;
     				if (global.getTollData()!=null){
-    					if (global.getTollData().getStart()==null){
-    						global.getTollData().setStart((Street)msg.obj);
-
-    						itemizedOverlay.clearOverlay();
-    						for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-    							for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++)
-    								if (global.getTollData().getStreet(twc, tsc).isValid()){
-    									OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
-    									itemizedOverlay.addOverlay(item);
-    								}
-
-    						
-    						Message newMessage = handler.obtainMessage();
-    						newMessage.what=6;
-    						handler.sendMessage(newMessage);
+    					if (((Street)msg.obj).isValid()){
+    						if (global.getTollData().getStart()==null){
+        						global.getTollData().setStart((Street)msg.obj);
+        						itemizedOverlay.doPopulate();
+        						
+        						Message newMessage = handler.obtainMessage();
+        						newMessage.what=6;
+        						handler.sendMessage(newMessage);
+        					} else if ((Street)msg.obj==global.getTollData().getStart()){
+        						global.getTollData().setStart(null);
+        						global.getTollData().setValidStarts();
+        						
+        						Message newMessage = handler.obtainMessage();
+        						newMessage.what=6;
+        						handler.sendMessage(newMessage);
+        					} else if ((global.getTollData().getStart()!=null)
+        							   &&(global.getTollData().getFinish()==null)){
+        						global.getTollData().setFinish((Street)msg.obj);
+        						
+        						// Message to finish
+        						rateLayout = global.getTollData().processToll(getBaseContext());
+        						Message newMessage = handler.obtainMessage();
+        						newMessage.obj = rateLayout;
+        						newMessage.what=3;
+        						handler.sendMessage(newMessage);
+        					} else if ((Street)msg.obj==global.getTollData().getFinish()){
+        						global.getTollData().setFinish(null);
+        						((Street)msg.obj).setValid(true);
+        						
+        						Message newMessage = handler.obtainMessage();
+        						newMessage.what=6;
+        						handler.sendMessage(newMessage);
+        					}
     					}
     				}
+					itemizedOverlay.doPopulate();
     				break;
     		}
     	}
