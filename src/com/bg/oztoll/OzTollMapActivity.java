@@ -15,9 +15,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -110,7 +112,15 @@ public class OzTollMapActivity extends SherlockMapActivity {
 			edit.commit();
 		}
 		
-		if (preferences.getBoolean("applicationView", true)){
+        // The following was gleaned from
+        // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
+
+        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+		if ((preferences.getBoolean("applicationView", true))&&
+			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
 			// Sets the layout to the map View Layout
 			setContentView(R.layout.oztoll_map);
@@ -275,14 +285,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
     					if (((Street)msg.obj).isValid()){
     						if (global.getTollData().getStart()==null){
         						global.getTollData().setStart((Street)msg.obj);
-        						itemizedOverlay.doPopulate();
-        						
-        						Message newMessage = handler.obtainMessage();
-        						newMessage.what=6;
-        						handler.sendMessage(newMessage);
-        					} else if ((Street)msg.obj==global.getTollData().getStart()){
-        						global.getTollData().setStart(null);
-        						global.getTollData().setValidStarts();
         						
         						Message newMessage = handler.obtainMessage();
         						newMessage.what=6;
@@ -299,12 +301,21 @@ public class OzTollMapActivity extends SherlockMapActivity {
         						handler.sendMessage(newMessage);
         					} else if ((Street)msg.obj==global.getTollData().getFinish()){
         						global.getTollData().setFinish(null);
-        						((Street)msg.obj).setValid(true);
+        						finishShown=false;
         						
         						Message newMessage = handler.obtainMessage();
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					}
+    					} else if ((Street)msg.obj==global.getTollData().getStart()){
+    						global.getTollData().setStart(null);
+    						global.getTollData().setValidStarts();
+    						startShown=false;
+    						finishShown=false;
+    						
+    						Message newMessage = handler.obtainMessage();
+    						newMessage.what=6;
+    						handler.sendMessage(newMessage);
     					}
     				}
 					itemizedOverlay.doPopulate();

@@ -10,8 +10,10 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -94,8 +96,16 @@ public class OzTollTextActivity extends SherlockActivity {
 			global.setDatasync(new Object());
 		}
 
+        // The following was gleaned from
+        // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
+
+        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		
 		// If this activity is resumed, and the user has not changed the view to map view
-		if (!preferences.getBoolean("applicationView", true)){
+		if ((!preferences.getBoolean("applicationView", true))||
+			((!wifi.isConnected())&&(!mobile.isConnected()))){
 	    	synchronized (global.getDatasync()){
 	    		try {
 	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data

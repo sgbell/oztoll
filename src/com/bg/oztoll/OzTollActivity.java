@@ -2,10 +2,14 @@ package com.bg.oztoll;
 
 
 import com.actionbarsherlock.app.SherlockActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class OzTollActivity extends SherlockActivity {
 	private Intent mapView, textView;
@@ -39,21 +43,37 @@ public class OzTollActivity extends SherlockActivity {
     	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
+        // The following was gleaned from
+        // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
+
+        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
     	
-        if (preferences.getBoolean("applicationView", true)){
-   			if (!global.isMapViewStarted()){
-   				// If applicationView=map and mapView is not Started, start it
-   				mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
-   				startActivityForResult(mapView, 0);
-   				global.setMapViewStarted(true);
-   			}
-        } else {
+        if ((!wifi.isConnected())&&(!mobile.isConnected())){
          	if (!global.isTextViewStarted()){
           		// If applicationView=text and textView is not Started, Start it
                	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
                	startActivityForResult(textView,0);
                	global.setTextViewStarted(true);
          	}
+        } else {
+            if (preferences.getBoolean("applicationView", true)){
+       			if (!global.isMapViewStarted()){
+       				// If applicationView=map and mapView is not Started, start it
+       				mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
+       				startActivityForResult(mapView, 0);
+       				global.setMapViewStarted(true);
+       			}
+            } else {
+             	if (!global.isTextViewStarted()){
+              		// If applicationView=text and textView is not Started, Start it
+                   	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
+                   	startActivityForResult(textView,0);
+                   	global.setTextViewStarted(true);
+             	}
+            }
         }
     }
     
@@ -64,16 +84,24 @@ public class OzTollActivity extends SherlockActivity {
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        // The following was gleaned from
+        // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
+        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
         if ((preferences.getBoolean("applicationView", true))&&
-               	(!global.isMapViewStarted())){
+            (!global.isMapViewStarted())){
             	// same as above.
         		mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
         		startActivityForResult(mapView, 0);
         		global.setMapViewStarted(true);
         		// Just clearing the textViewStarted boolean
         	   	global.setTextViewStarted(false);
-            } else if ((!preferences.getBoolean("applicationView", true))&&
-                   	   (!global.isTextViewStarted())){
+            } else if (((!preferences.getBoolean("applicationView", true))||
+            		   ((!wifi.isConnected())&&
+            		    (!mobile.isConnected())))&&
+                       (!global.isTextViewStarted())){
                 textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
                 startActivityForResult(textView,0);
                 global.setTextViewStarted(true);
@@ -84,6 +112,6 @@ public class OzTollActivity extends SherlockActivity {
                	global.setTextViewStarted(false);
                	global.setMapViewStarted(false);
                	finish();
-            }        	
+            }
     }
 }

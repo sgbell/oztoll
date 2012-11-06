@@ -76,7 +76,8 @@ public class MapOverlay extends ItemizedOverlay {
     public void doPopulate(){
     	for (int oc=0; oc < mOverlays.size(); oc++){
     		OverlayStreet overlay = mOverlays.get(oc);
-    		if (overlay.getStreet().isValid()){
+    		if ((overlay.getStreet().isValid())&&
+    			(overlay.getStreet()!=tollData.getFinish())){
     			overlay.setMarker(createMarker(overlay.getStreet().getLocation(),false));
     		} else {
     			if ((tollData.getStart()==overlay.getStreet())||
