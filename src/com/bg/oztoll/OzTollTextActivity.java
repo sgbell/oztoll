@@ -9,7 +9,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +39,10 @@ public class OzTollTextActivity extends SherlockActivity {
 	private Dialog rateDialog;
 	private OzTollTextView ozTextView;
 	private Activity thisActivity=this;
+	private boolean loadingShown=false, startShown=false, finishShown=false;
+	private ProgressDialog progDialog;
+	private AlertDialog alert;
+	private AlertDialog.Builder builder;
 	
 	public OzTollTextActivity(){
 	}
@@ -96,6 +102,10 @@ public class OzTollTextActivity extends SherlockActivity {
 			global.setDatasync(new Object());
 		}
 
+		// Creates a new dialog
+		builder = new AlertDialog.Builder(thisActivity);
+
+		
         // The following was gleaned from
         // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
 
@@ -109,12 +119,20 @@ public class OzTollTextActivity extends SherlockActivity {
 	    	synchronized (global.getDatasync()){
 	    		try {
 	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data
-	    			if (!global.getTollData().isFinished())
+	    			while (!global.getTollData().isFinished()){
+						Message newMessage = handler.obtainMessage();
+						newMessage.what = 5;
+						handler.dispatchMessage(newMessage);
 	    				global.getDatasync().wait();
+	    			}
 	    		} catch (InterruptedException e){
 	    			// just wait for it
 	    		}
 	    	}
+	    	Message newMessage = handler.obtainMessage();
+			newMessage.what = 6;
+			handler.dispatchMessage(newMessage);
+
 	    	setContentView(R.layout.textrate);
 
     		ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
@@ -164,7 +182,60 @@ public class OzTollTextActivity extends SherlockActivity {
         			
     				rateDialog.show();
     				break;
+    			case 5:
+    				// This case is used to display the loading dialog
+    				if (!loadingShown){
+        				progDialog = new ProgressDialog(thisActivity);
+        				progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        				progDialog.setMessage("Loading...");
+        				loadingShown=true;
+        				progDialog.show();
+    				} else {
+    					progDialog.setProgress(progDialog.getProgress()+1);
+    				}
+    				break;
+    			case 6:
+    				// This case is used to remove the loading dialog
+    				if (loadingShown=true){
+    					if (progDialog!=null)
+    						if (progDialog.isShowing())
+    							progDialog.dismiss();
+    					
+    					if (global.getTollData().getStart()==null){
+    						if (!startShown){
+        						showMessage("Please select your Entry point");
+        						startShown=true;
+    						}
+    					} else {
+    						if (global.getTollData().getFinish()==null){
+    							if (!finishShown){
+    								showMessage("Please select your Exit point");
+    								finishShown=true;
+    							}
+    						}
+    					}
+    				}
+    				break;
     		}
     	}
     };
+    
+    public void showMessage(String message){
+    	//Code Block for showing "Please select your starting point and Exit Point"
+		// This is the message
+		builder.setMessage(message);
+		alert = builder.create();
+		// Show it on the screen
+		alert.show();
+
+		// This handler is created to dismiss the dialog after 3 seconds
+		Handler alertHandler = new Handler();
+	    alertHandler.postDelayed(new Runnable(){
+	    							public void run(){
+	    								alert.cancel();
+	    								alert.dismiss();
+	    							}
+		    					 }, 5000);
+    }
+
 }

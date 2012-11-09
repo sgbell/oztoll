@@ -83,6 +83,11 @@ public class OzTollTextView implements Runnable{
 				collapseGroups();
 				
 				handler.sendEmptyMessage(1);
+				
+		    	Message newMessage = mainHandler.obtainMessage();
+				newMessage.what = 6;
+				mainHandler.dispatchMessage(newMessage);
+
 			}
 			shownExits=true;
 		}
@@ -118,8 +123,6 @@ public class OzTollTextView implements Runnable{
 			}
 		
 		collapseGroups();
-		
-		handler.sendEmptyMessage(1);
 	}
 
 
@@ -147,48 +150,29 @@ public class OzTollTextView implements Runnable{
 		//TextView heading = 
 		boolean stillRunning=true;
 		while (stillRunning){
-			if (!tollData.isFinished()){
-				synchronized (tollData.getDataSync()){
-					try {
-						tollData.getDataSync().wait();
-					} catch (InterruptedException e){
-						// nothing
-					}
-				}
+			populateStreets();
+			
+			Message newMessage = mainHandler.obtainMessage();
+			newMessage.what = 6;
+			mainHandler.dispatchMessage(newMessage);
+
+			if (adapter.getGroupCount()<1){
 				populateStreets();
-				Message msg = mainHandler.obtainMessage();
-				String heading = "Please Wait, loading Data";
-				msg.what = 1;
-				msg.obj= heading;
-				mainHandler.sendMessage(msg);
-			} else {
-				if (adapter.getGroupCount()<1){
-					populateStreets();
-				}
-				Message msg = mainHandler.obtainMessage();
-				String heading="";
+			}
 				
-				if (start==null){
-					heading = "Please Select Starting Street";
-				} else if (finish==null){
-					heading = "Please Select Exit Street";
+				
+			synchronized (threadSync){
+				try {
+					threadSync.wait();
+				} catch (InterruptedException e){
+					// do nothing again
 				}
-				msg.what = 1;
-				msg.obj= heading;
-				mainHandler.sendMessage(msg);
-				synchronized (threadSync){
-					try {
-						threadSync.wait();
-					} catch (InterruptedException e){
-						// do nothing again
-					}
-				}
-				if (start!=null){
-					if (finish!=null){
-						showDialog();
-					} else {
-						showExits();
-					}
+			}
+			if (start!=null){
+				if (finish!=null){
+					showDialog();
+				} else {
+					showExits();
 				}
 			}
 		}
