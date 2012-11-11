@@ -3,6 +3,8 @@
  */
 package com.bg.oztoll;
 
+import java.util.ArrayList;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,6 +30,7 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 
 /**
@@ -43,6 +47,8 @@ public class OzTollTextActivity extends SherlockActivity {
 	private ProgressDialog progDialog;
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
+	private ExpandableListView listView;
+	private ExpandableListAdapter adapter;
 	
 	public OzTollTextActivity(){
 	}
@@ -95,7 +101,9 @@ public class OzTollTextActivity extends SherlockActivity {
     public void onResume(){
     	super.onResume();
     	
-		global = (OzTollApplication)getApplication();
+    	Log.w("oztoll", "oztollTextactivity.onResume() called");
+
+    	global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	
 		if (global.getDatasync()==null){
@@ -116,6 +124,7 @@ public class OzTollTextActivity extends SherlockActivity {
 		// If this activity is resumed, and the user has not changed the view to map view
 		if ((!preferences.getBoolean("applicationView", true))||
 			((!wifi.isConnected())&&(!mobile.isConnected()))){
+			Log.w("ozToll", "onResume() starting TextView builder");
 	    	synchronized (global.getDatasync()){
 	    		try {
 	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data
@@ -129,21 +138,35 @@ public class OzTollTextActivity extends SherlockActivity {
 	    			// just wait for it
 	    		}
 	    	}
+	    	Log.w("ozToll", "onResume() after the sync block");
 	    	Message newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
 
 	    	setContentView(R.layout.textrate);
 
-    		ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
+	    	Log.w("ozToll", "onResume(): "+global.getTollData().getTollwayCount());
+	    		    	
+	    	adapter = new ExpandableListAdapter(getApplicationContext(), new ArrayList<String>(),
+					new ArrayList<ArrayList<String>>());
+	    	setListView((ExpandableListView)findViewById(R.id.streetList));
+
+	    	populateStreets();
+	    	
+	    	
+    		/*
+	    	ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
 	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
 	    	Thread ozTextViewThread = new Thread(ozTextView);
-	    	ozTextViewThread.start();
+	    	ozTextViewThread.start();*/
+	    	
 		} else {
+			Log.w("ozToll", "exiting TextView builder");
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);
 			finish();
 		}
+		Log.w("ozToll","end of ozTollTextActivity.onResume()");
     }
     
     final Handler handler = new Handler(){
@@ -238,4 +261,94 @@ public class OzTollTextActivity extends SherlockActivity {
 		    					 }, 5000);
     }
 
+	public void populateStreets(){
+		OzTollData tollData = global.getTollData();
+		Log.w ("ozToll","OzTollTextView.populateStreets() called");
+		if (tollData.getStart()==null){
+			for (int twc=0; twc<tollData.getTollwayCount(); twc++){
+				for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
+					if (tollData.getStreet(twc, sc).isValid()){
+						adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
+					}
+				}
+			}
+			
+			collapseGroups();
+		} else {
+			adapter.resetView();
+			ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
+			String tollway = tollData.getTollwayName(tollData.getStart());
+
+			for (int sc=0;sc<validExits.size();sc++){
+				adapter.addStreet(tollway, validExits.get(sc).getName());
+				
+				for (int cc=0; cc<tollData.getConnectionCount(); cc++){
+					if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
+						(tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
+						ArrayList<Street> childValidExits;
+						String otherTollway;
+						if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
+							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
+							otherTollway = tollData.getConnection(cc).getEndTollway();
+						} else {
+							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getStart());
+							otherTollway = tollData.getConnection(cc).getStartTollway();
+						}
+						for (int csc=0; csc<childValidExits.size();csc++){
+							adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
+						}
+					}
+				}
+			}
+			collapseGroups();
+		}
+		Log.w ("ozToll","OzTollTextView.populateStreets() finished");
+	}
+	
+	public void collapseGroups(){
+		handler.post(new Runnable(){
+
+			@Override
+			public void run() {
+				for (int groupCount=0; groupCount < adapter.getGroupCount(); groupCount++)
+					listView.collapseGroup(groupCount);
+			}
+		});
+	}
+	
+	public void setListView(ExpandableListView exListView) {
+		listView = exListView;
+		listView.setAdapter(adapter);
+		
+		listView.setOnChildClickListener(new OnChildClickListener(){
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				if (global.getTollData().isFinished()){
+					String tollway=(String)adapter.getGroup(groupPosition);
+					String street=(String)adapter.getChild(groupPosition, childPosition);
+					if (global.getTollData().getStart()==null){
+						global.getTollData().setStart(global.getTollData().getStreet(tollway, street));
+						populateStreets();
+	        			TextView startStreet = (TextView)findViewById(R.id.startStreet);
+	        			startStreet.setText("Start Street: "+global.getTollData().getStart().getName());
+						
+						Message newMessage = handler.obtainMessage();
+						newMessage.what=6;
+						handler.dispatchMessage(newMessage);
+					}else if (global.getTollData().getFinish()==null){
+						global.getTollData().setFinish(global.getTollData().getStreet(tollway, street));
+						LinearLayout rateLayout = global.getTollData().processToll(getBaseContext());
+						Message newMessage = handler.obtainMessage();
+						newMessage.obj = rateLayout;
+						newMessage.what=3;
+						handler.sendMessage(newMessage);
+					}
+				}
+
+				return true;
+			}
+		});
+	}
 }

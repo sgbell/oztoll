@@ -41,6 +41,8 @@ public class OzTollActivity extends SherlockActivity {
     public void onResume(){
     	super.onResume();
     	
+    	Log.w("oztoll", "oztollactiivity.onResume() called");
+    	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
@@ -75,12 +77,20 @@ public class OzTollActivity extends SherlockActivity {
              	}
             }
         }
+        if (global.isTextViewStarted())
+        	Log.w ("ozToll","OzTollActivity - TextView Started");
+        if (global.isMapViewStarted())
+        	Log.w ("ozToll","OzTollActivity - MapView Started");
+        Log.w ("ozToll","I ove cheese");
     }
     
     /**
      * This is called when a child activity ends.
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+
+    	Log.w("oztoll", "oztollactiivity.onActivityResult() called");
+    	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -113,5 +123,6 @@ public class OzTollActivity extends SherlockActivity {
                	global.setMapViewStarted(false);
                	finish();
             }
+        
     }
 }

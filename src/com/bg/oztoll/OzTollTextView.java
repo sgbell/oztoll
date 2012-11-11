@@ -115,14 +115,17 @@ public class OzTollTextView implements Runnable{
 	}
 	
 	public void populateStreets(){
+		Log.w ("ozToll","OzTollTextView.populateStreets() called");
 		for (int twc=0; twc<tollData.getTollwayCount(); twc++)
 			for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
 				if (tollData.getStreet(twc, sc).isValid()){
 					adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
+					Log.w ("ozToll","OzTollTextView.populateStreets() - Added :"+tollData.getStreetName(twc, sc));
 				}
 			}
 		
 		collapseGroups();
+		Log.w ("ozToll","OzTollTextView.populateStreets() finished");
 	}
 
 
@@ -130,12 +133,6 @@ public class OzTollTextView implements Runnable{
 		start=null;
 		finish=null;
 		shownExits=false;
-		
-		Message msg = mainHandler.obtainMessage();
-		msg.what=2;
-		String startText = "";
-		msg.obj = startText;
-		mainHandler.sendMessage(msg);
 		
 		adapter.resetView();
 		handler.sendEmptyMessage(1);
@@ -146,6 +143,7 @@ public class OzTollTextView implements Runnable{
 	
 	@Override
 	public void run() {
+		Log.w ("ozToll","OzTollTextView.run() called");
 		// working here, need to grab heading textview and give the user instructions.
 		//TextView heading = 
 		boolean stillRunning=true;
@@ -163,11 +161,13 @@ public class OzTollTextView implements Runnable{
 				
 			synchronized (threadSync){
 				try {
+					Log.w ("ozToll","OzTollTextView.threadSync sleep");
 					threadSync.wait();
 				} catch (InterruptedException e){
 					// do nothing again
 				}
 			}
+			Log.w ("ozToll","OzTollTextView.threadSync awake");
 			if (start!=null){
 				if (finish!=null){
 					showDialog();

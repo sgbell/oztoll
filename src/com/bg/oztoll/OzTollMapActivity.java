@@ -99,7 +99,9 @@ public class OzTollMapActivity extends SherlockMapActivity {
     public void onResume(){
     	super.onResume();
     	
-		global = (OzTollApplication)getApplication();
+    	Log.w("oztoll", "oztollMapActivity.onResume() called");
+    	
+    	global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
 		if (preferences.getBoolean("firstRun", true)){
