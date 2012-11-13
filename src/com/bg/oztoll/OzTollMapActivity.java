@@ -51,6 +51,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	private AlertDialog.Builder builder;
 	private MapOverlay itemizedOverlay;
 	private LinearLayout rateLayout;
+	public MapView mapView=null;
 
 	
 	public OzTollMapActivity(){
@@ -124,26 +125,24 @@ public class OzTollMapActivity extends SherlockMapActivity {
 		if ((preferences.getBoolean("applicationView", true))&&
 			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
-			// Sets the layout to the map View Layout
-			setContentView(R.layout.oztoll_map);
-			// Grab the map
-			MapView mapView = (MapView) findViewById(R.id.oztollmap);
+
+			if (mapView == null){
+				// Sets the layout to the map View Layout
+				setContentView(R.layout.oztoll_map);
+
+				// Grab the map
+				mapView = (MapView) findViewById(R.id.oztollmap);
+			}
+
 			// Set zoom on the map
 			mapView.setBuiltInZoomControls(true);
+
 			
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
 			
 			/* Before we go and create a thread to handle adding the streets to the overlay,
 			 and doing any modifications to them, try doing it here
-			
-			 synchronize on ozTollData.datasync()
-			 	if tollData has not finished reading the datafile
-			 		call handler 5
-			 		datasync wait
-			 	
-			 	populate overlay with streets
-			 	call handler 6
 			 */ 
 			synchronized(global.getTollData().getDataSync()){
 				while (!global.getTollData().isFinished()){

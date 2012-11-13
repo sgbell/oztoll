@@ -77,11 +77,6 @@ public class OzTollActivity extends SherlockActivity {
              	}
             }
         }
-        if (global.isTextViewStarted())
-        	Log.w ("ozToll","OzTollActivity - TextView Started");
-        if (global.isMapViewStarted())
-        	Log.w ("ozToll","OzTollActivity - MapView Started");
-        Log.w ("ozToll","I ove cheese");
     }
     
     /**

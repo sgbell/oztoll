@@ -101,8 +101,6 @@ public class OzTollTextActivity extends SherlockActivity {
     public void onResume(){
     	super.onResume();
     	
-    	Log.w("oztoll", "oztollTextactivity.onResume() called");
-
     	global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     	
@@ -124,7 +122,6 @@ public class OzTollTextActivity extends SherlockActivity {
 		// If this activity is resumed, and the user has not changed the view to map view
 		if ((!preferences.getBoolean("applicationView", true))||
 			((!wifi.isConnected())&&(!mobile.isConnected()))){
-			Log.w("ozToll", "onResume() starting TextView builder");
 	    	synchronized (global.getDatasync()){
 	    		try {
 	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data
@@ -138,15 +135,12 @@ public class OzTollTextActivity extends SherlockActivity {
 	    			// just wait for it
 	    		}
 	    	}
-	    	Log.w("ozToll", "onResume() after the sync block");
 	    	Message newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
 
 	    	setContentView(R.layout.textrate);
 
-	    	Log.w("ozToll", "onResume(): "+global.getTollData().getTollwayCount());
-	    		    	
 	    	adapter = new ExpandableListAdapter(getApplicationContext(), new ArrayList<String>(),
 					new ArrayList<ArrayList<String>>());
 	    	setListView((ExpandableListView)findViewById(R.id.streetList));
@@ -161,12 +155,10 @@ public class OzTollTextActivity extends SherlockActivity {
 	    	ozTextViewThread.start();*/
 	    	
 		} else {
-			Log.w("ozToll", "exiting TextView builder");
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);
 			finish();
 		}
-		Log.w("ozToll","end of ozTollTextActivity.onResume()");
     }
     
     final Handler handler = new Handler(){
@@ -263,7 +255,9 @@ public class OzTollTextActivity extends SherlockActivity {
 
 	public void populateStreets(){
 		OzTollData tollData = global.getTollData();
-		Log.w ("ozToll","OzTollTextView.populateStreets() called");
+		
+		adapter.resetView();
+
 		if (tollData.getStart()==null){
 			for (int twc=0; twc<tollData.getTollwayCount(); twc++){
 				for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
@@ -272,10 +266,7 @@ public class OzTollTextActivity extends SherlockActivity {
 					}
 				}
 			}
-			
-			collapseGroups();
 		} else {
-			adapter.resetView();
 			ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
 			String tollway = tollData.getTollwayName(tollData.getStart());
 
@@ -300,9 +291,9 @@ public class OzTollTextActivity extends SherlockActivity {
 					}
 				}
 			}
-			collapseGroups();
 		}
-		Log.w ("ozToll","OzTollTextView.populateStreets() finished");
+		collapseGroups();
+
 	}
 	
 	public void collapseGroups(){
