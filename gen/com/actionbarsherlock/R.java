@@ -787,9 +787,11 @@ containing a value of this type.
         public static final int abs__tab_selected_holo=0x7f020052;
         public static final int abs__tab_selected_pressed_holo=0x7f020053;
         public static final int abs__tab_unselected_pressed_holo=0x7f020054;
-        public static final int activeroad=0x7f020055;
-        public static final int icon=0x7f020056;
-        public static final int selectedroad=0x7f020057;
+        public static final int action_clear=0x7f020055;
+        public static final int action_settings=0x7f020056;
+        public static final int activeroad=0x7f020057;
+        public static final int icon=0x7f020058;
+        public static final int selectedroad=0x7f020059;
     }
     public static final class id {
         public static final int WelcomeClose=0x7f040032;
@@ -822,6 +824,7 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
+        public static final int clear=0x7f04002a;
         public static final int close=0x7f040027;
         public static final int disableHome=0x7f040009;
         public static final int heading=0x7f04002d;
@@ -829,9 +832,8 @@ containing a value of this type.
         public static final int listMode=0x7f040002;
         public static final int normal=0x7f040001;
         public static final int oztollmap=0x7f04002c;
-        public static final int reset=0x7f04002b;
+        public static final int preferences=0x7f04002b;
         public static final int scrollView=0x7f040028;
-        public static final int settings=0x7f04002a;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;

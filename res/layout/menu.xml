@@ -3,11 +3,13 @@
     <item
         android:id="@+id/clear"
         android:showAsAction="ifRoom"
-        android:title="Clear">
+        android:title="Clear"
+        android:icon="@drawable/action_clear">
     </item>
     <item
         android:id="@+id/preferences"
         android:showAsAction="ifRoom"
-        android:title="Preferrences">
+        android:title="Preferences"
+        android:icon="@drawable/action_settings">
     </item>
 </menu>

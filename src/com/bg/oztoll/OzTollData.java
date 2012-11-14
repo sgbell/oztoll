@@ -265,6 +265,12 @@ public class OzTollData implements Runnable{
 		return charges;
 	}
 
+	public void reset(){
+		setStart(null);
+		setFinish(null);
+		setValidStarts();
+	}
+	
 	public void setValidStarts(){
 		for (int twc=0; twc < tollways.size(); twc++)
 			for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++)

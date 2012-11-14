@@ -84,7 +84,6 @@ public class OzTollTextActivity extends SherlockActivity {
 		MenuInflater inflator = getSupportMenuInflater();
 		inflator.inflate(R.layout.menu,menu);
 		
-		
 		return true;
 	}
 	
@@ -94,6 +93,7 @@ public class OzTollTextActivity extends SherlockActivity {
 				openPreferences();
 				break;
 			case R.id.clear:
+				resetView();
 				
 				break;
 		}
@@ -143,7 +143,7 @@ public class OzTollTextActivity extends SherlockActivity {
 			((!wifi.isConnected())&&(!mobile.isConnected()))){
 	    	synchronized (global.getDatasync()){
 	    		try {
-	    			// So we don't get put to sleep indefinately, if the service has already finished loading the data
+	    			// So we don't get put to sleep indefinitely, if the service has already finished loading the data
 	    			while (!global.getTollData().isFinished()){
 						Message newMessage = handler.obtainMessage();
 						newMessage.what = 5;
@@ -154,19 +154,18 @@ public class OzTollTextActivity extends SherlockActivity {
 	    			// just wait for it
 	    		}
 	    	}
-	    	Message newMessage = handler.obtainMessage();
-			newMessage.what = 6;
-			handler.dispatchMessage(newMessage);
-
 	    	setContentView(R.layout.textrate);
 
 	    	adapter = new ExpandableListAdapter(getApplicationContext(), new ArrayList<String>(),
 					new ArrayList<ArrayList<String>>());
 	    	setListView((ExpandableListView)findViewById(R.id.streetList));
 
-	    	populateStreets();
+	    	resetView();
+	    	//populateStreets();
 	    	
-	    	
+	    	Message newMessage = handler.obtainMessage();
+			newMessage.what = 6;
+			handler.dispatchMessage(newMessage);
     		/*
 	    	ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
 	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
@@ -313,6 +312,14 @@ public class OzTollTextActivity extends SherlockActivity {
 		}
 		collapseGroups();
 
+		adapter.notifyDataSetChanged();
+	}
+	
+	public void resetView(){
+		global.getTollData().reset();
+		TextView startStreet = (TextView)findViewById(R.id.startStreet);
+		startStreet.setText("");
+		populateStreets();
 	}
 	
 	public void collapseGroups(){

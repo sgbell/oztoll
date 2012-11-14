@@ -9,7 +9,6 @@ import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import android.app.Activity;
@@ -92,16 +91,27 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				openPreferences();
 				break;
 			case R.id.clear:
-				
+				resetView();
+				itemizedOverlay.doPopulate();
+
+				Message newMessage = handler.obtainMessage();
+				newMessage.what=6;
+				handler.sendMessage(newMessage);
 				break;
 		}
 		
 		return true;
 	}
 	
+	private void resetView() {
+		global.getTollData().reset();
+		startShown=false;
+		finishShown=false;
+	}
+
 	public void openPreferences(){
-			Intent intent = new Intent (OzTollMapActivity.this, AppPreferences.class);
-			startActivity(intent);
+		Intent intent = new Intent (OzTollMapActivity.this, AppPreferences.class);
+		startActivity(intent);
     }
     
     protected void onStop(){
@@ -180,6 +190,8 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 				// Creation of the overlay for the map
 				itemizedOverlay = new MapOverlay(defaultActiveRoad, this, handler, global.getTollData());
+				
+				resetView();
 				
 				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
@@ -326,16 +338,8 @@ public class OzTollMapActivity extends SherlockMapActivity {
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					}
-    					} else if ((Street)msg.obj==global.getTollData().getStart()){
-    						global.getTollData().setStart(null);
-    						global.getTollData().setValidStarts();
-    						startShown=false;
-    						finishShown=false;
-    						
-    						Message newMessage = handler.obtainMessage();
-    						newMessage.what=6;
-    						handler.sendMessage(newMessage);
-    					}
+    					} else if ((Street)msg.obj==global.getTollData().getStart())
+    						resetView();
     				}
 					itemizedOverlay.doPopulate();
     				break;
