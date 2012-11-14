@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/settings"
-          android:title="Settings" />
-	<item android:id="@+id/reset" 
-	      android:title="Clear Map"/>
+    <item
+        android:id="@+id/clear"
+        android:showAsAction="ifRoom"
+        android:title="Clear">
+    </item>
+    <item
+        android:id="@+id/preferences"
+        android:showAsAction="ifRoom"
+        android:title="Preferrences">
+    </item>
 </menu>

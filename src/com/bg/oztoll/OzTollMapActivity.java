@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.android.maps.MapView;
@@ -65,7 +66,7 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	
 	public boolean onCreateOptionsMenu (Menu menu){
 		//http://avilyne.com/?p=180
-		
+		/*
 		MenuItem miPrefs = menu.add("Preferences");
 		miPrefs.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		
@@ -77,6 +78,23 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				return true;
 			}
 		});
+		*/
+		
+		MenuInflater inflator = getSupportMenuInflater();
+		inflator.inflate(R.layout.menu,menu);
+		
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()){
+			case R.id.preferences:
+				openPreferences();
+				break;
+			case R.id.clear:
+				
+				break;
+		}
 		
 		return true;
 	}

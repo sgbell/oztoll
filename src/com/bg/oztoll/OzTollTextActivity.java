@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
@@ -66,7 +67,7 @@ public class OzTollTextActivity extends SherlockActivity {
 	
 	public boolean onCreateOptionsMenu (Menu menu){
 		//http://avilyne.com/?p=180
-		
+		/*
 		MenuItem miPrefs = menu.add("Preferences");
 		miPrefs.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		
@@ -78,6 +79,24 @@ public class OzTollTextActivity extends SherlockActivity {
 				return true;
 			}
 		});
+		*/
+		
+		MenuInflater inflator = getSupportMenuInflater();
+		inflator.inflate(R.layout.menu,menu);
+		
+		
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()){
+			case R.id.preferences:
+				openPreferences();
+				break;
+			case R.id.clear:
+				
+				break;
+		}
 		
 		return true;
 	}
