@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -33,13 +34,18 @@ public class MapOverlay extends ItemizedOverlay {
 					 invisibleMarker;
 	private Handler mHandler;
 	private OzTollData tollData;
+	private Paint paint;
 
 	public MapOverlay(Drawable arg0) {
 		super(boundCenterBottom(arg0));
+
+		paint = new Paint();
+    	paint.setColor(Color.WHITE);
+    	paint.setTextAlign(Align.CENTER);
 	}
 	
 	public MapOverlay(Drawable defaultMarker, Context context, Handler handler, OzTollData tollData){
-		super (boundCenterBottom(defaultMarker));
+		this(boundCenterBottom(defaultMarker));
 		mContext = context;
 		mHandler = handler;
 		
@@ -63,10 +69,11 @@ public class MapOverlay extends ItemizedOverlay {
     	}
     	image = image.copy(Bitmap.Config.ARGB_8888, true);
     	Canvas canvas = new Canvas(image);
-    	Paint paint = new Paint();
-    	paint.setColor(Color.WHITE);
-    	paint.setTextAlign(Align.CENTER);
-    	canvas.drawText(Integer.toString(positionNumber), 10, 15, paint);
+    	
+    	Log.w ("ozToll","Canvas Height:"+canvas.getHeight()+" - textHeight:"+paint.getTextSize());
+    	Log.w ("ozToll","Draw Position: "+(canvas.getWidth()/2)+",("+paint.getTextSize()+")/2+("+canvas.getHeight()+"/2)="+((paint.getTextSize()/2)+((canvas.getHeight())/2)));
+    	Log.w ("ozToll","Draw Position: "+(canvas.getWidth()/2)+","+paint.getTextSize()+"-(("+canvas.getHeight()+"-"+paint.getTextSize()+")/2)="+(paint.getTextSize()+((canvas.getHeight()-paint.getTextSize())/2)));
+    	canvas.drawText(Integer.toString(positionNumber), (canvas.getWidth()/2), ((paint.getTextSize()/2)+((canvas.getHeight()-2)/2))-2, paint);
     	Drawable d = new BitmapDrawable(mContext.getResources(),image);
     	d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
     	
@@ -136,6 +143,31 @@ public class MapOverlay extends ItemizedOverlay {
 	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when){
 		super.draw(canvas, mapView, false);
 		return true;
+	}
+
+	public void setMarkerTextSize(int height, int width) {
+		float xMultiplier, yMultiplier;
+		
+		Log.w ("ozToll","Screen Size: "+height+","+width);
+		
+		if (width>height){
+			xMultiplier = width/381;
+			yMultiplier = height/240;
+		} else {
+			xMultiplier = width/240;
+			yMultiplier = height/381;
+		}
+		
+		Log.w ("ozToll", "Multipliers :"+xMultiplier+","+yMultiplier);
+		
+		float textSize = paint.getTextSize();
+		Log.w ("oztoll","textSize="+textSize);
+		paint.setTextSize(100);
+		paint.setTextScaleX(1.0f);
+		Rect bounds = new Rect();
+		paint.getTextBounds("Ty", 0, 2, bounds);
+		int textHeight = bounds.bottom-bounds.top;
+		paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-1);
 	}
 	
 }

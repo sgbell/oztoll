@@ -18,6 +18,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -128,8 +129,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
     public void onResume(){
     	super.onResume();
     	
-    	Log.w("oztoll", "oztollMapActivity.onResume() called");
-    	
     	global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
@@ -165,7 +164,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
 			// Set zoom on the map
 			mapView.setBuiltInZoomControls(true);
 
-			
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
 			
@@ -190,6 +188,12 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 				// Creation of the overlay for the map
 				itemizedOverlay = new MapOverlay(defaultActiveRoad, this, handler, global.getTollData());
+
+				Point screenSize= new Point();
+				screenSize.x=getWindowManager().getDefaultDisplay().getWidth();
+				screenSize.y=getWindowManager().getDefaultDisplay().getHeight();
+				Log.w ("ozToll","size:"+screenSize.x+","+screenSize.y);
+				itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
 				
 				resetView();
 				
