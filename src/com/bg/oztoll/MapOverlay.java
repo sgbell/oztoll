@@ -70,9 +70,6 @@ public class MapOverlay extends ItemizedOverlay {
     	image = image.copy(Bitmap.Config.ARGB_8888, true);
     	Canvas canvas = new Canvas(image);
     	
-    	Log.w ("ozToll","Canvas Height:"+canvas.getHeight()+" - textHeight:"+paint.getTextSize());
-    	Log.w ("ozToll","Draw Position: "+(canvas.getWidth()/2)+",("+paint.getTextSize()+")/2+("+canvas.getHeight()+"/2)="+((paint.getTextSize()/2)+((canvas.getHeight())/2)));
-    	Log.w ("ozToll","Draw Position: "+(canvas.getWidth()/2)+","+paint.getTextSize()+"-(("+canvas.getHeight()+"-"+paint.getTextSize()+")/2)="+(paint.getTextSize()+((canvas.getHeight()-paint.getTextSize())/2)));
     	canvas.drawText(Integer.toString(positionNumber), (canvas.getWidth()/2), ((paint.getTextSize()/2)+((canvas.getHeight()-2)/2))-2, paint);
     	Drawable d = new BitmapDrawable(mContext.getResources(),image);
     	d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
@@ -148,7 +145,6 @@ public class MapOverlay extends ItemizedOverlay {
 	public void setMarkerTextSize(int height, int width) {
 		float xMultiplier, yMultiplier;
 		
-		Log.w ("ozToll","Screen Size: "+height+","+width);
 		
 		if (width>height){
 			xMultiplier = width/381;
@@ -158,10 +154,7 @@ public class MapOverlay extends ItemizedOverlay {
 			yMultiplier = height/381;
 		}
 		
-		Log.w ("ozToll", "Multipliers :"+xMultiplier+","+yMultiplier);
-		
 		float textSize = paint.getTextSize();
-		Log.w ("oztoll","textSize="+textSize);
 		paint.setTextSize(100);
 		paint.setTextScaleX(1.0f);
 		Rect bounds = new Rect();

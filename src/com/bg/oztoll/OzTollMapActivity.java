@@ -192,7 +192,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				Point screenSize= new Point();
 				screenSize.x=getWindowManager().getDefaultDisplay().getWidth();
 				screenSize.y=getWindowManager().getDefaultDisplay().getHeight();
-				Log.w ("ozToll","size:"+screenSize.x+","+screenSize.y);
 				itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
 				
 				resetView();
@@ -211,13 +210,6 @@ public class OzTollMapActivity extends SherlockMapActivity {
 				newMessage.what = 6;
 				handler.dispatchMessage(newMessage);
 			}
-			/*
-			tollDataView = new TollDataView(global.getTollData());
-			tollDataView.setMainHandler(handler);
-			Thread tollDataViewBuilder = new Thread(tollDataView);
-			tollDataViewBuilder.setName("TollDataView");
-			tollDataViewBuilder.start();
-			*/
 		} else {
 			// if user has just changed the preference to text view
 			setResult(1);

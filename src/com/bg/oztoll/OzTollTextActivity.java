@@ -67,20 +67,6 @@ public class OzTollTextActivity extends SherlockActivity {
 	
 	public boolean onCreateOptionsMenu (Menu menu){
 		//http://avilyne.com/?p=180
-		/*
-		MenuItem miPrefs = menu.add("Preferences");
-		miPrefs.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		
-		miPrefs.setOnMenuItemClickListener(new OnMenuItemClickListener(){
-
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				openPreferences();
-				return true;
-			}
-		});
-		*/
-		
 		MenuInflater inflator = getSupportMenuInflater();
 		inflator.inflate(R.layout.menu,menu);
 		
