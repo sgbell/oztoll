@@ -83,7 +83,9 @@ public class MapFragment extends SherlockFragment {
 			screenSize.y=getSherlockActivity().getWindowManager().getDefaultDisplay().getHeight();
 			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
 			
-			resetView();
+			Message newMessage = handler.obtainMessage();
+			newMessage.what = 10;
+			handler.dispatchMessage(newMessage);
 			
 			for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 				for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
@@ -95,7 +97,7 @@ public class MapFragment extends SherlockFragment {
 			// Add streets to overlay
 			mapOverlays.add(itemizedOverlay);
 			
-			Message newMessage = handler.obtainMessage();
+			newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
 		}
@@ -117,5 +119,9 @@ public class MapFragment extends SherlockFragment {
 	
 	public MapView getMapView(){
 		return mapView;
+	}
+	
+	public MapOverlay getOverlay(){
+		return itemizedOverlay;
 	}
 }

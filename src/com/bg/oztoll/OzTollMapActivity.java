@@ -93,7 +93,8 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 				break;
 			case R.id.clear:
 				resetView();
-				itemizedOverlay.doPopulate();
+				if (mMapFragment!=null)
+					mMapFragment.getOverlay().doPopulate();
 
 				Message newMessage = handler.obtainMessage();
 				newMessage.what=6;
@@ -312,7 +313,11 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     					} else if ((Street)msg.obj==global.getTollData().getStart())
     						resetView();
     				}
-					itemizedOverlay.doPopulate();
+					if (mMapFragment!=null)
+						mMapFragment.getOverlay().doPopulate();
+    				break;
+    			case 10:
+    				resetView();
     				break;
     		}
     	}
