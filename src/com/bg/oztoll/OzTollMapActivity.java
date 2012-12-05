@@ -5,7 +5,7 @@ package com.bg.oztoll;
 
 import java.util.List;
 
-import com.actionbarsherlock.app.SherlockMapActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 
 
@@ -39,8 +40,7 @@ import android.text.Html;
  * @author bugman
  *
  */
-public class OzTollMapActivity extends SherlockMapActivity {
-	//private OzTollView ozView;
+public class OzTollMapActivity extends SherlockFragmentActivity {
 	private Dialog rateDialog, startDialog;
 	private ProgressDialog progDialog;
 	private SharedPreferences preferences;
@@ -50,9 +50,9 @@ public class OzTollMapActivity extends SherlockMapActivity {
 	private OzTollApplication global;
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
-	private MapOverlay itemizedOverlay;
 	private LinearLayout rateLayout;
 	public MapView mapView=null;
+	private MapFragment mMapFragment;
 
 	
 	public OzTollMapActivity(){
@@ -103,13 +103,13 @@ public class OzTollMapActivity extends SherlockMapActivity {
 		
 		return true;
 	}
-	
+
 	private void resetView() {
 		global.getTollData().reset();
 		startShown=false;
 		finishShown=false;
 	}
-
+	
 	public void openPreferences(){
 		Intent intent = new Intent (OzTollMapActivity.this, AppPreferences.class);
 		startActivity(intent);
@@ -132,6 +132,11 @@ public class OzTollMapActivity extends SherlockMapActivity {
     	global = (OzTollApplication)getApplication();
 		preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		
+		/** 
+		 *  Just had a brilliant idea. if it's a first run, make a layout in the main executable
+		 *  that gives the welcome message. Which should be a short tutorial on how to use the app
+		 *  
+		 */
 		if (preferences.getBoolean("firstRun", true)){
 			Message msg = handler.obtainMessage();
 			msg.what=4;
@@ -155,61 +160,20 @@ public class OzTollMapActivity extends SherlockMapActivity {
 
 			if (mapView == null){
 				// Sets the layout to the map View Layout
-				setContentView(R.layout.oztoll_map);
+				
+				//setContentView(R.layout.oztoll_map);
 
 				// Grab the map
 				mapView = (MapView) findViewById(R.id.oztollmap);
+				
+				setupFragments();
 			}
 
-			// Set zoom on the map
-			mapView.setBuiltInZoomControls(true);
 
 			// Creates a new dialog
 			builder = new AlertDialog.Builder(thisActivity);
 			
-			/* Before we go and create a thread to handle adding the streets to the overlay,
-			 and doing any modifications to them, try doing it here
-			 */ 
-			synchronized(global.getTollData().getDataSync()){
-				while (!global.getTollData().isFinished()){
-					Message newMessage = handler.obtainMessage();
-					newMessage.what = 5;
-					handler.dispatchMessage(newMessage);
-					try {
-						global.getTollData().getDataSync().wait();
-					} catch (InterruptedException e) {
-						
-					}
-				}
-				// populate overlay array
-				List<Overlay> mapOverlays = mapView.getOverlays();
-				// The following two lines are the images used to mark the exits on the map
-				Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
-				Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
-				// Creation of the overlay for the map
-				itemizedOverlay = new MapOverlay(defaultActiveRoad, this, handler, global.getTollData());
-
-				Point screenSize= new Point();
-				screenSize.x=getWindowManager().getDefaultDisplay().getWidth();
-				screenSize.y=getWindowManager().getDefaultDisplay().getHeight();
-				itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
-				
-				resetView();
-				
-				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
-						OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
-						itemizedOverlay.addOverlay(item);
-					}
-				itemizedOverlay.doPopulate();
-				
-				// Add streets to overlay
-				mapOverlays.add(itemizedOverlay);
-				
-				Message newMessage = handler.obtainMessage();
-				newMessage.what = 6;
-				handler.dispatchMessage(newMessage);
-			}
+			
 		} else {
 			// if user has just changed the preference to text view
 			setResult(1);
@@ -217,7 +181,18 @@ public class OzTollMapActivity extends SherlockMapActivity {
 		}
     }
     
-    final Handler handler = new Handler(){
+    private void setupFragments() {
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
+		if (mMapFragment ==null){
+			mMapFragment = new MapFragment(mapView, handler);
+			//ft.add(R.id.map, mMapFragment, MapFragment.TAG);
+		}
+		
+	}
+
+	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
     		switch (msg.what){
     			case 3:
