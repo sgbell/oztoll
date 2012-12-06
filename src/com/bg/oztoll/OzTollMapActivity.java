@@ -163,7 +163,9 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 				// Sets the layout to the map View Layout
 				
 				//setContentView(R.layout.oztoll_map);
-
+				// Need to make the layout and setContentView.
+				// First though, Make a fragment for the results dialog, and the OzTollTextActivity.
+				
 				// Grab the map
 				mapView = (MapView) findViewById(R.id.oztollmap);
 				
