@@ -46,15 +46,12 @@ public class MapFragment extends SherlockFragment {
 		
 		setRetainInstance(true);
 
-		// Set zoom on the map
-		mapView.setBuiltInZoomControls(true);
-
 	}
 	
 	public void onResume(){
 		super.onResume();
 		
-		global = (OzTollApplication)this.getActivity().getApplication();
+		global = (OzTollApplication)getSherlockActivity().getApplication();
 		
 		/* Before we go and create a thread to handle adding the streets to the overlay,
 		 and doing any modifications to them, try doing it here
@@ -104,17 +101,25 @@ public class MapFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
-		return inflater.inflate(R.layout.oztoll_map, null);
+		View view =  inflater.inflate(R.layout.oztoll_map, null);
+
+		mapView = (MapView)view.findViewById(R.id.oztollmap);
+		// Set zoom on the map
+		mapView.setBuiltInZoomControls(true);
+
+		return view;
 	}
 	
 	public void onViewCreated(View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-		
-		setMapView((MapView)view);
+
 	}
 	
 	public void setMapView (MapView mapView){
 		this.mapView = mapView;
+
+		// Set zoom on the map
+		mapView.setBuiltInZoomControls(true);
 	}
 	
 	public MapView getMapView(){

@@ -48,8 +48,8 @@ public class OzTollTextActivity extends SherlockActivity {
 	private ProgressDialog progDialog;
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
-	private ExpandableListView listView;
-	private ExpandableListAdapter adapter;
+	
+	private OzTollTextFragment ozTollTextFragment;
 	
 	public OzTollTextActivity(){
 	}
@@ -127,37 +127,11 @@ public class OzTollTextActivity extends SherlockActivity {
 		// If this activity is resumed, and the user has not changed the view to map view
 		if ((!preferences.getBoolean("applicationView", true))||
 			((!wifi.isConnected())&&(!mobile.isConnected()))){
-	    	synchronized (global.getDatasync()){
-	    		try {
-	    			// So we don't get put to sleep indefinitely, if the service has already finished loading the data
-	    			while (!global.getTollData().isFinished()){
-						Message newMessage = handler.obtainMessage();
-						newMessage.what = 5;
-						handler.dispatchMessage(newMessage);
-	    				global.getDatasync().wait();
-	    			}
-	    		} catch (InterruptedException e){
-	    			// just wait for it
-	    		}
-	    	}
-	    	setContentView(R.layout.textrate);
 
-	    	adapter = new ExpandableListAdapter(getApplicationContext(), new ArrayList<String>(),
-					new ArrayList<ArrayList<String>>());
-	    	setListView((ExpandableListView)findViewById(R.id.streetList));
-
-	    	resetView();
-	    	//populateStreets();
-	    	
-	    	Message newMessage = handler.obtainMessage();
-			newMessage.what = 6;
-			handler.dispatchMessage(newMessage);
-    		/*
-	    	ozTextView = new OzTollTextView(this.getApplicationContext(),global.getTollData(),handler);
-	    	ozTextView.setListView((ExpandableListView)findViewById(R.id.streetList));
-	    	Thread ozTextViewThread = new Thread(ozTextView);
-	    	ozTextViewThread.start();*/
-	    	
+			// This is where we'll get the fragments running and the screen setup
+			ozTollTextFragment = new OzTollTextFragment();
+			
+			
 		} else {
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);
@@ -235,6 +209,9 @@ public class OzTollTextActivity extends SherlockActivity {
     					}
     				}
     				break;
+    			case 10:
+    				resetView();
+    				break;
     		}
     	}
     };
@@ -256,102 +233,15 @@ public class OzTollTextActivity extends SherlockActivity {
 	    							}
 		    					 }, 5000);
     }
-
-	public void populateStreets(){
-		OzTollData tollData = global.getTollData();
-		
-		adapter.resetView();
-
-		if (tollData.getStart()==null){
-			for (int twc=0; twc<tollData.getTollwayCount(); twc++){
-				for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-					if (tollData.getStreet(twc, sc).isValid()){
-						adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
-					}
-				}
-			}
-		} else {
-			ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
-			String tollway = tollData.getTollwayName(tollData.getStart());
-
-			for (int sc=0;sc<validExits.size();sc++){
-				adapter.addStreet(tollway, validExits.get(sc).getName());
-				
-				for (int cc=0; cc<tollData.getConnectionCount(); cc++){
-					if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
-						(tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
-						ArrayList<Street> childValidExits;
-						String otherTollway;
-						if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
-							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
-							otherTollway = tollData.getConnection(cc).getEndTollway();
-						} else {
-							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getStart());
-							otherTollway = tollData.getConnection(cc).getStartTollway();
-						}
-						for (int csc=0; csc<childValidExits.size();csc++){
-							adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
-						}
-					}
-				}
-			}
-		}
-		collapseGroups();
-
-		adapter.notifyDataSetChanged();
-	}
 	
 	public void resetView(){
 		global.getTollData().reset();
 		TextView startStreet = (TextView)findViewById(R.id.startStreet);
 		startStreet.setText("");
-		populateStreets();
+		// this needs to reference the method in OzTollTextFragment
+		ozTollTextFragment.populateStreets();
 	}
 	
-	public void collapseGroups(){
-		handler.post(new Runnable(){
-
-			@Override
-			public void run() {
-				for (int groupCount=0; groupCount < adapter.getGroupCount(); groupCount++)
-					listView.collapseGroup(groupCount);
-			}
-		});
-	}
 	
-	public void setListView(ExpandableListView exListView) {
-		listView = exListView;
-		listView.setAdapter(adapter);
-		
-		listView.setOnChildClickListener(new OnChildClickListener(){
 
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,
-					int groupPosition, int childPosition, long id) {
-				if (global.getTollData().isFinished()){
-					String tollway=(String)adapter.getGroup(groupPosition);
-					String street=(String)adapter.getChild(groupPosition, childPosition);
-					if (global.getTollData().getStart()==null){
-						global.getTollData().setStart(global.getTollData().getStreet(tollway, street));
-						populateStreets();
-	        			TextView startStreet = (TextView)findViewById(R.id.startStreet);
-	        			startStreet.setText("Start Street: "+global.getTollData().getStart().getName());
-						
-						Message newMessage = handler.obtainMessage();
-						newMessage.what=6;
-						handler.dispatchMessage(newMessage);
-					}else if (global.getTollData().getFinish()==null){
-						global.getTollData().setFinish(global.getTollData().getStreet(tollway, street));
-						LinearLayout rateLayout = global.getTollData().processToll(getBaseContext());
-						Message newMessage = handler.obtainMessage();
-						newMessage.obj = rateLayout;
-						newMessage.what=3;
-						handler.sendMessage(newMessage);
-					}
-				}
-
-				return true;
-			}
-		});
-	}
 }

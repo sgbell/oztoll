@@ -53,6 +53,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 	private LinearLayout rateLayout;
 	public MapView mapView=null;
 	private MapFragment mMapFragment;
+	private OzTollTextFragment mTextFragment;
 
 	
 	public OzTollMapActivity(){
@@ -105,10 +106,16 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 		return true;
 	}
 
+	// Tried to combine the reset for both MapFragment & OzTollTextFragment. this needs to be handled by seperate handle codes.
+	// do this next.
 	private void resetView() {
 		global.getTollData().reset();
 		startShown=false;
 		finishShown=false;
+		if (mTextFragment!=null){
+			mTextFragment.setStart("");
+			mTextFragment.populateStreets();
+		}
 	}
 	
 	public void openPreferences(){
@@ -159,15 +166,13 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
 
-			if (mapView == null){
+			if (mMapFragment == null){
 				// Sets the layout to the map View Layout
 				
 				//setContentView(R.layout.oztoll_map);
 				// Need to make the layout and setContentView.
 				// First though, Make a fragment for the results dialog, and the OzTollTextActivity.
-				
-				// Grab the map
-				mapView = (MapView) findViewById(R.id.oztollmap);
+				setContentView(R.layout.activity_main);
 				
 				setupFragments();
 			}
@@ -190,9 +195,19 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment ==null){
 			mMapFragment = new MapFragment(mapView, handler);
-			//ft.add(R.id.map, mMapFragment, MapFragment.TAG);
+			ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 		}
+		mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
+		if (mTextFragment == null){
+			mTextFragment = new OzTollTextFragment(handler);
+			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
+		}
+		//ft.hide(mTextFragment);
+		//ft.show(mMapFragment);
+		ft.hide(mMapFragment);
+		ft.show(mTextFragment);
 		
+		ft.commit();
 	}
 
 	final Handler handler = new Handler(){
