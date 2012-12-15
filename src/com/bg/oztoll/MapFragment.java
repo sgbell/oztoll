@@ -5,15 +5,26 @@ package com.bg.oztoll;
 
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.text.Html;
+import android.app.ProgressDialog;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.google.android.maps.MapView;
@@ -28,8 +39,17 @@ public class MapFragment extends SherlockFragment {
 	public static final String TAG = "ozTollMapFragment";
 	private MapView mapView;
 	private MapOverlay itemizedOverlay;
+	private Dialog rateDialog, startDialog;
+	private boolean loadingShown=false, startShown=false,
+			finishShown=false;
+	private ProgressDialog progDialog;
+	private LinearLayout rateLayout;
+	private AlertDialog alert;
+	private AlertDialog.Builder builder;
 
 	private OzTollApplication global;
+	private SharedPreferences preferences;
+	
 	private Handler handler;
 
 	public MapFragment(){
@@ -52,6 +72,8 @@ public class MapFragment extends SherlockFragment {
 		super.onResume();
 		
 		global = (OzTollApplication)getSherlockActivity().getApplication();
+		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
+
 		
 		/* Before we go and create a thread to handle adding the streets to the overlay,
 		 and doing any modifications to them, try doing it here
@@ -129,4 +151,5 @@ public class MapFragment extends SherlockFragment {
 	public MapOverlay getOverlay(){
 		return itemizedOverlay;
 	}
+	
 }

@@ -69,7 +69,6 @@ public class OzTollTextFragment extends SherlockFragment {
 		handler.dispatchMessage(newMessage);
 		
 		
-    	
     	newMessage = handler.obtainMessage();
 		newMessage.what = 6;
 		handler.dispatchMessage(newMessage);
@@ -123,47 +122,49 @@ public class OzTollTextFragment extends SherlockFragment {
 	}
 
 	public void populateStreets(){
-		OzTollData tollData = global.getTollData();
-		
-		adapter.resetView();
+		if (global!=null){
+			OzTollData tollData = global.getTollData();
+			
+			adapter.resetView();
 
-		if (tollData.getStart()==null){
-			for (int twc=0; twc<tollData.getTollwayCount(); twc++){
-				for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-					if (tollData.getStreet(twc, sc).isValid()){
-						adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
-					}
-				}
-			}
-		} else {
-			ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
-			String tollway = tollData.getTollwayName(tollData.getStart());
-
-			for (int sc=0;sc<validExits.size();sc++){
-				adapter.addStreet(tollway, validExits.get(sc).getName());
-				
-				for (int cc=0; cc<tollData.getConnectionCount(); cc++){
-					if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
-						(tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
-						ArrayList<Street> childValidExits;
-						String otherTollway;
-						if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
-							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
-							otherTollway = tollData.getConnection(cc).getEndTollway();
-						} else {
-							childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getStart());
-							otherTollway = tollData.getConnection(cc).getStartTollway();
-						}
-						for (int csc=0; csc<childValidExits.size();csc++){
-							adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
+			if (tollData.getStart()==null){
+				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
+					for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
+						if (tollData.getStreet(twc, sc).isValid()){
+							adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
 						}
 					}
 				}
+			} else {
+				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
+				String tollway = tollData.getTollwayName(tollData.getStart());
+
+				for (int sc=0;sc<validExits.size();sc++){
+					adapter.addStreet(tollway, validExits.get(sc).getName());
+					
+					for (int cc=0; cc<tollData.getConnectionCount(); cc++){
+						if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
+							(tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
+							ArrayList<Street> childValidExits;
+							String otherTollway;
+							if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
+								childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
+								otherTollway = tollData.getConnection(cc).getEndTollway();
+							} else {
+								childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getStart());
+								otherTollway = tollData.getConnection(cc).getStartTollway();
+							}
+							for (int csc=0; csc<childValidExits.size();csc++){
+								adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
+							}
+						}
+					}
+				}
 			}
+			collapseGroups();
+
+			adapter.notifyDataSetChanged();
 		}
-		collapseGroups();
-
-		adapter.notifyDataSetChanged();
 	}
 
 	public void collapseGroups(){

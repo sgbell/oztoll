@@ -54,6 +54,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 	public MapView mapView=null;
 	private MapFragment mMapFragment;
 	private OzTollTextFragment mTextFragment;
+	private Object msgBoxSync = new Object();
 
 	
 	public OzTollMapActivity(){
@@ -202,10 +203,10 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			mTextFragment = new OzTollTextFragment(handler);
 			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 		}
-		//ft.hide(mTextFragment);
-		//ft.show(mMapFragment);
-		ft.hide(mMapFragment);
-		ft.show(mTextFragment);
+		ft.hide(mTextFragment);
+		ft.show(mMapFragment);
+		//ft.hide(mMapFragment);
+		//ft.show(mTextFragment);
 		
 		ft.commit();
 	}
@@ -272,6 +273,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     				break;
     			case 6:
     				// This case is used to remove the loading dialog
+    				
     				if (loadingShown=true){
     					if (progDialog!=null)
     						if (progDialog.isShowing())
@@ -336,6 +338,9 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     			case 10:
     				resetView();
     				break;
+    			case 11:
+    				hideMessage();
+    				break;
     		}
     	}
     };
@@ -346,18 +351,28 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     	//Code Block for showing "Please select your starting point and Exit Point"
 		// This is the message
 		builder.setMessage(message);
-		alert = builder.create();
-		// Show it on the screen
-		alert.show();
+		synchronized (builder){
+			if ((alert==null)||(!alert.isShowing())){
+				alert = builder.create();
+				// Show it on the screen
+				alert.show();
 
-		// This handler is created to dismiss the dialog after 3 seconds
-		Handler alertHandler = new Handler();
-	    alertHandler.postDelayed(new Runnable(){
-	    							public void run(){
-	    								alert.cancel();
-	    								alert.dismiss();
-	    							}
-		    					 }, 5000);
+				// This handler is created to dismiss the dialog after 3 seconds
+				Handler alertHandler = new Handler();
+			    alertHandler.postDelayed(new Runnable(){
+			    							public void run(){
+			    								hideMessage();
+			    							}
+				    					 }, 2000);
+			    Log.w ("ozToll","msgbox() showing now");
+			}
+		}
+    }
+    
+    public void hideMessage(){
+    	alert.cancel();
+    	alert.dismiss();
+    	Log.w ("ozToll","msgbox() dismissed");
     }
 
 	@Override
