@@ -585,6 +585,7 @@ containing a value of this type.
          */
         public static final int abs__config_showMenuShortcutsWhenKeyboardPresent=0x7f050003;
         public static final int abs__split_action_bar_is_narrow=0x7f050001;
+        public static final int isTablet=0x7f050006;
     }
     public static final class color {
         public static final int abs__background_holo_dark=0x7f060000;

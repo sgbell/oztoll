@@ -130,8 +130,6 @@ public class OzTollTextActivity extends SherlockActivity {
 
 			// This is where we'll get the fragments running and the screen setup
 			ozTollTextFragment = new OzTollTextFragment();
-			
-			
 		} else {
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);

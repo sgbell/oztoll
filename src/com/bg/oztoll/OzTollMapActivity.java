@@ -163,31 +163,32 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
         android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		if ((preferences.getBoolean("applicationView", true))&&
+		// Creates a new dialog
+		builder = new AlertDialog.Builder(thisActivity);
+
+		setContentView(R.layout.activity_main);
+		
+		setupFragments();
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        if ((preferences.getBoolean("applicationView", true))&&
 			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
-
-			if (mMapFragment == null){
-				// Sets the layout to the map View Layout
-				
-				//setContentView(R.layout.oztoll_map);
-				// Need to make the layout and setContentView.
-				// First though, Make a fragment for the results dialog, and the OzTollTextActivity.
-				setContentView(R.layout.activity_main);
-				
-				setupFragments();
-			}
-
-
-			// Creates a new dialog
-			builder = new AlertDialog.Builder(thisActivity);
-			
-			
+        	if (getResources().getBoolean(R.bool.isTablet)){
+        		
+        	} else {
+        		
+        	}
 		} else {
-			// if user has just changed the preference to text view
-			setResult(1);
-			finish();
+			// if the view text view
+        	if (getResources().getBoolean(R.bool.isTablet)){
+        		
+        	} else {
+        		
+        	}
 		}
+        
+		ft.commit();
     }
     
     private void setupFragments() {
@@ -203,8 +204,8 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			mTextFragment = new OzTollTextFragment(handler);
 			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 		}
-		ft.hide(mTextFragment);
-		ft.show(mMapFragment);
+		//ft.hide(mTextFragment);
+		//ft.show(mMapFragment);
 		//ft.hide(mMapFragment);
 		//ft.show(mTextFragment);
 		
