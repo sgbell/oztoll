@@ -110,6 +110,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 	// Tried to combine the reset for both MapFragment & OzTollTextFragment. this needs to be handled by seperate handle codes.
 	// do this next.
 	private void resetView() {
+		Log.w ("ozToll","resetView() called");
 		global.getTollData().reset();
 		startShown=false;
 		finishShown=false;
@@ -156,6 +157,13 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			edit.commit();
 		}
 		
+		// Creates a new dialog
+		builder = new AlertDialog.Builder(thisActivity);
+
+		setContentView(R.layout.activity_main);
+		
+		setupFragments();
+		
         // The following was gleaned from
         // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
 
@@ -163,28 +171,26 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
         android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-		// Creates a new dialog
-		builder = new AlertDialog.Builder(thisActivity);
-
-		setContentView(R.layout.activity_main);
-		
-		setupFragments();
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if ((preferences.getBoolean("applicationView", true))&&
 			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
         	if (getResources().getBoolean(R.bool.isTablet)){
-        		
+        		ft.show(mTextFragment);
+        		ft.show(mMapFragment);
         	} else {
-        		
+        		ft.show(mMapFragment);
+        		ft.hide(mTextFragment);
         	}
 		} else {
 			// if the view text view
         	if (getResources().getBoolean(R.bool.isTablet)){
-        		
+        		ft.show(mTextFragment);
+        		ft.show(mMapFragment);
         	} else {
-        		
+        		ft.show(mTextFragment);
+        		ft.hide(mMapFragment);
         	}
 		}
         
@@ -199,16 +205,13 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			mMapFragment = new MapFragment(mapView, handler);
 			ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 		}
+		ft.hide(mMapFragment);
 		mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
 		if (mTextFragment == null){
 			mTextFragment = new OzTollTextFragment(handler);
 			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 		}
-		//ft.hide(mTextFragment);
-		//ft.show(mMapFragment);
-		//ft.hide(mMapFragment);
-		//ft.show(mTextFragment);
-		
+		ft.hide(mMapFragment);
 		ft.commit();
 	}
 

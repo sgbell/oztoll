@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,8 @@ public class OzTollTextFragment extends SherlockFragment {
 			}
 		}
 
-    	// Create a handler message here to tell OzTollTextActivity to do the resetView();
+		Log.w ("ozToll","TextFragment.onResume() called");
+    	// Create a handler message here to tell OzTollActivity to do the resetView();
 		Message newMessage = handler.obtainMessage();
 		newMessage.what = 10;
 		handler.dispatchMessage(newMessage);
@@ -122,6 +124,7 @@ public class OzTollTextFragment extends SherlockFragment {
 	}
 
 	public void populateStreets(){
+		Log.w ("ozToll","populateStreets() called");
 		if (global!=null){
 			OzTollData tollData = global.getTollData();
 			

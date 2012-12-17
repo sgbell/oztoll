@@ -41,8 +41,6 @@ public class OzTollActivity extends SherlockActivity {
     public void onResume(){
     	super.onResume();
     	
-    	Log.w("oztoll", "oztollactiivity.onResume() called");
-    	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
@@ -56,9 +54,12 @@ public class OzTollActivity extends SherlockActivity {
         if ((!wifi.isConnected())&&(!mobile.isConnected())){
          	if (!global.isTextViewStarted()){
           		// If applicationView=text and textView is not Started, Start it
-               	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
+               	/*textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
                	startActivityForResult(textView,0);
-               	global.setTextViewStarted(true);
+               	global.setTextViewStarted(true);*/
+   				mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
+   				startActivityForResult(mapView, 0);
+   				global.setMapViewStarted(true);
          	}
         } else {
             if (preferences.getBoolean("applicationView", true)){
@@ -70,10 +71,13 @@ public class OzTollActivity extends SherlockActivity {
        			}
             } else {
              	if (!global.isTextViewStarted()){
-              		// If applicationView=text and textView is not Started, Start it
-                   	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
+             		// If applicationView=text and textView is not Started, Start it
+                   /*	textView = new Intent(OzTollActivity.this, OzTollTextActivity.class);
                    	startActivityForResult(textView,0);
-                   	global.setTextViewStarted(true);
+                   	global.setTextViewStarted(true);*/
+       				mapView = new Intent(OzTollActivity.this, OzTollMapActivity.class);
+       				startActivityForResult(mapView, 0);
+       				global.setMapViewStarted(true);
              	}
             }
         }
@@ -84,8 +88,6 @@ public class OzTollActivity extends SherlockActivity {
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
-    	Log.w("oztoll", "oztollactiivity.onActivityResult() called");
-    	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
