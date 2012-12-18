@@ -54,6 +54,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 	public MapView mapView=null;
 	private MapFragment mMapFragment;
 	private OzTollTextFragment mTextFragment;
+	private ResultsFragment resultsFragment;
 	private Object msgBoxSync = new Object();
 
 	
@@ -176,22 +177,30 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
         if ((preferences.getBoolean("applicationView", true))&&
 			((wifi.isConnected())||(mobile.isConnected()))){
 			// if view is mapView
+       /*
         	if (getResources().getBoolean(R.bool.isTablet)){
         		ft.show(mTextFragment);
         		ft.show(mMapFragment);
-        	} else {
-        		ft.show(mMapFragment);
+        	} else {*/
+        		//ft.show(mMapFragment);
+        		ft.hide(mMapFragment);
         		ft.hide(mTextFragment);
-        	}
+        		//ft.hide(resultsFragment);
+        		ft.show(resultsFragment);
+        	/*}*/
 		} else {
 			// if the view text view
-        	if (getResources().getBoolean(R.bool.isTablet)){
+        	/*if (getResources().getBoolean(R.bool.isTablet)){
         		ft.show(mTextFragment);
         		ft.show(mMapFragment);
-        	} else {
-        		ft.show(mTextFragment);
+        	} else {*/
+        		//ft.show(mTextFragment);
+				ft.hide(mTextFragment);
         		ft.hide(mMapFragment);
-        	}
+        		//ft.hide(resultsFragment);
+        		ft.show(resultsFragment);
+
+        	/*}*/
 		}
         
 		ft.commit();
@@ -212,6 +221,14 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 		}
 		ft.hide(mMapFragment);
+		
+		resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
+		if (resultsFragment == null){
+			resultsFragment = new ResultsFragment(handler);
+			ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
+		}
+		ft.hide(resultsFragment);
+		
 		ft.commit();
 	}
 
@@ -219,6 +236,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     	public void handleMessage(Message msg){
     		switch (msg.what){
     			case 3:
+    				/*
     				rateDialog = new Dialog(thisActivity);
         			if (preferences.getString("vehicleType", "car").equalsIgnoreCase("all"))
         				rateDialog.setContentView(R.layout.allratedialog);
@@ -243,6 +261,8 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
         			});
         			
     				rateDialog.show();
+    				*/
+    				// Call the results fragment
     				break;
     			case 4:
     				startDialog = new Dialog(thisActivity);

@@ -48,14 +48,10 @@ public class MapFragment extends SherlockFragment {
 	private AlertDialog.Builder builder;
 
 	private OzTollApplication global;
-	private SharedPreferences preferences;
+	//private SharedPreferences preferences;
 	
 	private Handler handler;
 
-	public MapFragment(){
-		
-	}
-	
 	public MapFragment(MapView mapView, Handler mainHandler){
 		this.mapView=mapView;
 		handler = mainHandler;
@@ -70,11 +66,10 @@ public class MapFragment extends SherlockFragment {
 	
 	public void onResume(){
 		super.onResume();
-		
-		global = (OzTollApplication)getSherlockActivity().getApplication();
-		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
 
-		
+		global = (OzTollApplication)getSherlockActivity().getApplication();
+		//preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
+
 		/* Before we go and create a thread to handle adding the streets to the overlay,
 		 and doing any modifications to them, try doing it here
 		 */ 

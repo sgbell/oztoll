@@ -34,23 +34,19 @@ public class OzTollTextFragment extends SherlockFragment {
 	private OzTollApplication global;
 	private Handler handler;
 	
-	public OzTollTextFragment(){
-	}
-	
 	public OzTollTextFragment(Handler mainHandler){
 		handler = mainHandler;
 	}
 	
 	public void onCreate(Bundle savedInstanceBundle){
 		super.onCreate(savedInstanceBundle);
-		global = (OzTollApplication)getSherlockActivity().getApplication();
 	}
 	
 	public void onResume(){
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		
+
 		synchronized(global.getTollData().getDataSync()){
 			while (!global.getTollData().isFinished()){
 				Message newMessage = handler.obtainMessage();
@@ -64,7 +60,6 @@ public class OzTollTextFragment extends SherlockFragment {
 			}
 		}
 
-		Log.w ("ozToll","TextFragment.onResume() called");
     	// Create a handler message here to tell OzTollActivity to do the resetView();
 		Message newMessage = handler.obtainMessage();
 		newMessage.what = 10;

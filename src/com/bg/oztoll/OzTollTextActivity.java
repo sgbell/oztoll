@@ -129,7 +129,7 @@ public class OzTollTextActivity extends SherlockActivity {
 			((!wifi.isConnected())&&(!mobile.isConnected()))){
 
 			// This is where we'll get the fragments running and the screen setup
-			ozTollTextFragment = new OzTollTextFragment();
+			//ozTollTextFragment = new OzTollTextFragment();
 		} else {
 			// If user has just returned to view after changing the preference, end the view to switch to mapView
 			setResult(1);
@@ -149,6 +149,7 @@ public class OzTollTextActivity extends SherlockActivity {
         			startStreet.setText((String)msg.obj);
     				break;
     			case 3:
+    				/*
     				rateDialog = new Dialog(thisActivity);
         			if (preferences.getString("vehicleType", "car").equalsIgnoreCase("all"))
         				rateDialog.setContentView(R.layout.allratedialog);
@@ -172,6 +173,7 @@ public class OzTollTextActivity extends SherlockActivity {
         			});
         			
     				rateDialog.show();
+    				*/
     				break;
     			case 5:
     				// This case is used to display the loading dialog
