@@ -825,8 +825,8 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
-        public static final int button1=0x7f04002d;
         public static final int clear=0x7f040029;
+        public static final int close=0x7f04002c;
         public static final int disableHome=0x7f040009;
         public static final int fragment_container=0x7f040027;
         public static final int heading=0x7f04002e;
@@ -835,7 +835,7 @@ containing a value of this type.
         public static final int normal=0x7f040001;
         public static final int oztollmap=0x7f04002b;
         public static final int preferences=0x7f04002a;
-        public static final int scrollView=0x7f04002c;
+        public static final int scrollView=0x7f04002d;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;

@@ -40,8 +40,9 @@ public class MapFragment extends SherlockFragment {
 	private MapView mapView;
 	private MapOverlay itemizedOverlay;
 	private Dialog rateDialog, startDialog;
-	private boolean loadingShown=false, startShown=false,
-			finishShown=false;
+	private boolean loadingShown=false, 
+					startShown=false,
+					finishShown=false;
 	private ProgressDialog progDialog;
 	private LinearLayout rateLayout;
 	private AlertDialog alert;
@@ -98,8 +99,8 @@ public class MapFragment extends SherlockFragment {
 			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
 			
 			Message newMessage = handler.obtainMessage();
-			newMessage.what = 10;
-			handler.dispatchMessage(newMessage);
+			//newMessage.what = 10;
+			//handler.dispatchMessage(newMessage);
 			
 			for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 				for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
@@ -111,7 +112,7 @@ public class MapFragment extends SherlockFragment {
 			// Add streets to overlay
 			mapOverlays.add(itemizedOverlay);
 			
-			newMessage = handler.obtainMessage();
+			//newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
 		}

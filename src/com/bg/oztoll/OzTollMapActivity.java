@@ -5,6 +5,7 @@ package com.bg.oztoll;
 
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -56,6 +57,7 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 	private OzTollTextFragment mTextFragment;
 	private ResultsFragment resultsFragment;
 	private Object msgBoxSync = new Object();
+	private SherlockFragment lastVisibleFragment;
 
 	
 	public OzTollMapActivity(){
@@ -119,6 +121,9 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 			mTextFragment.setStart("");
 			mTextFragment.populateStreets();
 		}
+		if (mMapFragment!=null){
+			mMapFragment.getOverlay().doPopulate();
+		}
 	}
 	
 	public void openPreferences(){
@@ -174,34 +179,24 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if ((preferences.getBoolean("applicationView", true))&&
-			((wifi.isConnected())||(mobile.isConnected()))){
-			// if view is mapView
-       /*
-        	if (getResources().getBoolean(R.bool.isTablet)){
-        		ft.show(mTextFragment);
-        		ft.show(mMapFragment);
-        	} else {*/
-        		//ft.show(mMapFragment);
-        		ft.hide(mMapFragment);
-        		ft.hide(mTextFragment);
-        		//ft.hide(resultsFragment);
-        		ft.show(resultsFragment);
-        	/*}*/
-		} else {
-			// if the view text view
-        	/*if (getResources().getBoolean(R.bool.isTablet)){
-        		ft.show(mTextFragment);
-        		ft.show(mMapFragment);
-        	} else {*/
-        		//ft.show(mTextFragment);
-				ft.hide(mTextFragment);
-        		ft.hide(mMapFragment);
-        		//ft.hide(resultsFragment);
-        		ft.show(resultsFragment);
-
-        	/*}*/
-		}
+    	if (getResources().getBoolean(R.bool.isTablet)){
+    		ft.show(mTextFragment);
+    		ft.show(mMapFragment);
+    		ft.show(resultsFragment);
+    	} else {
+    		if ((preferences.getBoolean("applicationView", true))&&
+    				((wifi.isConnected())||(mobile.isConnected()))){
+    				// if view is mapView
+    	       		ft.show(mMapFragment);
+    	       		ft.hide(mTextFragment);
+    	       		ft.hide(resultsFragment);
+    			} else {
+    				// if the view text view
+    	       		ft.show(mTextFragment);
+    	       		ft.hide(mMapFragment);
+    				ft.hide(resultsFragment);
+    			}
+    	}
         
 		ft.commit();
     }
@@ -236,33 +231,23 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     	public void handleMessage(Message msg){
     		switch (msg.what){
     			case 3:
-    				/*
-    				rateDialog = new Dialog(thisActivity);
-        			if (preferences.getString("vehicleType", "car").equalsIgnoreCase("all"))
-        				rateDialog.setContentView(R.layout.allratedialog);
-        			else
-        				rateDialog.setContentView(R.layout.ratedialog);
-        			
-        			rateDialog.setTitle("Trip Toll Result");
-        			ScrollView dialogScroll = (ScrollView)rateDialog.findViewById(R.id.scrollView);
-    				dialogScroll.removeAllViews();
-    				dialogScroll.addView((LinearLayout)msg.obj);
-    				
-    				Button closeButton = (Button) rateDialog.findViewById(R.id.close);
-        			closeButton.setText("Close");
-        			closeButton.setOnClickListener(new OnClickListener(){
-
-        				@Override
-        				public void onClick(View v) {
-        					rateDialog.dismiss();
-        					((ScrollView)rateDialog.findViewById(R.id.scrollView)).fullScroll(ScrollView.FOCUS_UP);
-        					showMessage("Please clear selection");
-        				}
-        			});
-        			
-    				rateDialog.show();
-    				*/
     				// Call the results fragment
+    				resultsFragment.getScrollView().removeAllViews();
+    				resultsFragment.setContent((LinearLayout)msg.obj);
+    				if (!getResources().getBoolean(R.bool.isTablet)){
+        				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        				if (!mMapFragment.isHidden())
+        					lastVisibleFragment = mMapFragment;
+        				else if (!mTextFragment.isHidden())
+        					lastVisibleFragment = mTextFragment;
+        				
+        				ft.hide(mMapFragment);
+        				ft.hide(mTextFragment);
+        				ft.show(resultsFragment);
+        				
+        				ft.commit();
+    				}
     				break;
     			case 4:
     				startDialog = new Dialog(thisActivity);
@@ -364,6 +349,14 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
     				break;
     			case 11:
     				hideMessage();
+    				break;
+    			case 12:
+    				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    				
+    				ft.hide(resultsFragment);
+    				ft.show(lastVisibleFragment);
+    				
+    				ft.commit();
     				break;
     		}
     	}

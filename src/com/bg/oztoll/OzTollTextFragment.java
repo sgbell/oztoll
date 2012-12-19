@@ -62,11 +62,10 @@ public class OzTollTextFragment extends SherlockFragment {
 
     	// Create a handler message here to tell OzTollActivity to do the resetView();
 		Message newMessage = handler.obtainMessage();
-		newMessage.what = 10;
-		handler.dispatchMessage(newMessage);
+		//newMessage.what = 10;
+		//handler.dispatchMessage(newMessage);
 		
-		
-    	newMessage = handler.obtainMessage();
+    	//newMessage = handler.obtainMessage();
 		newMessage.what = 6;
 		handler.dispatchMessage(newMessage);
 	}
