@@ -5,6 +5,7 @@
 package com.bg.oztoll;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * @author bugman
@@ -30,14 +31,17 @@ public class OzTollApplication extends Application {
 	
 	public void setTollData(OzTollData newData){
 		tollData = newData;
+		Log.w ("ozToll", "OzTollApplication.setTollData()");
 	}
 
 	public Object getDatasync() {
+		Log.w ("ozToll", "OzTollApplication.getDatasync()");
 		return datasync;
 	}
 
 	public void setDatasync(Object syncObject) {
 		datasync = syncObject;
+		Log.w ("ozToll", "OzTollApplication.setDatasync() called");
 	}
 
 	public Object getViewChange() {

@@ -50,6 +50,7 @@ public class OzTollData implements Runnable{
 	public OzTollData(String filename, AssetManager assetMan){
 		this();
 		ozTollXML.setXMLReader(filename,assetMan);
+		Log.w ("ozToll", "OzTollData(filname,assetMan)");
 	}
 	
 	public OzTollData(String filename){
@@ -66,6 +67,7 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setDataSync(Object syncMe){
+		Log.w ("ozToll", "OzTollData.setDataSync()");
 		dataSync = syncMe;
 	}
 	
@@ -80,6 +82,9 @@ public class OzTollData implements Runnable{
 	 * redraw the screen.
 	 */
 	public void run(){
+		Log.w ("ozToll", "OzTollData.run()");
+
+		
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
 		int streetCounter=1;
@@ -272,6 +277,8 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setValidStarts(){
+		Log.w ("ozToll", "OzTollData.setValidStarts()");
+
 		for (int twc=0; twc < tollways.size(); twc++)
 			for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++)
 				tollways.get(twc).getTollPoints().get(tpc).setStartValid();
@@ -779,6 +786,7 @@ public class OzTollData implements Runnable{
 	}
 
 	public void setPreferences(SharedPreferences sP) {
+		Log.w ("ozToll", "OzTollApplication.getDatasync()");
 		sharedPreferences = sP;
 	}
 	

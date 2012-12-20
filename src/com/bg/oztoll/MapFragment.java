@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,13 +75,17 @@ public class MapFragment extends SherlockFragment {
 		/* Before we go and create a thread to handle adding the streets to the overlay,
 		 and doing any modifications to them, try doing it here
 		 */ 
-		synchronized(global.getTollData().getDataSync()){
+		Message newMessage = handler.obtainMessage();
+		newMessage.what = 5;
+		handler.dispatchMessage(newMessage);
+		synchronized(global.getDatasync()){
 			while (!global.getTollData().isFinished()){
-				Message newMessage = handler.obtainMessage();
+				Log.w ("ozToll", "MapFragment.onResume() getTollData() is not Finished");
+				newMessage = handler.obtainMessage();
 				newMessage.what = 5;
 				handler.dispatchMessage(newMessage);
 				try {
-					global.getTollData().getDataSync().wait();
+					global.getDatasync().wait();
 				} catch (InterruptedException e) {
 					
 				}
@@ -98,7 +103,7 @@ public class MapFragment extends SherlockFragment {
 			screenSize.y=getSherlockActivity().getWindowManager().getDefaultDisplay().getHeight();
 			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
 			
-			Message newMessage = handler.obtainMessage();
+			newMessage = handler.obtainMessage();
 			//newMessage.what = 10;
 			//handler.dispatchMessage(newMessage);
 			

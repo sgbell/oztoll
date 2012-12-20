@@ -47,13 +47,17 @@ public class OzTollTextFragment extends SherlockFragment {
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
 
-		synchronized(global.getTollData().getDataSync()){
+		Message newMessage = handler.obtainMessage();
+		newMessage.what = 5;
+		handler.dispatchMessage(newMessage);
+		synchronized(global.getDatasync()){
 			while (!global.getTollData().isFinished()){
-				Message newMessage = handler.obtainMessage();
+				Log.w ("ozToll", "TextFragment.onResume() getTollData() is not Finished");
+				newMessage = handler.obtainMessage();
 				newMessage.what = 5;
 				handler.dispatchMessage(newMessage);
 				try {
-					global.getTollData().getDataSync().wait();
+					global.getDatasync().wait();
 				} catch (InterruptedException e) {
 					
 				}
@@ -61,11 +65,14 @@ public class OzTollTextFragment extends SherlockFragment {
 		}
 
     	// Create a handler message here to tell OzTollActivity to do the resetView();
-		Message newMessage = handler.obtainMessage();
+		newMessage = handler.obtainMessage();
 		//newMessage.what = 10;
 		//handler.dispatchMessage(newMessage);
-		
-    	//newMessage = handler.obtainMessage();
+
+		setStart("");
+		populateStreets();
+
+		//newMessage = handler.obtainMessage();
 		newMessage.what = 6;
 		handler.dispatchMessage(newMessage);
 	}
@@ -93,6 +100,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				if (global.getTollData().isFinished()){
 					String tollway=(String)adapter.getGroup(groupPosition);
 					String street=(String)adapter.getChild(groupPosition, childPosition);
+					/*
 					if (global.getTollData().getStart()==null){
 						global.getTollData().setStart(global.getTollData().getStreet(tollway, street));
 						populateStreets();
@@ -109,7 +117,12 @@ public class OzTollTextFragment extends SherlockFragment {
 						newMessage.obj = rateLayout;
 						newMessage.what=3;
 						handler.sendMessage(newMessage);
-					}
+					}*/
+					Message newMessage = handler.obtainMessage();
+					newMessage.what=9;
+					newMessage.obj=global.getTollData().getStreet(tollway, street);
+					handler.dispatchMessage(newMessage);
+
 				}
 
 				return true;

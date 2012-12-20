@@ -22,13 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".AppPreferences"></activity>
-		<activity android:name=".OzTollMapActivity"></activity>
-		<activity android:name=".OzTollTextActivity"></activity>
-		
-		<service android:name="com.bg.oztoll.OzDataLoad"
-		    	 android:exported="false">
-		</service>
     </application>
 </manifest>
