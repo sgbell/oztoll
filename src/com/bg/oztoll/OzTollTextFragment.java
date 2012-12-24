@@ -34,6 +34,10 @@ public class OzTollTextFragment extends SherlockFragment {
 	private OzTollApplication global;
 	private Handler handler;
 	
+	public OzTollTextFragment(){
+		
+	}
+	
 	public OzTollTextFragment(Handler mainHandler){
 		handler = mainHandler;
 	}
@@ -52,7 +56,6 @@ public class OzTollTextFragment extends SherlockFragment {
 		handler.dispatchMessage(newMessage);
 		synchronized(global.getDatasync()){
 			while (!global.getTollData().isFinished()){
-				Log.w ("ozToll", "TextFragment.onResume() getTollData() is not Finished");
 				newMessage = handler.obtainMessage();
 				newMessage.what = 5;
 				handler.dispatchMessage(newMessage);
@@ -69,7 +72,10 @@ public class OzTollTextFragment extends SherlockFragment {
 		//newMessage.what = 10;
 		//handler.dispatchMessage(newMessage);
 
-		setStart("");
+		if (global.getTollData().getStart()!=null)
+			setStart("Start Street: "+global.getTollData().getStart().getName());
+		else
+			setStart("");
 		populateStreets();
 
 		//newMessage = handler.obtainMessage();

@@ -54,6 +54,10 @@ public class MapFragment extends SherlockFragment {
 	
 	private Handler handler;
 
+	public MapFragment(){
+		
+	}
+	
 	public MapFragment(MapView mapView, Handler mainHandler){
 		this.mapView=mapView;
 		handler = mainHandler;
@@ -80,7 +84,6 @@ public class MapFragment extends SherlockFragment {
 		handler.dispatchMessage(newMessage);
 		synchronized(global.getDatasync()){
 			while (!global.getTollData().isFinished()){
-				Log.w ("ozToll", "MapFragment.onResume() getTollData() is not Finished");
 				newMessage = handler.obtainMessage();
 				newMessage.what = 5;
 				handler.dispatchMessage(newMessage);
@@ -124,13 +127,7 @@ public class MapFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
-		View view =  inflater.inflate(R.layout.oztoll_map, null);
-
-		mapView = (MapView)view.findViewById(R.id.oztollmap);
-		// Set zoom on the map
-		mapView.setBuiltInZoomControls(true);
-
-		return view;
+		return mapView;
 	}
 	
 	public void onViewCreated(View view, Bundle savedInstanceState){

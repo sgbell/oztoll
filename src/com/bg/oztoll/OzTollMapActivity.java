@@ -167,6 +167,15 @@ public class OzTollMapActivity extends SherlockFragmentActivity {
 		builder = new AlertDialog.Builder(thisActivity);
 
 		setContentView(R.layout.activity_main);
+
+		if (mapView==null){
+			View view =  getLayoutInflater().inflate(R.layout.oztoll_map, null);
+			
+			mapView = (MapView)view.findViewById(R.id.oztollmap);
+		// Set zoom on the map
+			mapView.setBuiltInZoomControls(true);
+		}
+
 		
 		setupFragments();
 		

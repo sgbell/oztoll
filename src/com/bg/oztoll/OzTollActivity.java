@@ -1,7 +1,6 @@
 package com.bg.oztoll;
 
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -53,10 +52,14 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	public MapView mapView=null;
 
 	
+	public OzTollActivity(){
+		
+	}
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-		Log.w ("ozToll", "OzTollActivity.onCreate()");
+    	super.onCreate(savedInstanceState);
     	// This is used to access the object that is going to be used to share the data across both activities
     	global = (OzTollApplication)getApplication();
     	// Creating and sharing of the sync object, used for pausing an activity till the first data has been loaded
@@ -64,30 +67,28 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-    	Log.w ("ozToll", "OzTollActivity.onCreate() calling global.setDatasync()");
     	global.setDatasync(new Object());
     	
-        super.onCreate(savedInstanceState);
-        
 		String cityFilename=preferences.getString("cityFile", "melbourne.xml");
 		
-		Log.w ("ozToll", "OzTollActivity create OzDataLoad service");
 		global.setTollData(new OzTollData(cityFilename, getAssets()));
         global.getTollData().setDataSync(global.getDatasync());
 		global.getTollData().setPreferences(preferences);
-		Log.w ("ozToll", "OzTollActivity starting service");
 		new Thread(global.getTollData()).start();
-        
-        /*
-        Log.w ("ozToll", "OzTollActivity create OzDataLoad service");
-        // Starting the data reading first, so that it will be loaded as quick as possible, in the background
-        Intent start = new Intent(OzTollActivity.this, OzDataLoad.class);
-		Log.w ("ozToll", "OzTollActivity starting service");
-		startService(start);
-  */
         
         // This is where the application's preferences are stored
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        
+		View view =  this.getLayoutInflater().inflate(R.layout.oztoll_map, null);
+
+		if (mapView==null){
+			mapView = (MapView)view.findViewById(R.id.oztollmap);
+		// Set zoom on the map
+			mapView.setBuiltInZoomControls(true);
+		}
+
+		setContentView(R.layout.activity_main);
+
     }
 
 	public boolean onCreateOptionsMenu (Menu menu){
@@ -140,7 +141,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
      * onResume is called after onCreate, or when an app is still in memory and resumed.
      */
     public void onResume(){
-    	Log.w ("ozToll","OzTollActivity.onResume() called");
     	super.onResume();
     	
     	global = (OzTollApplication)getApplication();
@@ -149,11 +149,12 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		// Creates a new dialog
 		builder = new AlertDialog.Builder(thisActivity);
 
-		setContentView(R.layout.activity_main);
-		
 		setupFragments();
 
-        
+        setView();
+    }
+
+    public void setView(){
         // The following was gleaned from
         // http://stackoverflow.com/questions/5373930/how-to-check-network-connection-enable-or-disable-in-wifi-and-3gdata-plan-in-m
 
@@ -163,8 +164,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-    	if (getResources().getBoolean(R.bool.isTablet)){
-    		Log.w("ozToll","show All");
+		if (getResources().getBoolean(R.bool.isTablet)){
     		ft.show(mTextFragment);
     		ft.show(mMapFragment);
     		ft.show(resultsFragment);
@@ -172,13 +172,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		if ((preferences.getBoolean("applicationView", true))&&
     			((wifi.isConnected())||(mobile.isConnected()))){
     			// if view is mapView
-    			Log.w("ozToll","show MapFragment");
     	       	ft.show(mMapFragment);
     	       	ft.hide(mTextFragment);
     	       	ft.hide(resultsFragment);
     		} else {
     			// if the view text view
-    			Log.w("ozToll","show TextFragment");
     	    	ft.show(mTextFragment);
     	    	ft.hide(mMapFragment);
     	    	ft.hide(resultsFragment);
@@ -190,25 +188,23 @@ public class OzTollActivity extends SherlockFragmentActivity {
     private void setupFragments() {
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
-		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
-		if (mMapFragment ==null){
+		//mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
+		if (mMapFragment == null){
 			mMapFragment = new MapFragment(mapView, handler);
-			ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 		}
-		ft.hide(mMapFragment);
-		mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
+		//mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
 		if (mTextFragment == null){
 			mTextFragment = new OzTollTextFragment(handler);
-			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 		}
-		ft.hide(mMapFragment);
 		
-		resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
+		//resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
 		if (resultsFragment == null){
 			resultsFragment = new ResultsFragment(handler);
-			ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
 		}
-		ft.hide(resultsFragment);
+
+		ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
+		ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
+		ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
 		
 		ft.commit();
 	}

@@ -29,6 +29,10 @@ public class ResultsFragment extends SherlockFragment {
 	
 	private OzTollApplication global;
 	
+	public ResultsFragment(){
+		
+	}
+	
 	public ResultsFragment(Handler mainHandler){
 		handler = mainHandler;
 	}
