@@ -68,6 +68,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
     	global.setDatasync(new Object());
+    	global.setMainActivityHandler(handler);
     	
 		String cityFilename=preferences.getString("cityFile", "melbourne.xml");
 		
@@ -190,16 +191,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		
 		//mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment == null){
-			mMapFragment = new MapFragment(mapView, handler);
+			mMapFragment = new MapFragment(mapView);
 		}
 		//mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
 		if (mTextFragment == null){
-			mTextFragment = new OzTollTextFragment(handler);
+			mTextFragment = new OzTollTextFragment();
 		}
 		
 		//resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
 		if (resultsFragment == null){
-			resultsFragment = new ResultsFragment(handler);
+			resultsFragment = new ResultsFragment();
 		}
 
 		if (!getResources().getBoolean(R.bool.isTablet)){

@@ -46,6 +46,7 @@ public class ResultsFragment extends SherlockFragment {
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
+		handler = global.getMainActivityHandler();
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){

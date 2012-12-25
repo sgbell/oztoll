@@ -63,6 +63,10 @@ public class MapFragment extends SherlockFragment {
 		handler = mainHandler;
 	}
 	
+	public MapFragment(MapView mapView){
+		this.mapView=mapView;
+	}
+	
 	public void onCreate(Bundle savedInstanceBundle){
 		super.onCreate(savedInstanceBundle);
 		
@@ -75,6 +79,8 @@ public class MapFragment extends SherlockFragment {
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
 		//preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
+		
+		handler = global.getMainActivityHandler();
 
 		/* Before we go and create a thread to handle adding the streets to the overlay,
 		 and doing any modifications to them, try doing it here
@@ -157,5 +163,4 @@ public class MapFragment extends SherlockFragment {
 	public MapOverlay getOverlay(){
 		return itemizedOverlay;
 	}
-	
 }

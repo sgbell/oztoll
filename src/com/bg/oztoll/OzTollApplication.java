@@ -5,6 +5,7 @@
 package com.bg.oztoll;
 
 import android.app.Application;
+import android.os.Handler;
 import android.util.Log;
 
 /**
@@ -16,6 +17,7 @@ public class OzTollApplication extends Application {
 	private Object datasync, viewChange;
 	private boolean isMapViewStarted=false, // This is used to tell the program if mapView has been started 
 					isTextViewStarted=false; // This is used to tell the program if TextView has been started
+	private Handler mainActivityHandler;
 	
 	/**
 	 * 
@@ -63,5 +65,13 @@ public class OzTollApplication extends Application {
 
 	public void setTextViewStarted(boolean isTextViewStarted) {
 		this.isTextViewStarted = isTextViewStarted;
+	}
+
+	public Handler getMainActivityHandler() {
+		return mainActivityHandler;
+	}
+
+	public void setMainActivityHandler(Handler mainActivityHandler) {
+		this.mainActivityHandler = mainActivityHandler;
 	}
 }

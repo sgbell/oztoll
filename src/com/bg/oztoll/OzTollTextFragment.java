@@ -51,7 +51,8 @@ public class OzTollTextFragment extends SherlockFragment {
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-
+		handler = global.getMainActivityHandler();
+		
 		Message newMessage = handler.obtainMessage();
 		newMessage.what = 5;
 		handler.dispatchMessage(newMessage);
@@ -204,5 +205,4 @@ public class OzTollTextFragment extends SherlockFragment {
 		if (startStreet!=null)
 			startStreet.setText(string);
 	}
-
 }
