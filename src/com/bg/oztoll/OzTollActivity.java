@@ -68,6 +68,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
     	global.setDatasync(new Object());
+    	// Passing the handler to the global settings, so the fragments onResume can connect with Handler.
     	global.setMainActivityHandler(handler);
     	
 		String cityFilename=preferences.getString("cityFile", "melbourne.xml");
