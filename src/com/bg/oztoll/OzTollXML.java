@@ -7,7 +7,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.google.android.maps.GeoPoint;
+
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * @author bugman
@@ -54,6 +57,15 @@ public class OzTollXML {
 		return null;				
 	}
 
+	public GeoPoint getOrigin(){
+		NodeList originNodes = xmldata.getElementsByTagName("origin");
+		Node currentNode = originNodes.item(0);
+		GeoPoint origin = new GeoPoint(Integer.parseInt(xmldata.getNodeData(currentNode, "latitude")),
+									   Integer.parseInt(xmldata.getNodeData(currentNode, "longitude")));
+		
+		return origin;
+	}
+	
 	/**
 	 * This is used to count the tollways in the xml file.
 	 * @return

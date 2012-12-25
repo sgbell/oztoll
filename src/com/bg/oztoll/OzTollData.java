@@ -10,6 +10,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.google.android.maps.GeoPoint;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -33,6 +35,7 @@ public class OzTollData implements Runnable{
 	private Object syncObject, dataSync;
 	private SharedPreferences sharedPreferences;
 	private Street start, finish;
+	private GeoPoint origin=null;
 		
 	/** Initializes the vectors.
 	 */
@@ -82,12 +85,12 @@ public class OzTollData implements Runnable{
 	 * redraw the screen.
 	 */
 	public void run(){
-		Log.w ("ozToll", "OzTollData.run()");
-
 		
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
 		int streetCounter=1;
+		
+		origin = ozTollXML.getOrigin();
 		
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
@@ -165,6 +168,14 @@ public class OzTollData implements Runnable{
 		} catch (NullPointerException e){
 			// Ignore Null pointer that occurs when the program is exiting
 		}
+	}
+	
+	public GeoPoint getOrigin(){
+		return origin;
+	}
+	
+	public void setOrigin(GeoPoint coords){
+		origin = coords;
 	}
 	
 	/** This method finds the street with the lowest value for X, and returns the lowest value  

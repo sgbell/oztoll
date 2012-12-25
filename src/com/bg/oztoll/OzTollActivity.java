@@ -202,9 +202,15 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			resultsFragment = new ResultsFragment(handler);
 		}
 
-		ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
-		ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
-		ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
+		if (!getResources().getBoolean(R.bool.isTablet)){
+			ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
+			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
+			ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
+		} else {
+			ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
+			ft.add(R.id.text_fragment, mTextFragment, OzTollTextFragment.TAG);
+			ft.add(R.id.results_fragment, resultsFragment, ResultsFragment.TAG);
+		}
 		
 		ft.commit();
 	}

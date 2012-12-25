@@ -110,6 +110,9 @@ public class MapFragment extends SherlockFragment {
 			//newMessage.what = 10;
 			//handler.dispatchMessage(newMessage);
 			
+			if (global.getTollData().getOrigin()!=null)
+				mapView.getController().setCenter(global.getTollData().getOrigin());
+			
 			for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 				for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
 					OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));

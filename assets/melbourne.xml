@@ -2,6 +2,10 @@
 <oztoll>
 	<city>
 		<name>Melbourne</name>
+		<origin>
+		    <longitude>144958763</longitude>
+		    <latitude>-37827413</latitude>
+		</origin>
 		<tollway name="Citylink">
 			<exit>
 				<street>
