@@ -75,6 +75,7 @@ public class ResultsFragment extends SherlockFragment {
 	}
 	
 	public void onDestroyView(){
+		super.onDestroyView();
 		((ViewGroup)view.getParent()).removeView(view);
 	}
 	

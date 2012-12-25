@@ -139,6 +139,7 @@ public class MapFragment extends SherlockFragment {
 	}
 	
 	public void onDestroyView(){
+		super.onDestroyView();
 		((ViewGroup)mapView.getParent()).removeView(mapView);
 	}
 	
