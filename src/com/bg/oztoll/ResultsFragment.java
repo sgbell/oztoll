@@ -26,6 +26,7 @@ public class ResultsFragment extends SherlockFragment {
 	private Handler handler;
 	private Button okButton;
 	private ScrollView content;
+	private View view;
 	
 	private OzTollApplication global;
 	
@@ -48,7 +49,7 @@ public class ResultsFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
-		View view = inflater.inflate(R.layout.ratedialog, null);
+		view = inflater.inflate(R.layout.ratedialog, null, false);
 		content = (ScrollView)view.findViewById(R.id.scrollView);
 		okButton = (Button)view.findViewById(R.id.close);
 		okButton.setText("Clear");
@@ -71,6 +72,10 @@ public class ResultsFragment extends SherlockFragment {
 		});
 		
 		return view;
+	}
+	
+	public void onDestroyView(){
+		((ViewGroup)view.getParent()).removeView(view);
 	}
 	
 	public ScrollView getScrollView(){

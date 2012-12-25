@@ -30,6 +30,7 @@ public class OzTollTextFragment extends SherlockFragment {
 	private ExpandableListAdapter adapter;
 	private ExpandableListView listView;
 	private TextView startStreet;
+	private View view;
 	
 	private OzTollApplication global;
 	private Handler handler;
@@ -84,7 +85,7 @@ public class OzTollTextFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
-		View view = inflater.inflate(R.layout.textrate, null); 
+		view = inflater.inflate(R.layout.textrate, null); 
 		
 		adapter = new ExpandableListAdapter(getSherlockActivity().getApplicationContext(), new ArrayList<String>(),
 				new ArrayList<ArrayList<String>>());
@@ -92,6 +93,10 @@ public class OzTollTextFragment extends SherlockFragment {
     	startStreet = (TextView)view.findViewById(R.id.startStreet);
 
 		return view;
+	}
+	
+	public void onDestroyView(){
+		((ViewGroup)view.getParent()).removeView(view);
 	}
 	
 	public void setListView(ExpandableListView exListView) {

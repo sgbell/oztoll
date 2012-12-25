@@ -37,7 +37,7 @@ public class MapOverlay extends ItemizedOverlay {
 	private Paint paint;
 
 	public MapOverlay(Drawable arg0) {
-		super(boundCenterBottom(arg0));
+		super(boundCenter(arg0));
 
 		paint = new Paint();
     	paint.setColor(Color.WHITE);
