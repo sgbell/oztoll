@@ -6,7 +6,6 @@ package com.bg.oztoll;
 
 import android.app.Application;
 import android.os.Handler;
-import android.util.Log;
 
 /**
  * @author bugman

@@ -21,7 +21,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -46,10 +45,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	
 	private Dialog startDialog;
 	private ProgressDialog progDialog;
+	private Runnable closeDialog;
 
 	private LinearLayout rateLayout;
 	
-	public MapView mapView=null;
+	private MapView mapView=null;
 
 	
 	public OzTollActivity(){
@@ -155,6 +155,13 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
         setView();
     }
+    
+    public void onPause(){
+    	super.onPause();
+    	if (alert.getWindow()!=null)
+    		alert.cancel();
+    	handler.removeCallbacks(closeDialog);
+    }
 
     public void setView(){
         // The following was gleaned from
@@ -235,13 +242,12 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					alert.show();
 
 					// This handler is created to dismiss the dialog after 3 seconds
-					Handler alertHandler = new Handler();
-				    alertHandler.postDelayed(new Runnable(){
-				    							public void run(){
-				    					   	    	alert.cancel();
-				    					   	    	alert.dismiss();
-				    							}
-					    					 }, 2000);
+					closeDialog = new Runnable(){
+						public void run(){
+				   	    	alert.cancel();
+						}
+					 };
+					handler.postDelayed(closeDialog, 2000);
 				}
 			}
 		}
@@ -326,7 +332,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				break;
     			// case 9 is when a street exit has been selected on the map
     			case 9:
-    				OverlayStreet item;
     				if (global.getTollData()!=null){
     					if (((Street)msg.obj).isValid()){
     						if (global.getTollData().getStart()==null){
