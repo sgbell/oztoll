@@ -877,6 +877,11 @@ public class OzTollData implements Runnable{
 		tollTitle.setPadding(10, 0, 0, 0);
 		tollTitle.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTitle);
+		TextView tollTrip = new TextView(appContext);
+		tollTrip.setText(start.getName()+" - "+finish.getName());
+		tollTrip.setPadding(10, 0, 0, 0);
+		//tollTrip.setLayoutParams(fillParentParams);
+		rateLayout.addView(tollTrip);
 		
 		/* The following for loop with traverse the toll result for the current trip.
 		 */

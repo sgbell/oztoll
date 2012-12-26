@@ -142,7 +142,7 @@ public class MapOverlay extends ItemizedOverlay {
 		return true;
 	}
 
-	public void setMarkerTextSize(int height, int width) {
+	public void setMarkerTextSize(int height, int width, boolean isTablet) {
 		float xMultiplier, yMultiplier;
 		
 		
@@ -160,7 +160,12 @@ public class MapOverlay extends ItemizedOverlay {
 		Rect bounds = new Rect();
 		paint.getTextBounds("Ty", 0, 2, bounds);
 		int textHeight = bounds.bottom-bounds.top;
-		paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-1);
+		if (isTablet){
+			paint.setTextSize(((float)(textSize*(xMultiplier/2))/(float)textHeight*100f)-1);
+		} else {
+			paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-1);
+		}
+		Log.w ("ozToll","TextSize:"+textSize+"*"+xMultiplier+"/"+textHeight);
 	}
 	
 }

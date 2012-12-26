@@ -190,28 +190,34 @@ public class OzTollActivity extends SherlockFragmentActivity {
     private void setupFragments() {
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
-		//mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
+		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment == null){
 			mMapFragment = new MapFragment(mapView);
-		}
-		//mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
-		if (mTextFragment == null){
-			mTextFragment = new OzTollTextFragment();
+			if (!getResources().getBoolean(R.bool.isTablet)){
+				ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
+			} else {
+				ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
+			}
 		}
 		
-		//resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
+		mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
+		if (mTextFragment == null){
+			mTextFragment = new OzTollTextFragment();
+			if (!getResources().getBoolean(R.bool.isTablet)){
+				ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
+			} else {
+				ft.add(R.id.text_fragment, mTextFragment, OzTollTextFragment.TAG);
+			}
+		}
+		
+		resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
 		if (resultsFragment == null){
 			resultsFragment = new ResultsFragment();
-		}
-
-		if (!getResources().getBoolean(R.bool.isTablet)){
-			ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
-			ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
-			ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
-		} else {
-			ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
-			ft.add(R.id.text_fragment, mTextFragment, OzTollTextFragment.TAG);
-			ft.add(R.id.results_fragment, resultsFragment, ResultsFragment.TAG);
+			if (!getResources().getBoolean(R.bool.isTablet)){
+				ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
+			} else {
+				ft.add(R.id.results_fragment, resultsFragment, ResultsFragment.TAG);
+			}
 		}
 		
 		ft.commit();
@@ -225,24 +231,22 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			if ((alert==null)||(!alert.isShowing())){
 				alert = builder.create();
 				// Show it on the screen
-				alert.show();
+				if (alert.getWindow()!=null){
+					alert.show();
 
-				// This handler is created to dismiss the dialog after 3 seconds
-				Handler alertHandler = new Handler();
-			    alertHandler.postDelayed(new Runnable(){
-			    							public void run(){
-			    								hideMessage();
-			    							}
-				    					 }, 2000);
+					// This handler is created to dismiss the dialog after 3 seconds
+					Handler alertHandler = new Handler();
+				    alertHandler.postDelayed(new Runnable(){
+				    							public void run(){
+				    					   	    	alert.cancel();
+				    					   	    	alert.dismiss();
+				    							}
+					    					 }, 2000);
+				}
 			}
 		}
     }
 
-    public void hideMessage(){
-    	alert.cancel();
-    	alert.dismiss();
-    }
-    
 	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
     		switch (msg.what){
@@ -360,9 +364,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				break;
     			case 10:
     				resetView();
-    				break;
-    			case 11:
-    				hideMessage();
     				break;
     			case 12:
     				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -105,12 +105,12 @@ public class MapFragment extends SherlockFragment {
 			Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
 			Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
 			// Creation of the overlay for the map
-			itemizedOverlay = new MapOverlay(defaultActiveRoad, getSherlockActivity(), handler, global.getTollData());
+			itemizedOverlay = new MapOverlay(defaultActiveRoad, mapView.getContext(), handler, global.getTollData());
 
 			Point screenSize= new Point();
 			screenSize.x=getSherlockActivity().getWindowManager().getDefaultDisplay().getWidth();
 			screenSize.y=getSherlockActivity().getWindowManager().getDefaultDisplay().getHeight();
-			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x);
+			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x,getResources().getBoolean(R.bool.isTablet));
 			
 			newMessage = handler.obtainMessage();
 			//newMessage.what = 10;

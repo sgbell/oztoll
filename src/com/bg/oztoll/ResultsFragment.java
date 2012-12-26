@@ -63,6 +63,8 @@ public class ResultsFragment extends SherlockFragment {
 				newMessage.what = 10;
 				handler.dispatchMessage(newMessage);
 				
+				getScrollView().removeAllViews();
+				
 				if (!(getResources().getBoolean(R.bool.isTablet))){
 					//call handler to change view
 					newMessage = handler.obtainMessage();
