@@ -927,7 +927,7 @@ public class OzTollData implements Runnable{
 							(!found)){
 						if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 							TextView tollwayCharge = new TextView(appContext);
-							tollwayCharge.setText(currentToll.tolls.get(trc).rate);
+							tollwayCharge.setText("$"+currentToll.tolls.get(trc).rate);
 							tollwayLayout.addView(tollwayCharge);
 							rateLayout.addView(tollwayLayout);
 							found=true;
@@ -1037,7 +1037,7 @@ public class OzTollData implements Runnable{
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
-							rateValue.setText(currentToll.tolls.get(trc).rate);
+							rateValue.setText("$"+currentToll.tolls.get(trc).rate);
 							tollRateLayout.addView(rateValue);
 							rateLayout.addView(tollRateLayout);
 							
@@ -1197,7 +1197,7 @@ public class OzTollData implements Runnable{
 					totalType.setPadding(10, 0, 10, 0);
 					totalLine.addView(totalType);
 					TextView totalValue = new TextView(appContext);
-					totalValue.setText(totalCharges.get(tcc).rate);
+					totalValue.setText("$"+totalCharges.get(tcc).rate);
 					totalLine.addView(totalValue);
 					rateLayout.addView(totalLine);
 				}
@@ -1210,7 +1210,7 @@ public class OzTollData implements Runnable{
 				totalLine.addView(tollTotalTitle);
 				
 				TextView totalValue = new TextView(appContext);
-				totalValue.setText(totalCharges.get(0).rate);
+				totalValue.setText("$"+totalCharges.get(0).rate);
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}
