@@ -136,6 +136,7 @@ public class MapFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
+		super.onCreateView(inflater, vg, savedInstanceBundle);
 		return mapView;
 	}
 	
@@ -151,9 +152,6 @@ public class MapFragment extends SherlockFragment {
 	
 	public void setMapView (MapView mapView){
 		this.mapView = mapView;
-
-		// Set zoom on the map
-		mapView.setBuiltInZoomControls(true);
 	}
 	
 	public MapView getMapView(){
