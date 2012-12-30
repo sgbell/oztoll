@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -3,7 +3,7 @@
  *  This class is used in the OzToll Text Activity, so that the user can select the
  *  streets from a list to get the cost of their trip.
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 

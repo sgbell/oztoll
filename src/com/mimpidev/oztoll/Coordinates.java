@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 /**
  * @author bugman

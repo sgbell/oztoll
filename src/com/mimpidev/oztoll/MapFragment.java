@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.util.List;
 
@@ -16,8 +16,10 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -132,6 +134,9 @@ public class MapFragment extends SherlockFragment {
 			//newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
+
+			mapView.setBuiltInZoomControls(true);
+			
 		}
 	}
 	
@@ -147,6 +152,7 @@ public class MapFragment extends SherlockFragment {
 	
 	public void onDestroyView(){
 		super.onDestroyView();
+		
 		((ViewGroup)mapView.getParent()).removeView(mapView);
 	}
 	

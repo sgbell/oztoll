@@ -1,7 +1,7 @@
 /** TollPoint exit contains an array of the exits that belong to the same group.
  * It also has an array of the tollrates for this point. 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 /** Extended OverlayItem so that I could link the street to it.
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;

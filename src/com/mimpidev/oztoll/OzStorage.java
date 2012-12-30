@@ -1,7 +1,7 @@
 /**OzStorage is used to open a file from external storage. It checks if the external storage can
  * be accessed and if it can, opens the file using OzTollData. 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import android.os.Environment;
 

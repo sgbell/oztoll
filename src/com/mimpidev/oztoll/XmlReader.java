@@ -2,7 +2,7 @@
  * opening the file to reading the information from the xml file
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.io.File;
 import java.io.IOException;

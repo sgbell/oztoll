@@ -1,7 +1,7 @@
 /**Connection is used to define the connecting streets between tollways
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 /**
  * @author bugman

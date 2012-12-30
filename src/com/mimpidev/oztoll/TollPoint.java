@@ -1,7 +1,7 @@
 /** TollPoint lists the starting streets, and then the tolls from that point
  * It has one array of the starting streets and one array for the exits, 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 

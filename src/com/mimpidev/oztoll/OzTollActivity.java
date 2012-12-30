@@ -1,4 +1,4 @@
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -85,8 +85,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
 		if (mapView==null){
 			mapView = (MapView)view.findViewById(R.id.oztollmap);
-		// Set zoom on the map
-			mapView.setBuiltInZoomControls(true);
 		}
 
 		setContentView(R.layout.activity_main);

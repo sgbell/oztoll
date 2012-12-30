@@ -2,7 +2,7 @@
  * Established early on that i couldn't read from the xml in real time as the program would not draw
  * the screen quick enough.
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 

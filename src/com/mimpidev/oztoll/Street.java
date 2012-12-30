@@ -1,7 +1,7 @@
 /** Street defines a street, usually populated from an xml file
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 /**
  * @author bugman

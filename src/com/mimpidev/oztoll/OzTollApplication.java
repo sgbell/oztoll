@@ -2,7 +2,7 @@
  * OzTollApplication is an extension of the Application class, so that I can then offload
  * the data loading to a service, which will allow the data to be loaded once, for either of the activities.
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 import android.app.Application;
 import android.os.Handler;

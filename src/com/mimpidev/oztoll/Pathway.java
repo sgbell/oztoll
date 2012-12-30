@@ -1,7 +1,7 @@
 /** Pathway is a class that defines connections between streets
  * 
  */
-package com.bg.oztoll;
+package com.mimpidev.oztoll;
 
 /**
  * @author bugman
