@@ -3,54 +3,25 @@
  */
 package com.mimpidev.oztoll;
 
-import java.util.List;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.text.Html;
-import android.app.ProgressDialog;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 
 /**
  * @author bugman
  *
  */
-public class MapFragment extends SherlockFragment {
+public class MapFragment extends SherlockMapFragment {
 
 	public static final String TAG = "ozTollMapFragment";
-	private MapView mapView;
-	private MapOverlay itemizedOverlay;
-	private Dialog rateDialog, startDialog;
-	private boolean loadingShown=false, 
-					startShown=false,
-					finishShown=false;
-	private ProgressDialog progDialog;
-	private LinearLayout rateLayout;
-	private AlertDialog alert;
-	private AlertDialog.Builder builder;
-
+	private GoogleMap mapView;
 	private OzTollApplication global;
 	//private SharedPreferences preferences;
 	
@@ -58,15 +29,6 @@ public class MapFragment extends SherlockFragment {
 
 	public MapFragment(){
 		
-	}
-	
-	public MapFragment(MapView mapView, Handler mainHandler){
-		this.mapView=mapView;
-		handler = mainHandler;
-	}
-	
-	public MapFragment(MapView mapView){
-		this.mapView=mapView;
 	}
 	
 	public void onCreate(Bundle savedInstanceBundle){
@@ -101,70 +63,24 @@ public class MapFragment extends SherlockFragment {
 					
 				}
 			}
-			// populate overlay array
-			List<Overlay> mapOverlays = mapView.getOverlays();
-			// The following two lines are the images used to mark the exits on the map
-			Drawable defaultActiveRoad = getResources().getDrawable(R.drawable.activeroad);
-			Drawable selectedRoad = getResources().getDrawable(R.drawable.selectedroad);
-			// Creation of the overlay for the map
-			itemizedOverlay = new MapOverlay(defaultActiveRoad, mapView.getContext(), handler, global.getTollData());
+			
+			mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(global.getTollData().getOrigin().getLatLng(),12));
+			
 
 			Point screenSize= new Point();
-			screenSize.x=getSherlockActivity().getWindowManager().getDefaultDisplay().getWidth();
-			screenSize.y=getSherlockActivity().getWindowManager().getDefaultDisplay().getHeight();
-			itemizedOverlay.setMarkerTextSize(screenSize.y, screenSize.x,getResources().getBoolean(R.bool.isTablet));
+			getSherlockActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
 			
 			newMessage = handler.obtainMessage();
-			//newMessage.what = 10;
-			//handler.dispatchMessage(newMessage);
-			
-			if (global.getTollData().getOrigin()!=null)
-				mapView.getController().setCenter(global.getTollData().getOrigin());
-			
-			for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-				for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
-					OverlayStreet item = new OverlayStreet(global.getTollData().getStreet(twc, tsc));
-					itemizedOverlay.addOverlay(item);
-				}
-			itemizedOverlay.doPopulate();
-			
-			// Add streets to overlay
-			mapOverlays.add(itemizedOverlay);
-			
+
 			//newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
-
-			mapView.setBuiltInZoomControls(true);
-			
 		}
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
-		super.onCreateView(inflater, vg, savedInstanceBundle);
-		return mapView;
-	}
-	
-	public void onViewCreated(View view, Bundle savedInstanceState){
-		super.onViewCreated(view, savedInstanceState);
-
-	}
-	
-	public void onDestroyView(){
-		super.onDestroyView();
-		
-		((ViewGroup)mapView.getParent()).removeView(mapView);
-	}
-	
-	public void setMapView (MapView mapView){
-		this.mapView = mapView;
-	}
-	
-	public MapView getMapView(){
-		return mapView;
-	}
-	
-	public MapOverlay getOverlay(){
-		return itemizedOverlay;
+		View view=super.onCreateView(inflater, vg, savedInstanceBundle);
+		mapView = getMap();
+		return view;
 	}
 }

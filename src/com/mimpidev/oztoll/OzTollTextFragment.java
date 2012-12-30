@@ -85,6 +85,7 @@ public class OzTollTextFragment extends SherlockFragment {
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
+		super.onCreateView(inflater, vg, savedInstanceBundle);
 		view = inflater.inflate(R.layout.textrate, null); 
 		
 		adapter = new ExpandableListAdapter(getSherlockActivity().getApplicationContext(), new ArrayList<String>(),

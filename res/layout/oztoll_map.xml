@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.maps.MapView 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/oztollmap"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:clickable="true"
-    android:apiKey="0-Q_5w8-GMlvTrfRgA82K3CzHzSEWznnWvex6rw"/>
+    class="com.mimpidev.oztoll.MapFragment"
+  />

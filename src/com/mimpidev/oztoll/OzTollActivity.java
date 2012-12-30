@@ -5,7 +5,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.maps.MapView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.model.CameraPosition;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,9 +51,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
 	private LinearLayout rateLayout;
 	
-	private MapView mapView=null;
-
-	
 	public OzTollActivity(){
 		
 	}
@@ -81,12 +80,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
         // This is where the application's preferences are stored
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
-		View view =  this.getLayoutInflater().inflate(R.layout.oztoll_map, null);
-
-		if (mapView==null){
-			mapView = (MapView)view.findViewById(R.id.oztollmap);
-		}
-
 		setContentView(R.layout.activity_main);
 
     }
@@ -105,8 +98,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 				break;
 			case R.id.clear:
 				resetView();
+				/*
 				if (mMapFragment!=null)
-					mMapFragment.getOverlay().doPopulate();
+					mMapFragment.getOverlay().doPopulate();*/
 
 				Message newMessage = handler.obtainMessage();
 				newMessage.what=6;
@@ -132,9 +126,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			mTextFragment.setStart("");
 			mTextFragment.populateStreets();
 		}
+		/*
 		if (mMapFragment!=null){
 			mMapFragment.getOverlay().doPopulate();
-		}
+		}*/
 	}
 	
     /**
@@ -197,7 +192,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		
 		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment == null){
-			mMapFragment = new MapFragment(mapView);
+			mMapFragment = new MapFragment();
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 			} else {
@@ -360,8 +355,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
     					} else if ((Street)msg.obj==global.getTollData().getStart())
     						resetView();
     				}
+    				/*
 					if (mMapFragment!=null)
-						mMapFragment.getOverlay().doPopulate();
+						mMapFragment.getOverlay().doPopulate();*/
 					if (mTextFragment!=null)
 						mTextFragment.populateStreets();
     				break;

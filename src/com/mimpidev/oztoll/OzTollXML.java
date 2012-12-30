@@ -7,8 +7,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.android.maps.GeoPoint;
-
 import android.content.res.AssetManager;
 import android.util.Log;
 
