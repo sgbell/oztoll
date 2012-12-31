@@ -94,9 +94,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 				break;
 			case R.id.clear:
 				resetView();
-				/*
+				
 				if (mMapFragment!=null)
-					mMapFragment.getOverlay().doPopulate();*/
+					mMapFragment.populateMarkers();
 
 				Message newMessage = handler.obtainMessage();
 				newMessage.what=6;
@@ -122,10 +122,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			mTextFragment.setStart("");
 			mTextFragment.populateStreets();
 		}
-		/*
+		
 		if (mMapFragment!=null){
-			mMapFragment.getOverlay().doPopulate();
-		}*/
+			mMapFragment.populateMarkers();
+		}
 	}
 	
     /**
@@ -351,9 +351,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
     					} else if ((Street)msg.obj==global.getTollData().getStart())
     						resetView();
     				}
-    				/*
+    				
 					if (mMapFragment!=null)
-						mMapFragment.getOverlay().doPopulate();*/
+						mMapFragment.populateMarkers();
 					if (mTextFragment!=null)
 						mTextFragment.populateStreets();
     				break;
