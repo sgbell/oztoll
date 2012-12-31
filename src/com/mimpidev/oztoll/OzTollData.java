@@ -1210,7 +1210,7 @@ public class OzTollData implements Runnable{
 				totalLine.addView(tollTotalTitle);
 				
 				TextView totalValue = new TextView(appContext);
-				totalValue.setText("$"+totalCharges.get(0).rate);
+				totalValue.setText("$"+String.format("%.2g%n", totalCharges.get(0).rate));
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}

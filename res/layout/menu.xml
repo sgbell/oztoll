@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/clear"
-        android:showAsAction="ifRoom"
-        android:title="Clear"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/clear"
         android:icon="@drawable/action_clear">
     </item>
     <item
         android:id="@+id/preferences"
-        android:showAsAction="ifRoom"
-        android:title="Preferences"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/settings"
         android:icon="@drawable/action_settings">
     </item>
 </menu>

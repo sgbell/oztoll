@@ -11,4 +11,6 @@
         <br />
         You can also change the result options.]]>
     </string>
+    <string name="clear">Clear</string>
+    <string name="settings">Settings</string>
 </resources>
