@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,10 @@ public class MapFragment extends SherlockMapFragment {
 
 	public MapFragment(){
 		
+	}
+	
+	public MapFragment(Handler mainHandler){
+		handler = mainHandler;
 	}
 	
 	public void onCreate(Bundle savedInstanceBundle){
@@ -63,8 +68,8 @@ public class MapFragment extends SherlockMapFragment {
 					
 				}
 			}
-			
 			mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(global.getTollData().getOrigin().getLatLng(),12));
+			
 			
 
 			Point screenSize= new Point();

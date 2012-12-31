@@ -60,7 +60,6 @@ public class OzTollXML {
 		Node currentNode = originNodes.item(0);
 		GeoPoint origin = new GeoPoint(Integer.parseInt(xmldata.getNodeData(currentNode, "latitude")),
 									   Integer.parseInt(xmldata.getNodeData(currentNode, "longitude")));
-		
 		return origin;
 	}
 	

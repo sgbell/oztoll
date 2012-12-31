@@ -5,10 +5,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.model.CameraPosition;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -192,17 +188,17 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		
 		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment == null){
-			mMapFragment = new MapFragment();
+			mMapFragment = new MapFragment(handler);
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 			} else {
 				ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
 			}
 		}
-		
+
 		mTextFragment = (OzTollTextFragment) getSupportFragmentManager().findFragmentByTag(OzTollTextFragment.TAG);
 		if (mTextFragment == null){
-			mTextFragment = new OzTollTextFragment();
+			mTextFragment = new OzTollTextFragment(handler);
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 			} else {
