@@ -2,15 +2,15 @@
 <resources>
     <string name="app_name">OzToll</string>
     <string name="welcome">
+    </string>
+    <string name="toll_disclaimer">
         <![CDATA[
-        Welcome to OzToll<br />
-        Please Check your Settings.<br />
-        Two modes are available:<br />
-        * Map Mode<br />
-        * Text Mode<br />
-        <br />
-        You can also change the result options.]]>
+        <h2>* PLEASE NOTE: Prices are only a general indication of toll fees. Always check your account</h2>]]>
     </string>
     <string name="clear">Clear</string>
     <string name="settings">Settings</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_previous">Previous</string>
+    <string name="btn_close">Close</string>
+    <string name="tutorial">Tutorial</string>
 </resources>

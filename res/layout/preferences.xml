@@ -8,6 +8,6 @@
         			android:entryValues="@array/vehicleValues" />
     <CheckBoxPreference android:title="Map view"
         			 	android:defaultValue="true"
-        			 	android:summary="If selected, will show a basic map for you to select your Toll."
+        			 	android:summary="If selected, will show a map for you to select your Toll."
         			 	android:key="applicationView" />
 </PreferenceScreen>

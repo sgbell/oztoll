@@ -1247,6 +1247,7 @@ public class OzTollData implements Runnable{
 					totalCharges.get(tcc).rate = Float.toString((float)Math.round(
 							(Float.parseFloat(totalCharges.get(tcc).rate)+
 							 Float.parseFloat(totalCharges.get(from).rate))*100)/100);
+					totalCharges.get(tcc).rate = String.format("%.2f",Float.parseFloat(totalCharges.get(tcc).rate)); 
 					itemCount++;
 				}
 			}

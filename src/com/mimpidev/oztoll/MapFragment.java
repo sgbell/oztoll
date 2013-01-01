@@ -181,7 +181,6 @@ public class MapFragment extends SherlockMapFragment {
 		float xMultiplier;
 		
 		
-		Log.w ("ozToll","setMarkerTextSize() :"+height+","+width);
 		if (width>height){
 			xMultiplier = width/381;
 		} else {

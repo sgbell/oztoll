@@ -31,7 +31,6 @@ public class ResultsFragment extends SherlockFragment {
 	private OzTollApplication global;
 	
 	public ResultsFragment(){
-		
 	}
 	
 	public ResultsFragment(Handler mainHandler){
@@ -40,6 +39,7 @@ public class ResultsFragment extends SherlockFragment {
 	
 	public void onCreate(Bundle savedInstanceBundle){
 		super.onCreate(savedInstanceBundle);
+		global = (OzTollApplication)getSherlockActivity().getApplication();
 	}
 	
 	public void onResume(){
