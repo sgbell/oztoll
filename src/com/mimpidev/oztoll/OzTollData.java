@@ -59,6 +59,16 @@ public class OzTollData implements Runnable{
 		ozTollXML.setXMLReader(filename);
 	}
 	
+	public void setDataFile(String filename, AssetManager assetMan){
+		finishedRead=false;
+		ozTollXML.setXMLReader(filename,assetMan);
+	}
+	
+	public void setDataFile(String filename){
+		finishedRead=false;
+		ozTollXML.setXMLReader(filename);
+	}
+	
 	public void setSyncObject(Object syncMe){
 		syncObject = syncMe;
 	}
@@ -763,8 +773,10 @@ public class OzTollData implements Runnable{
 			else
 				twc++;
 		}
-		
-		return tollways.get(twc).getName();
+		if (tollwayFound)
+			return tollways.get(twc).getName();
+		else
+			return null;
 	}
 	
 	public ArrayList<Street> getTollPointExits(Street start){

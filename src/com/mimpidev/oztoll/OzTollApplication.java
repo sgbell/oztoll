@@ -24,6 +24,7 @@ public class OzTollApplication extends Application {
 	public OzTollApplication() {
 		super();
 		tollData = new OzTollData();
+		datasync = new Object();
 	}
 	
 	public OzTollData getTollData(){
