@@ -31,7 +31,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
 	private boolean loadingShown=false, 
 					startShown=false,
-					finishShown=false;
+					finishShown=false,
+					welcomeScreen=false;
 
 	private AlertDialog alert;
 	private AlertDialog.Builder builder;
@@ -182,6 +183,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		if (getResources().getBoolean(R.bool.isTablet)){
     		ft.show(mTextFragment);
     		if (!preferences.getBoolean("welcomeScreenShown", false)){
+    			welcomeScreen=true;
     			ft.show(tutorialFragment);
     			ft.hide(mMapFragment);
     		}else{
@@ -191,6 +193,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		ft.show(resultsFragment);
     	} else {
     		if (!preferences.getBoolean("welcomeScreenShown", false)){
+    			welcomeScreen=true;
     			ft.show(tutorialFragment);
     			ft.hide(mMapFragment);
     	       	ft.hide(mTextFragment);
@@ -254,7 +257,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
 			} else {
-				ft.add(R.id.map_fragment, resultsFragment, TutorialFragment.TAG);
+				ft.add(R.id.map_fragment, tutorialFragment, TutorialFragment.TAG);
 			}
 		}
 		
@@ -287,6 +290,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
 			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			Message newMessage;
 
     		switch (msg.what){
     			case 1:
@@ -304,6 +308,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				edit.commit();
     				
     				ft.commit();
+    				welcomeScreen=false;
+    				newMessage = handler.obtainMessage();
+    				newMessage.what=6;
+    				handler.dispatchMessage(newMessage);
+    				
     				break;
     			case 3:
     				// Call the results fragment
@@ -351,24 +360,26 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			case 6:
     				// This case is used to remove the loading dialog
     				
-    				if (loadingShown=true){
-    					if (progDialog!=null)
-    						if (progDialog.isShowing())
-    							progDialog.dismiss();
-    					
-    					if (global.getTollData().getStart()==null){
-    						if (!startShown){
-        						showMessage("Please select your Entry point");
-        						startShown=true;
-    						}
-    					} else {
-    						if (global.getTollData().getFinish()==null){
-    							if (!finishShown){
-    								showMessage("Please select your Exit point");
-    								finishShown=true;
-    							}
-    						}
-    					}
+       				if (loadingShown=true){
+       					if (progDialog!=null)
+       						if (progDialog.isShowing())
+       							progDialog.dismiss();
+
+       					if (!welcomeScreen){
+        					if (global.getTollData().getStart()==null){
+        						if (!startShown){
+            						showMessage("Please select your Entry point");
+            						startShown=true;
+        						}
+        					} else {
+        						if (global.getTollData().getFinish()==null){
+        							if (!finishShown){
+        								showMessage("Please select your Exit point");
+        								finishShown=true;
+        							}
+        						}
+        					}
+        				}    					
     				}
     				break;
     			case 7:
@@ -385,7 +396,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						global.getTollData().setStart((Street)msg.obj);
         						mTextFragment.setStart("Start Street: "+global.getTollData().getStart().getName());
         						
-        						Message newMessage = handler.obtainMessage();
+        						newMessage = handler.obtainMessage();
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					} else if ((global.getTollData().getStart()!=null)
@@ -400,7 +411,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
         						rateLayout.addView(disclaimer);
         						
-        						Message newMessage = handler.obtainMessage();
+        						newMessage = handler.obtainMessage();
         						newMessage.obj = rateLayout;
         						newMessage.what=3;
         						handler.sendMessage(newMessage);
@@ -408,7 +419,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						global.getTollData().setFinish(null);
         						finishShown=false;
         						
-        						Message newMessage = handler.obtainMessage();
+        						newMessage = handler.obtainMessage();
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					}
