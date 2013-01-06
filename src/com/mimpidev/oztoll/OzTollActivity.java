@@ -165,7 +165,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     
     public void onPause(){
     	super.onPause();
-    	if (alert.getWindow()!=null)
+    	if ((alert.getWindow()!=null)&&(alert!=null))
     		alert.cancel();
     	handler.removeCallbacks(closeDialog);
     }
