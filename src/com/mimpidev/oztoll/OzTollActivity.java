@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OzTollActivity extends SherlockFragmentActivity {
 	private OzTollApplication global;
@@ -34,8 +35,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					finishShown=false,
 					welcomeScreen=false;
 
-	private AlertDialog alert;
-	private AlertDialog.Builder builder;
+	//private AlertDialog alert;
+	//private AlertDialog.Builder builder;
 	private Activity thisActivity=this; // This is needed for the AlertDialog code
 
 	private MapFragment mMapFragment;
@@ -156,7 +157,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
 		// Creates a new dialog
-		builder = new AlertDialog.Builder(thisActivity);
+		//builder = new AlertDialog.Builder(thisActivity);
 
 		setupFragments();
 
@@ -165,8 +166,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     
     public void onPause(){
     	super.onPause();
-    	if ((alert.getWindow()!=null)&&(alert!=null))
-    		alert.cancel();
+    	//if ((alert.getWindow()!=null)&&(alert!=null))
+    	//	alert.cancel();
     	handler.removeCallbacks(closeDialog);
     }
 
@@ -263,8 +264,14 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		
 		ft.commit();
 	}
-    
+
+    /*
     public void showMessage(String message){
+    	//
+    	// Change this to use Toast
+    	//
+    	
+    	
     	//Code Block for showing "Please select your starting point and Exit Point"
 		// This is the message
 		builder.setMessage(message);
@@ -285,7 +292,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 				}
 			}
 		}
-    }
+    }*/
 
 	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
@@ -368,13 +375,17 @@ public class OzTollActivity extends SherlockFragmentActivity {
        					if (!welcomeScreen){
         					if (global.getTollData().getStart()==null){
         						if (!startShown){
-            						showMessage("Please select your Entry point");
+            						//showMessage("Please select your Entry point");
+        							Toast toast = Toast.makeText(thisActivity.getApplicationContext(),"Please select your Entry point", Toast.LENGTH_SHORT);
+        							toast.show();
             						startShown=true;
         						}
         					} else {
         						if (global.getTollData().getFinish()==null){
         							if (!finishShown){
-        								showMessage("Please select your Exit point");
+        								//showMessage("Please select your Exit point");
+        								Toast toast = Toast.makeText(thisActivity.getApplicationContext(),"Please select your Exit point", Toast.LENGTH_SHORT);
+            							toast.show();
         								finishShown=true;
         							}
         						}
