@@ -65,53 +65,11 @@ public class TutorialFragment extends SherlockFragment {
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){
 		View view = inflater.inflate(R.layout.tutorial_view, null, false);
-		imageWindow = (ImageView)view.findViewById(R.id.imageGallery);
-		close = (Button)view.findViewById(R.id.button_close);
-		previous = (Button)view.findViewById(R.id.button_prev);
-		next = (Button)view.findViewById(R.id.button_next);
-		
-		close.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				// send handler message to close tutorial and show normal screen
-				Message newMessage = handler.obtainMessage();
-				newMessage.what=1;
-				handler.dispatchMessage(newMessage);
-				screenCount=1;
-			}
-			
-		});
-		next.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				if (screenCount<4){
-					screenCount++;
-					processView();
-				} else {
-					// send handler message to close tutorial and show normal screen
-					Message newMessage = handler.obtainMessage();
-					newMessage.what=1;
-					handler.dispatchMessage(newMessage);
-					screenCount=1;
-					processView();
-				}
-			}
-			
-		});
-		
-		previous.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				if (screenCount>1){
-					screenCount--;
-					processView();
-				}
-			}
-			
-		});
+		/* Build new interface here inserting r.layout.splash into r.id.tutorial
+		*  On user touch, it will then remove the r.layout.splash & begin a tutorial
+		*  identifying the important parts of the program including "Clear", "Settings" buttons,
+		*  which streets are selected, and which are not. How to clear the screen.
+		*/
 		
 		return view;
 	}
