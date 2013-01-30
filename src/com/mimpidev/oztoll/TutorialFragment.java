@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -39,6 +40,7 @@ public class TutorialFragment extends SherlockFragment {
 	private ImageView imageWindow;
 	private Bitmap image;
 	private int screenCount = 0;
+	private LinearLayout tutorialWindowLayout;
 
 	public static final String TAG = "TutorialFragment";
 	
@@ -70,102 +72,83 @@ public class TutorialFragment extends SherlockFragment {
 		*  identifying the important parts of the program including "Clear", "Settings" buttons,
 		*  which streets are selected, and which are not. How to clear the screen.
 		*/
+		tutorialWindowLayout = (LinearLayout)view.findViewById(R.id.tutorial);
+		View splashScreen = inflater.inflate(R.layout.splash, null, false);
+		tutorialWindowLayout.addView(splashScreen);
+		
+		// grab the buttons which we had in the code before
+		close = (Button)view.findViewById(R.id.button_close);
+		previous = (Button)view.findViewById(R.id.button_prev);
+		next = (Button)view.findViewById(R.id.button_next);
+		
+		close.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// send handler message to close tutorial and show normal screen
+				Message newMessage = handler.obtainMessage();
+				newMessage.what=1;
+				handler.dispatchMessage(newMessage);
+				screenCount=0;
+			}
+			
+		});
+		next.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (screenCount<4){
+					screenCount++;
+					processView();
+				} else {
+					// send handler message to close tutorial and show normal screen
+					Message newMessage = handler.obtainMessage();
+					newMessage.what=1;
+					handler.dispatchMessage(newMessage);
+					screenCount=1;
+					processView();
+				}
+			}
+			
+		});
+		
+		previous.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if (screenCount>1){
+					screenCount--;
+					processView();
+				}
+			}
+			
+		});
+
+		
+		// This handles the splash screen
+		Runnable clearSplash = new Runnable(){
+			@Override
+			public void run() {
+				tutorialWindowLayout.removeAllViews();
+				processView();
+				close.setVisibility(Button.VISIBLE);
+				next.setVisibility(Button.VISIBLE);
+			}
+		};
+		
+		handler.postDelayed(clearSplash, 4000);
 		
 		return view;
 	}
 	
-	public void processView(){
-		float widthScale, heightScale;
-		Canvas canvas;
-		Paint paint = new Paint();
-    	paint.setColor(Color.RED);
-    	paint.setTextAlign(Align.CENTER);
-
-    	Point screenSize= new Point();
-		getSherlockActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
-
+	private void processView(){
+		
 		switch (screenCount){
-			case 1:
-				//imageWindow.setImageResource(R.drawable.tutorial_1);
-				image = BitmapFactory.decodeResource(getResources(), R.drawable.tutorial_1);
+			case 0:
+				// Draw stuff on the screen to tell the user what stuff is and what it does
+				
 				previous.setVisibility(Button.INVISIBLE);
 				break;
-			case 2:
-				image = BitmapFactory.decodeResource(getResources(), R.drawable.tutorial_1).copy(Bitmap.Config.ARGB_8888, true);
-				previous.setVisibility(Button.VISIBLE);
-				widthScale=(float)image.getWidth()/360;
-				heightScale=(float)image.getHeight()/610;
-		    	image = image.copy(Bitmap.Config.ARGB_8888, true);
-		    	canvas = new Canvas(image);
-		    	paint.setStyle(Paint.Style.STROKE);
-				paint.setStrokeWidth(paint.getStrokeWidth()+5);
-		    	canvas.drawCircle((276*widthScale), (19*heightScale), (15*widthScale), paint);
-		    	canvas.drawCircle((333*widthScale), (19*heightScale), (15*widthScale), paint);
-
-		    	canvas.drawLine((276*widthScale), (19*heightScale), image.getWidth()/4, image.getHeight()/4, paint);
-		    	canvas.drawLine((333*widthScale), (19*heightScale), image.getWidth()/2, image.getHeight()/4, paint);
-				paint.setStrokeWidth(paint.getStrokeWidth()-5);
-				
-				setMarkerTextSize(screenSize.y,screenSize.x,getResources().getBoolean(R.bool.isTablet),paint);
-		    	canvas.drawText("Clear", (image.getWidth()/4)-10, (image.getHeight()/4)+paint.getTextSize(), paint);
-		    	canvas.drawText("Settings", (image.getWidth()/2)+10, (image.getHeight()/4)+paint.getTextSize(), paint);
-				break;
-			case 3:
-				image = BitmapFactory.decodeResource(getResources(), R.drawable.tutorial_2).copy(Bitmap.Config.ARGB_8888, true);
-				canvas = new Canvas(image);
-				widthScale=(float)image.getWidth()/360;
-				heightScale=(float)image.getHeight()/610;
-		    	paint.setStyle(Paint.Style.STROKE);
-				
-				paint.setStrokeWidth(paint.getStrokeWidth()+5);
-				canvas.drawCircle((128*widthScale), (427*heightScale), (15*widthScale), paint);
-				canvas.drawCircle((153*widthScale), (281*heightScale), (15*widthScale), paint);
-				setMarkerTextSize(screenSize.y,screenSize.x,getResources().getBoolean(R.bool.isTablet),paint);
-				canvas.drawLine((128*widthScale), (427*heightScale), (image.getWidth()/2), (image.getHeight()/2)+(paint.getTextSize()*2)+3, paint);
-				canvas.drawLine((153*widthScale), (281*heightScale), (image.getWidth()/2), (image.getHeight()/2)+paint.getTextSize(), paint);
-		    	
-		    	paint.setStrokeWidth(paint.getStrokeWidth()-5);
-		    	canvas.drawText("Available Street", (image.getWidth()/2), (image.getHeight()/2)+(paint.getTextSize()*2), paint);
-				break;
-			case 4:
-				canvas = new Canvas(image);
-				widthScale=(float)image.getWidth()/360;
-				heightScale=(float)image.getHeight()/610;
-		    	paint.setStyle(Paint.Style.STROKE);
-				
-				paint.setStrokeWidth(paint.getStrokeWidth()+5);
-				canvas.drawCircle((51*widthScale), (93*heightScale), (15*widthScale), paint);
-		    	canvas.drawLine((51*widthScale), (93*heightScale), image.getWidth()/4, image.getHeight()/4, paint);
-
-		    	paint.setStrokeWidth(paint.getStrokeWidth()-5);
-				setMarkerTextSize(screenSize.y,screenSize.x,getResources().getBoolean(R.bool.isTablet),paint);
-		    	canvas.drawText("Selected Street", (image.getWidth()/4)+10, (image.getHeight()/4)+paint.getTextSize(), paint);
-				break;
-		}
-		imageWindow.setImageBitmap(image);
-		imageWindow.setScaleType(ImageView.ScaleType.FIT_CENTER);
-	}
-	
-    public void setMarkerTextSize(int height, int width, boolean isTablet, Paint paint) {
-		float xMultiplier;
-		
-		
-		if (width>height){
-			xMultiplier = width/381;
-		} else {
-			xMultiplier = width/240;
-		}
-		
-		float textSize = paint.getTextSize();
-		paint.setTextSize(100);
-		paint.setTextScaleX(1.0f);
-		Rect bounds = new Rect();
-		paint.getTextBounds("Ty", 0, 2, bounds);
-		int textHeight = bounds.bottom-bounds.top;
-		if (isTablet){
-			paint.setTextSize(((float)(textSize*(xMultiplier/2))/(float)textHeight*100f)-1);
-		} else {
-			paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-1);
 		}
 	}
 }

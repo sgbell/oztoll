@@ -27,7 +27,8 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_alignParentRight="true"
-    android:text="@string/btn_next" />
+    android:text="@string/btn_next"
+    android:visibility="invisible" />
 
 <Button
     android:id="@+id/button_prev"
@@ -44,7 +45,8 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_alignParentLeft="true"
-    android:text="@string/btn_close" />
+    android:text="@string/btn_close" 
+    android:visibility="invisible"/>
 
 
 </RelativeLayout>
