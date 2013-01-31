@@ -13,4 +13,9 @@
     <string name="btn_previous">Previous</string>
     <string name="btn_close">Close</string>
     <string name="tutorial">Tutorial</string>
+    <string name="basic_instructions">Basic Instructions</string>
+    <string name="clear_map_button">Clear Map Button</string>
+    <string name="settings_button">Settings Button</string>
+    <string name="this_is_what_a_road_that_you_can_select_looks_like_">This is what a road that you can select looks like.</string>
+    <string name="this_is_what_a_road_looks_like_after_you_select_it_">This is what a road looks like after you select it.</string>
 </resources>
