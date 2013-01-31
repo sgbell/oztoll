@@ -108,7 +108,7 @@ public class TutorialFragment extends SherlockFragment {
 
 			@Override
 			public void onClick(View v) {
-				if (screenCount>1){
+				if (screenCount>0){
 					screenCount--;
 					processView();
 				}
@@ -125,7 +125,9 @@ public class TutorialFragment extends SherlockFragment {
 			}
 		};
 		
-		handler.postDelayed(clearSplash, 4000);
+		
+		Handler	newhandler = new Handler();
+		newhandler.postDelayed(clearSplash, 4000);
 		
 		return view;
 	}
