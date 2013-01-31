@@ -4,19 +4,10 @@
 package com.mimpidev.oztoll;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,10 +28,10 @@ public class TutorialFragment extends SherlockFragment {
 	private SharedPreferences preferences;
 	
 	private Button close, previous, next;
-	private ImageView imageWindow;
-	private Bitmap image;
 	private int screenCount = 0;
 	private LinearLayout tutorialWindowLayout;
+	private View tutorial_part_1,
+	             tutorial_part_2;
 
 	public static final String TAG = "TutorialFragment";
 	
@@ -75,6 +66,8 @@ public class TutorialFragment extends SherlockFragment {
 		tutorialWindowLayout = (LinearLayout)view.findViewById(R.id.tutorial);
 		View splashScreen = inflater.inflate(R.layout.splash, null, false);
 		tutorialWindowLayout.addView(splashScreen);
+		tutorial_part_1 = inflater.inflate(R.layout.tutorial_part_1, null, false);
+		tutorial_part_2 = inflater.inflate(R.layout.tutorial_part_2, null, false);
 		
 		// grab the buttons which we had in the code before
 		close = (Button)view.findViewById(R.id.button_close);
@@ -129,10 +122,7 @@ public class TutorialFragment extends SherlockFragment {
 		Runnable clearSplash = new Runnable(){
 			@Override
 			public void run() {
-				tutorialWindowLayout.removeAllViews();
 				processView();
-				close.setVisibility(Button.VISIBLE);
-				next.setVisibility(Button.VISIBLE);
 			}
 		};
 		
@@ -146,8 +136,23 @@ public class TutorialFragment extends SherlockFragment {
 		switch (screenCount){
 			case 0:
 				// Draw stuff on the screen to tell the user what stuff is and what it does
-				
+				tutorialWindowLayout.removeAllViews();
+				tutorialWindowLayout.addView(tutorial_part_1);
+
+				close.setVisibility(Button.VISIBLE);
+				next.setVisibility(Button.VISIBLE);
 				previous.setVisibility(Button.INVISIBLE);
+				
+				break;
+			case 1:
+				tutorialWindowLayout.removeAllViews();
+				tutorialWindowLayout.addView(tutorial_part_1);
+				tutorialWindowLayout.addView(tutorial_part_2);
+				
+				previous.setVisibility(Button.VISIBLE);
+				break;
+			case 2:
+				
 				break;
 		}
 	}
