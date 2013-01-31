@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-<?xml version="1.0" encoding="utf-8"?>
 
     <TextView
         android:id="@+id/textView1"
@@ -13,7 +12,6 @@
         android:text="@string/this_is_what_a_road_that_you_can_select_looks_like_"
         android:textAppearance="?android:attr/textAppearanceMedium" >
     </TextView>
-<?xml version="1.0" encoding="utf-8"?>
 
     <TextView
         android:id="@+id/textView2"

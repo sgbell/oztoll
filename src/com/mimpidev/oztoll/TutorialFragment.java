@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -90,7 +89,7 @@ public class TutorialFragment extends SherlockFragment {
 
 			@Override
 			public void onClick(View v) {
-				if (screenCount<4){
+				if (screenCount<1){
 					screenCount++;
 					processView();
 				} else {
@@ -98,7 +97,7 @@ public class TutorialFragment extends SherlockFragment {
 					Message newMessage = handler.obtainMessage();
 					newMessage.what=1;
 					handler.dispatchMessage(newMessage);
-					screenCount=1;
+					screenCount=0;
 					processView();
 				}
 			}
@@ -132,6 +131,7 @@ public class TutorialFragment extends SherlockFragment {
 	}
 	
 	private void processView(){
+		// need to set tutorial view in preferences
 		
 		switch (screenCount){
 			case 0:
@@ -150,9 +150,6 @@ public class TutorialFragment extends SherlockFragment {
 				tutorialWindowLayout.addView(tutorial_part_2);
 				
 				previous.setVisibility(Button.VISIBLE);
-				break;
-			case 2:
-				
 				break;
 		}
 	}

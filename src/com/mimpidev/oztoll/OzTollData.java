@@ -10,8 +10,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;

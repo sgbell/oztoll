@@ -8,7 +8,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 /**
  * @author bugman

@@ -18,4 +18,5 @@
     <string name="settings_button">Settings Button</string>
     <string name="this_is_what_a_road_that_you_can_select_looks_like_">This is what a road that you can select looks like.</string>
     <string name="this_is_what_a_road_looks_like_after_you_select_it_">This is what a road looks like after you select it.</string>
+    <string name="welcome_splash">Welcome to OzToll Splash Screen</string>
 </resources>

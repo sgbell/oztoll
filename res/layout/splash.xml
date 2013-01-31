@@ -7,5 +7,6 @@
         android:id="@+id/splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/welcome"/>
+        android:src="@drawable/welcome"
+        android:contentDescription="@string/welcome_splash"/>
 </LinearLayout>
