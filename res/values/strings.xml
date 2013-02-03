@@ -17,4 +17,7 @@
     <string name="selectable_road">This is what a road that you can select looks like.</string>
     <string name="after_selection">This is what a road looks like after you select it.</string>
     <string name="welcome_splash">Welcome to OzToll Splash Screen</string>
+    <string name="advice_change">Under Settings, you can change the view from a Map view to a text view,
+        and you can also Select the type of vehicle you drive to further customize the toll report.
+        Please note, if you have no data connection this app will still work, but only in the text view.</string>
 </resources>
