@@ -24,13 +24,10 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class TutorialFragment extends SherlockFragment {
 	private OzTollApplication global;
 	private Handler handler;
-	private SharedPreferences preferences;
 	
-	private Button close, previous, next;
-	private int screenCount = 0;
+	private Button finish;
 	private LinearLayout tutorialWindowLayout;
-	private View tutorial_part_1,
-	             tutorial_part_2;
+	private View tutorial_part_1;
 
 	public static final String TAG = "TutorialFragment";
 	
@@ -45,7 +42,6 @@ public class TutorialFragment extends SherlockFragment {
 		super.onCreate(savedInstanceBundle);
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
 	}
 	
 	public void onResume(){
@@ -66,14 +62,11 @@ public class TutorialFragment extends SherlockFragment {
 		View splashScreen = inflater.inflate(R.layout.splash, null, false);
 		tutorialWindowLayout.addView(splashScreen);
 		tutorial_part_1 = inflater.inflate(R.layout.tutorial_part_1, null, false);
-		tutorial_part_2 = inflater.inflate(R.layout.tutorial_part_2, null, false);
 		
 		// grab the buttons which we had in the code before
-		close = (Button)view.findViewById(R.id.button_close);
-		previous = (Button)view.findViewById(R.id.button_prev);
-		next = (Button)view.findViewById(R.id.button_next);
+		finish = (Button)view.findViewById(R.id.button_finish);
 		
-		close.setOnClickListener(new OnClickListener(){
+		finish.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -81,41 +74,9 @@ public class TutorialFragment extends SherlockFragment {
 				Message newMessage = handler.obtainMessage();
 				newMessage.what=1;
 				handler.dispatchMessage(newMessage);
-				screenCount=0;
 			}
 			
 		});
-		next.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				if (screenCount<1){
-					screenCount++;
-					processView();
-				} else {
-					// send handler message to close tutorial and show normal screen
-					Message newMessage = handler.obtainMessage();
-					newMessage.what=1;
-					handler.dispatchMessage(newMessage);
-					screenCount=0;
-					processView();
-				}
-			}
-			
-		});
-		
-		previous.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				if (screenCount>0){
-					screenCount--;
-					processView();
-				}
-			}
-			
-		});
-
 		
 		// This handles the splash screen
 		Runnable clearSplash = new Runnable(){
@@ -133,26 +94,10 @@ public class TutorialFragment extends SherlockFragment {
 	}
 	
 	private void processView(){
-		// need to set tutorial view in preferences
-		
-		switch (screenCount){
-			case 0:
-				// Draw stuff on the screen to tell the user what stuff is and what it does
-				tutorialWindowLayout.removeAllViews();
-				tutorialWindowLayout.addView(tutorial_part_1);
+		// Draw stuff on the screen to tell the user what stuff is and what it does
+		tutorialWindowLayout.removeAllViews();
+		tutorialWindowLayout.addView(tutorial_part_1);
 
-				close.setVisibility(Button.VISIBLE);
-				next.setVisibility(Button.VISIBLE);
-				previous.setVisibility(Button.INVISIBLE);
-				
-				break;
-			case 1:
-				tutorialWindowLayout.removeAllViews();
-				tutorialWindowLayout.addView(tutorial_part_1);
-				tutorialWindowLayout.addView(tutorial_part_2);
-				
-				previous.setVisibility(Button.VISIBLE);
-				break;
-		}
+		finish.setVisibility(Button.VISIBLE);
 	}
 }

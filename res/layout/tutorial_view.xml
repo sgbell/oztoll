@@ -21,33 +21,14 @@
     android:orientation="horizontal"
     android:id="@+id/tutorial_navigation" >
 
-<Button
-    android:id="@+id/button_next"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:text="@string/btn_next"
-    android:visibility="invisible" />
-
-<Button
-    android:id="@+id/button_prev"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_toLeftOf="@+id/button_next"
-    android:text="@string/btn_previous"
-    android:visibility="invisible" />
-
-<Button
-    android:id="@+id/button_close"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentLeft="true"
-    android:text="@string/btn_close" 
-    android:visibility="invisible"/>
-
+	<Button
+    	android:id="@+id/button_finish"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentRight="true"
+    	android:text="@string/btn_finish"
+    	android:visibility="invisible" />
 
 </RelativeLayout>
 </LinearLayout>
