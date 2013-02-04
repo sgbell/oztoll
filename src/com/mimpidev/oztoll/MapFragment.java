@@ -111,7 +111,13 @@ public class MapFragment extends SherlockMapFragment {
 			
 
 			Point screenSize= new Point();
-			getSherlockActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
+			int currentApi = android.os.Build.VERSION.SDK_INT;
+			if (currentApi < 13){
+				screenSize.x=getSherlockActivity().getWindowManager().getDefaultDisplay().getWidth();
+				screenSize.y=getSherlockActivity().getWindowManager().getDefaultDisplay().getHeight();
+			} else 
+				getSherlockActivity().getWindowManager().getDefaultDisplay().getSize(screenSize);
+			
 			setMarkerTextSize(screenSize.y, screenSize.x,getResources().getBoolean(R.bool.isTablet));
 			
 			populateMarkers();

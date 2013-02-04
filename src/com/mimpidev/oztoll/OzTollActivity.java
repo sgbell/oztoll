@@ -265,35 +265,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		ft.commit();
 	}
 
-    /*
-    public void showMessage(String message){
-    	//
-    	// Change this to use Toast
-    	//
-    	
-    	
-    	//Code Block for showing "Please select your starting point and Exit Point"
-		// This is the message
-		builder.setMessage(message);
-		synchronized (builder){
-			if ((alert==null)||(!alert.isShowing())){
-				alert = builder.create();
-				// Show it on the screen
-				if (alert.getWindow()!=null){
-					alert.show();
-
-					// This handler is created to dismiss the dialog after 3 seconds
-					closeDialog = new Runnable(){
-						public void run(){
-				   	    	alert.cancel();
-						}
-					 };
-					handler.postDelayed(closeDialog, 2000);
-				}
-			}
-		}
-    }*/
-
 	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
 			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -302,14 +273,21 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		switch (msg.what){
     			case 1:
     				ft.hide(tutorialFragment);
+    				
+    		        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    		        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+    		        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
     				if (getResources().getBoolean(R.bool.isTablet)){
     					ft.show(mMapFragment);
     				} else {
-        				if (preferences.getBoolean("applicationView", true))
+        				if ((preferences.getBoolean("applicationView", true))&&
+                    		((wifi.isConnected())||(mobile.isConnected())))
         					ft.show(mMapFragment);
         				else
         					ft.show(mTextFragment);
     				}
+    				
     				SharedPreferences.Editor edit = preferences.edit();
     				edit.putBoolean("welcomeScreenShown", true);
     				edit.commit();
