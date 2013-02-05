@@ -197,9 +197,9 @@ public class MapFragment extends SherlockMapFragment {
 		paint.getTextBounds("Ty", 0, 2, bounds);
 		int textHeight = bounds.bottom-bounds.top;
 		if (isTablet){
-			paint.setTextSize(((float)(textSize*(xMultiplier/2))/(float)textHeight*100f)-1);
+			paint.setTextSize(((float)(textSize*(xMultiplier/2))/(float)textHeight*100f)-5);
 		} else {
-			paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-1);
+			paint.setTextSize(((float)(textSize*xMultiplier)/(float)textHeight*100f)-5);
 		}
 	}
 }

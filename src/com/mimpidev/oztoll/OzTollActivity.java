@@ -14,6 +14,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -181,6 +182,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
+		// Checking to see the values because it's still not staying on results after rotation.
+   		Log.w("ozToll","Start: "+global.getTollData().getStart().getName());
+   		Log.w("ozToll","Finish: "+global.getTollData().getFinish().getName());
+		
 		if (getResources().getBoolean(R.bool.isTablet)){
     		ft.show(mTextFragment);
     		if (!preferences.getBoolean("welcomeScreenShown", false)){
@@ -298,7 +303,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				edit.putBoolean("welcomeScreenShown", true);
     				edit.commit();
     				
-    				ft.commit();
     				welcomeScreen=false;
     				newMessage = handler.obtainMessage();
     				newMessage.what=6;
