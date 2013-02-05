@@ -182,11 +182,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-		// Checking to see the values because it's still not staying on results after rotation.
-   		Log.w("ozToll","Start: "+global.getTollData().getStart().getName());
-   		Log.w("ozToll","Finish: "+global.getTollData().getFinish().getName());
-		
 		if (getResources().getBoolean(R.bool.isTablet)){
+			// If the screen is a tablet use this layout
     		ft.show(mTextFragment);
     		if (!preferences.getBoolean("welcomeScreenShown", false)){
     			welcomeScreen=true;
@@ -198,45 +195,46 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		}
     		ft.show(resultsFragment);
     	} else {
+    		// If the layout is not a tablet device.
     		if (!preferences.getBoolean("welcomeScreenShown", false)){
+    			// On first run show the tutorial
     			welcomeScreen=true;
     			ft.show(tutorialFragment);
     			ft.hide(mMapFragment);
     	       	ft.hide(mTextFragment);
     	       	ft.hide(resultsFragment);
     		} else {
-        		if ((preferences.getBoolean("applicationView", true))&&
+    			if ((global.getTollData().getStart()!=null)&&
+        	     	(global.getTollData().getFinish()!=null)){
+       	       		// If the path has been chosen
+           			ft.hide(tutorialFragment);
+           			
+					rateLayout = global.getTollData().processToll(getBaseContext());
+					TextView disclaimer = new TextView(getBaseContext());
+					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
+					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+					rateLayout.addView(disclaimer);
+					
+					Message newMessage = handler.obtainMessage();
+					newMessage.obj = rateLayout;
+					newMessage.what=3;
+					handler.sendMessage(newMessage);
+        	    } else {
+        	    	if ((preferences.getBoolean("applicationView", true))&&
             			((wifi.isConnected())||(mobile.isConnected()))){
             			// if view is mapView
-            	       	if ((global.getTollData().getStart()!=null)&&
-            	       		(global.getTollData().getFinish()!=null)){
-            	       		// If the path has been chosen
-            				ft.hide(mMapFragment);
-                	       	ft.hide(mTextFragment);
-                	       	ft.show(resultsFragment);
-                			ft.hide(tutorialFragment);
-            	       	} else {
-            				ft.show(mMapFragment);
-                	       	ft.hide(mTextFragment);
-                	       	ft.hide(resultsFragment);
-                			ft.hide(tutorialFragment);
-            	       	}
+            			ft.show(mMapFragment);
+                	    ft.hide(mTextFragment);
+                	    ft.hide(resultsFragment);
+                		ft.hide(tutorialFragment);
             		} else {
             			// if the view text view
-            	       	if ((global.getTollData().getStart()!=null)&&
-                	     	(global.getTollData().getFinish()!=null)){
-                	       	// If the path has been chosen
-                			ft.hide(mMapFragment);
-                    	    ft.hide(mTextFragment);
-                    	    ft.show(resultsFragment);
-                    		ft.hide(tutorialFragment);
-               	       	} else {
-               	       		ft.show(mTextFragment);
-               	       		ft.hide(mMapFragment);
-               	       		ft.hide(resultsFragment);
-               	       		ft.hide(tutorialFragment);
-               	       	}
+              	       	ft.show(mTextFragment);
+               	       	ft.hide(mMapFragment);
+               	       	ft.hide(resultsFragment);
+               	       	ft.hide(tutorialFragment);
             		}
+        	    }
     		}
     	}
 		ft.commit();
@@ -295,8 +293,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
     		switch (msg.what){
     			case 1:
-    				//ft.hide(tutorialFragment);
-    				
     				setView();
     				    				
     				SharedPreferences.Editor edit = preferences.edit();
