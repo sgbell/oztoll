@@ -203,16 +203,34 @@ public class OzTollActivity extends SherlockFragmentActivity {
         		if ((preferences.getBoolean("applicationView", true))&&
             			((wifi.isConnected())||(mobile.isConnected()))){
             			// if view is mapView
-            	       	ft.show(mMapFragment);
-            	       	ft.hide(mTextFragment);
-            	       	ft.hide(resultsFragment);
-            			ft.hide(tutorialFragment);
+            	       	if ((global.getTollData().getStart()!=null)&&
+            	       		(global.getTollData().getFinish()!=null)){
+            	       		// If the path has been chosen
+            				ft.hide(mMapFragment);
+                	       	ft.hide(mTextFragment);
+                	       	ft.show(resultsFragment);
+                			ft.hide(tutorialFragment);
+            	       	} else {
+            				ft.show(mMapFragment);
+                	       	ft.hide(mTextFragment);
+                	       	ft.hide(resultsFragment);
+                			ft.hide(tutorialFragment);
+            	       	}
             		} else {
             			// if the view text view
-            	    	ft.show(mTextFragment);
-            	    	ft.hide(mMapFragment);
-            	    	ft.hide(resultsFragment);
-            			ft.hide(tutorialFragment);
+            	       	if ((global.getTollData().getStart()!=null)&&
+                	     	(global.getTollData().getFinish()!=null)){
+                	       	// If the path has been chosen
+                			ft.hide(mMapFragment);
+                    	    ft.hide(mTextFragment);
+                    	    ft.show(resultsFragment);
+                    		ft.hide(tutorialFragment);
+               	       	} else {
+               	       		ft.show(mTextFragment);
+               	       		ft.hide(mMapFragment);
+               	       		ft.hide(resultsFragment);
+               	       		ft.hide(tutorialFragment);
+               	       	}
             		}
     		}
     	}
@@ -272,22 +290,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
     		switch (msg.what){
     			case 1:
-    				ft.hide(tutorialFragment);
+    				//ft.hide(tutorialFragment);
     				
-    		        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-    		        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-    		        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-    				if (getResources().getBoolean(R.bool.isTablet)){
-    					ft.show(mMapFragment);
-    				} else {
-        				if ((preferences.getBoolean("applicationView", true))&&
-                    		((wifi.isConnected())||(mobile.isConnected())))
-        					ft.show(mMapFragment);
-        				else
-        					ft.show(mTextFragment);
-    				}
-    				
+    				setView();
+    				    				
     				SharedPreferences.Editor edit = preferences.edit();
     				edit.putBoolean("welcomeScreenShown", true);
     				edit.commit();
