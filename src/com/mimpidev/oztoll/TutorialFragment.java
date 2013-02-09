@@ -6,12 +6,16 @@ package com.mimpidev.oztoll;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -57,8 +61,6 @@ public class TutorialFragment extends SherlockFragment {
 		*  which streets are selected, and which are not. How to clear the screen.
 		*/
 		tutorialWindowLayout = (LinearLayout)view.findViewById(R.id.tutorial);
-		View splashScreen = inflater.inflate(R.layout.splash, null, false);
-		tutorialWindowLayout.addView(splashScreen);
 		tutorial_part_1 = inflater.inflate(R.layout.tutorial_part_1, null, false);
 		
 		// grab the buttons which we had in the code before
@@ -75,19 +77,7 @@ public class TutorialFragment extends SherlockFragment {
 			}
 			
 		});
-		
-		// This handles the splash screen
-		Runnable clearSplash = new Runnable(){
-			@Override
-			public void run() {
-				processView();
-			}
-		};
-		
-		
-		Handler	newhandler = new Handler();
-		newhandler.postDelayed(clearSplash, 4000);
-		
+		processView();
 		return view;
 	}
 	

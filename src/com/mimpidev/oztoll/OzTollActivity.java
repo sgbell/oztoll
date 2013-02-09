@@ -293,12 +293,13 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
     		switch (msg.what){
     			case 1:
-    				setView();
     				    				
     				SharedPreferences.Editor edit = preferences.edit();
     				edit.putBoolean("welcomeScreenShown", true);
     				edit.commit();
-    				
+
+    				setView();
+
     				welcomeScreen=false;
     				newMessage = handler.obtainMessage();
     				newMessage.what=6;
