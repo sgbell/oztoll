@@ -111,32 +111,32 @@
 		    	<exit>
 		      		<street>Brunswick Rd</street>
 		      		<street>Flemington Rd</street>
-		      		<car>1.97</car>
-		      		<lcv>3.15</lcv>
-		      		<hcv>3.74</hcv>
+		      		<car>2.01</car>
+		      		<lcv>3.21</lcv>
+		      		<hcv>3.81</hcv>
 		    	</exit>
 				<exit>
 					<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
-		      		<car>3.94</car>
-		      		<lcv>6.30</lcv>
-		      		<hcv-day>7.48</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.02</car>
+		      		<lcv>6.42</lcv>
+		      		<hcv-day>7.62</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>6.40</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>6.53</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Toorak Rd</street>
-		      		<car>7.38</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -144,25 +144,25 @@
 		    	<exit>
 		      		<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
-		      		<car>1.97</car>
-		      		<lcv>3.15</lcv>
-		      		<hcv>3.74</hcv>
+		      		<car>2.01</car>
+		      		<lcv>3.21</lcv>
+		      		<hcv>3.81</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>4.43</car>
-		      		<lcv>7.09</lcv>
-		      		<hcv-day>8.42</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.52</car>
+		      		<lcv>7.22</lcv>
+		      		<hcv-day>8.57</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Toorak Rd</street>
-		      		<car>7.38</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -171,21 +171,21 @@
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>2.46</car>
-		      		<lcv>3.94</lcv>
-		      		<hcv>4.68</hcv>
+		      		<car>2.51</car>
+		      		<lcv>4.01</lcv>
+		      		<hcv>4.76</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>6.89</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.02</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>7.38</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -194,86 +194,86 @@
 		    	<start>Power St</start>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>4.43</car>
-		      		<lcv>7.08</lcv>
-		      		<hcv-day>8.41</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.51</car>
+		      		<lcv>7.22</lcv>
+		      		<hcv-day>8.56</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>6.40</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>6.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Exhibition St</start>
 		    	<exit>
 		      		<street>Church St</street>
-		      		<car>2.46</car>
-		      		<lcv>3.94</lcv>
-		      		<hcv>4.66</hcv>
+		      		<car>2.50</car>
+		      		<lcv>4.02</lcv>
+		      		<hcv>4.76</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>4.43</car>
-		      		<lcv>7.09</lcv>
-		      		<hcv-day>8.40</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.51</car>
+		      		<lcv>7.23</lcv>
+		      		<hcv-day>8.57</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>6.40</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>6.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Swan St</start>
 		    	<exit>
 		      		<street>Church St</street>
-		      		<car>1.23</car>
-		      		<lcv>1.97</lcv>
-		      		<hcv>2.33</hcv>
+		      		<car>1.25</car>
+		      		<lcv>2.01</lcv>
+		      		<hcv>2.38</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>3.20</car>
-		      		<lcv>5.12</lcv>
-		      		<hcv>6.07</hcv>
+		      		<car>3.26</car>
+		      		<lcv>5.22</lcv>
+		      		<hcv>6.19</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>5.17</car>
-		      		<lcv-day>8.27</lcv-day>
-		      		<lcv-night>7.38</lcv-night>
-		      		<hcv-day>9.81</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>5.27</car>
+		      		<lcv-day>8.43</lcv-day>
+		      		<lcv-night>7.52</lcv-night>
+		      		<hcv-day>10.00</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>    
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Punt Rd</start>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>1.97</car>
-		      		<lcv>3.15</lcv>
-		      		<hcv>3.74</hcv>
+		      		<car>2.01</car>
+		      		<lcv>3.21</lcv>
+		      		<hcv>3.81</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>3.94</car>
-		      		<lcv>6.30</lcv>
-		      		<hcv-day>7.48</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.02</car>
+		      		<lcv>6.42</lcv>
+		      		<hcv-day>7.62</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Yarra Blvd</start>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>1.97</car>
-		      		<lcv>3.15</lcv>
-		      		<hcv>3.74</hcv>
+		      		<car>2.01</car>
+		      		<lcv>3.21</lcv>
+		      		<hcv>3.81</hcv>
 		    	</exit>
 		  	</tollpoint>  
 		  	<tollpoint>
@@ -281,38 +281,38 @@
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Yarra Blvd</street>
-		      		<car>1.97</car>
-		      		<lcv>3.15</lcv>
-		      		<hcv>3.74</hcv>
+		      		<car>2.01</car>
+		      		<lcv>3.21</lcv>
+		      		<hcv>3.81</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Punt Rd</street>
-		      		<car>3.94</car>
-		      		<lcv>6.30</lcv>
-		      		<hcv-day>7.48</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>4.02</car>
+		      		<lcv>6.42</lcv>
+		      		<hcv-day>7.62</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Swan St</street>
-		      		<car>5.17</car>
-		      		<lcv-day>8.27</lcv-day>
-		      		<lcv-night>7.38</lcv-night>
-		      		<hcv-day>9.81</hcv-day>
-		      		<hcv-night>7.38</hcv-night>
+		      		<car>5.27</car>
+		      		<lcv-day>8.43</lcv-day>
+		      		<lcv-night>7.52</lcv-night>
+		      		<hcv-day>10.00</hcv-day>
+		      		<hcv-night>7.52</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Exhibition St</street>
-		      		<car>6.40</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>6.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>6.40</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>6.53</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Footscray Rd</street>
@@ -320,64 +320,64 @@
 		      		<street>Tullamarine Fwy</street>
 		      		<street>Bell St</street>
 		      		<street>Moreland Rd</street>
-		      		<car>7.38</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Gibdon St</start>
 		  		<exit>
 		  			<street>Punt Rd</street>
-		  			<car>1.97</car>
-		  			<lcv>3.15</lcv>
-		  			<hcv>3.74</hcv>
+		  			<car>2.01</car>
+		  			<lcv>3.21</lcv>
+		  			<hcv>3.81</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Swan St</street>
-		  			<car>3.20</car>
-		  			<lcv>5.12</lcv>
-		  			<hcv>6.07</hcv>
+		  			<car>3.26</car>
+		  			<lcv>5.22</lcv>
+		  			<hcv>6.19</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Exhibition St</street>
-		  			<car>4.43</car>
-		  			<lcv>7.09</lcv>
-		  			<hcv-day>8.40</hcv-day>
-		  			<hcv-night>7.38</hcv-night>
+		  			<car>4.51</car>
+		  			<lcv>7.23</lcv>
+		  			<hcv-day>8.57</hcv-day>
+		  			<hcv-night>7.52</hcv-night>
 		  		</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>4.43</car>
-		      		<lcv>7.09</lcv>
-		      		<cv-day>8.42</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>4.52</car>
+		      		<lcv>7.22</lcv>
+		      		<cv-day>8.57</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Footscray Rd</street>
-		      		<car>6.89</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.03</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Racecourse Rd</street>
 		      		<street>Tullamarine Fwy</street>
 		      		<street>Bell St</street>
 		      		<street>Moreland Rd</street>
-		      		<car>7.38</car>
-		      		<cv-day>9.84</cv-day>
-		      		<cv-night>7.38</cv-night>
+		      		<car>7.52</car>
+		      		<cv-day>10.01</cv-day>
+		      		<cv-night>7.52</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Swan St</start>
 		  		<exit>
 		  			<street>Exhibition St</street>
-		  			<car>1.23</car>
-		  			<lcv>1.97</lcv>
-		  			<hcv>2.33</hcv>
+		  			<car>1.25</car>
+		  			<lcv>2.01</lcv>
+		  			<hcv>2.38</hcv>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -386,24 +386,24 @@
 		  		<start>Power St</start>
 		  		<exit>
 		  			<street>Footscray Rd</street>
-		  			<car>2.46</car>
-		  			<lcv>3.94</lcv>
-		  			<hcv>4.68</hcv>
+		  			<car>2.51</car>
+		  			<lcv>4.01</lcv>
+		  			<hcv>4.76</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Racecourse Rd</street>
-		  			<car>4.43</car>
-		  			<lcv>7.09</lcv>
-		  			<hcv-day>8.42</hcv-day>
-		  			<hcv-night>7.38</hcv-night>
+		  			<car>4.52</car>
+		  			<lcv>7.22</lcv>
+		  			<hcv-day>8.57</hcv-day>
+		  			<hcv-night>7.52</hcv-night>
 		  		</exit>
 		  		<exit>
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>6.40</car>
-		  			<cv-day>9.84</cv-day>
-		  			<cv-night>7.38</cv-night>
+		  			<car>6.53</car>
+		  			<cv-day>10.01</cv-day>
+		  			<cv-night>7.52</cv-night>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -411,18 +411,18 @@
 		  		<start>Footscray Rd</start>
 		  		<exit>
 		  			<street>Racecourse Rd</street>
-		  			<car>1.97</car>
-		  			<lcv>3.15</lcv>
-		  			<hcv>3.74</hcv>
+		  			<car>2.01</car>
+		  			<lcv>3.21</lcv>
+		  			<hcv>3.81</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>3.94</car>
-		  			<lcv>6.30</lcv>
-		  			<hcv-day>7.48</hcv-day>
-		  			<hcv-night>7.38</hcv-night>
+		  			<car>4.02</car>
+		  			<lcv>6.42</lcv>
+		  			<hcv-day>7.62</hcv-day>
+		  			<hcv-night>7.52</hcv-night>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -432,9 +432,9 @@
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>1.97</car>
-		  			<lcv>3.15</lcv>
-		  			<hcv>3.74</hcv>
+		  			<car>2.01</car>
+		  			<lcv>3.21</lcv>
+		  			<hcv>3.81</hcv>
 		  		</exit>
 		  	</tollpoint>
 		</tollway>
