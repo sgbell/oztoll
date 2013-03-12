@@ -6,7 +6,7 @@
 		    <longitude>144958763</longitude>
 		    <latitude>-37827413</latitude>
 		</origin>
-		<tollway name="Citylink">
+		<tollway name="CityLink">
 			<exit>
 				<street>
 					<name>Tullamarine Fwy</name>
@@ -438,7 +438,7 @@
 		  		</exit>
 		  	</tollpoint>
 		</tollway>
-		<tollway name="Eastlink">
+		<tollway name="EastLink">
 			<exit>
 				<street>
 					<name>Springvale Rd</name>

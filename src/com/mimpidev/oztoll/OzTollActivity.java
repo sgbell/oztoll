@@ -432,13 +432,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				resetView();
     				break;
     			case 12:
+    				setView();
+    				/*
     				ft.hide(resultsFragment);
     				if (preferences.getBoolean("applicationView", true))
     					ft.show(mMapFragment);
     				else
     					ft.show(mTextFragment);
     				
-    				ft.commit();
+    				ft.commit();*/
+    				
     				break;
     		}
     	}
