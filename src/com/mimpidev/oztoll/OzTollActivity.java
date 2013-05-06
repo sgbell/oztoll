@@ -193,6 +193,20 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			ft.show(mMapFragment);
     			ft.hide(tutorialFragment);
     		}
+    		if ((global.getTollData().getStart()!=null)&&
+        	    (global.getTollData().getFinish()!=null)){
+           			
+					rateLayout = global.getTollData().processToll(getBaseContext());
+					TextView disclaimer = new TextView(getBaseContext());
+					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
+					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+					rateLayout.addView(disclaimer);
+					
+					Message newMessage = handler.obtainMessage();
+					newMessage.obj = rateLayout;
+					newMessage.what=3;
+					handler.sendMessage(newMessage);
+			}
     		ft.show(resultsFragment);
     	} else {
     		// If the layout is not a tablet device.
