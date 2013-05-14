@@ -164,7 +164,7 @@ public class MapFragment extends SherlockMapFragment {
      * @param positionNumber
      * @return
      */
-    public Bitmap createMarker(int positionNumber, boolean selected){
+    public Bitmap createMarker(char positionAlpha, boolean selected){
     	Bitmap image;
     	
     	if (selected){
@@ -175,7 +175,7 @@ public class MapFragment extends SherlockMapFragment {
     	image = image.copy(Bitmap.Config.ARGB_8888, true);
     	Canvas canvas = new Canvas(image);
     	
-    	canvas.drawText(Integer.toString(positionNumber), (canvas.getWidth()/2), ((paint.getTextSize()/2)+((canvas.getHeight()-2)/2))-2, paint);
+    	canvas.drawText(String.valueOf(positionAlpha), (canvas.getWidth()/2), ((paint.getTextSize()/2)+((canvas.getHeight()-2)/2))-2, paint);
     	
         return image;
     }

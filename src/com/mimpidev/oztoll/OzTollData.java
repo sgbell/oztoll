@@ -26,6 +26,7 @@ public class OzTollData implements Runnable{
 	private ArrayList<Tollway> tollways;
 	private ArrayList<Connection> connections;
 	private String cityName;
+	private String expiry;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
 	private boolean finishedRead=false;
@@ -96,10 +97,12 @@ public class OzTollData implements Runnable{
 		int streetCounter=1;
 		
 		origin = ozTollXML.getOrigin();
+		setExpiryDate(ozTollXML.getExpiry());
 		
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
 			// Populate the streets list in the tollway class
+			streetCounter=1;
 			for (int tsc=0; tsc < ozTollXML.getStreetCount(twc); tsc++){
 				
 				Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
@@ -183,6 +186,20 @@ public class OzTollData implements Runnable{
 		origin = coords;
 	}
 	
+	/**
+	 * @return the expiry
+	 */
+	public String getExpiryDate() {
+		return expiry;
+	}
+
+	/**
+	 * @param expiry the expiry to set
+	 */
+	public void setExpiryDate(String expiry) {
+		this.expiry = expiry;
+	}
+
 	/** This method finds the street with the lowest value for X, and returns the lowest value  
 	 * 
 	 * @return The lowest value for X
@@ -882,7 +899,7 @@ public class OzTollData implements Runnable{
 		tollTitle.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTitle);
 		TextView tollTrip = new TextView(appContext);
-		tollTrip.setText(start.getName()+" - "+finish.getName());
+		tollTrip.setText(Html.fromHtml("<h2>"+start.getName()+" - "+finish.getName()+"</h2>"));
 		tollTrip.setPadding(10, 0, 0, 0);
 		//tollTrip.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTrip);
@@ -920,7 +937,7 @@ public class OzTollData implements Runnable{
 					// tollway Name.
 					LinearLayout tollwayLayout = new LinearLayout(appContext);
 					tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
-					tollwayName.setText(Html.fromHtml("<h3>"+currentToll.tollway+"</h3>"));
+					tollwayName.setText(Html.fromHtml("<h2>"+currentToll.tollway+"</h2>"));
 					tollwayName.setPadding(10, 0, 20, 0);
 
 					tollwayLayout.addView(tollwayName);
@@ -937,7 +954,7 @@ public class OzTollData implements Runnable{
 							(!found)){
 						if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 							TextView tollwayCharge = new TextView(appContext);
-							tollwayCharge.setText("$"+currentToll.tolls.get(trc).rate);
+							tollwayCharge.setText(Html.fromHtml("<h2>$"+currentToll.tolls.get(trc).rate+"</h2>"));
 							tollwayLayout.addView(tollwayCharge);
 							rateLayout.addView(tollwayLayout);
 							found=true;
@@ -983,7 +1000,7 @@ public class OzTollData implements Runnable{
 				default:
 					// Need to Sort out the headings when grabbing all results
 					// More than one type of toll for this vehicle
-					tollwayName.setText(Html.fromHtml("<h3>"+currentToll.tollway+"</h3>"));
+					tollwayName.setText(Html.fromHtml("<h2>"+currentToll.tollway+"</h2>"));
 					tollwayName.setPadding(10, 0, 0, 0);
 					tollwayName.setLayoutParams(fillParentParams);
 					rateLayout.addView(tollwayName);
@@ -1001,7 +1018,7 @@ public class OzTollData implements Runnable{
 							boolean otherFound=false;
 							if (!selectedVehicle.equalsIgnoreCase("all")){
 								if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car"))
-									variation = "Week days";
+									variation = "Weekdays";
 								else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
 									variation = "Weekends";
 								else if (currentToll.tolls.get(trc).vehicleType.contains("cv-day"))
@@ -1014,7 +1031,7 @@ public class OzTollData implements Runnable{
 										if (currentToll.tolls.get(check).vehicleType.equalsIgnoreCase("car-we"))
 											otherFound=true;
 									if (otherFound)
-										variation="Week days";
+										variation="Weekdays";
 									else
 										variation="Car";
 								} else if (currentToll.tolls.get(trc).vehicleType.equalsIgnoreCase("car-we"))
@@ -1043,11 +1060,11 @@ public class OzTollData implements Runnable{
 							LinearLayout tollRateLayout = new LinearLayout(appContext);
 							tollRateLayout.setOrientation(LinearLayout.HORIZONTAL);
 							TextView rateTitle = new TextView(appContext);
-							rateTitle.setText(variation);
+							rateTitle.setText(Html.fromHtml("<h2>"+variation+"</h2>"));
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
-							rateValue.setText("$"+currentToll.tolls.get(trc).rate);
+							rateValue.setText(Html.fromHtml("<h2>$"+currentToll.tolls.get(trc).rate+"</h2>"));
 							tollRateLayout.addView(rateValue);
 							rateLayout.addView(tollRateLayout);
 							
@@ -1096,7 +1113,7 @@ public class OzTollData implements Runnable{
 				// need to search to see if car, lcv, hcv, and cv exists to combine them
 				ArrayList<String> matchingValues = new ArrayList<String>();
 				if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("car")){
-					matchingValues.add("Week days");
+					matchingValues.add("Weekdays");
 					matchingValues.add("Weekends");
 					convertTollTotal(tcc, matchingValues, totalCharges);
 				} else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("light commercial vehicle")){
@@ -1189,7 +1206,7 @@ public class OzTollData implements Runnable{
 			
 			if (totalCharges.size()>1){
 				TextView tollTotalTitle = new TextView(appContext);
-				tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls</h3>"));
+				tollTotalTitle.setText(Html.fromHtml("<h2>Total Tolls</h2>"));
 				tollTotalTitle.setPadding(10, 0, 0, 0);
 				tollTotalTitle.setLayoutParams(fillParentParams);
 				rateLayout.addView(tollTotalTitle);
@@ -1199,15 +1216,15 @@ public class OzTollData implements Runnable{
 					totalLine.setOrientation(LinearLayout.HORIZONTAL);
 					TextView totalType = new TextView(appContext);
 					if (selectedVehicle.equalsIgnoreCase("all"))
-						if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Week days"))
-							totalCharges.get(tcc).vehicleType="Car - Week days";
+						if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekdays"))
+							totalCharges.get(tcc).vehicleType="Car - Weekdays";
 						else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekends"))
 							totalCharges.get(tcc).vehicleType="Car - Weekends";
 					totalType.setText(totalCharges.get(tcc).vehicleType);
 					totalType.setPadding(10, 0, 10, 0);
 					totalLine.addView(totalType);
 					TextView totalValue = new TextView(appContext);
-					totalValue.setText("$"+totalCharges.get(tcc).rate);
+					totalValue.setText(Html.fromHtml("<h2>$"+totalCharges.get(tcc).rate+"</h2>"));
 					totalLine.addView(totalValue);
 					rateLayout.addView(totalLine);
 				}
@@ -1215,12 +1232,12 @@ public class OzTollData implements Runnable{
 				LinearLayout totalLine = new LinearLayout(appContext);
 				totalLine.setOrientation(LinearLayout.HORIZONTAL);
 				TextView tollTotalTitle = new TextView(appContext);
-				tollTotalTitle.setText(Html.fromHtml("<h3>Total Tolls </h3>"));
+				tollTotalTitle.setText(Html.fromHtml("<h2>Total Tolls</h2>"));
 				tollTotalTitle.setPadding(10, 0, 0, 0);
 				totalLine.addView(tollTotalTitle);
 				
 				TextView totalValue = new TextView(appContext);
-				totalValue.setText("$"+String.format("%.2g%n", totalCharges.get(0).rate));
+				totalValue.setText(Html.fromHtml("<h2>$"+String.format("%.2g%n", totalCharges.get(0).rate)+"</h2>"));
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}

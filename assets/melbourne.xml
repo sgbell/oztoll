@@ -6,6 +6,7 @@
 		    <longitude>144958763</longitude>
 		    <latitude>-37827413</latitude>
 		</origin>
+		<expiry>30-6-13</expiry>
 		<tollway name="CityLink">
 			<exit>
 				<street>
@@ -520,10 +521,15 @@
 					<longitude>145181644</longitude>
 					<latitude>-38070994</latitude>
 				</street>
+				<street>
+				    <name>Peninsula Link</name>
+				    <longitude>145152268</longitude>
+				    <latitude>-38092671</latitude>
+				</street>
 	    		<street>
 					<name>Frankston Fwy</name>
 					<longitude>145144067</longitude>
-					<latitude>-38098157</latitude>
+					<latitude>-38098657</latitude>
 				</street>
 		  	</exit>
 	  	  	<tollpoint>
@@ -632,6 +638,7 @@
 		    	</exit>
 		    	<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>4.28</car>
 		      		<car-we>3.41</car-we>
 		      		<lcv>6.83</lcv>
@@ -707,6 +714,7 @@
 		      		<street>Greens Rd</street>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -817,6 +825,7 @@
 				<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -927,6 +936,7 @@
 		      	<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -1023,6 +1033,7 @@
 		      	<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -1119,6 +1130,7 @@
 				</exit>	  			  		
 		      	<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -1222,6 +1234,7 @@
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46y</car-we>
 		      		<lcv>8.90</lcv>
@@ -1332,6 +1345,7 @@
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.57</car>
 		      		<car-we>4.46</car-we>
 		      		<lcv>8.90</lcv>
@@ -1435,6 +1449,7 @@
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>5.40</car>
 		      		<car-we>4.31</car-we>
 		      		<lcv>8.61</lcv>
@@ -1531,6 +1546,7 @@
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>4.84</car>
 		      		<car-we>3.86</car-we>
 		      		<lcv>7.72</lcv>
@@ -1633,6 +1649,7 @@
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>3.72</car>
 		      		<car-we>2.96</car-we>
 		      		<lcv>5.94</lcv>
@@ -1818,6 +1835,7 @@
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>3.16</car>
 		      		<car-we>2.51</car-we>
 		      		<lcv>5.05</lcv>
@@ -1933,6 +1951,7 @@
 				</exit>
 				<exit>	  		
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>2.60</car>
 		      		<car-we>2.06</car-we>
 		      		<lcv>4.16</lcv>
@@ -2020,6 +2039,7 @@
 				<exit>	  		
 		      		<street>Greens Rd</street>
 		      		<street>Frankston Fwy</street>
+		      		<street>Peninsula Link</street>
 		      		<car>1.30</car>
 		      		<car-we>1.03</car-we>
 		      		<lcv>2.08</lcv>
@@ -2029,6 +2049,7 @@
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Frankston Fwy</start>
+		  		<start>Peninsula Link</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
 		      		<street>Ringwood Bypass</street>

@@ -53,6 +53,17 @@ public class OzTollXML {
 		}
 		return null;				
 	}
+	
+	public String getExpiry(){
+		if (cityNodes!=null){
+			if (cityNodes.getLength()>0){
+				Node currentNode = cityNodes.item(0);
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE)
+					return xmldata.getNodeData(currentNode, "expiry");
+			}
+		}
+		return null;
+	}
 
 	public GeoPoint getOrigin(){
 		NodeList originNodes = xmldata.getElementsByTagName("origin");

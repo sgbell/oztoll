@@ -11,9 +11,10 @@ package com.mimpidev.oztoll;
 public class Street extends Coordinates{
 	// Street name
 	private String name;
-	/* Location is the exit number in the city's tolls, according to listing in the xml file
+	/* Location is a letter we have assigned to the exit in the city's tolls, 
+	 * according to listing in the xml file.
 	 */
-	private int location;
+	private char location;
 	// Valid is used to determine if a user can click on the road.
 	private boolean valid=false;
 	
@@ -26,7 +27,7 @@ public class Street extends Coordinates{
 	public Street(String name, float x, float y, int i){
 		super(x,y);
 		this.name = name;
-		location = i;
+		location = i > 0 && i < 27 ? (char)(i + 64) : null;
 	}
 	
 	public Street() {
@@ -44,7 +45,7 @@ public class Street extends Coordinates{
 	/**
 	 * @return the location
 	 */
-	public int getLocation() {
+	public char getLocation() {
 		return location;
 	}
 
@@ -52,7 +53,7 @@ public class Street extends Coordinates{
 	 * @param location the location to set
 	 */
 	public void setLocation(int location) {
-		this.location = location;
+		this.location = location > 0 && location < 27 ? (char)(location + 64) : null;
 	}
 
 	/**

@@ -36,8 +36,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					finishShown=false,
 					welcomeScreen=false;
 
-	//private AlertDialog alert;
-	//private AlertDialog.Builder builder;
 	private Activity thisActivity=this; // This is needed for the AlertDialog code
 
 	private MapFragment mMapFragment;
@@ -201,6 +199,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
 					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 					rateLayout.addView(disclaimer);
+
+					TextView expireDate = new TextView(getBaseContext());
+					expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
+					expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+					rateLayout.addView(expireDate);
 					
 					Message newMessage = handler.obtainMessage();
 					newMessage.obj = rateLayout;
@@ -228,6 +231,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
 					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 					rateLayout.addView(disclaimer);
+					
+					TextView expireDate = new TextView(getBaseContext());
+					expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
+					expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+					rateLayout.addView(expireDate);
 					
 					Message newMessage = handler.obtainMessage();
 					newMessage.obj = rateLayout;
@@ -420,6 +428,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
         						disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
         						rateLayout.addView(disclaimer);
+        						TextView expireDate = new TextView(getBaseContext());
+        						expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
+        						expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+        						rateLayout.addView(expireDate);
         						
         						newMessage = handler.obtainMessage();
         						newMessage.obj = rateLayout;
