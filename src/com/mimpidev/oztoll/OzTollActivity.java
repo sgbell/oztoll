@@ -1,6 +1,15 @@
 package com.mimpidev.oztoll;
 
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -14,7 +23,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -62,6 +70,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	// Creating and sharing of the sync object, used for pausing an activity till the first data has been loaded
     	// from the data file.
 
+        // This is where the application's preferences are stored
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
     	// Passing the handler to the global settings, so the fragments onResume can connect with Handler.
@@ -75,10 +84,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		global.getTollData().setPreferences(preferences);
     		new Thread(global.getTollData()).start();
     	}
-        
-        // This is where the application's preferences are stored
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
+    	
 		setContentView(R.layout.activity_main);
 
     }
@@ -155,18 +161,86 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
-		// Creates a new dialog
-		//builder = new AlertDialog.Builder(thisActivity);
-
 		setupFragments();
 
         setView();
+        
+        checkForUpdatedData();
     }
     
-    public void onPause(){
+    /**
+     * 
+     */
+    private void checkForUpdatedData() {
+    	
+    	Long storedTimestamp = preferences.getLong("lastUpdate", 0);
+    	Long currentTimestamp = System.currentTimeMillis()/1000;
+    	boolean checkWebsite=false;
+    	
+    	String lastModified = preferences.getString("lastModified", "");
+    	String internetModification;
+    	URL url;
+    	URLConnection connection;
+    	
+    	// If the current timestamp is 1 day after the last check.
+    	if ((storedTimestamp>0)&&
+    		(currentTimestamp >= (storedTimestamp+86400))){
+    		checkWebsite=true;
+    	}
+    	
+    	if (checkWebsite){
+    		try {
+				url = new URL("http://www.mimpidev.com/oztoll/oztoll.xml");
+				connection = url.openConnection();
+				internetModification = connection.getHeaderField("Last-Modified");
+				// Is the last modified date stored in preferences different to the one on the website
+				if (!lastModified.equalsIgnoreCase(internetModification)){
+					// Download file here
+					OzStorage storage = new OzStorage();
+					File saveFile = storage.saveFiletoExternal("temp.xml");
+					InputStream inputStream = connection.getInputStream();
+					
+					RandomAccessFile outstream = new RandomAccessFile(saveFile,"rw");
+					int byteRead=0;
+					byte buffer[]=new byte[1024];
+					while ((byteRead = inputStream.read(buffer)) > 0){
+						outstream.write(buffer, 0, byteRead);
+					}
+					outstream.close();
+					inputStream.close();
+				}
+			} catch (MalformedURLException e) {
+			} catch (IOException e) {
+			}
+    		
+    	}
+    	
+    	
+		/*
+		  		Need to put a setting in preferences, when we last checked the webserver. Limit it to
+		  		1 check a day.
+		  		
+		 		Code to get the modified date on the website
+		 		
+		      	URL url = new URL("http://www.qualcomm.com/documents/files/qualcomm-china-standard-purchase-order-terms-conditions-qwst.pdf");
+
+    			System.out.println("URL:- " +url);
+    			URLConnection connection = url.openConnection();
+
+    			System.out.println(connection.getHeaderField("Last-Modified"));
+    			
+    			Save Last-Modified to the preferences, so we can check if date in preferences is different
+    			to current file to download. Download the current website file
+
+    	 *  http://stackoverflow.com/questions/5472226/how-to-save-file-from-website-to-sdcard
+    	 *  code to save the file
+    	 *  
+    	 */
+	}
+
+	public void onPause(){
     	super.onPause();
-    	//if ((alert.getWindow()!=null)&&(alert!=null))
-    	//	alert.cancel();
+
     	handler.removeCallbacks(closeDialog);
     }
 
@@ -459,15 +533,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				break;
     			case 12:
     				setView();
-    				/*
-    				ft.hide(resultsFragment);
-    				if (preferences.getBoolean("applicationView", true))
-    					ft.show(mMapFragment);
-    				else
-    					ft.show(mTextFragment);
-    				
-    				ft.commit();*/
-    				
     				break;
     		}
     	}

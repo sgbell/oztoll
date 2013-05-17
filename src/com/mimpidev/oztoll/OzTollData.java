@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,8 +26,9 @@ public class OzTollData implements Runnable{
 		
 	private ArrayList<Tollway> tollways;
 	private ArrayList<Connection> connections;
-	private String cityName;
-	private String expiry;
+	private String cityName,
+				   expiry,
+				   timestamp;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
 	private boolean finishedRead=false;
@@ -98,6 +100,7 @@ public class OzTollData implements Runnable{
 		
 		origin = ozTollXML.getOrigin();
 		setExpiryDate(ozTollXML.getExpiry());
+		setTimestamp(ozTollXML.getTimeStamp());
 		
 		for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
 			Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
@@ -198,6 +201,20 @@ public class OzTollData implements Runnable{
 	 */
 	public void setExpiryDate(String expiry) {
 		this.expiry = expiry;
+	}
+
+	/**
+	 * @return the timestamp
+	 */
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * @param timestamp the timestamp to set
+	 */
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	/** This method finds the street with the lowest value for X, and returns the lowest value  

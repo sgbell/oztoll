@@ -3,6 +3,8 @@
  */
 package com.mimpidev.oztoll;
 
+import java.io.File;
+
 import android.os.Environment;
 
 /**
@@ -16,7 +18,7 @@ public class OzStorage {
 	private OzTollData datafile;
 	
 	public OzStorage(){
-		setTollData("melbourne.xml");
+
 	}
 	
 	public OzTollData getTollData(){
@@ -33,16 +35,37 @@ public class OzStorage {
 	public void setTollData(String filename){
 		// As we don't need to write to the file, we make sure we can read from the external storage.
 		if (externalStatus()<EXTERNAL_ERROR){
+			if (externalStatus()==EXTERNAL_READ_WRITE){
+				File directory = new File(Environment.getExternalStorageDirectory()+"/oztoll");
+				if (!directory.exists()){
+					directory.mkdirs();
+				}
+			}
 			String dataFileName = Environment.getExternalStorageDirectory()+
 					"/oztoll/"+filename;
 			datafile = new OzTollData(dataFileName);
 		}
 	}
 	
+	public File saveFiletoExternal(String filename){
+		if ((externalStatus()<EXTERNAL_ERROR)&&
+			(externalStatus()==OzStorage.EXTERNAL_READ_WRITE)){
+			// Create the directory
+			File directory = new File(Environment.getExternalStorageDirectory()+"/oztoll");
+			if (!directory.exists()){
+				directory.mkdirs();
+			}
+			File saveFile = new File(Environment.getExternalStorageDirectory()+"/oztoll/"+filename);
+			return saveFile;
+		}
+
+		return null;
+	}
+	
 	public int externalStatus(){
 		String state = Environment.getExternalStorageState();
 		
-		// Following If Statements check sdcard availability & wriability
+		// Following If Statements check sdcard availability & writability
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			// We can read and write to the media
 			//available = writable = true;

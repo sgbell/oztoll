@@ -55,16 +55,28 @@ public class OzTollXML {
 	}
 	
 	public String getExpiry(){
-		if (cityNodes!=null){
-			if (cityNodes.getLength()>0){
-				Node currentNode = cityNodes.item(0);
-				if (currentNode.getNodeType() == Node.ELEMENT_NODE)
-					return xmldata.getNodeData(currentNode, "expiry");
+		if (cityNodes==null)
+			cityNodes = xmldata.getElementsByTagName("city");
+		if (cityNodes.getLength()>0){
+			Node currentNode = cityNodes.item(0);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE)
+				return xmldata.getNodeData(currentNode, "expiry");
+		}
+
+		return null;
+	}
+
+	public String getTimeStamp() {
+		NodeList nodes = xmldata.getElementsByTagName("oztoll");
+		for (int s=0; s< nodes.getLength(); s++){
+			Node currentNode = nodes.item(s);
+			if (currentNode.getNodeType() == Node.ELEMENT_NODE){
+				return xmldata.getNodeData(currentNode, "timestamp");
 			}
 		}
 		return null;
 	}
-
+	
 	public GeoPoint getOrigin(){
 		NodeList originNodes = xmldata.getElementsByTagName("origin");
 		Node currentNode = originNodes.item(0);
@@ -261,5 +273,4 @@ public class OzTollXML {
 		}
 		return newTollPoint;
 	}
-
 }
