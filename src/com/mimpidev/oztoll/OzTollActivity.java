@@ -1,7 +1,6 @@
 package com.mimpidev.oztoll;
 
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,17 +75,23 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	// Passing the handler to the global settings, so the fragments onResume can connect with Handler.
     	global.setMainActivityHandler(handler);
     	
-    	if (!global.getTollData().isFinished()){
-        	String cityFilename=preferences.getString("cityFile", "melbourne.xml");
-    		
-    		global.getTollData().setDataFile(cityFilename, getAssets());
-            global.getTollData().setDataSync(global.getDatasync());
-    		global.getTollData().setPreferences(preferences);
-    		new Thread(global.getTollData()).start();
+    	// location - false = internal app file.
+    	//			- true  = external storage file.
+    	boolean dataFileLocation = preferences.getBoolean("location", false);
+    	if (!dataFileLocation){
+    		// load data file from assets folder
+    		global.getTollData().setDataFile("oztoll.xml", getAssets());
+    	} else {
+    		// load data file from external folder
+    		OzStorage extStorage = new OzStorage();
+    		extStorage.setTollData("oztoll.xml");
+    		global.setTollData(extStorage.getTollData());
     	}
+    	global.getTollData().setDataSync(global.getDatasync());
+    	global.getTollData().setPreferences(preferences);
+    	new Thread(global.getTollData()).start();
     	
 		setContentView(R.layout.activity_main);
-
     }
 
 	public boolean onCreateOptionsMenu (Menu menu){
@@ -165,7 +170,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
         setView();
         
-        checkForUpdatedData();
+        // call handler case 2
+		Message newMessage = handler.obtainMessage();
+		newMessage.what=2;
+		handler.sendMessage(newMessage);
     }
     
     /**
@@ -208,34 +216,14 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					}
 					outstream.close();
 					inputStream.close();
+					
+					
 				}
 			} catch (MalformedURLException e) {
 			} catch (IOException e) {
 			}
     		
     	}
-    	
-    	
-		/*
-		  		Need to put a setting in preferences, when we last checked the webserver. Limit it to
-		  		1 check a day.
-		  		
-		 		Code to get the modified date on the website
-		 		
-		      	URL url = new URL("http://www.qualcomm.com/documents/files/qualcomm-china-standard-purchase-order-terms-conditions-qwst.pdf");
-
-    			System.out.println("URL:- " +url);
-    			URLConnection connection = url.openConnection();
-
-    			System.out.println(connection.getHeaderField("Last-Modified"));
-    			
-    			Save Last-Modified to the preferences, so we can check if date in preferences is different
-    			to current file to download. Download the current website file
-
-    	 *  http://stackoverflow.com/questions/5472226/how-to-save-file-from-website-to-sdcard
-    	 *  code to save the file
-    	 *  
-    	 */
 	}
 
 	public void onPause(){
@@ -401,6 +389,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				newMessage.what=6;
     				handler.dispatchMessage(newMessage);
     				
+    				break;
+    			case 2:
+    				checkForUpdatedData();
+    				resetView();
     				break;
     			case 3:
     				// Call the results fragment
