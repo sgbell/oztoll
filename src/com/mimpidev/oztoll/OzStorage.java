@@ -46,6 +46,34 @@ public class OzStorage {
 			datafile = new OzTollData(dataFileName);
 		}
 	}
+
+	public void keepFile(File saveFile) {
+		if (externalStatus()==EXTERNAL_READ_WRITE){
+			File oldFile = new File(Environment.getExternalStorageDirectory()+"/oztoll/oztoll.xml");
+			oldFile.delete();
+			saveFile.renameTo(new File(Environment.getExternalStorageDirectory()+"/oztoll/oztoll.xml"));
+		}
+	}
+
+
+	public void removeFile(File fileToRemove) {
+		if (externalStatus()==EXTERNAL_READ_WRITE){
+			fileToRemove.delete();
+		}
+	}
+	
+	public OzTollData openExternalFile(String filename){
+		if ((externalStatus()==EXTERNAL_READ_ONLY)||(externalStatus()==EXTERNAL_READ_WRITE)){
+			File openFile= new File(Environment.getExternalStorageDirectory()+"oztoll/"+filename);
+			
+			OzTollData newDataFile = new OzTollData(openFile);
+			newDataFile.readFile();
+			
+			return newDataFile;
+		}
+		
+		return null;
+	}
 	
 	public File saveFiletoExternal(String filename){
 		if ((externalStatus()<EXTERNAL_ERROR)&&

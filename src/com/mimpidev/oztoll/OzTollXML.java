@@ -3,6 +3,8 @@
  */
 package com.mimpidev.oztoll;
 
+import java.io.File;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,6 +39,10 @@ public class OzTollXML {
 
 	public void setXMLReader(String filename) {
 		xmldata = new XmlReader(filename);
+	}
+	
+	public void setXMLReader(File xmlFile){
+		xmldata = new XmlReader(xmlFile);
 	}
 	
 	/**

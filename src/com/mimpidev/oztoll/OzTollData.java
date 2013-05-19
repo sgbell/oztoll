@@ -4,6 +4,7 @@
  */
 package com.mimpidev.oztoll;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.w3c.dom.Element;
@@ -60,6 +61,11 @@ public class OzTollData implements Runnable{
 		ozTollXML.setXMLReader(filename);
 	}
 	
+	public OzTollData(File fileLink){
+		this();
+		ozTollXML.setXMLReader(fileLink);
+	}
+	
 	public void setDataFile(String filename, AssetManager assetMan){
 		finishedRead=false;
 		ozTollXML.setXMLReader(filename,assetMan);
@@ -86,13 +92,25 @@ public class OzTollData implements Runnable{
 		return dataSync;
 	}
 	
+	public void run(){
+		readFile();
+		
+		try {
+			synchronized (dataSync){
+				dataSync.notify();
+			}
+		} catch (NullPointerException e){
+			// Ignore Null pointer that occurs when the program is exiting
+		}
+	}
+	
 	/**
-	 * getTollwayData - A method to populate arrays with the information stored in the xml file opened
+	 * readFile - A method to populate arrays with the information stored in the xml file opened
 	 * using ozTollXML. The reason all of the information will be stored in memory, is because accessing
 	 * the xml file has proved to be time consuming when the program needs to access the xml file to
 	 * redraw the screen.
 	 */
-	public void run(){
+	public void readFile(){
 		
 		tollways = new ArrayList<Tollway>();
 		setCityName(ozTollXML.getCityName());
@@ -172,13 +190,6 @@ public class OzTollData implements Runnable{
 		setValidStarts();
 
 		finishedRead=true;
-		try {
-			synchronized (dataSync){
-				dataSync.notify();
-			}
-		} catch (NullPointerException e){
-			// Ignore Null pointer that occurs when the program is exiting
-		}
 	}
 	
 	public GeoPoint getOrigin(){

@@ -15,6 +15,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -201,6 +202,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 				url = new URL("http://www.mimpidev.com/oztoll/oztoll.xml");
 				connection = url.openConnection();
 				internetModification = connection.getHeaderField("Last-Modified");
+
+				Editor prefEditor = preferences.edit();
+				
 				// Is the last modified date stored in preferences different to the one on the website
 				if (!lastModified.equalsIgnoreCase(internetModification)){
 					// Download file here
@@ -217,12 +221,21 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					outstream.close();
 					inputStream.close();
 					
-					
+					OzTollData temp = storage.openExternalFile("temp.xml");
+					if (Long.getLong(temp.getTimestamp()).longValue()>
+						Long.getLong(global.getTollData().getTimestamp()).longValue()){
+						storage.keepFile(saveFile);
+						global.setTollData(temp);
+						prefEditor.putBoolean("location", true);
+					} else {
+						storage.removeFile(saveFile);
+					}
 				}
+				prefEditor.putLong("lastUpdate", System.currentTimeMillis()/1000);
+	    		prefEditor.commit();
 			} catch (MalformedURLException e) {
 			} catch (IOException e) {
 			}
-    		
     	}
 	}
 
@@ -253,24 +266,12 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			ft.show(mMapFragment);
     			ft.hide(tutorialFragment);
     		}
+    		// This if statement is copied below. move the following code somewhere so it's
+    		// not written twice in my code.
     		if ((global.getTollData().getStart()!=null)&&
         	    (global.getTollData().getFinish()!=null)){
            			
-					rateLayout = global.getTollData().processToll(getBaseContext());
-					TextView disclaimer = new TextView(getBaseContext());
-					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
-					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-					rateLayout.addView(disclaimer);
-
-					TextView expireDate = new TextView(getBaseContext());
-					expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
-					expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-					rateLayout.addView(expireDate);
-					
-					Message newMessage = handler.obtainMessage();
-					newMessage.obj = rateLayout;
-					newMessage.what=3;
-					handler.sendMessage(newMessage);
+					displayResults();
 			}
     		ft.show(resultsFragment);
     	} else {
@@ -288,21 +289,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
        	       		// If the path has been chosen
            			ft.hide(tutorialFragment);
            			
-					rateLayout = global.getTollData().processToll(getBaseContext());
-					TextView disclaimer = new TextView(getBaseContext());
-					disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
-					disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-					rateLayout.addView(disclaimer);
-					
-					TextView expireDate = new TextView(getBaseContext());
-					expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
-					expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-					rateLayout.addView(expireDate);
-					
-					Message newMessage = handler.obtainMessage();
-					newMessage.obj = rateLayout;
-					newMessage.what=3;
-					handler.sendMessage(newMessage);
+           			displayResults();
+           			
         	    } else {
         	    	if ((preferences.getBoolean("applicationView", true))&&
             			((wifi.isConnected())||(mobile.isConnected()))){
@@ -322,6 +310,26 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		}
     	}
 		ft.commit();
+    }
+
+    private void displayResults(){
+    	
+		// Message to finish
+		rateLayout = global.getTollData().processToll(getBaseContext());
+
+		TextView disclaimer = new TextView(getBaseContext());
+		disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
+		disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+		rateLayout.addView(disclaimer);
+		TextView expireDate = new TextView(getBaseContext());
+		expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
+		expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+		rateLayout.addView(expireDate);
+		
+		Message newMessage = handler.obtainMessage();
+		newMessage.obj = rateLayout;
+		newMessage.what=3;
+		handler.sendMessage(newMessage);
     }
     
     private void setupFragments() {
@@ -486,23 +494,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
         					} else if ((global.getTollData().getStart()!=null)
         							   &&(global.getTollData().getFinish()==null)){
         						global.getTollData().setFinish((Street)msg.obj);
-        						
-        						// Message to finish
-        						rateLayout = global.getTollData().processToll(getBaseContext());
-
-        						TextView disclaimer = new TextView(getBaseContext());
-        						disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
-        						disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-        						rateLayout.addView(disclaimer);
-        						TextView expireDate = new TextView(getBaseContext());
-        						expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
-        						expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-        						rateLayout.addView(expireDate);
-        						
-        						newMessage = handler.obtainMessage();
-        						newMessage.obj = rateLayout;
-        						newMessage.what=3;
-        						handler.sendMessage(newMessage);
+        						// Because the code block was found in 3 places in this, I moved it to it's own method.
+        						displayResults();
         					} else if ((Street)msg.obj==global.getTollData().getFinish()){
         						global.getTollData().setFinish(null);
         						finishShown=false;

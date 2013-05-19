@@ -182,7 +182,7 @@ public class OzTollTextFragment extends SherlockFragment {
 					}
 				}
 			}
-			collapseGroups();
+			//collapseGroups();
 
 			adapter.notifyDataSetChanged();
 		}

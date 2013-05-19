@@ -27,21 +27,29 @@ import android.content.res.AssetManager;
 public class XmlReader {
 	private Document doc;
 
+	public XmlReader(File xmlFile){
+		openFile(xmlFile);
+	}
+	
 	// Opens an xml file and prepares it for reading.
 	public XmlReader(String filename){
 		File file = new File(filename);
-		if (file.length()>1024){
+		openFile(file);
+	}
+	
+	public void openFile (File xmlFile){
+		if (xmlFile.length()>1024){
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			try {
 				DocumentBuilder db = dbf.newDocumentBuilder();
-				doc = db.parse(file);
+				doc = db.parse(xmlFile);
 				doc.getDocumentElement().normalize();
 			} catch (ParserConfigurationException e) {
-				// exception
+					// exception
 			} catch (SAXException e) {
-				// exception
+					// exception
 			} catch (IOException e) {
-				// exception
+					// exception
 			}			
 		}
 	}
