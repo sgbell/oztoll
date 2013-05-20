@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <oztoll>
     <timestamp>1368593508</timestamp>
-	<city>
+	<expiry>30-6-13</expiry>
+    	<city>
 		<name>Melbourne</name>
 		<origin>
 		    <longitude>144958763</longitude>
 		    <latitude>-37827413</latitude>
 		</origin>
-		<expiry>30-6-13</expiry>
 		<tollway name="CityLink">
 			<exit>
 				<street>

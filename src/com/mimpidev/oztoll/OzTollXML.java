@@ -45,19 +45,26 @@ public class OzTollXML {
 		xmldata = new XmlReader(xmlFile);
 	}
 	
+	public int getCityCount(){
+		if (cityNodes==null){
+			cityNodes = xmldata.getElementsByTagName("city");
+		}
+		
+		return cityNodes.getLength();
+	}
+	
 	/**
 	 * This will read the city name from the xml file.
 	 * @return city name stored in xml file.
 	 */
-	public String getCityName(){
-		cityNodes = xmldata.getElementsByTagName("city");
-		for (int s = 0; s < cityNodes.getLength(); s++) {
-			Node currentNode = cityNodes.item(s);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				return xmldata.getNodeData(currentNode,"name");
-			}
+	public String getCityName(int city){
+		
+		Node currentNode = cityNodes.item(city);
+		if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+			return xmldata.getNodeData(currentNode,"name");
 		}
-		return null;				
+		
+		return null;
 	}
 	
 	public String getExpiry(){

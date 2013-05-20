@@ -11,13 +11,11 @@ import java.util.ArrayList;
  */
 public class Tollway {
 	private ArrayList<Street> exits;
-	private ArrayList<Pathway> paths;
 	private ArrayList<TollPoint> tolls;
 	private String name;
 		
 	public Tollway(){
 		exits = new ArrayList<Street>();
-		paths = new ArrayList<Pathway>();
 		tolls = new ArrayList<TollPoint>();
 	}
 	
@@ -39,17 +37,8 @@ public class Tollway {
 			exits.add(newStreet);
 	}
 	
-	public void addPath(Street start, Street end){
-		Pathway newPath = new Pathway(start,end);
-		paths.add(newPath);
-	}
-	
 	public void addToll(TollPoint tollPoint){
 		tolls.add(tollPoint);
-	}
-	
-	public ArrayList<Pathway> getPaths(){
-		return paths;
 	}
 	
 	public ArrayList<TollPoint> getTollPoints(){
