@@ -7,15 +7,10 @@ package com.mimpidev.oztoll;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,8 +21,7 @@ import android.widget.TextView;
 public class OzTollData implements Runnable{
 		
 	private ArrayList<OzTollCity> cities;
-	private String expiry,
-				   timestamp;
+	private String timestamp;
 	private OzTollXML ozTollXML;
 	public String connectionsTest;
 	private boolean finishedRead=false;
@@ -109,13 +103,13 @@ public class OzTollData implements Runnable{
 	public void readFile(){
 		cities = new ArrayList<OzTollCity>();
 
-		setExpiryDate(ozTollXML.getExpiry());
 		setTimestamp(ozTollXML.getTimeStamp());
 		
 		for (int cityCount=0; cityCount< ozTollXML.getCityCount(); cityCount++){
 			OzTollCity newCity = new OzTollCity();
 			
 			newCity.setCityName(ozTollXML.getCityName(cityCount));
+			newCity.setExpiryDate(ozTollXML.getExpiry(cityCount));
 			int streetCounter=1;
 			
 			newCity.setOrigin(ozTollXML.getOrigin());
@@ -156,20 +150,6 @@ public class OzTollData implements Runnable{
 		finishedRead=true;
 	}
 	
-	/**
-	 * @return the expiry
-	 */
-	public String getExpiryDate() {
-		return expiry;
-	}
-
-	/**
-	 * @param expiry the expiry to set
-	 */
-	public void setExpiryDate(String expiry) {
-		this.expiry = expiry;
-	}
-
 	/**
 	 * @return the timestamp
 	 */
@@ -759,10 +739,15 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void markRoads(Street selectedRoad){
-		for (int cityCount=0; cityCount<cities.size(); cityCount++){
-			if (cities.get(cityCount).foundRoad(selectedRoad)){
-				
+		boolean foundCity=false;
+		int cityCount=0;
+		
+		while ((!foundCity)&&(cityCount<cities.size())){
+			if (cities.get(cityCount).foundStreet(selectedRoad)){
+				foundCity=true;
+				cities.get(cityCount).markRoads(selectedRoad);
 			}
+			cityCount++;
 		}
 	}
 }

@@ -67,11 +67,11 @@ public class OzTollXML {
 		return null;
 	}
 	
-	public String getExpiry(){
+	public String getExpiry(int cityCount){
 		if (cityNodes==null)
 			cityNodes = xmldata.getElementsByTagName("city");
 		if (cityNodes.getLength()>0){
-			Node currentNode = cityNodes.item(0);
+			Node currentNode = cityNodes.item(cityCount);
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE)
 				return xmldata.getNodeData(currentNode, "expiry");
 		}

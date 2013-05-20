@@ -12,7 +12,8 @@ import java.util.ArrayList;
 public class OzTollCity {
 
 	private ArrayList<Tollway> tollways;
-	private String cityName;
+	private String cityName,
+				   expiry;
 	private GeoPoint origin=null;
 	
 	public OzTollCity(){
@@ -33,6 +34,20 @@ public class OzTollCity {
 		this.cityName = cityName;
 	}
 	
+	/**
+	 * @return the expiry
+	 */
+	public String getExpiryDate() {
+		return expiry;
+	}
+
+	/**
+	 * @param expiry the expiry to set
+	 */
+	public void setExpiryDate(String expiry) {
+		this.expiry = expiry;
+	}
+
 	public void addTollways(Tollway newTollway){
 		tollways.add(newTollway);
 	}
@@ -177,13 +192,15 @@ public class OzTollCity {
 		int tollwayCount=0,
 			streetCount;
 		
-		while (!foundIt){
+		while ((!foundIt)&&(tollwayCount<tollways.size())){
 			streetCount=0;
-			
-			
+			while ((streetCount<tollways.get(tollwayCount).getStreets().size())&&(!foundIt)){
+				if (tollways.get(tollwayCount).getStreets().get(streetCount).equals(street))
+					foundIt=true;
+				streetCount++;
+			}
 			tollwayCount++;
 		}
-		
 		return foundIt;
 	}
 	
