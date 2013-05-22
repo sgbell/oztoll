@@ -322,7 +322,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 		rateLayout.addView(disclaimer);
 		TextView expireDate = new TextView(getBaseContext());
-		expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getExpiryDate()+"</h2>"));
+		expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getSelectedExpiryDate()+"</h2>"));
 		expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 		rateLayout.addView(expireDate);
 		

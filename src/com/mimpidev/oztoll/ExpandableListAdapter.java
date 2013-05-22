@@ -8,6 +8,7 @@ package com.mimpidev.oztoll;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private Context appContext;
 	private ArrayList<String> tollways;
 	private ArrayList<ArrayList<String>> streets;
+	private String start="";
 	
 	public ExpandableListAdapter(Context context, ArrayList<String> tollways,
 								 ArrayList<ArrayList<String>> streets){
@@ -45,6 +47,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		}
 	}
 	
+	public void addStart(String tollway, String street) {
+		start=street;
+		
+		if (!tollways.contains(tollway)){
+			tollways.add(tollway);
+		}
+		int index=tollways.indexOf(tollway);
+		if (streets.size()<index+1){
+			streets.add(new ArrayList<String>());
+		}
+		if (!streets.get(index).contains(street))
+			streets.get(index).add(0,street);
+	}
+
 	public void addStreet(String tollway, String street){
 		if (!tollways.contains(tollway)){
 			tollways.add(tollway);
@@ -76,6 +92,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			convertView = infalInflator.inflate(R.layout.list_street,null);
 		}
 		TextView tv = (TextView) convertView.findViewById(R.id.streetName);
+		if (street.equalsIgnoreCase(start)){
+			tv.setBackgroundColor(Color.BLUE);
+		}
 		tv.setText(street);
 		return convertView;
 	}
@@ -122,5 +141,4 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return true;
 	}
-
 }

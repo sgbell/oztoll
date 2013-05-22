@@ -5,9 +5,11 @@ package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ public class OzTollTextFragment extends SherlockFragment {
 	
 	private OzTollApplication global;
 	private Handler handler;
+	private SharedPreferences preferences;
+	
 	
 	public OzTollTextFragment(){
 		
@@ -50,6 +54,7 @@ public class OzTollTextFragment extends SherlockFragment {
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
 		handler = global.getMainActivityHandler();
+		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
 		
 		Message newMessage = handler.obtainMessage();
 		newMessage.what = 5;
@@ -112,24 +117,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				if (global.getTollData().isFinished()){
 					String tollway=(String)adapter.getGroup(groupPosition);
 					String street=(String)adapter.getChild(groupPosition, childPosition);
-					/*
-					if (global.getTollData().getStart()==null){
-						global.getTollData().setStart(global.getTollData().getStreet(tollway, street));
-						populateStreets();
-	        			TextView startStreet = (TextView)getView().findViewById(R.id.startStreet);
-	        			startStreet.setText("Start Street: "+global.getTollData().getStart().getName());
-						
-						Message newMessage = handler.obtainMessage();
-						newMessage.what=6;
-						handler.dispatchMessage(newMessage);
-					}else if (global.getTollData().getFinish()==null){
-						global.getTollData().setFinish(global.getTollData().getStreet(tollway, street));
-						LinearLayout rateLayout = global.getTollData().processToll(global.getBaseContext());
-						Message newMessage = handler.obtainMessage();
-						newMessage.obj = rateLayout;
-						newMessage.what=3;
-						handler.sendMessage(newMessage);
-					}*/
+
 					Message newMessage = handler.obtainMessage();
 					newMessage.what=9;
 					newMessage.obj=global.getTollData().getStreet(tollway, street);
@@ -149,40 +137,35 @@ public class OzTollTextFragment extends SherlockFragment {
 			adapter.resetView();
 
 			if (tollData.getStart()==null){
-				for (int twc=0; twc<tollData.getTollwayCount(); twc++){
-					for (int sc=0; sc<tollData.getStreetCount(twc); sc++){
-						if (tollData.getStreet(twc, sc).isValid()){
-							adapter.addStreet(tollData.getTollwayName(twc), tollData.getStreetName(twc, sc));
-						}
-					}
+				/* Need to check if a city has been set in the preferences.
+				 * 
+				 * If no city has been selected, or the city selected is not found
+				 * in the city list, list all tollways and entrances.
+				 * 
+				 * If a city has been selected in the preferences, only list the tollways for that
+				 * city.
+				 *
+				 * Rewrite the code below in OzTollData. Make a method in OzTollData that:
+				 *    - takes a string for input
+				 *    - if the string is empty, creates and returns an array of Tollway+Street from all cities
+				 *    - if the string is not empty, matches the string to the city name, then creates and returns an array of Tollway+Street from nominated city
+				 *    - if the string is not empty, but no match is found for city, returns array of Tollways from all cities.
+				 * 
+				 */
+				ArrayList<String[]> streetList = tollData.getValidStreetsAsStrings(preferences.getString("selectedCity", ""));
+				for (int streetListCount=0; streetListCount< streetList.size(); streetListCount++){
+					adapter.addStreet(streetList.get(streetListCount)[0], streetList.get(streetListCount)[1]);
 				}
+				collapseGroups();
 			} else {
 				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
 				String tollway = tollData.getTollwayName(tollData.getStart());
 
+				adapter.addStart(tollway, tollData.getStart().getName());
 				for (int sc=0;sc<validExits.size();sc++){
 					adapter.addStreet(tollway, validExits.get(sc).getName());
-					
-					for (int cc=0; cc<tollData.getConnectionCount(); cc++){
-						if ((tollData.getConnection(cc).getStart().equals(validExits.get(sc)))||
-							(tollData.getConnection(cc).getEnd().equals(validExits.get(sc)))){
-							ArrayList<Street> childValidExits;
-							String otherTollway;
-							if (tollData.getConnection(cc).getStart().equals(validExits.get(sc))){
-								childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getEnd());
-								otherTollway = tollData.getConnection(cc).getEndTollway();
-							} else {
-								childValidExits = tollData.getTollPointExits(tollData.getConnection(cc).getStart());
-								otherTollway = tollData.getConnection(cc).getStartTollway();
-							}
-							for (int csc=0; csc<childValidExits.size();csc++){
-								adapter.addStreet(otherTollway, childValidExits.get(csc).getName());
-							}
-						}
-					}
 				}
 			}
-			//collapseGroups();
 
 			adapter.notifyDataSetChanged();
 		}

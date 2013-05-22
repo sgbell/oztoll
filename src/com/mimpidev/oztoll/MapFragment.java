@@ -3,6 +3,9 @@
  */
 package com.mimpidev.oztoll;
 
+import java.util.ArrayList;
+
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,6 +17,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +39,7 @@ public class MapFragment extends SherlockMapFragment {
 	public static final String TAG = "ozTollMapFragment";
 	private GoogleMap mapView;
 	private OzTollApplication global;
-	//private SharedPreferences preferences;
+	private SharedPreferences preferences;
 	private Paint paint;
 	
 	private Handler handler;
@@ -58,7 +62,7 @@ public class MapFragment extends SherlockMapFragment {
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		//preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
+		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
 		
 		handler = global.getMainActivityHandler();
 
@@ -73,19 +77,14 @@ public class MapFragment extends SherlockMapFragment {
 			public boolean onMarkerClick(Marker selected) {
 				LatLng latLngChanged = new LatLng(((double)Math.round(selected.getPosition().latitude*1000000)/1000000),
 						                          ((double)Math.round(selected.getPosition().longitude*1000000)/1000000));
-				for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-					for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
-						Street currentStreet = global.getTollData().getStreet(twc, tsc);
-						LatLng currentLatLng = new GeoPoint((int)currentStreet.getY(),(int)currentStreet.getX()).getLatLng();
-						if ((currentLatLng.latitude==latLngChanged.latitude)&&
-							(currentLatLng.longitude==latLngChanged.longitude)){
-							Message newMessage = handler.obtainMessage();
-							newMessage.what=9;
-							newMessage.obj=currentStreet;
-							handler.dispatchMessage(newMessage);
-							return true;
-						}
-					}
+				
+				// Working here. need to add code to findStreetByLatLng
+				Street currentStreet=global.getTollData().findStreetByLatLng(latLngChanged);
+				Message newMessage = handler.obtainMessage();
+				newMessage.what=9;
+				newMessage.obj=currentStreet;
+				handler.dispatchMessage(newMessage);
+
 				return true;
 			}
 		});
@@ -107,8 +106,12 @@ public class MapFragment extends SherlockMapFragment {
 					
 				}
 			}
-			mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(global.getTollData().getOrigin().getLatLng(),12));
-			
+			// change this depending on if city is selected in preferences
+			String selectedCity = preferences.getString("selectedCity", "");
+			int cityCount=0;
+			if (!selectedCity.equalsIgnoreCase(""))
+				cityCount=global.getTollData().getCityId();
+			mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(global.getTollData().getCityById(cityCount).getOrigin().getLatLng(),12));
 
 			Point screenSize= new Point();
 			int currentApi = android.os.Build.VERSION.SDK_INT;
@@ -138,6 +141,10 @@ public class MapFragment extends SherlockMapFragment {
 	
 	public void populateMarkers(){
 		mapView.clear();
+		
+		ArrayList<Street> validStreets = global.getTollData().getValidStreetsArray(preferences.getString("selectedCity", ""));
+		
+		/*
 		for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
 			for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
 				Street newStreet = global.getTollData().getStreet(twc, tsc);
@@ -157,6 +164,7 @@ public class MapFragment extends SherlockMapFragment {
 		    		mapView.addMarker(newMarker);
 				}
 			}
+		*/
 	}
 	
     /**

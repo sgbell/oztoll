@@ -7,6 +7,8 @@ package com.mimpidev.oztoll;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -150,6 +152,58 @@ public class OzTollData implements Runnable{
 		finishedRead=true;
 	}
 	
+	public ArrayList<OzTollCity> getCities(){
+		return cities;
+	}
+	
+	public OzTollCity getCityById(int cityId){
+		return cities.get(cityId);
+	}
+	
+	public ArrayList<Street> getValidStreetsArray(String city) {
+		ArrayList<Street> streetList = new ArrayList<Street>();
+		
+		
+		
+		return streetList;
+	}
+
+	public ArrayList<String[]> getValidStreetsAsStrings(String city){
+		ArrayList<String[]> streetList = new ArrayList<String[]>();
+		
+		if ((city.isEmpty())||(city==null)){
+			for (int cityCount=0; cityCount<cities.size(); cityCount++)
+				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
+					for (int sc=0; sc<cities.get(cityCount).getStreetCount(twc); sc++)
+						if (cities.get(cityCount).getStreet(twc, sc).isValid()){
+							String[] newString = new String[2];
+							newString[0]=cities.get(cityCount).getTollwayName(twc);
+							newString[1]=cities.get(cityCount).getStreetName(twc, sc);
+							streetList.add(newString);
+						}
+		} else {
+			boolean cityFound=false;
+			int cityCount=0;
+			while ((!cityFound)&&(cityCount<cities.size())){
+				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
+					cityFound=true;
+					
+					for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
+						for (int sc=0; sc<cities.get(cityCount).getStreetCount(twc); sc++)
+							if (cities.get(cityCount).getStreet(twc, sc).isValid()){
+								String[] newString = new String[2];
+								newString[0]=cities.get(cityCount).getTollwayName(twc);
+								newString[1]=cities.get(cityCount).getStreetName(twc, sc);
+								streetList.add(newString);
+							}
+				}
+				cityCount++;
+			}
+		}
+		
+		return streetList;
+	}
+	
 	/**
 	 * @return the timestamp
 	 */
@@ -240,6 +294,18 @@ public class OzTollData implements Runnable{
 		return charges;
 	}
 
+	public String getSelectedExpiryDate(){
+		boolean cityFound=false;
+		int cityCount=0;
+		while ((!cityFound)&&(cityCount<cities.size())){
+			if (cities.get(cityCount).foundStreet(start))
+				return cities.get(cityCount).getExpiryDate();
+			cityCount++;
+		}
+		
+		return null;
+	}
+	
 	public void reset(){
 		setStart(null);
 		setFinish(null);
@@ -719,6 +785,20 @@ public class OzTollData implements Runnable{
 		return start;
 	}
 
+	public Street getStreet(String tollway, String street){
+		boolean cityFound=false;
+		int cityCount=0;
+		
+		while ((!cityFound)&&(cityCount<cities.size())){
+			if (cities.get(cityCount).getStreet(tollway, street)!=null)
+				return cities.get(cityCount).getStreet(tollway, street);
+			
+			cityCount++;
+		}
+		
+		return null;
+	}
+	
 	public void setStart(Street start) {
 		this.start = start;
 		setStreetsToInvalid();
@@ -749,5 +829,39 @@ public class OzTollData implements Runnable{
 			}
 			cityCount++;
 		}
+	}
+
+	public ArrayList<Street> getTollPointExits(Street start) {
+		ArrayList<Street> exitList = new ArrayList<Street>();
+		for (int cityCount=0; cityCount<cities.size(); cityCount++){
+			exitList = cities.get(cityCount).getTollPointExits(start);
+			if (exitList!=null)
+				return exitList;
+		}
+		
+		return null;
+	}
+
+	public String getTollwayName(Street start) {
+		String tollwayName="";
+		for (int cityCount=0; cityCount<cities.size(); cityCount++){
+			tollwayName=cities.get(cityCount).getTollwayName(start);
+			if (tollwayName!=null)
+				return tollwayName;
+		}
+		return null;
+	}
+
+	public Street findStreetByLatLng(LatLng latLng) {
+		Street street;
+		
+		
+		
+		return null;
+	}
+
+	public int getCityId() {
+		
+		return 0;
 	}
 }
