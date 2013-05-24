@@ -12,5 +12,5 @@
         			 	android:key="applicationView" />
     <ListPreference android:title="City"
         			android:summary="Select the City to view"
-        			android:key=""
+        			android:key="selectedCity" />
 </PreferenceScreen>

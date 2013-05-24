@@ -143,10 +143,8 @@ public class OzTollData implements Runnable{
 					newCity.getTollway(twc).addToll(ozTollXML.getTollPointRate(twc, tec, newCity.getTollway(twc)));
 				}
 			}
-			
 			cities.add(newCity);
 		}
-		
 		setValidStarts();
 
 		finishedRead=true;
