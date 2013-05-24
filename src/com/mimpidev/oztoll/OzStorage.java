@@ -43,7 +43,11 @@ public class OzStorage {
 			}
 			String dataFileName = Environment.getExternalStorageDirectory()+
 					"/oztoll/"+filename;
-			datafile = new OzTollData(dataFileName);
+			File testfile = new File(dataFileName);
+			if (testfile.exists())
+				datafile = new OzTollData(dataFileName);
+			else
+				datafile = null;
 		}
 	}
 

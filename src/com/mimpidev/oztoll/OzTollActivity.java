@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -69,6 +70,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	global = (OzTollApplication)getApplication();
     	// Creating and sharing of the sync object, used for pausing an activity till the first data has been loaded
     	// from the data file.
+    	Debug.startMethodTracing("oztollactivity");
 
         // This is where the application's preferences are stored
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -86,13 +88,17 @@ public class OzTollActivity extends SherlockFragmentActivity {
     		// load data file from external folder
     		OzStorage extStorage = new OzStorage();
     		extStorage.setTollData("oztoll.xml");
-    		global.setTollData(extStorage.getTollData());
+    		if (extStorage.getTollData()!=null)
+    			global.setTollData(extStorage.getTollData());
+    		else
+        		global.getTollData().setDataFile("oztoll.xml", getAssets());
     	}
     	global.getTollData().setDataSync(global.getDatasync());
     	global.getTollData().setPreferences(preferences);
     	new Thread(global.getTollData()).start();
     	
 		setContentView(R.layout.activity_main);
+		Debug.stopMethodTracing();
     }
 
 	public boolean onCreateOptionsMenu (Menu menu){

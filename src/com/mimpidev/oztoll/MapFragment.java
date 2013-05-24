@@ -146,7 +146,7 @@ public class MapFragment extends SherlockMapFragment {
 	public void populateMarkers(){
 		mapView.clear();
 		
-		ArrayList<Street> validStreets = global.getTollData().getValidStreetsArray(preferences.getString("selectedCity", ""));
+		ArrayList<Street> validStreets = global.getTollData().getValidStreetsArray("");
 		for (int streetCount=0; streetCount<validStreets.size(); streetCount++){
 			Street currentStreet = validStreets.get(streetCount);
 			MarkerOptions newMarker = new MarkerOptions();

@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.os.Debug;
 import android.text.Html;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -903,7 +904,7 @@ public class OzTollData implements Runnable{
 		return street;
 	}
 
-	/** Get the Id of the city speicified by name
+	/** Get the Id of the city specified by name
 	 * @param selectedCity
 	 * @return cityId
 	 */
@@ -917,6 +918,9 @@ public class OzTollData implements Runnable{
 			else
 				cityCount++;
 		}
-		return cityCount;
+		if (cityFound)
+			return cityCount;
+		else
+			return 0;
 	}
 }
