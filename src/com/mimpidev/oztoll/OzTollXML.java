@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * @author bugman
@@ -22,8 +23,10 @@ public class OzTollXML {
 					 currentStreetList,
 					 currentTollPathways,
 					 currentTollNodes;
-	private Node currentTollwayNode;
-	private int currentTollwayId=-1;
+	private Node currentTollwayNode,
+				 currentCity;
+	private int currentTollwayId=-1,
+				currentCityId=-1;
 
 	// Hard coding the toll types into the program.
 	String tollType[] = {"car","car-we","lcv","lcv-day",
@@ -45,10 +48,15 @@ public class OzTollXML {
 		xmldata = new XmlReader(xmlFile);
 	}
 	
-	public int getCityCount(){
+	public NodeList getCityNodes(){
 		if (cityNodes==null){
 			cityNodes = xmldata.getElementsByTagName("city");
 		}
+		return cityNodes;
+	}
+	
+	public int getCityCount(){
+		getCityNodes();
 		
 		return cityNodes.getLength();
 	}
@@ -58,22 +66,30 @@ public class OzTollXML {
 	 * @return city name stored in xml file.
 	 */
 	public String getCityName(int city){
+		getCityNodes();
 		
-		Node currentNode = cityNodes.item(city);
-		if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-			return xmldata.getNodeData(currentNode,"name");
+		if (cityNodes.getLength()>0){
+			if (currentCityId!=city){
+				currentCity = cityNodes.item(city);
+				currentCityId=city;
+			}
+			if (currentCity.getNodeType() == Node.ELEMENT_NODE) {
+				return xmldata.getNodeData(currentCity,"name");
+			}
 		}
-		
 		return null;
 	}
 	
-	public String getExpiry(int cityCount){
-		if (cityNodes==null)
-			cityNodes = xmldata.getElementsByTagName("city");
+	public String getExpiry(int city){
+		getCityNodes();
+		
 		if (cityNodes.getLength()>0){
-			Node currentNode = cityNodes.item(cityCount);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE)
-				return xmldata.getNodeData(currentNode, "expiry");
+			if (currentCityId!=city){
+				currentCity = cityNodes.item(city);
+				currentCityId=city;
+			}
+			if (currentCity.getNodeType() == Node.ELEMENT_NODE)
+				return xmldata.getNodeData(currentCity, "expiry");
 		}
 
 		return null;
@@ -90,75 +106,62 @@ public class OzTollXML {
 		return null;
 	}
 	
-	public GeoPoint getOrigin(){
-		NodeList originNodes = xmldata.getElementsByTagName("origin");
-		Node currentNode = originNodes.item(0);
-		GeoPoint origin = new GeoPoint(Integer.parseInt(xmldata.getNodeData(currentNode, "latitude")),
-									   Integer.parseInt(xmldata.getNodeData(currentNode, "longitude")));
-		return origin;
-	}
-	
-	/**
-	 * This is used to count the tollways in the xml file.
-	 * @return
-	 */
-	public int getTollwayCount(){
-		if (tollwayNodes==null)
-			getTollwayNodes();
-
-		return tollwayNodes.getLength();
-	}
-	
-	public NodeList getTollwayNodes(){
-		if (tollwayNodes==null)
-			tollwayNodes=xmldata.getElementsByTagName("tollway");
+	public GeoPoint getOrigin(int city){
+		cityNodes=getCityNodes();
 		
-		return tollwayNodes;
+		if ((cityNodes.getLength()>0)&&(city<cityNodes.getLength())){
+			if (currentCityId!=city){
+				currentCity = cityNodes.item(city);
+				currentCityId=city;
+			}
+			NodeList originNodes = xmldata.getChildNodesByTagName(currentCity, "origin");
+			if (originNodes.getLength()==1){
+				Node subNode = originNodes.item(0);
+				GeoPoint origin = new GeoPoint(Integer.parseInt(xmldata.getNodeData(subNode, "latitude")),
+											   Integer.parseInt(xmldata.getNodeData(subNode, "longitude")));
+				return origin;
+			}
+		}
+		return null;
 	}
 	
-	public Node getTollwayNode(int tollway){
-		if ((currentTollwayId!=tollway)&&(tollway<getTollwayCount())){
-			currentTollwayId=tollway;
-			currentTollwayNode = tollwayNodes.item(tollway);
+	public NodeList getTollwayNodes(int city){
+		if ((cityNodes.getLength()>0)&&(city<cityNodes.getLength())){
+			if (currentCityId!=city){
+				currentCity = cityNodes.item(city);
+				currentCityId=city;
+			}
+			tollwayNodes = xmldata.getChildNodesByTagName(currentCity, "tollway");
+			return tollwayNodes;
 		}
 		
-		return currentTollwayNode;
+		return null;
 	}
 	
 	/**
-	 * This will return the number of Exits for the selected tollway
-	 * @param tollway
+	 * This is used to count the toll ways in a city
 	 * @return
 	 */
-	public int getStreetCount(int tollway){
-		currentStreetList=getStreetNodes(tollway);
-		return getNodeListCount(currentStreetList);
-	}
+	public int getTollwayCount(int city){
+		getTollwayNodes(city);
 
-	/**
-	 * Counts the number of tollways in the xml file
-	 * @return
-	 */
-	public int getNodeListCount(String node){
-		NodeList nodeList = xmldata.getElementsByTagName(node);
-		return nodeList.getLength();
+		return xmldata.getNodeListCount(tollwayNodes);
 	}
 	
-	public int getNodeListCount(NodeList nodes){
-		if (nodes!=null)
-			return nodes.getLength();
-		else
-			return -1;
-	}
-	
-	public int getTollCount(int tollway){
-		getTollNodes(tollway);
-		return getNodeListCount(currentTollNodes);
-	}
-	
-	public int getTollPathwayCount(int tollway){
-		getTollPathway(tollway);
-		return getNodeListCount(currentTollPathways);
+	public Node getTollwayNode(int city, int tollway){
+		getTollwayNodes(city);
+		
+		if (tollwayNodes!=null){
+			if ((tollwayNodes.getLength()>0)&&(tollway<getTollwayCount(city))){
+				if (currentTollwayId!=tollway){
+					currentTollwayNode = tollwayNodes.item(tollway);
+					currentTollwayId=tollway;
+				}
+				return currentTollwayNode;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -166,25 +169,40 @@ public class OzTollXML {
 	 * @param tollway
 	 * @return
 	 */
-	public String getTollwayName(int tollway){
-		Node currentNode = cityNodes.item(0);
-		if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-			return xmldata.getNodeAttribute(currentNode,"tollway","name",tollway);
+	public String getTollwayName(int cityCount, int tollway){
+		getTollwayNode(cityCount, tollway);
+		
+		if(currentTollwayNode!=null){
+			if (currentTollwayNode.getNodeType() == Node.ELEMENT_NODE){
+				Element currentTollway = (Element)currentTollwayNode;
+				return currentTollway.getAttribute("name");
+			}
 		}
 		return null;
 	}
 	
-	public NodeList getStreetNodes(int tollway){
-		if (currentTollwayId!=tollway){
-			getTollwayNode(tollway);
+	public NodeList getStreetNodes(int cityCount, int tollway){
+		getTollwayNode(cityCount, tollway);
+		
+		if (currentTollwayNode!=null){
 			String[] nodes = {"exit","street"};
 			int[] index = {0};
-			currentStreetList = xmldata.getNodesList(nodes,index,currentTollwayNode);			
+			currentStreetList = xmldata.getNodesList(nodes,index,currentTollwayNode);
 		}
-		
 		return currentStreetList;
 	}
 	
+	/**
+	 * This will return the number of Exits for the selected tollway
+	 * @param tollway
+	 * @return
+	 */
+	public int getStreetCount(int cityCount, int tollway){
+		getStreetNodes(cityCount, tollway);
+		
+		return xmldata.getNodeListCount(currentStreetList);
+	}
+
 	/**
 	 * Combined 3 methods into 1, as the only thing different was the string that is now passed 
 	 * by value param
@@ -193,40 +211,18 @@ public class OzTollXML {
 	 * @param value
 	 * @return
 	 */
-	public String getStreetDetail(int tollway, int exitcount, String value){
-		getStreetNodes(tollway);
-		if ((currentStreetList!=null)&&(exitcount<getStreetCount(tollway))){
+	public String getStreetDetail(int city, int tollway, int exitcount, String value){
+		getStreetNodes(city, tollway);
+		
+		if ((currentStreetList!=null)&&(exitcount<getStreetCount(city, tollway))){
 			Node currentNode = currentStreetList.item(exitcount);
 			return xmldata.getNodeData(currentNode,value);
 		} else 
 			return null;
 	}
 	
-	public String[] getTollPath(int tollway, int pathNum){
-		NodeList path = getTollPathway(tollway);
-		if (path!=null){
-			Node pathNode = path.item(pathNum);
-			String[] streets = {xmldata.getNodeData(pathNode, "start"),
-					   			xmldata.getNodeData(pathNode, "end")};
-			return streets;
-		}
-		
-		return null;
-	}
-	
-	public NodeList getTollPathway(int tollway){
-		if ((currentTollwayId!=tollway)||(currentTollwayId<getTollwayCount())){
-			getTollwayNode(currentTollwayId);
-			String[] nodes = {"pathway","path"};
-			int[] index = {0};
-			currentTollPathways=xmldata.getNodesList(nodes, index, currentTollwayNode);			
-		}
-		
-		return currentTollPathways;
-	}
-	
-	public NodeList getTollNodes(int tollway){
-		getTollwayNode(tollway);
+	public NodeList getTollNodes(int city, int tollway){
+		getTollwayNode(city, tollway);
 		String[] nodes = {"tollpoint"};
 		int[] index = null;
 		currentTollNodes = xmldata.getNodesList(nodes,index, currentTollwayNode);
@@ -234,8 +230,10 @@ public class OzTollXML {
 		return currentTollNodes;
 	}
 
-	public NodeList getConnections(){
-		return xmldata.getNodesList("connection");
+	public int getTollCount(int city, int tollway){
+		getTollNodes(city, tollway);
+
+		return xmldata.getNodeListCount(currentTollNodes);
 	}
 	
 	/**
@@ -245,10 +243,10 @@ public class OzTollXML {
 	 * @param vector 
 	 * @return
 	 */
-	public TollPoint getTollPointRate(int tollway, int tollpoint, Tollway tollwayData){
+	public TollPoint getTollPointRate(int city, int tollway, int tollpoint, Tollway tollwayData){
 		TollPoint newTollPoint = new TollPoint();
 		
-		NodeList tollnodes = getTollNodes(tollway);
+		NodeList tollnodes = getTollNodes(city, tollway);
 		Node currentToll = tollnodes.item(tollpoint);
 		Element tollElement = (Element)currentToll;
 		NodeList startNodes = tollElement.getElementsByTagName("start");

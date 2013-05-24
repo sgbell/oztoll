@@ -71,8 +71,6 @@ public class XmlReader {
 		}
 	}
 
-
-
 	/** Protection from bad coding. If the xml file has not been opened this will return null
 	 * @param node - String value you want to retrieve the node list of
 	 * @return a node list.
@@ -82,15 +80,6 @@ public class XmlReader {
 			return doc.getElementsByTagName(node);
 		else
 			return null;
-	}
-	
-	/** Will have to check my code, as this is identical to getElementsByTagName, without the error
-	 * checking :(
-	 * @param nodeTree
-	 * @return
-	 */
-	public NodeList getNodesList(String nodeTree){
-		return doc.getElementsByTagName(nodeTree);
 	}
 	
 	/**
@@ -112,6 +101,14 @@ public class XmlReader {
 					currentNode = workingNodeList.item(index[ntc]);
 				}
 			}
+		}
+		return null;
+	}
+	
+	public NodeList getChildNodesByTagName(Node parentNode, String tagName){
+		if (parentNode.getNodeType() == Node.ELEMENT_NODE){
+			Element elements = (Element) parentNode;
+			return elements.getElementsByTagName(tagName);
 		}
 		return null;
 	}
@@ -212,4 +209,17 @@ public class XmlReader {
 		}
 		return null;
 	}
+
+	public int getNodeListCount(String node){
+		NodeList nodeList = getElementsByTagName(node);
+		return nodeList.getLength();
+	}
+	
+	public int getNodeListCount(NodeList nodes){
+		if (nodes!=null)
+			return nodes.getLength();
+		else
+			return -1;
+	}
+	
 }

@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -114,17 +115,17 @@ public class OzTollData implements Runnable{
 			newCity.setExpiryDate(ozTollXML.getExpiry(cityCount));
 			int streetCounter=1;
 			
-			newCity.setOrigin(ozTollXML.getOrigin());
+			newCity.setOrigin(ozTollXML.getOrigin(cityCount));
 			
-			for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
-				Tollway newTollway = new Tollway(ozTollXML.getTollwayName(twc));
+			for (int twc=0; twc < ozTollXML.getTollwayCount(cityCount); twc++){
+				Tollway newTollway = new Tollway(ozTollXML.getTollwayName(cityCount,twc));
 				// Populate the streets list in the tollway class
 				streetCounter=1;
-				for (int tsc=0; tsc < ozTollXML.getStreetCount(twc); tsc++){
+				for (int tsc=0; tsc < ozTollXML.getStreetCount(cityCount,twc); tsc++){
 					
-					Street newStreet = new Street(ozTollXML.getStreetDetail(twc, tsc,"name"), 
-												  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"longitude")),
-												  Float.parseFloat(ozTollXML.getStreetDetail(twc, tsc,"latitude")),
+					Street newStreet = new Street(ozTollXML.getStreetDetail(cityCount, twc, tsc,"name"), 
+												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"longitude")),
+												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"latitude")),
 												  streetCounter++);
 					/* 
 					 * I decided to use float globally for x,y details, as the screen location is stored as float
@@ -138,9 +139,9 @@ public class OzTollData implements Runnable{
 			}
 			
 			// Populate tolls list
-			for (int twc=0; twc < ozTollXML.getTollwayCount(); twc++){
-				for (int tec=0; tec < ozTollXML.getTollCount(twc); tec++){
-					newCity.getTollway(twc).addToll(ozTollXML.getTollPointRate(twc, tec, newCity.getTollway(twc)));
+			for (int twc=0; twc < ozTollXML.getTollwayCount(cityCount); twc++){
+				for (int tec=0; tec < ozTollXML.getTollCount(cityCount,twc); tec++){
+					newCity.getTollway(twc).addToll(ozTollXML.getTollPointRate(cityCount,twc, tec, newCity.getTollway(twc)));
 				}
 			}
 			cities.add(newCity);
@@ -182,6 +183,7 @@ public class OzTollData implements Runnable{
 	public ArrayList<String[]> getValidStreetsAsStrings(String city){
 		ArrayList<String[]> streetList = new ArrayList<String[]>();
 		
+		Log.w("oztoll","Selected City: "+city);
 		if ((city.isEmpty())||(city==null)){
 			for (int cityCount=0; cityCount<cities.size(); cityCount++)
 				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
@@ -197,6 +199,7 @@ public class OzTollData implements Runnable{
 			int cityCount=0;
 			while ((!cityFound)&&(cityCount<cities.size())){
 				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
+					Log.w("oztoll", "Current City: "+cities.get(cityCount).getCityName());
 					cityFound=true;
 					
 					for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
