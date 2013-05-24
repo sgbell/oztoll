@@ -149,7 +149,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		startShown=false;
 		finishShown=false;
 		if (mTextFragment!=null){
-			mTextFragment.setStart("");
 			mTextFragment.populateStreets();
 		}
 		
@@ -501,7 +500,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     					if (((Street)msg.obj).isValid()){
     						if (global.getTollData().getStart()==null){
         						global.getTollData().setStart((Street)msg.obj);
-        						mTextFragment.setStart("Start Street: "+global.getTollData().getStart().getName());
         						
         						newMessage = handler.obtainMessage();
         						newMessage.what=6;

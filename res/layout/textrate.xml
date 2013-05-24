@@ -9,23 +9,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
+    <ExpandableListView
+        android:id="@+id/streetList"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/textContentLayout"
-        android:orientation="vertical" >
-        
-        <TextView
-            android:id="@+id/startStreet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <ExpandableListView
-            android:id="@+id/streetList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" >
             
-        </ExpandableListView>
+    </ExpandableListView>
 
-    </LinearLayout>
 </LinearLayout>

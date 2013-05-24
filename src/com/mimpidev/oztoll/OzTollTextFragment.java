@@ -29,7 +29,6 @@ public class OzTollTextFragment extends SherlockFragment {
 
 	private ExpandableListAdapter adapter;
 	private ExpandableListView listView;
-	private TextView startStreet;
 	private View view;
 	
 	private OzTollApplication global;
@@ -77,11 +76,6 @@ public class OzTollTextFragment extends SherlockFragment {
 		//newMessage.what = 10;
 		//handler.dispatchMessage(newMessage);
 
-		/*
-		if (global.getTollData().getStart()!=null)
-			setStart("Start Street: "+global.getTollData().getStart().getName());
-		else
-			setStart("");*/
 		populateStreets();
 
 		//newMessage = handler.obtainMessage();
@@ -96,7 +90,6 @@ public class OzTollTextFragment extends SherlockFragment {
 		adapter = new ExpandableListAdapter(getSherlockActivity().getApplicationContext(), new ArrayList<String>(),
 				new ArrayList<ArrayList<String>>());
     	setListView((ExpandableListView)view.findViewById(R.id.streetList));
-    	startStreet = (TextView)view.findViewById(R.id.startStreet);
 
 		return view;
 	}
@@ -181,10 +174,5 @@ public class OzTollTextFragment extends SherlockFragment {
 					listView.collapseGroup(groupCount);
 			}
 		});
-	}
-
-	public void setStart(String string) {
-		if (startStreet!=null)
-			startStreet.setText(string);
 	}
 }
