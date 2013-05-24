@@ -81,12 +81,12 @@ public class OzTollXML {
 
 	public String getTimeStamp() {
 		NodeList nodes = xmldata.getElementsByTagName("oztoll");
-		for (int s=0; s< nodes.getLength(); s++){
-			Node currentNode = nodes.item(s);
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE){
-				return xmldata.getNodeData(currentNode, "timestamp");
+		if (nodes!=null)
+			for (int s=0; s<nodes.getLength(); s++){
+				Node currentNode = nodes.item(s);
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE)
+					return xmldata.getNodeData(currentNode, "timestamp");
 			}
-		}
 		return null;
 	}
 	

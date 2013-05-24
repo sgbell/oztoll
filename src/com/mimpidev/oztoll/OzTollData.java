@@ -30,7 +30,7 @@ public class OzTollData implements Runnable{
 	private Object syncObject, dataSync;
 	private SharedPreferences sharedPreferences;
 	private Street start, finish;
-		
+	
 	/** Initializes the vectors.
 	 */
 	public OzTollData(){
@@ -163,7 +163,20 @@ public class OzTollData implements Runnable{
 	public ArrayList<Street> getValidStreetsArray(String city) {
 		ArrayList<Street> streetList = new ArrayList<Street>();
 		
-		
+		for (int cityCount=0; cityCount<cities.size(); cityCount++)
+			if ((city.isEmpty())||
+				(city==null)||
+				(city.equalsIgnoreCase(cities.get(cityCount).getCityName()))){
+				for (int twc=0; twc < cities.get(cityCount).getTollwayCount(); twc++)
+					for (int tsc=0; tsc < cities.get(cityCount).getStreetCount(twc); tsc++){
+						Street newStreet = cities.get(cityCount).getStreet(twc, tsc);
+						if ((newStreet.isValid())||
+							(newStreet.equals(start))||
+							(newStreet.equals(finish))){
+							streetList.add(newStreet);
+						}
+					}
+			}
 		
 		return streetList;
 	}
@@ -852,16 +865,57 @@ public class OzTollData implements Runnable{
 		return null;
 	}
 
+	/** This method is used to find a street found at a specified Longitude & Latitude
+	 * 
+	 * @param latLng
+	 * @return
+	 */
 	public Street findStreetByLatLng(LatLng latLng) {
-		Street street;
+		Street street=null;
+		boolean streetFound=false;
+		int cityCount=0,
+			tollwayCount=0,
+			streetCount=0;
 		
-		
-		
-		return null;
+		// While loop to go through all the cities
+		while ((!streetFound)&&(cityCount<cities.size())){
+			tollwayCount=0;
+			// While loop to go through all tollways on each city
+			while ((!streetFound)&&(tollwayCount<cities.get(cityCount).getTollwayCount())){
+				streetCount=0;
+				// While loop to go through all streets on each tollway
+				while ((!streetFound)&&(streetCount<cities.get(cityCount).getTollway(tollwayCount).getStreets().size())){
+					Street currentStreet = cities.get(cityCount).getTollway(tollwayCount).getStreets().get(streetCount);
+					LatLng currentLatLng = new GeoPoint((int)currentStreet.getY(),(int)currentStreet.getX()).getLatLng();
+					// If location passed in is the current street, mark that it's found
+					if ((currentLatLng.longitude==latLng.longitude)&&
+						(currentLatLng.latitude==latLng.latitude)){
+						street=currentStreet;
+						streetFound=true;
+					}
+					streetCount++;
+				}
+				tollwayCount++;
+			}
+			cityCount++;
+		}
+		return street;
 	}
 
-	public int getCityId() {
+	/** Get the Id of the city speicified by name
+	 * @param selectedCity
+	 * @return cityId
+	 */
+	public int getCityId(String selectedCity) {
+		boolean cityFound=false;
+		int cityCount=0;
 		
-		return 0;
+		while ((!cityFound)&&(cityCount<cities.size())){
+			if (cities.get(cityCount).getCityName().equalsIgnoreCase(selectedCity))
+				cityFound=true;
+			else
+				cityCount++;
+		}
+		return cityCount;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public void resetView(){
 		tollways=new ArrayList<String>();
 		streets=new ArrayList<ArrayList<String>>();
+		start="";
 	}
 	
 	public void addTollway(String tollway){
@@ -94,6 +96,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		TextView tv = (TextView) convertView.findViewById(R.id.streetName);
 		if (street.equalsIgnoreCase(start)){
 			tv.setBackgroundColor(Color.BLUE);
+		} else {
+			tv.setBackgroundColor(Color.TRANSPARENT);
 		}
 		tv.setText(street);
 		return convertView;

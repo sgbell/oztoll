@@ -80,10 +80,14 @@ public class MapFragment extends SherlockMapFragment {
 				
 				// Working here. need to add code to findStreetByLatLng
 				Street currentStreet=global.getTollData().findStreetByLatLng(latLngChanged);
-				Message newMessage = handler.obtainMessage();
-				newMessage.what=9;
-				newMessage.obj=currentStreet;
-				handler.dispatchMessage(newMessage);
+				// Just incase something changed in the data file and the street doesn't exist in the tolldata
+				// check the returned value, make sure it's not null
+				if (currentStreet!=null){
+					Message newMessage = handler.obtainMessage();
+					newMessage.what=9;
+					newMessage.obj=currentStreet;
+					handler.dispatchMessage(newMessage);
+				}
 
 				return true;
 			}
@@ -110,7 +114,7 @@ public class MapFragment extends SherlockMapFragment {
 			String selectedCity = preferences.getString("selectedCity", "");
 			int cityCount=0;
 			if (!selectedCity.equalsIgnoreCase(""))
-				cityCount=global.getTollData().getCityId();
+				cityCount=global.getTollData().getCityId(selectedCity);
 			mapView.moveCamera(CameraUpdateFactory.newLatLngZoom(global.getTollData().getCityById(cityCount).getOrigin().getLatLng(),12));
 
 			Point screenSize= new Point();
@@ -143,28 +147,18 @@ public class MapFragment extends SherlockMapFragment {
 		mapView.clear();
 		
 		ArrayList<Street> validStreets = global.getTollData().getValidStreetsArray(preferences.getString("selectedCity", ""));
-		
-		/*
-		for (int twc=0; twc < global.getTollData().getTollwayCount(); twc++)
-			for (int tsc=0; tsc < global.getTollData().getStreetCount(twc); tsc++){
-				Street newStreet = global.getTollData().getStreet(twc, tsc);
-				if ((newStreet.isValid())||
-					(newStreet.equals(global.getTollData().getStart()))||
-					(newStreet.equals(global.getTollData().getFinish()))){
-					MarkerOptions newMarker = new MarkerOptions();
-					newMarker.position(new GeoPoint((int)newStreet.getY(),(int)newStreet.getX()).getLatLng());
-		    		if ((newStreet.isValid())&&
-	        			(newStreet!=global.getTollData().getFinish())){
-						newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(newStreet.getLocation(),false)));
-		        	} else {
-		        		if ((global.getTollData().getStart()==newStreet)||
-		        			(global.getTollData().getFinish()==newStreet))
-							newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(newStreet.getLocation(),true)));
-	        		}
-		    		mapView.addMarker(newMarker);
-				}
-			}
-		*/
+		for (int streetCount=0; streetCount<validStreets.size(); streetCount++){
+			Street currentStreet = validStreets.get(streetCount);
+			MarkerOptions newMarker = new MarkerOptions();
+			newMarker.position(new GeoPoint((int)currentStreet.getY(), (int)currentStreet.getX()).getLatLng());
+			if ((global.getTollData().getFinish()==currentStreet)||
+				(global.getTollData().getStart()==currentStreet))
+				newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
+			else
+				newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
+			
+			mapView.addMarker(newMarker);
+		}
 	}
 	
     /**

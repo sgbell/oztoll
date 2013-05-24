@@ -77,10 +77,11 @@ public class OzTollTextFragment extends SherlockFragment {
 		//newMessage.what = 10;
 		//handler.dispatchMessage(newMessage);
 
+		/*
 		if (global.getTollData().getStart()!=null)
 			setStart("Start Street: "+global.getTollData().getStart().getName());
 		else
-			setStart("");
+			setStart("");*/
 		populateStreets();
 
 		//newMessage = handler.obtainMessage();

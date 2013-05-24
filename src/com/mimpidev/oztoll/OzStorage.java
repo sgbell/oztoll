@@ -64,12 +64,14 @@ public class OzStorage {
 	
 	public OzTollData openExternalFile(String filename){
 		if ((externalStatus()==EXTERNAL_READ_ONLY)||(externalStatus()==EXTERNAL_READ_WRITE)){
-			File openFile= new File(Environment.getExternalStorageDirectory()+"oztoll/"+filename);
+			File openFile= new File(Environment.getExternalStorageDirectory()+"/oztoll/"+filename);
 			
-			OzTollData newDataFile = new OzTollData(openFile);
-			newDataFile.readFile();
-			
-			return newDataFile;
+			if (openFile.exists()){
+				OzTollData newDataFile = new OzTollData(openFile);
+				newDataFile.readFile();
+				
+				return newDataFile;
+			}
 		}
 		
 		return null;

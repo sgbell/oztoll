@@ -182,61 +182,76 @@ public class OzTollActivity extends SherlockFragmentActivity {
      */
     private void checkForUpdatedData() {
     	
-    	Long storedTimestamp = preferences.getLong("lastUpdate", 0);
-    	Long currentTimestamp = System.currentTimeMillis()/1000;
-    	boolean checkWebsite=false;
+    	Thread newThread = new Thread(){
+    		
+    		public void run(){
+    	    	Long storedTimestamp = preferences.getLong("lastUpdate", 0);
+    	    	Long currentTimestamp = System.currentTimeMillis()/1000;
+    	    	boolean checkWebsite=false;
+    	    	
+    	    	String lastModified = preferences.getString("lastModified", "");
+    	    	String internetModification;
+    	    	URL url;
+    	    	URLConnection connection;
+    	    	
+    	    	// If the current timestamp is 1 day after the last check.
+    	    	if ((storedTimestamp==0)||
+    	    		(currentTimestamp >= (storedTimestamp+86400))){
+    	    		checkWebsite=true;
+    	    	}
+    	    	
+    	        ConnectivityManager connManager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    	        android.net.NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+    	        android.net.NetworkInfo mobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+    	        
+    	    	if ((wifi.isConnected())||(mobile.isConnected())){
+    	        	if (checkWebsite){
+    	        		try {
+    	    				url = new URL("http://www.mimpidev.com/oztoll/oztoll.xml");
+    	    				connection = url.openConnection();
+    	    				internetModification = connection.getHeaderField("Last-Modified");
+    	    				
+    	    				Editor prefEditor = preferences.edit();
+    	    				
+    	    				// Is the last modified date stored in preferences different to the one on the website
+    	    				if (!lastModified.equalsIgnoreCase(internetModification)){
+    	    					// Download file here
+    	    					OzStorage storage = new OzStorage();
+    	    					File saveFile = storage.saveFiletoExternal("temp.xml");
+    	    					InputStream inputStream = connection.getInputStream();
+    	    					
+    	    					RandomAccessFile outstream = new RandomAccessFile(saveFile,"rw");
+    	    					int byteRead=0;
+    	    					byte buffer[]=new byte[1024];
+    	    					while ((byteRead = inputStream.read(buffer)) > 0){
+    	    						outstream.write(buffer, 0, byteRead);
+    	    					}
+    	    					outstream.close();
+    	    					inputStream.close();
+    	    					
+    	    					OzTollData temp = storage.openExternalFile("temp.xml");
+    	    					if (temp!=null){
+        	    					if (Long.parseLong(temp.getTimestamp())>
+    	    						    Long.parseLong(global.getTollData().getTimestamp())){
+    	    						storage.keepFile(saveFile);
+    	    						global.setTollData(temp);
+    	    						prefEditor.putBoolean("location", true);
+        	    					} else {
+        	    						storage.removeFile(saveFile);
+        	    					}
+    	    					}
+    	    				}
+    	    				prefEditor.putLong("lastUpdate", System.currentTimeMillis()/1000);
+    	    	    		prefEditor.commit();
+    	    			} catch (MalformedURLException e) {
+    	    			} catch (IOException e) {
+    	    			}
+    	        	}
+    	    	}
+    		}
+    	};
     	
-    	String lastModified = preferences.getString("lastModified", "");
-    	String internetModification;
-    	URL url;
-    	URLConnection connection;
-    	
-    	// If the current timestamp is 1 day after the last check.
-    	if ((storedTimestamp>0)&&
-    		(currentTimestamp >= (storedTimestamp+86400))){
-    		checkWebsite=true;
-    	}
-    	
-    	if (checkWebsite){
-    		try {
-				url = new URL("http://www.mimpidev.com/oztoll/oztoll.xml");
-				connection = url.openConnection();
-				internetModification = connection.getHeaderField("Last-Modified");
-
-				Editor prefEditor = preferences.edit();
-				
-				// Is the last modified date stored in preferences different to the one on the website
-				if (!lastModified.equalsIgnoreCase(internetModification)){
-					// Download file here
-					OzStorage storage = new OzStorage();
-					File saveFile = storage.saveFiletoExternal("temp.xml");
-					InputStream inputStream = connection.getInputStream();
-					
-					RandomAccessFile outstream = new RandomAccessFile(saveFile,"rw");
-					int byteRead=0;
-					byte buffer[]=new byte[1024];
-					while ((byteRead = inputStream.read(buffer)) > 0){
-						outstream.write(buffer, 0, byteRead);
-					}
-					outstream.close();
-					inputStream.close();
-					
-					OzTollData temp = storage.openExternalFile("temp.xml");
-					if (Long.getLong(temp.getTimestamp()).longValue()>
-						Long.getLong(global.getTollData().getTimestamp()).longValue()){
-						storage.keepFile(saveFile);
-						global.setTollData(temp);
-						prefEditor.putBoolean("location", true);
-					} else {
-						storage.removeFile(saveFile);
-					}
-				}
-				prefEditor.putLong("lastUpdate", System.currentTimeMillis()/1000);
-	    		prefEditor.commit();
-			} catch (MalformedURLException e) {
-			} catch (IOException e) {
-			}
-    	}
+    	newThread.start();
 	}
 
 	public void onPause(){
