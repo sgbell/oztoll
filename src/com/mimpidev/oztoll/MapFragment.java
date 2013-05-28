@@ -150,7 +150,7 @@ public class MapFragment extends SherlockMapFragment {
 		for (int streetCount=0; streetCount<validStreets.size(); streetCount++){
 			Street currentStreet = validStreets.get(streetCount);
 			MarkerOptions newMarker = new MarkerOptions();
-			newMarker.position(new GeoPoint((int)currentStreet.getY(), (int)currentStreet.getX()).getLatLng());
+			newMarker.position(currentStreet.getLatLng());
 			if ((global.getTollData().getFinish()==currentStreet)||
 				(global.getTollData().getStart()==currentStreet))
 				newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));

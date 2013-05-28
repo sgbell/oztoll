@@ -5,6 +5,8 @@ package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author bugman
  *
@@ -131,12 +133,8 @@ public class OzTollCity {
 		return tollways.get(twc).getTollPoints().size();
 	}
 
-	public float getStreetX(int twc, int twi) {
-		return tollways.get(twc).getStreets().get(twi).getX();
-	}
-
-	public float getStreetY(int twc, int twi) {
-		return tollways.get(twc).getStreets().get(twi).getY();
+	public LatLng getStreetLatLng(int twc, int twi){
+		return tollways.get(twc).getStreets().get(twi).getLatLng();
 	}
 
 	public String getStreetName(int twc, int twi) {

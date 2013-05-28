@@ -114,23 +114,19 @@ public class OzTollData implements Runnable{
 			
 			newCity.setCityName(ozTollXML.getCityName(cityCount));
 			newCity.setExpiryDate(ozTollXML.getExpiry(cityCount));
-			int streetCounter=1;
-			
 			newCity.setOrigin(ozTollXML.getOrigin(cityCount));
 			
 			for (int twc=0; twc < ozTollXML.getTollwayCount(cityCount); twc++){
 				Tollway newTollway = new Tollway(ozTollXML.getTollwayName(cityCount,twc));
 				// Populate the streets list in the tollway class
-				streetCounter=1;
+				int streetCounter=1;
 				for (int tsc=0; tsc < ozTollXML.getStreetCount(cityCount,twc); tsc++){
 					
 					Street newStreet = new Street(ozTollXML.getStreetDetail(cityCount, twc, tsc,"name"), 
 												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"longitude")),
 												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"latitude")),
 												  streetCounter++);
-					/* 
-					 * I decided to use float globally for x,y details, as the screen location is stored as float
-					 */
+					 // I decided to use float globally for x,y details, as the screen location is stored as float
 					if (newStreet!=null)
 						newTollway.addStreet(newStreet);
 				}
@@ -184,7 +180,6 @@ public class OzTollData implements Runnable{
 	public ArrayList<String[]> getValidStreetsAsStrings(String city){
 		ArrayList<String[]> streetList = new ArrayList<String[]>();
 		
-		Log.w("oztoll","Selected City: "+city);
 		if ((city.isEmpty())||(city==null)){
 			for (int cityCount=0; cityCount<cities.size(); cityCount++)
 				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
@@ -200,7 +195,6 @@ public class OzTollData implements Runnable{
 			int cityCount=0;
 			while ((!cityFound)&&(cityCount<cities.size())){
 				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
-					Log.w("oztoll", "Current City: "+cities.get(cityCount).getCityName());
 					cityFound=true;
 					
 					for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
@@ -233,32 +227,6 @@ public class OzTollData implements Runnable{
 		this.timestamp = timestamp;
 	}
 
-	/** This method finds the street with the lowest value for X, and returns the lowest value  
-	 * 
-	 * @return The lowest value for X
-	 */
-	public Coordinates[] getMapLimits(){
-		Coordinates limit[] = new Coordinates[2];
-		limit[0] = new Coordinates();
-		limit[1] = new Coordinates();
-		
-		for (int cityCount=0; cityCount < cities.size(); cityCount++){
-			ArrayList<Tollway> tollways = cities.get(cityCount).getTollways();
-			for (int twc=0; twc < tollways.size(); twc++){
-				for (int ec=0; ec < tollways.get(twc).getStreets().size(); ec++){
-					if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getX()<limit[0].getX()))
-						limit[0].setX(tollways.get(twc).getStreets().get(ec).getX());
-					if (tollways.get(twc).getStreets().get(ec).getX()>limit[1].getX())
-						limit[1].setX(tollways.get(twc).getStreets().get(ec).getX());
-					if (((twc==0)&&(ec==0))||(tollways.get(twc).getStreets().get(ec).getY()<limit[0].getY()))
-						limit[0].setY(tollways.get(twc).getStreets().get(ec).getY());
-					if (tollways.get(twc).getStreets().get(ec).getY()>limit[1].getY())
-						limit[1].setY(tollways.get(twc).getStreets().get(ec).getY());
-				}
-			}
-		}
-		return limit;
-	}
 	
 	public TollCharges getTollRate(Street start, Street end, Tollway tollway){
 		TollCharges charges= new TollCharges();
@@ -888,7 +856,7 @@ public class OzTollData implements Runnable{
 				// While loop to go through all streets on each tollway
 				while ((!streetFound)&&(streetCount<cities.get(cityCount).getTollway(tollwayCount).getStreets().size())){
 					Street currentStreet = cities.get(cityCount).getTollway(tollwayCount).getStreets().get(streetCount);
-					LatLng currentLatLng = new GeoPoint((int)currentStreet.getY(),(int)currentStreet.getX()).getLatLng();
+					LatLng currentLatLng = currentStreet.getLatLng();
 					// If location passed in is the current street, mark that it's found
 					if ((currentLatLng.longitude==latLng.longitude)&&
 						(currentLatLng.latitude==latLng.latitude)){

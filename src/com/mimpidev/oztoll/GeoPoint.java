@@ -15,6 +15,13 @@ public class GeoPoint {
 	public GeoPoint(int latitude, int longitude) {
 		setLatLng(new LatLng((double)(latitude/1E6), (double)(longitude/1E6)));
 	}
+	
+	public GeoPoint(double latitude, double longitude){
+		setLatLng(new LatLng(latitude/1E6, longitude/1E6));
+	}
+	
+	public GeoPoint(){
+	}
 
 	/**
 	 * @return the latLng

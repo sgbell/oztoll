@@ -10,7 +10,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 /**
  * @author bugman
@@ -18,15 +17,6 @@ import android.util.Log;
  */
 public class OzTollXML {
 	private XmlReader xmldata;
-	private NodeList cityNodes,
-					 tollwayNodes,
-					 currentStreetList,
-					 currentTollPathways,
-					 currentTollNodes;
-	private Node currentTollwayNode,
-				 currentCity;
-	private int currentTollwayId=-1,
-				currentCityId=-1;
 
 	// Hard coding the toll types into the program.
 	String tollType[] = {"car","car-we","lcv","lcv-day",
@@ -49,16 +39,11 @@ public class OzTollXML {
 	}
 	
 	public NodeList getCityNodes(){
-		if (cityNodes==null){
-			cityNodes = xmldata.getElementsByTagName("city");
-		}
-		return cityNodes;
+		return xmldata.getElementsByTagName("city");
 	}
 	
 	public int getCityCount(){
-		getCityNodes();
-		
-		return cityNodes.getLength();
+		return xmldata.getNodeListCount(getCityNodes());
 	}
 	
 	/**
@@ -66,13 +51,9 @@ public class OzTollXML {
 	 * @return city name stored in xml file.
 	 */
 	public String getCityName(int city){
-		getCityNodes();
-		
-		if (cityNodes.getLength()>0){
-			if (currentCityId!=city){
-				currentCity = cityNodes.item(city);
-				currentCityId=city;
-			}
+		int cityCount = getCityCount();
+		if ((city<cityCount)&&(cityCount>0)){
+			Node currentCity = getCityNodes().item(city);
 			if (currentCity.getNodeType() == Node.ELEMENT_NODE) {
 				return xmldata.getNodeData(currentCity,"name");
 			}
@@ -81,17 +62,12 @@ public class OzTollXML {
 	}
 	
 	public String getExpiry(int city){
-		getCityNodes();
-		
-		if (cityNodes.getLength()>0){
-			if (currentCityId!=city){
-				currentCity = cityNodes.item(city);
-				currentCityId=city;
-			}
+		int cityCount = getCityCount();
+		if ((city<cityCount)&&(cityCount>0)){
+			Node currentCity = getCityNodes().item(city);
 			if (currentCity.getNodeType() == Node.ELEMENT_NODE)
 				return xmldata.getNodeData(currentCity, "expiry");
 		}
-
 		return null;
 	}
 
@@ -107,13 +83,10 @@ public class OzTollXML {
 	}
 	
 	public GeoPoint getOrigin(int city){
-		cityNodes=getCityNodes();
+		NodeList cityNodes=getCityNodes();
 		
 		if ((cityNodes.getLength()>0)&&(city<cityNodes.getLength())){
-			if (currentCityId!=city){
-				currentCity = cityNodes.item(city);
-				currentCityId=city;
-			}
+			Node currentCity = cityNodes.item(city);
 			NodeList originNodes = xmldata.getChildNodesByTagName(currentCity, "origin");
 			if (originNodes.getLength()==1){
 				Node subNode = originNodes.item(0);
@@ -126,13 +99,12 @@ public class OzTollXML {
 	}
 	
 	public NodeList getTollwayNodes(int city){
+		NodeList cityNodes=getCityNodes();
+		
 		if ((cityNodes.getLength()>0)&&(city<cityNodes.getLength())){
-			if (currentCityId!=city){
-				currentCity = cityNodes.item(city);
-				currentCityId=city;
-			}
-			tollwayNodes = xmldata.getChildNodesByTagName(currentCity, "tollway");
-			return tollwayNodes;
+			Node currentCity = cityNodes.item(city);
+		
+			return xmldata.getChildNodesByTagName(currentCity, "tollway");
 		}
 		
 		return null;
@@ -143,21 +115,17 @@ public class OzTollXML {
 	 * @return
 	 */
 	public int getTollwayCount(int city){
-		getTollwayNodes(city);
+		NodeList tollwayNodes = getTollwayNodes(city);
 
 		return xmldata.getNodeListCount(tollwayNodes);
 	}
 	
 	public Node getTollwayNode(int city, int tollway){
-		getTollwayNodes(city);
+		NodeList tollwayNodes = getTollwayNodes(city);
 		
 		if (tollwayNodes!=null){
 			if ((tollwayNodes.getLength()>0)&&(tollway<getTollwayCount(city))){
-				if (currentTollwayId!=tollway){
-					currentTollwayNode = tollwayNodes.item(tollway);
-					currentTollwayId=tollway;
-				}
-				return currentTollwayNode;
+				return tollwayNodes.item(tollway);
 			}
 		}
 		
@@ -170,7 +138,7 @@ public class OzTollXML {
 	 * @return
 	 */
 	public String getTollwayName(int cityCount, int tollway){
-		getTollwayNode(cityCount, tollway);
+		Node currentTollwayNode = getTollwayNode(cityCount, tollway);
 		
 		if(currentTollwayNode!=null){
 			if (currentTollwayNode.getNodeType() == Node.ELEMENT_NODE){
@@ -182,14 +150,14 @@ public class OzTollXML {
 	}
 	
 	public NodeList getStreetNodes(int cityCount, int tollway){
-		getTollwayNode(cityCount, tollway);
+		Node currentTollwayNode = getTollwayNode(cityCount, tollway);
 		
 		if (currentTollwayNode!=null){
 			String[] nodes = {"exit","street"};
 			int[] index = {0};
-			currentStreetList = xmldata.getNodesList(nodes,index,currentTollwayNode);
+			return xmldata.getNodesList(nodes,index,currentTollwayNode);
 		}
-		return currentStreetList;
+		return null;
 	}
 	
 	/**
@@ -198,9 +166,7 @@ public class OzTollXML {
 	 * @return
 	 */
 	public int getStreetCount(int cityCount, int tollway){
-		getStreetNodes(cityCount, tollway);
-		
-		return xmldata.getNodeListCount(currentStreetList);
+		return xmldata.getNodeListCount(getStreetNodes(cityCount, tollway));
 	}
 
 	/**
@@ -212,7 +178,7 @@ public class OzTollXML {
 	 * @return
 	 */
 	public String getStreetDetail(int city, int tollway, int exitcount, String value){
-		getStreetNodes(city, tollway);
+		NodeList currentStreetList = getStreetNodes(city, tollway);
 		
 		if ((currentStreetList!=null)&&(exitcount<getStreetCount(city, tollway))){
 			Node currentNode = currentStreetList.item(exitcount);
@@ -225,15 +191,12 @@ public class OzTollXML {
 		getTollwayNode(city, tollway);
 		String[] nodes = {"tollpoint"};
 		int[] index = null;
-		currentTollNodes = xmldata.getNodesList(nodes,index, currentTollwayNode);
 
-		return currentTollNodes;
+		return xmldata.getNodesList(nodes,index, getTollwayNode(city,tollway));
 	}
 
 	public int getTollCount(int city, int tollway){
-		getTollNodes(city, tollway);
-
-		return xmldata.getNodeListCount(currentTollNodes);
+		return xmldata.getNodeListCount(getTollNodes(city, tollway));
 	}
 	
 	/**
