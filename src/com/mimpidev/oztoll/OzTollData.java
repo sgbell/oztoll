@@ -5,6 +5,10 @@
 package com.mimpidev.oztoll;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -26,18 +30,21 @@ public class OzTollData implements Runnable{
 		
 	private ArrayList<OzTollCity> cities;
 	private String timestamp;
-	private OzTollXML ozTollXML;
+	//private OzTollXML ozTollXML;
+	private XMLPullParserHandler xmlReader;
 	public String connectionsTest;
 	private boolean finishedRead=false;
 	private Object syncObject, dataSync;
 	private SharedPreferences sharedPreferences;
 	private Street start, finish;
+	private InputStream dataFile;
 	
 	/** Initializes the vectors.
 	 */
 	public OzTollData(){
-		cities = new ArrayList<OzTollCity>();
-		ozTollXML = new OzTollXML();
+		//cities = new ArrayList<OzTollCity>();
+		//ozTollXML = new OzTollXML();
+		xmlReader = new XMLPullParserHandler();
 	}
 	
 	/** This constructor initializes the vectors, and loads the xml file and calls
@@ -47,27 +54,42 @@ public class OzTollData implements Runnable{
 	 */
 	public OzTollData(String filename, AssetManager assetMan){
 		this();
-		ozTollXML.setXMLReader(filename,assetMan);
+		try {
+			dataFile = assetMan.open(filename);
+		} catch (IOException e) {
+		}
 	}
 	
 	public OzTollData(String filename){
 		this();
-		ozTollXML.setXMLReader(filename);
+		try {
+			dataFile = new FileInputStream(filename);
+		} catch (FileNotFoundException e) {
+		}
 	}
 	
 	public OzTollData(File fileLink){
 		this();
-		ozTollXML.setXMLReader(fileLink);
+		try {
+			dataFile = new FileInputStream(fileLink);
+		} catch (FileNotFoundException e) {
+		}
 	}
 	
 	public void setDataFile(String filename, AssetManager assetMan){
 		finishedRead=false;
-		ozTollXML.setXMLReader(filename,assetMan);
+		try {
+			dataFile = assetMan.open(filename);
+		} catch (IOException e) {
+		}
 	}
 	
 	public void setDataFile(String filename){
 		finishedRead=false;
-		ozTollXML.setXMLReader(filename);
+		try {
+			dataFile = new FileInputStream(filename);
+		} catch (FileNotFoundException e) {
+		}
 	}
 	
 	public void setSyncObject(Object syncMe){
@@ -105,46 +127,9 @@ public class OzTollData implements Runnable{
 	 * redraw the screen.
 	 */
 	public void readFile(){
-		cities = new ArrayList<OzTollCity>();
-
-		setTimestamp(ozTollXML.getTimeStamp());
+		cities = xmlReader.parse(dataFile);
+		timestamp = xmlReader.getTimestamp();
 		
-		for (int cityCount=0; cityCount< ozTollXML.getCityCount(); cityCount++){
-			OzTollCity newCity = new OzTollCity();
-			
-			newCity.setCityName(ozTollXML.getCityName(cityCount));
-			newCity.setExpiryDate(ozTollXML.getExpiry(cityCount));
-			newCity.setOrigin(ozTollXML.getOrigin(cityCount));
-			
-			for (int twc=0; twc < ozTollXML.getTollwayCount(cityCount); twc++){
-				Tollway newTollway = new Tollway(ozTollXML.getTollwayName(cityCount,twc));
-				// Populate the streets list in the tollway class
-				int streetCounter=1;
-				for (int tsc=0; tsc < ozTollXML.getStreetCount(cityCount,twc); tsc++){
-					
-					Street newStreet = new Street(ozTollXML.getStreetDetail(cityCount, twc, tsc,"name"), 
-												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"longitude")),
-												  Float.parseFloat(ozTollXML.getStreetDetail(cityCount, twc, tsc,"latitude")),
-												  streetCounter++);
-					 // I decided to use float globally for x,y details, as the screen location is stored as float
-					if (newStreet!=null)
-						newTollway.addStreet(newStreet);
-				}
-				
-				// Array storing all tollways for current city
-				newCity.addTollways(newTollway);
-			}
-			
-			// Populate tolls list
-			for (int twc=0; twc < ozTollXML.getTollwayCount(cityCount); twc++){
-				for (int tec=0; tec < ozTollXML.getTollCount(cityCount,twc); tec++){
-					newCity.getTollway(twc).addToll(ozTollXML.getTollPointRate(cityCount,twc, tec, newCity.getTollway(twc)));
-				}
-			}
-			cities.add(newCity);
-		}
-		setValidStarts();
-
 		finishedRead=true;
 	}
 	
