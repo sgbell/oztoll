@@ -11,16 +11,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.os.Debug;
 import android.text.Html;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * @author bugman
@@ -30,7 +28,6 @@ public class OzTollData implements Runnable{
 		
 	private ArrayList<OzTollCity> cities;
 	private String timestamp;
-	//private OzTollXML ozTollXML;
 	private XMLPullParserHandler xmlReader;
 	public String connectionsTest;
 	private boolean finishedRead=false;
@@ -39,11 +36,9 @@ public class OzTollData implements Runnable{
 	private Street start, finish;
 	private InputStream dataFile;
 	
-	/** Initializes the vectors.
+	/** Initializes the XML Handler.
 	 */
 	public OzTollData(){
-		//cities = new ArrayList<OzTollCity>();
-		//ozTollXML = new OzTollXML();
 		xmlReader = new XMLPullParserHandler();
 	}
 	
@@ -115,6 +110,7 @@ public class OzTollData implements Runnable{
 			synchronized (dataSync){
 				dataSync.notify();
 			}
+			cities = xmlReader.getCities();
 		} catch (NullPointerException e){
 			// Ignore Null pointer that occurs when the program is exiting
 		}
@@ -127,8 +123,10 @@ public class OzTollData implements Runnable{
 	 * redraw the screen.
 	 */
 	public void readFile(){
+		xmlReader.setDataSync(dataSync);
 		cities = xmlReader.parse(dataFile);
 		timestamp = xmlReader.getTimestamp();
+		setValidStarts();
 		
 		finishedRead=true;
 	}
@@ -353,20 +351,20 @@ public class OzTollData implements Runnable{
 
 		// LinearLayout.LayoutParams to shorten the height of the textview
 		fillParentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-		fillParentParams.setMargins(0, 0, 0, -30);
+		fillParentParams.setMargins(0, 0, 0, 0);
 		wrapContentParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-		wrapContentParams.setMargins(0, 0, 0, -30);
+		wrapContentParams.setMargins(0, 0, 0, 0);
 		
 		if (selectedVehicle.equalsIgnoreCase("car")){
-			title="<h2>Car</h2>";
+			title="Car";
 		} else if (selectedVehicle.equalsIgnoreCase("lcv")){
-			title="<h2>Light Commercial Vehicle</h2>";
+			title="Light Commercial Vehicle";
 		} else if (selectedVehicle.equalsIgnoreCase("hcv")){
-			title="<h2>Heavy Commercial Vehicle</h2>";
+			title="Heavy Commercial Vehicle";
 		} else if (selectedVehicle.equalsIgnoreCase("motorcycle")){
-			title="<h2>Motorcycle</h2>";
+			title="Motorcycle";
 		} else if (selectedVehicle.equalsIgnoreCase("all")){
-			title="<h2>All</h2>";
+			title="All";
 		}
 		
 		tollTitle.setText(Html.fromHtml(title));
@@ -374,7 +372,7 @@ public class OzTollData implements Runnable{
 		tollTitle.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTitle);
 		TextView tollTrip = new TextView(appContext);
-		tollTrip.setText(Html.fromHtml("<h2>"+start.getName()+" - "+finish.getName()+"</h2>"));
+		tollTrip.setText(Html.fromHtml(start.getName()+" - "+finish.getName()));
 		tollTrip.setPadding(10, 0, 0, 0);
 		//tollTrip.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTrip);
@@ -412,7 +410,7 @@ public class OzTollData implements Runnable{
 					// tollway Name.
 					LinearLayout tollwayLayout = new LinearLayout(appContext);
 					tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
-					tollwayName.setText(Html.fromHtml("<h2>"+currentToll.tollway+"</h2>"));
+					tollwayName.setText(Html.fromHtml(currentToll.tollway));
 					tollwayName.setPadding(10, 0, 20, 0);
 
 					tollwayLayout.addView(tollwayName);
@@ -429,7 +427,7 @@ public class OzTollData implements Runnable{
 							(!found)){
 						if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 							TextView tollwayCharge = new TextView(appContext);
-							tollwayCharge.setText(Html.fromHtml("<h2>$"+currentToll.tolls.get(trc).rate+"</h2>"));
+							tollwayCharge.setText(Html.fromHtml("$"+currentToll.tolls.get(trc).rate));
 							tollwayLayout.addView(tollwayCharge);
 							rateLayout.addView(tollwayLayout);
 							found=true;
@@ -475,7 +473,7 @@ public class OzTollData implements Runnable{
 				default:
 					// Need to Sort out the headings when grabbing all results
 					// More than one type of toll for this vehicle
-					tollwayName.setText(Html.fromHtml("<h2>"+currentToll.tollway+"</h2>"));
+					tollwayName.setText(Html.fromHtml(currentToll.tollway));
 					tollwayName.setPadding(10, 0, 0, 0);
 					tollwayName.setLayoutParams(fillParentParams);
 					rateLayout.addView(tollwayName);
@@ -535,11 +533,11 @@ public class OzTollData implements Runnable{
 							LinearLayout tollRateLayout = new LinearLayout(appContext);
 							tollRateLayout.setOrientation(LinearLayout.HORIZONTAL);
 							TextView rateTitle = new TextView(appContext);
-							rateTitle.setText(Html.fromHtml("<h2>"+variation+"</h2>"));
+							rateTitle.setText(Html.fromHtml(variation));
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
-							rateValue.setText(Html.fromHtml("<h2>$"+currentToll.tolls.get(trc).rate+"</h2>"));
+							rateValue.setText(Html.fromHtml("$"+currentToll.tolls.get(trc).rate));
 							tollRateLayout.addView(rateValue);
 							rateLayout.addView(tollRateLayout);
 							

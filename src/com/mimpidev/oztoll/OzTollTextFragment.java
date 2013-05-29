@@ -159,6 +159,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				for (int sc=0;sc<validExits.size();sc++){
 					adapter.addStreet(tollway, validExits.get(sc).getName());
 				}
+				expandGroups();
 			}
 
 			adapter.notifyDataSetChanged();
@@ -172,6 +173,17 @@ public class OzTollTextFragment extends SherlockFragment {
 			public void run() {
 				for (int groupCount=0; groupCount < adapter.getGroupCount(); groupCount++)
 					listView.collapseGroup(groupCount);
+			}
+		});
+	}
+	
+	public void expandGroups(){
+		handler.post(new Runnable(){
+
+			@Override
+			public void run() {
+				for (int groupCount=0; groupCount < adapter.getGroupCount(); groupCount++)
+					listView.expandGroup(groupCount);
 			}
 		});
 	}

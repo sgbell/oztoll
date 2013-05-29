@@ -3,6 +3,8 @@
  */
 package com.mimpidev.oztoll;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -21,8 +23,9 @@ public class GeoPoint {
 	}
 	
 	public GeoPoint(){
+		
 	}
-
+	
 	/**
 	 * @return the latLng
 	 */

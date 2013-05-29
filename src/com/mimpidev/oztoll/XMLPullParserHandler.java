@@ -29,6 +29,7 @@ public class XMLPullParserHandler {
 				   pathBreadcrumbs; /* pathBreadcrumbs is used to track where the program is in the
 				   					 * xml file, for populating the arrays.
 				    				 */
+	private Object dataSync;
 	
 	public XMLPullParserHandler(){
 		cityList = new ArrayList<OzTollCity>();
@@ -47,8 +48,9 @@ public class XMLPullParserHandler {
 			factory = XmlPullParserFactory.newInstance();
 			factory.setNamespaceAware(true);
 			parser = factory.newPullParser();
-			
+
 			parser.setInput(is, null);
+
 			int eventType = parser.getEventType();
 			
 			while (eventType != XmlPullParser.END_DOCUMENT){
@@ -64,74 +66,81 @@ public class XMLPullParserHandler {
 						}
 						if (tagname.equalsIgnoreCase("timestamp")){
 							setTimestamp(parser.nextText());
-						}
-						if (tagname.equalsIgnoreCase("city")){
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if (tagname.equalsIgnoreCase("city")){
 							city = new OzTollCity();
-						}
-						if (tagname.equalsIgnoreCase("name")){
+						} else if (tagname.equalsIgnoreCase("name")){
 							// If parent tag is "city" then set the city Name.
 							if (isParentTag(pathBreadcrumbs,"city"))
 								city.setCityName(parser.nextText());
 							// else If parent tag is "street" then set the street name.
 							else if (isParentTag(pathBreadcrumbs,"street"))
 								name = parser.nextText();
-						}
-						if (tagname.equalsIgnoreCase("expiry")){
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if (tagname.equalsIgnoreCase("expiry")){
 							city.setExpiryDate(parser.nextText());
-						}
-						if (tagname.equalsIgnoreCase("longitude")){
+							// added the following line, because if it's an all in 1 line, it misses the end tag.
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if (tagname.equalsIgnoreCase("longitude")){
 							longitude = parser.nextText();
-						}
-						if (tagname.equalsIgnoreCase("latitude")){
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if (tagname.equalsIgnoreCase("latitude")){
 							latitude = parser.nextText();
-						}
-						if (tagname.equalsIgnoreCase("tollway")){
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if (tagname.equalsIgnoreCase("tollway")){
 							tollway = new Tollway();
 							tollway.setName(parser.getAttributeValue(null, "name"));
-						}
-						if (tagname.equalsIgnoreCase("exit")){
+						} else if (tagname.equalsIgnoreCase("exit")){
 							if (isParentTag(pathBreadcrumbs,"tollpoint"))
 								tollPointExit = new TollPointExit();
-						}
-						if (tagname.equalsIgnoreCase("street")){
+						} else if (tagname.equalsIgnoreCase("street")){
 							String[] breadCrumbs = pathBreadcrumbs.split("->");
-							if (breadCrumbs[breadCrumbs.length-2].equalsIgnoreCase("tollpoint"))
+							if (breadCrumbs[breadCrumbs.length-3].equalsIgnoreCase("tollpoint")){
 								tollPointExit.addExit(tollway.getStreetByName(parser.nextText()));
-						}
-						if (tagname.equalsIgnoreCase("tollpoint")){
+								pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							}
+						} else if (tagname.equalsIgnoreCase("tollpoint")){
 							tollPoint = new TollPoint();
-						}
-						if (tagname.equalsIgnoreCase("start")){
+						} else if (tagname.equalsIgnoreCase("start")){
 							tollPoint.addStart(tollway.getStreetByName(parser.nextText()));
-						}
-						if ((tagname.equalsIgnoreCase("car"))&&
-							(tagname.equalsIgnoreCase("lcv"))&&
-							(tagname.equalsIgnoreCase("hcv"))&&
-							(tagname.equalsIgnoreCase("cv-day"))&&
-							(tagname.equalsIgnoreCase("cv-night"))&&
-							(tagname.equalsIgnoreCase("hcv-day"))&&
-							(tagname.equalsIgnoreCase("hcv-night"))&&
-							(tagname.equalsIgnoreCase("lcv-day"))&&
-							(tagname.equalsIgnoreCase("lcv-night"))&&
-							(tagname.equalsIgnoreCase("car-we"))&&
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						} else if ((tagname.equalsIgnoreCase("car"))||
+							(tagname.equalsIgnoreCase("lcv"))||
+							(tagname.equalsIgnoreCase("hcv"))||
+							(tagname.equalsIgnoreCase("cv-day"))||
+							(tagname.equalsIgnoreCase("cv-night"))||
+							(tagname.equalsIgnoreCase("hcv-day"))||
+							(tagname.equalsIgnoreCase("hcv-night"))||
+							(tagname.equalsIgnoreCase("lcv-day"))||
+							(tagname.equalsIgnoreCase("lcv-night"))||
+							(tagname.equalsIgnoreCase("car-we"))||
 							(tagname.equalsIgnoreCase("mc"))){
 								TollRate newTollRate = new TollRate();
 								newTollRate.vehicleType=tagname;
 								newTollRate.rate=parser.nextText();
 								tollPointExit.addRate(newTollRate);
+								pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						}
 						break;
 					case XmlPullParser.END_TAG:
 						if (tagname.equalsIgnoreCase("city")){
 							cityList.add(city);
+							try {
+								synchronized (dataSync){
+									dataSync.notify();
+								}
+							} catch (NullPointerException e){
+								// Ignore Null pointer that occurs when the program is exiting
+							}
 						}
 						if (tagname.equalsIgnoreCase("origin")){
 							city.setOrigin(new GeoPoint(Integer.parseInt(latitude),Integer.parseInt(longitude)));
 						}
 						if (tagname.equalsIgnoreCase("street")){
 							String[] breadCrumbs = pathBreadcrumbs.split("->");
-							if (breadCrumbs[breadCrumbs.length-2].equalsIgnoreCase("tollpoint")){
-								street = new Street(name, new GeoPoint(Double.parseDouble(latitude),Double.parseDouble(longitude)),tollway.getStreets().size()+1);
+							if (!breadCrumbs[breadCrumbs.length-3].equalsIgnoreCase("tollpoint")){
+								GeoPoint location =new GeoPoint(Double.parseDouble(latitude),Double.parseDouble(longitude));
+								street = new Street(name, location, tollway.getStreets().size()+1);
 								tollway.addStreet(street);
 							}
 						}
@@ -148,20 +157,22 @@ public class XMLPullParserHandler {
 							city.addTollways(tollway);
 						}
 						// work here. as this is end tag, remove the tag (that ended) from the pathBreadcrumbs
-						pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+						if (!pathBreadcrumbs.equalsIgnoreCase("oztoll"))
+							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						break;
 				}
 				eventType = parser.next();
 			}
-		} catch (XmlPullParserException e) {
 		} catch (IOException e) {
+		} catch (XmlPullParserException e) {
 		}
 		
 		return cityList;
 	}
 	
 	public boolean isParentTag(String path, String parentTag){
-		if (path.substring((path.length()-parentTag.length()),path.length()).equalsIgnoreCase(parentTag))
+		String[] splitPath = path.split("->");
+		if (splitPath[splitPath.length-2].equalsIgnoreCase(parentTag))
 			return true;
 		else
 			return false;
@@ -179,5 +190,9 @@ public class XMLPullParserHandler {
 	 */
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public void setDataSync(Object dataSync) {
+		this.dataSync=dataSync;
 	}
 }

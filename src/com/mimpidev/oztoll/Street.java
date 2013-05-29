@@ -20,16 +20,14 @@ public class Street extends GeoPoint{
 	
 	
 	public Street(String name, GeoPoint coords){
-		super(coords.getLatLng().latitude,coords.getLatLng().longitude);
+		super();
+		this.setLatLng(coords.getLatLng());
 		this.name = name;
 	}
 	
 	public Street(String name, GeoPoint coords, int i){
-		this(name,coords.getLatLng().longitude,coords.getLatLng().longitude, i);
-	}
-	
-	public Street(String name, double longitude, double latitude, int i){
-		super(latitude,longitude);
+		super();
+		this.setLatLng(coords.getLatLng());
 		this.name = name;
 		location = i > 0 && i < 27 ? (char)(i + 64) : null;
 	}
