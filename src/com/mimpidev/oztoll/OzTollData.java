@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -368,11 +369,13 @@ public class OzTollData implements Runnable{
 		}
 		
 		tollTitle.setText(Html.fromHtml(title));
+		tollTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 		tollTitle.setPadding(10, 0, 0, 0);
 		tollTitle.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTitle);
 		TextView tollTrip = new TextView(appContext);
-		tollTrip.setText(Html.fromHtml(start.getName()+" - "+finish.getName()));
+		tollTrip.setText(start.getName()+" - "+finish.getName());
+		tollTrip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 		tollTrip.setPadding(10, 0, 0, 0);
 		//tollTrip.setLayoutParams(fillParentParams);
 		rateLayout.addView(tollTrip);
@@ -410,7 +413,8 @@ public class OzTollData implements Runnable{
 					// tollway Name.
 					LinearLayout tollwayLayout = new LinearLayout(appContext);
 					tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
-					tollwayName.setText(Html.fromHtml(currentToll.tollway));
+					tollwayName.setText(currentToll.tollway);
+					tollwayName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 					tollwayName.setPadding(10, 0, 20, 0);
 
 					tollwayLayout.addView(tollwayName);
@@ -427,7 +431,8 @@ public class OzTollData implements Runnable{
 							(!found)){
 						if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 							TextView tollwayCharge = new TextView(appContext);
-							tollwayCharge.setText(Html.fromHtml("$"+currentToll.tolls.get(trc).rate));
+							tollwayCharge.setText("$"+currentToll.tolls.get(trc).rate);
+							tollwayCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 							tollwayLayout.addView(tollwayCharge);
 							rateLayout.addView(tollwayLayout);
 							found=true;
@@ -473,7 +478,8 @@ public class OzTollData implements Runnable{
 				default:
 					// Need to Sort out the headings when grabbing all results
 					// More than one type of toll for this vehicle
-					tollwayName.setText(Html.fromHtml(currentToll.tollway));
+					tollwayName.setText(currentToll.tollway);
+					tollwayName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 					tollwayName.setPadding(10, 0, 0, 0);
 					tollwayName.setLayoutParams(fillParentParams);
 					rateLayout.addView(tollwayName);
@@ -533,11 +539,13 @@ public class OzTollData implements Runnable{
 							LinearLayout tollRateLayout = new LinearLayout(appContext);
 							tollRateLayout.setOrientation(LinearLayout.HORIZONTAL);
 							TextView rateTitle = new TextView(appContext);
-							rateTitle.setText(Html.fromHtml(variation));
+							rateTitle.setText(variation);
+							rateTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
-							rateValue.setText(Html.fromHtml("$"+currentToll.tolls.get(trc).rate));
+							rateValue.setText("$"+currentToll.tolls.get(trc).rate);
+							rateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 							tollRateLayout.addView(rateValue);
 							rateLayout.addView(tollRateLayout);
 							
@@ -679,7 +687,8 @@ public class OzTollData implements Runnable{
 			
 			if (totalCharges.size()>1){
 				TextView tollTotalTitle = new TextView(appContext);
-				tollTotalTitle.setText(Html.fromHtml("<h2>Total Tolls</h2>"));
+				tollTotalTitle.setText("Total Tolls");
+				tollTotalTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 				tollTotalTitle.setPadding(10, 0, 0, 0);
 				tollTotalTitle.setLayoutParams(fillParentParams);
 				rateLayout.addView(tollTotalTitle);
@@ -694,10 +703,12 @@ public class OzTollData implements Runnable{
 						else if (totalCharges.get(tcc).vehicleType.equalsIgnoreCase("Weekends"))
 							totalCharges.get(tcc).vehicleType="Car - Weekends";
 					totalType.setText(totalCharges.get(tcc).vehicleType);
+					totalType.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 					totalType.setPadding(10, 0, 10, 0);
 					totalLine.addView(totalType);
 					TextView totalValue = new TextView(appContext);
-					totalValue.setText(Html.fromHtml("<h2>$"+totalCharges.get(tcc).rate+"</h2>"));
+					totalValue.setText("$"+totalCharges.get(tcc).rate);
+					totalValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 					totalLine.addView(totalValue);
 					rateLayout.addView(totalLine);
 				}
@@ -705,12 +716,14 @@ public class OzTollData implements Runnable{
 				LinearLayout totalLine = new LinearLayout(appContext);
 				totalLine.setOrientation(LinearLayout.HORIZONTAL);
 				TextView tollTotalTitle = new TextView(appContext);
-				tollTotalTitle.setText(Html.fromHtml("<h2>Total Tolls</h2>"));
+				tollTotalTitle.setText("Total Tolls");
+				tollTotalTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 				tollTotalTitle.setPadding(10, 0, 0, 0);
 				totalLine.addView(tollTotalTitle);
 				
 				TextView totalValue = new TextView(appContext);
-				totalValue.setText(Html.fromHtml("<h2>$"+String.format("%.2g%n", totalCharges.get(0).rate)+"</h2>"));
+				totalValue.setText("$"+String.format("%.2g%n", totalCharges.get(0).rate));
+				totalValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}

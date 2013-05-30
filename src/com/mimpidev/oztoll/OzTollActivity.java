@@ -23,6 +23,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -294,7 +295,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
            			ft.hide(tutorialFragment);
            			
            			displayResults();
-           			
         	    } else {
         	    	if ((preferences.getBoolean("applicationView", true))&&
             			((wifi.isConnected())||(mobile.isConnected()))){
