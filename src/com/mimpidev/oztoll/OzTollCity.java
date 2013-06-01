@@ -201,6 +201,22 @@ public class OzTollCity {
 		}
 		return foundIt;
 	}
+
+	public String getCityNameByStreet(Street street){
+		int tollwayCount=0,
+			streetCount;
+		
+		while (tollwayCount<tollways.size()){
+			streetCount=0;
+			while (streetCount<tollways.get(tollwayCount).getStreets().size()){
+				if (tollways.get(tollwayCount).getStreets().get(streetCount).equals(street))
+					return tollways.get(tollwayCount).getName();
+				streetCount++;
+			}
+			tollwayCount++;
+		}
+		return null;
+	}
 	
 	/** 
 	 * This function will go through the entire map and mark the valid exits, once a

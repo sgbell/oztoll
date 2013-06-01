@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -142,7 +143,11 @@ public class OzTollData implements Runnable{
 	
 	public ArrayList<Street> getValidStreetsArray(String city) {
 		ArrayList<Street> streetList = new ArrayList<Street>();
-		
+
+		if (start!=null){
+			setStreetsToInvalid();
+			markRoads(start);
+		}
 		for (int cityCount=0; cityCount<cities.size(); cityCount++)
 			if ((city.isEmpty())||
 				(city==null)||
@@ -164,6 +169,10 @@ public class OzTollData implements Runnable{
 	public ArrayList<String[]> getValidStreetsAsStrings(String city){
 		ArrayList<String[]> streetList = new ArrayList<String[]>();
 		
+		if (start!=null){
+			setStreetsToInvalid();
+			markRoads(start);
+		}
 		if ((city.isEmpty())||(city==null)){
 			for (int cityCount=0; cityCount<cities.size(); cityCount++)
 				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
@@ -368,7 +377,7 @@ public class OzTollData implements Runnable{
 			title="All";
 		}
 		
-		tollTitle.setText(Html.fromHtml(title));
+		tollTitle.setText(title);
 		tollTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 		tollTitle.setPadding(10, 0, 0, 0);
 		tollTitle.setLayoutParams(fillParentParams);
@@ -406,7 +415,28 @@ public class OzTollData implements Runnable{
 			
 			switch (tollTypeCount){
 				case 0:
-					// Don't want to display anything if it doesn't exist at least once.
+					// If the user has selected Motorcycle on CityLink it will return nothing,
+					// better to say it's free than not display anything
+					if (selectedVehicle.equalsIgnoreCase("motorcycle")){
+						LinearLayout tollwayLayout = new LinearLayout(appContext);
+						tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
+						for (int cityCount=0; cityCount<cities.size(); cityCount++){
+							if (cities.get(cityCount).foundStreet(start))
+								tollwayName.setText(cities.get(cityCount).getCityNameByStreet(start));
+						}
+						tollwayName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+						tollwayName.setPadding(10, 0, 20, 0);
+
+						tollwayLayout.addView(tollwayName);
+						tollwayLayout.setLayoutParams(wrapContentParams);
+						
+						TextView tollwayCharge = new TextView(appContext);
+						tollwayCharge.setText("-   No Charge");
+						tollwayCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+						tollwayCharge.setLayoutParams(wrapContentParams);
+						tollwayLayout.addView(tollwayCharge);
+						rateLayout.addView(tollwayLayout);
+					}
 					break;
 				case 1:
 					// If it exists only once in the toll Array, it will put the charge on the one line with the
@@ -433,6 +463,7 @@ public class OzTollData implements Runnable{
 							TextView tollwayCharge = new TextView(appContext);
 							tollwayCharge.setText("$"+currentToll.tolls.get(trc).rate);
 							tollwayCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+							tollwayCharge.setLayoutParams(wrapContentParams);
 							tollwayLayout.addView(tollwayCharge);
 							rateLayout.addView(tollwayLayout);
 							found=true;
@@ -541,6 +572,8 @@ public class OzTollData implements Runnable{
 							TextView rateTitle = new TextView(appContext);
 							rateTitle.setText(variation);
 							rateTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+							rateTitle.setWidth((int)((appContext.getResources().getDisplayMetrics().widthPixels)*0.75));
+							
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
@@ -709,6 +742,7 @@ public class OzTollData implements Runnable{
 					TextView totalValue = new TextView(appContext);
 					totalValue.setText("$"+totalCharges.get(tcc).rate);
 					totalValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+					totalValue.setLayoutParams(wrapContentParams);
 					totalLine.addView(totalValue);
 					rateLayout.addView(totalLine);
 				}
@@ -724,6 +758,7 @@ public class OzTollData implements Runnable{
 				TextView totalValue = new TextView(appContext);
 				totalValue.setText("$"+String.format("%.2g%n", totalCharges.get(0).rate));
 				totalValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+				totalValue.setLayoutParams(wrapContentParams);
 				totalLine.addView(totalValue);
 				rateLayout.addView(totalLine);
 			}
