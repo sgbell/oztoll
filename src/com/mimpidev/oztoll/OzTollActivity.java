@@ -337,6 +337,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
     
     private void setupFragments() {
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		
 		mMapFragment = (MapFragment) getSupportFragmentManager().findFragmentByTag(MapFragment.TAG);
 		if (mMapFragment == null){
@@ -344,7 +348,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, mMapFragment, MapFragment.TAG);
 			} else {
-				ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
+    	    	if ((wifi.isConnected())||(mobile.isConnected()))
+    	    		ft.add(R.id.map_fragment, mMapFragment, MapFragment.TAG);
+    	    	else
+    	    		ft.add(R.id.text_fragment, mMapFragment, MapFragment.TAG);
 			}
 		}
 
@@ -354,7 +361,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			if (!getResources().getBoolean(R.bool.isTablet)){
 				ft.add(R.id.fragment_container, mTextFragment, OzTollTextFragment.TAG);
 			} else {
-				ft.add(R.id.text_fragment, mTextFragment, OzTollTextFragment.TAG);
+    	    	if ((wifi.isConnected())||(mobile.isConnected()))
+    	    		ft.add(R.id.text_fragment, mTextFragment, OzTollTextFragment.TAG);
+    	    	else
+    	    		ft.add(R.id.map_fragment, mTextFragment, OzTollTextFragment.TAG);
 			}
 		}
 		
@@ -399,7 +409,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				newMessage = handler.obtainMessage();
     				newMessage.what=6;
     				handler.dispatchMessage(newMessage);
-    				
     				break;
     			case 2:
         	        ConnectivityManager connManager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -465,7 +474,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
        					if (!welcomeScreen){
         					if (global.getTollData().getStart()==null){
         						if (!startShown){
-            						//showMessage("Please select your Entry point");
         							Toast toast = Toast.makeText(thisActivity.getApplicationContext(),"Please select your Entry point", Toast.LENGTH_SHORT);
         							toast.show();
             						startShown=true;
@@ -477,7 +485,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
         					} else {
         						if (global.getTollData().getFinish()==null){
         							if (!finishShown){
-        								//showMessage("Please select your Exit point");
         								Toast toast = Toast.makeText(thisActivity.getApplicationContext(),"Please select your Exit point", Toast.LENGTH_SHORT);
             							toast.show();
         								finishShown=true;
@@ -503,8 +510,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						newMessage = handler.obtainMessage();
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
-        					} else if ((global.getTollData().getStart()!=null)
-        							   &&(global.getTollData().getFinish()==null)){
+        					} else if ((global.getTollData().getStart()!=null)&&
+        							   (global.getTollData().getFinish()==null)){
         						global.getTollData().setFinish((Street)msg.obj);
         						// Because the code block was found in 3 places in this, I moved it to it's own method.
         						displayResults();

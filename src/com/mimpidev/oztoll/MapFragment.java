@@ -3,8 +3,6 @@
  */
 package com.mimpidev.oztoll;
 
-import java.util.ArrayList;
-
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -131,7 +129,6 @@ public class MapFragment extends SherlockMapFragment {
 			
 			newMessage = handler.obtainMessage();
 
-			//newMessage = handler.obtainMessage();
 			newMessage.what = 6;
 			handler.dispatchMessage(newMessage);
 		}
@@ -145,19 +142,24 @@ public class MapFragment extends SherlockMapFragment {
 	
 	public void populateMarkers(){
 		mapView.clear();
+		OzTollData tollData = global.getTollData();
 		
-		ArrayList<Street> validStreets = global.getTollData().getValidStreetsArray("");
-		for (int streetCount=0; streetCount<validStreets.size(); streetCount++){
-			Street currentStreet = validStreets.get(streetCount);
-			MarkerOptions newMarker = new MarkerOptions();
-			newMarker.position(currentStreet.getLatLng());
-			if ((global.getTollData().getFinish()==currentStreet)||
-				(global.getTollData().getStart()==currentStreet))
-				newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
-			else
-				newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
-			
-			mapView.addMarker(newMarker);
+		for (int cityCount=0; cityCount < tollData.getCities().size(); cityCount++){
+			for (int tollwayCount=0; tollwayCount < tollData.getCityById(cityCount).getTollwayCount(); tollwayCount++){
+				for (int streetCount=0; streetCount < tollData.getCities().get(cityCount).getStreetCount(tollwayCount); streetCount++){
+					Street currentStreet = tollData.getCityById(cityCount).getStreet(tollwayCount, streetCount);
+					MarkerOptions newMarker = new MarkerOptions();
+					newMarker.position(currentStreet.getLatLng());
+
+					if ((tollData.getFinish()==currentStreet)||
+						(tollData.getStart()==currentStreet))
+							newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
+						else
+							newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
+						
+					mapView.addMarker(newMarker);
+				}
+			}
 		}
 	}
 	

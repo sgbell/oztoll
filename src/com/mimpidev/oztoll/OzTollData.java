@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.text.Html;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -169,10 +167,6 @@ public class OzTollData implements Runnable{
 	public ArrayList<String[]> getValidStreetsAsStrings(String city){
 		ArrayList<String[]> streetList = new ArrayList<String[]>();
 		
-		if (start!=null){
-			setStreetsToInvalid();
-			markRoads(start);
-		}
 		if ((city.isEmpty())||(city==null)){
 			for (int cityCount=0; cityCount<cities.size(); cityCount++)
 				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
