@@ -53,7 +53,6 @@ public class MapFragment extends SherlockMapFragment {
 		super.onCreate(savedInstanceBundle);
 		
 		setRetainInstance(true);
-
 	}
 	
 	public void onResume(){
@@ -148,16 +147,20 @@ public class MapFragment extends SherlockMapFragment {
 			for (int tollwayCount=0; tollwayCount < tollData.getCityById(cityCount).getTollwayCount(); tollwayCount++){
 				for (int streetCount=0; streetCount < tollData.getCities().get(cityCount).getStreetCount(tollwayCount); streetCount++){
 					Street currentStreet = tollData.getCityById(cityCount).getStreet(tollwayCount, streetCount);
-					MarkerOptions newMarker = new MarkerOptions();
-					newMarker.position(currentStreet.getLatLng());
+					if ((currentStreet.isValid())||
+						(currentStreet==tollData.getStart())||
+						(currentStreet==tollData.getFinish())){
+						MarkerOptions newMarker = new MarkerOptions();
+						newMarker.position(currentStreet.getLatLng());
 
-					if ((tollData.getFinish()==currentStreet)||
-						(tollData.getStart()==currentStreet))
-							newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
-						else
-							newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
-						
-					mapView.addMarker(newMarker);
+						if ((tollData.getFinish()==currentStreet)||
+							(tollData.getStart()==currentStreet))
+								newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
+							else
+								newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
+							
+						mapView.addMarker(newMarker);
+					}
 				}
 			}
 		}

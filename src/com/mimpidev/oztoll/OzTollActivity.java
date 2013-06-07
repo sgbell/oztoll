@@ -42,7 +42,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	private boolean loadingShown=false, 
 					startShown=false,
 					finishShown=false,
-					welcomeScreen=false;
+					welcomeScreen=false,
+					mapFragmentVisible=false,
+					textFragmentVisible=false;
 
 	private Activity thisActivity=this; // This is needed for the AlertDialog code
 
@@ -50,6 +52,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	private OzTollTextFragment mTextFragment;
 	private ResultsFragment resultsFragment;
 	private TutorialFragment tutorialFragment;
+	
+	
 	
 	private Dialog startDialog;
 	private ProgressDialog progDialog;
@@ -270,6 +274,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			ft.show(mMapFragment);
     			ft.hide(tutorialFragment);
     		}
+    		textFragmentVisible=true;
+    		mapFragmentVisible=true;
     		// This if statement is copied below. move the following code somewhere so it's
     		// not written twice in my code.
     		if ((global.getTollData().getStart()!=null)&&
@@ -302,12 +308,14 @@ public class OzTollActivity extends SherlockFragmentActivity {
                 	    ft.hide(mTextFragment);
                 	    ft.hide(resultsFragment);
                 		ft.hide(tutorialFragment);
+                		mapFragmentVisible=true;
             		} else {
             			// if the view text view
               	       	ft.show(mTextFragment);
                	       	ft.hide(mMapFragment);
                	       	ft.hide(resultsFragment);
                	       	ft.hide(tutorialFragment);
+               	       	textFragmentVisible=true;
             		}
         	    }
     		}
@@ -527,9 +535,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
     						resetView();
     				}
     				
-					if (mMapFragment!=null)
+    				if ((mMapFragment!=null)&&
+    					(mapFragmentVisible))
 						mMapFragment.populateMarkers();
-					if (mTextFragment!=null)
+					if ((mTextFragment!=null)&&
+						(textFragmentVisible))
 						mTextFragment.populateStreets();
     				break;
     			case 10:
