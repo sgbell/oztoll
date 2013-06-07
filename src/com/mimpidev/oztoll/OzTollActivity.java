@@ -308,6 +308,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
                 	    ft.hide(mTextFragment);
                 	    ft.hide(resultsFragment);
                 		ft.hide(tutorialFragment);
+               	       	textFragmentVisible=false;
                 		mapFragmentVisible=true;
             		} else {
             			// if the view text view
@@ -315,6 +316,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
                	       	ft.hide(mMapFragment);
                	       	ft.hide(resultsFragment);
                	       	ft.hide(tutorialFragment);
+                		mapFragmentVisible=false;
                	       	textFragmentVisible=true;
             		}
         	    }
