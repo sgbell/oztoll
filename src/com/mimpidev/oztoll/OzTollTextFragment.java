@@ -73,12 +73,9 @@ public class OzTollTextFragment extends SherlockFragment {
 
     	// Create a handler message here to tell OzTollActivity to do the resetView();
 		newMessage = handler.obtainMessage();
-		//newMessage.what = 10;
-		//handler.dispatchMessage(newMessage);
 
 		populateStreets();
 
-		//newMessage = handler.obtainMessage();
 		newMessage.what = 6;
 		handler.dispatchMessage(newMessage);
 	}
@@ -139,26 +136,46 @@ public class OzTollTextFragment extends SherlockFragment {
 				 * If a city has been selected in the preferences, only list the tollways for that
 				 * city.
 				 *
-				 * Rewrite the code below in OzTollData. Make a method in OzTollData that:
-				 *    - takes a string for input
-				 *    - if the string is empty, creates and returns an array of Tollway+Street from all cities
-				 *    - if the string is not empty, matches the string to the city name, then creates and returns an array of Tollway+Street from nominated city
-				 *    - if the string is not empty, but no match is found for city, returns array of Tollways from all cities.
-				 * 
 				 */
-				ArrayList<String[]> streetList = tollData.getValidStreetsAsStrings(preferences.getString("selectedCity", ""));
-				for (int streetListCount=0; streetListCount< streetList.size(); streetListCount++){
-					adapter.addStreet(streetList.get(streetListCount)[0], streetList.get(streetListCount)[1]);
+
+				String city = preferences.getString("selectedCity", "");
+				
+				if ((city.isEmpty())||(city==null)){
+					for (int cityCount=0; cityCount<tollData.getCities().size(); cityCount++)
+						for (int twc=0; twc<tollData.getCityById(cityCount).getTollwayCount(); twc++)
+							for (int sc=0; sc<tollData.getCityById(cityCount).getStreetCount(twc); sc++)
+								if (tollData.getCityById(cityCount).getStreet(twc, sc).isValid()){
+									adapter.addStreet(tollData.getCityById(cityCount).getTollwayName(twc),
+													 tollData.getCityById(cityCount).getStreetName(twc, sc));
+								}
+				} else {
+					boolean cityFound=false;
+					int cityCount=0;
+					while ((!cityFound)&&(cityCount<tollData.getCities().size())){
+						if (tollData.getCityById(cityCount).getCityName().equalsIgnoreCase(city)){
+							cityFound=true;
+							
+							for (int twc=0; twc<tollData.getCityById(cityCount).getTollwayCount(); twc++)
+								for (int sc=0; sc<tollData.getCityById(cityCount).getStreetCount(twc); sc++)
+									if (tollData.getCityById(cityCount).getStreet(twc, sc).isValid()){
+										adapter.addStart(tollData.getCityById(cityCount).getTollwayName(twc),
+												 tollData.getCityById(cityCount).getStreetName(twc, sc));
+									}
+						}
+						cityCount++;
+					}
 				}
+				
 				collapseGroups();
 			} else {
 				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStart());
 				String tollway = tollData.getTollwayName(tollData.getStart());
 
 				adapter.addStart(tollway, tollData.getStart().getName());
-				for (int sc=0;sc<validExits.size();sc++){
+				
+				for (int sc=0;sc<validExits.size();sc++)
 					adapter.addStreet(tollway, validExits.get(sc).getName());
-				}
+								
 				expandGroups();
 			}
 
