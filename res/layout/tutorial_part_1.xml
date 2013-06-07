@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <TextView
@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/action_clear"
+            android:padding="10dp"
             android:text="@string/clear_map_button"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/action_settings"
+            android:padding="10dp"
             android:text="@string/settings_button"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -37,6 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/tut_selectable_road"
+            android:padding="10dp"
             android:text="@string/selectable_road"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -45,15 +48,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/tut_selected_road"
+            android:padding="10dp"
             android:text="@string/after_selection"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         
-        <TextView 
+        <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/advice_change"
+            android:padding="5dp"
+            android:text="@string/advice_change1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advice_change2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advice_change3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="5dp" />
+        
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/advice_change4"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="5dp" />
+        
+        </LinearLayout>
 
 </ScrollView>
