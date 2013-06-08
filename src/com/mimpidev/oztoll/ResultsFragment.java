@@ -6,6 +6,7 @@ package com.mimpidev.oztoll;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -46,7 +48,25 @@ public class ResultsFragment extends SherlockFragment {
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		handler = global.getMainActivityHandler();
+		if (handler==null)
+			handler = global.getMainActivityHandler();
+		
+		if (!getResources().getBoolean(R.bool.isTablet)){
+			LinearLayout rateLayout;
+			rateLayout = global.getTollData().processToll(getActivity().getBaseContext());
+
+			TextView disclaimer = new TextView(getActivity().getBaseContext());
+			disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
+			disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+			rateLayout.addView(disclaimer);
+			TextView expireDate = new TextView(getActivity().getBaseContext());
+			expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getSelectedExpiryDate()+"</h2>"));
+			expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+			rateLayout.addView(expireDate);
+
+			getScrollView().removeAllViews();
+			setContent(rateLayout);
+		}
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){

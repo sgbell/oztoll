@@ -129,12 +129,17 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			case R.id.tutorial:
 				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				if (getResources().getBoolean(R.bool.isTablet)){
-					ft.hide(mMapFragment);
+			        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+			        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+			        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+					if ((wifi.isConnected())||(mobile.isConnected()))
+						ft.hide(mMapFragment);
+					else
+						ft.hide(mTextFragment);
 					ft.show(tutorialFragment);
 				} else {
    					ft.hide(mMapFragment);
    					ft.hide(mTextFragment);
-   					ft.hide(resultsFragment);
 					ft.show(tutorialFragment);
 				}
 				ft.commit();
@@ -292,7 +297,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			ft.show(tutorialFragment);
     			ft.hide(mMapFragment);
     	       	ft.hide(mTextFragment);
-    	       	ft.hide(resultsFragment);
     		} else {
     			if ((global.getTollData().getStart()!=null)&&
         	     	(global.getTollData().getFinish()!=null)){
@@ -306,7 +310,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
             			// if view is mapView
             			ft.show(mMapFragment);
                 	    ft.hide(mTextFragment);
-                	    ft.hide(resultsFragment);
                 		ft.hide(tutorialFragment);
                	       	textFragmentVisible=false;
                 		mapFragmentVisible=true;
@@ -314,7 +317,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
             			// if the view text view
               	       	ft.show(mTextFragment);
                	       	ft.hide(mMapFragment);
-               	       	ft.hide(resultsFragment);
                	       	ft.hide(tutorialFragment);
                 		mapFragmentVisible=false;
                	       	textFragmentVisible=true;
@@ -327,22 +329,27 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
     private void displayResults(){
     	
-		// Message to finish
-		rateLayout = global.getTollData().processToll(getBaseContext());
+		if (getResources().getBoolean(R.bool.isTablet)){
+			// Message to finish
+			rateLayout = global.getTollData().processToll(getBaseContext());
 
-		TextView disclaimer = new TextView(getBaseContext());
-		disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
-		disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-		rateLayout.addView(disclaimer);
-		TextView expireDate = new TextView(getBaseContext());
-		expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getSelectedExpiryDate()+"</h2>"));
-		expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-		rateLayout.addView(expireDate);
-		
-		Message newMessage = handler.obtainMessage();
-		newMessage.obj = rateLayout;
-		newMessage.what=3;
-		handler.sendMessage(newMessage);
+			TextView disclaimer = new TextView(getBaseContext());
+			disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
+			disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+			rateLayout.addView(disclaimer);
+			TextView expireDate = new TextView(getBaseContext());
+			expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getSelectedExpiryDate()+"</h2>"));
+			expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+			rateLayout.addView(expireDate);
+			
+			Message newMessage = handler.obtainMessage();
+			newMessage.obj = rateLayout;
+			newMessage.what=3;
+			handler.sendMessage(newMessage);
+		} else {
+			Intent intent = new Intent (OzTollActivity.this, OzTollResultsActivity.class);
+			startActivity(intent);
+		}
     }
     
     private void setupFragments() {
@@ -378,12 +385,14 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			}
 		}
 		
-		resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
-		if (resultsFragment == null){
-			resultsFragment = new ResultsFragment();
-			if (!getResources().getBoolean(R.bool.isTablet)){
-				ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
-			} else {
+		/* If the device is a tablet it will add the results to the layout in the tablet.
+		 * If the device is a phone, it will be opened in it's own activity, allowing the user to
+		 * hit the back button to return from the results.
+		 */ 
+		if (getResources().getBoolean(R.bool.isTablet)){
+			resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
+			if (resultsFragment == null){
+				resultsFragment = new ResultsFragment();
 				ft.add(R.id.results_fragment, resultsFragment, ResultsFragment.TAG);
 			}
 		}
