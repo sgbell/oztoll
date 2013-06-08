@@ -22,10 +22,8 @@ import com.actionbarsherlock.view.MenuItem;
  */
 public class OzTollResultsActivity extends SherlockFragmentActivity {
 	private OzTollApplication global;
-	private SharedPreferences preferences;
 	
 	private ResultsFragment resultsFragment;
-	private LinearLayout rateLayout;
 
 	public OzTollResultsActivity(){
 		
@@ -35,7 +33,6 @@ public class OzTollResultsActivity extends SherlockFragmentActivity {
     	super.onCreate(savedInstanceState);
 
     	global = (OzTollApplication)getApplication();
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         
         setContentView(R.layout.activity_main);
 	}
@@ -64,7 +61,8 @@ public class OzTollResultsActivity extends SherlockFragmentActivity {
     protected void onPause(){
     	super.onPause();
     	if (isFinishing()){
-    		global.getTollData().reset();
+    		global.getTollData().setFinish(null);
+    		global.getTollData().setStart(null);
     	}
     }
     
