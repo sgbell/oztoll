@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.LinearLayout;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -20,54 +20,44 @@ import com.actionbarsherlock.view.MenuItem;
  * @author bugman
  *
  */
-public class OzTollResultsActivity extends SherlockFragmentActivity {
+public class OzTollTutorialActivity extends SherlockFragmentActivity {
+
 	private OzTollApplication global;
 	private SharedPreferences preferences;
 	
-	private ResultsFragment resultsFragment;
-	private LinearLayout rateLayout;
+	private TutorialFragment tutorialFragment;
 
-	public OzTollResultsActivity(){
+	public OzTollTutorialActivity(){
 		
 	}
 	
 	public void onCreate(Bundle savedInstanceState){
     	super.onCreate(savedInstanceState);
-
+    	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        
         setContentView(R.layout.activity_main);
 	}
 	
-    /**
-     * onResume is called after onCreate, or when an app is still in memory and resumed.
-     */
-    public void onResume(){
-    	super.onResume();
-
+	public void onResume(){
+		super.onResume();
+		
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
     	
-		resultsFragment = (ResultsFragment) getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG);
-		if (resultsFragment == null){
-			resultsFragment = new ResultsFragment(handler);
-			ft.add(R.id.fragment_container, resultsFragment, ResultsFragment.TAG);
+		tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
+		if (tutorialFragment == null){
+			tutorialFragment = new TutorialFragment(handler);
+			ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
 		}
 		
-		resultsFragment.setHandler(handler);
-		
-		ft.show(resultsFragment);
+		ft.show(tutorialFragment);
 		ft.commit();
-		
-    }
-    
-    protected void onPause(){
-    	super.onPause();
-    	if (isFinishing()){
-    		global.getTollData().reset();
-    	}
-    }
-    
+	}
+	
+	public void onPause(){
+		super.onPause();
+	}
+	
 	public boolean onCreateOptionsMenu (Menu menu){
 		MenuInflater inflator = getSupportMenuInflater();
 		inflator.inflate(R.layout.menu,menu);
@@ -81,10 +71,9 @@ public class OzTollResultsActivity extends SherlockFragmentActivity {
 				openPreferences();
 				break;
 			case R.id.clear:
-				finish();
+				global.getTollData().reset();
 				break;
 			case R.id.tutorial:
-				openTutorial();
 				break;
 		}
 		
@@ -92,19 +81,14 @@ public class OzTollResultsActivity extends SherlockFragmentActivity {
 	}
 
 	public void openPreferences(){
-		Intent intent = new Intent (OzTollResultsActivity.this, AppPreferences.class);
-		startActivity(intent);
-    }
-
-	public void openTutorial(){
-		Intent intent = new Intent (OzTollResultsActivity.this, OzTollTutorialActivity.class);
+		Intent intent = new Intent (OzTollTutorialActivity.this, AppPreferences.class);
 		startActivity(intent);
     }
 	
 	final Handler handler = new Handler(){
     	public void handleMessage(Message msg){
     		switch (msg.what){
-    			case 12:
+    			case 1:
     				finish();
     				break;
     		}

@@ -53,8 +53,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	private ResultsFragment resultsFragment;
 	private TutorialFragment tutorialFragment;
 	
-	
-	
 	private Dialog startDialog;
 	private ProgressDialog progDialog;
 	private Runnable closeDialog;
@@ -138,9 +136,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 						ft.hide(mTextFragment);
 					ft.show(tutorialFragment);
 				} else {
-   					ft.hide(mMapFragment);
-   					ft.hide(mTextFragment);
-					ft.show(tutorialFragment);
+   					/* ft.hide(mMapFragment);
+   					   ft.hide(mTextFragment);
+					   ft.show(tutorialFragment); */
+					openTutorial();
 				}
 				ft.commit();
 				break;
@@ -151,6 +150,11 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
 	public void openPreferences(){
 		Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
+		startActivity(intent);
+    }
+
+	public void openTutorial(){
+		Intent intent = new Intent (OzTollActivity.this, OzTollTutorialActivity.class);
 		startActivity(intent);
     }
 
@@ -301,7 +305,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     			if ((global.getTollData().getStart()!=null)&&
         	     	(global.getTollData().getFinish()!=null)){
        	       		// If the path has been chosen
-           			ft.hide(tutorialFragment);
+           			if (tutorialFragment!=null)
+           				ft.hide(tutorialFragment);
            			
            			displayResults();
         	    } else {
@@ -310,14 +315,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
             			// if view is mapView
             			ft.show(mMapFragment);
                 	    ft.hide(mTextFragment);
-                		ft.hide(tutorialFragment);
+               			if (tutorialFragment!=null)
+               				ft.hide(tutorialFragment);
                	       	textFragmentVisible=false;
                 		mapFragmentVisible=true;
             		} else {
             			// if the view text view
               	       	ft.show(mTextFragment);
                	       	ft.hide(mMapFragment);
-               	       	ft.hide(tutorialFragment);
+               			if (tutorialFragment!=null)
+               				ft.hide(tutorialFragment);
                 		mapFragmentVisible=false;
                	       	textFragmentVisible=true;
             		}
@@ -397,13 +404,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			}
 		}
 
-		tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
-		if (tutorialFragment == null){
-			tutorialFragment = new TutorialFragment(handler);
-			if (!getResources().getBoolean(R.bool.isTablet)){
-				ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
-			} else {
-				ft.add(R.id.map_fragment, tutorialFragment, TutorialFragment.TAG);
+		if ((getResources().getBoolean(R.bool.isTablet))||
+			(!preferences.getBoolean("welcomeScreenShown", false))){
+			tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
+			if (tutorialFragment == null){
+				tutorialFragment = new TutorialFragment(handler);
+				if (!getResources().getBoolean(R.bool.isTablet)){
+					ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
+				} else {
+					ft.add(R.id.map_fragment, tutorialFragment, TutorialFragment.TAG);
+				}
 			}
 		}
 		

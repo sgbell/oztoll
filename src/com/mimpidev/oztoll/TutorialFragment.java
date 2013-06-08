@@ -45,7 +45,8 @@ public class TutorialFragment extends SherlockFragment {
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		handler = global.getMainActivityHandler();
+		if (handler==null)
+			handler = global.getMainActivityHandler();
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceBundle){

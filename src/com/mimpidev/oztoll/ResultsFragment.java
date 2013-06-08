@@ -29,6 +29,8 @@ public class ResultsFragment extends SherlockFragment {
 	private Button okButton;
 	private ScrollView content;
 	private View view;
+	private TextView disclaimer,
+					 expireDate;
 	
 	private OzTollApplication global;
 	
@@ -42,24 +44,25 @@ public class ResultsFragment extends SherlockFragment {
 	public void onCreate(Bundle savedInstanceBundle){
 		super.onCreate(savedInstanceBundle);
 		global = (OzTollApplication)getSherlockActivity().getApplication();
+		
+		disclaimer = new TextView(getActivity().getBaseContext());
+		expireDate = new TextView(getActivity().getBaseContext());
 	}
 	
 	public void onResume(){
 		super.onResume();
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
-		if (handler==null)
+		if (getResources().getBoolean(R.bool.isTablet))
 			handler = global.getMainActivityHandler();
 		
 		if (!getResources().getBoolean(R.bool.isTablet)){
 			LinearLayout rateLayout;
 			rateLayout = global.getTollData().processToll(getActivity().getBaseContext());
 
-			TextView disclaimer = new TextView(getActivity().getBaseContext());
 			disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
 			disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 			rateLayout.addView(disclaimer);
-			TextView expireDate = new TextView(getActivity().getBaseContext());
 			expireDate.setText(Html.fromHtml("<h2>Tolls Valid until "+global.getTollData().getSelectedExpiryDate()+"</h2>"));
 			expireDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 			rateLayout.addView(expireDate);
@@ -83,17 +86,17 @@ public class ResultsFragment extends SherlockFragment {
 				newMessage.what = 10;
 				handler.dispatchMessage(newMessage);
 				
-				getScrollView().removeAllViews();
-				
 				if (!(getResources().getBoolean(R.bool.isTablet))){
 					//call handler to change view
 					newMessage = handler.obtainMessage();
 					newMessage.what = 12;
 					handler.dispatchMessage(newMessage);
+				} else {
+					getScrollView().removeAllViews();
 				}
 			}
 		});
-		
+
 		return view;
 	}
 	
@@ -108,5 +111,9 @@ public class ResultsFragment extends SherlockFragment {
 	
 	public void setContent(LinearLayout newView){
 		content.addView(newView);
+	}
+
+	public void setHandler(Handler handler2) {
+		handler = handler2;
 	}
 }

@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".OzTollResultsActivity"></activity>
-        
+        <activity android:name=".OzTollTutorialActivity"></activity>
         <activity android:name="com.mimpidev.oztoll.AppPreferences"></activity>
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
     			   android:value="AIzaSyAh5fRP3mj71HtVQ0cyIHmgZ1dH2v9iBUg"/>
