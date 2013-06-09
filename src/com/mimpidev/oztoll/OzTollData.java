@@ -277,9 +277,8 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void reset(){
-		setStart(null);
 		setFinish(null);
-		setValidStarts();
+		setStart(null);
 	}
 	
 	public void setValidStarts(){
@@ -810,7 +809,10 @@ public class OzTollData implements Runnable{
 	public void setStart(Street start) {
 		this.start = start;
 		setStreetsToInvalid();
-		markRoads(start);
+		if (start!=null)
+			markRoads(start);
+		else
+			setValidStarts();
 	}
 
 	public Street getFinish() {

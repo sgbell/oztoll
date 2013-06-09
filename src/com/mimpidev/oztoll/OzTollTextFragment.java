@@ -74,6 +74,11 @@ public class OzTollTextFragment extends SherlockFragment {
     	// Create a handler message here to tell OzTollActivity to do the resetView();
 		newMessage = handler.obtainMessage();
 
+		if (global.getTollData().getStart()!=null){
+			global.getTollData().setStreetsToInvalid();
+			global.getTollData().markRoads(global.getTollData().getStart());
+		}
+
 		populateStreets();
 
 		newMessage.what = 6;
@@ -113,7 +118,6 @@ public class OzTollTextFragment extends SherlockFragment {
 					newMessage.what=9;
 					newMessage.obj=global.getTollData().getStreet(tollway, street);
 					handler.dispatchMessage(newMessage);
-
 				}
 
 				return true;
@@ -137,7 +141,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				 * city.
 				 *
 				 */
-
+				
 				String city = preferences.getString("selectedCity", "");
 				
 				if ((city.isEmpty())||(city==null)){

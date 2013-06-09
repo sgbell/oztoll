@@ -31,6 +31,8 @@ public class ResultsFragment extends SherlockFragment {
 	private View view;
 	private TextView disclaimer,
 					 expireDate;
+	private	LinearLayout rateLayout;
+
 	
 	private OzTollApplication global;
 	
@@ -57,9 +59,12 @@ public class ResultsFragment extends SherlockFragment {
 			handler = global.getMainActivityHandler();
 		
 		if (!getResources().getBoolean(R.bool.isTablet)){
-			LinearLayout rateLayout;
 			rateLayout = global.getTollData().processToll(getActivity().getBaseContext());
 
+			if (disclaimer.getParent()!=null)
+				((ViewGroup)disclaimer.getParent()).removeView(disclaimer);
+			if (expireDate.getParent()!=null)
+				((ViewGroup)expireDate.getParent()).removeView(expireDate);
 			disclaimer.setText(Html.fromHtml(getString(R.string.toll_disclaimer)));
 			disclaimer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 			rateLayout.addView(disclaimer);
@@ -103,6 +108,7 @@ public class ResultsFragment extends SherlockFragment {
 	public void onDestroyView(){
 		super.onDestroyView();
 		((ViewGroup)view.getParent()).removeView(view);
+		((ViewGroup)rateLayout.getParent()).removeView(rateLayout);
 	}
 	
 	public ScrollView getScrollView(){

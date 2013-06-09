@@ -124,6 +124,7 @@ public class MapFragment extends SherlockMapFragment {
 			
 			setMarkerTextSize(screenSize.y, screenSize.x,getResources().getBoolean(R.bool.isTablet));
 			
+			
 			if (global.getTollData().getStart()!=null){
 				global.getTollData().setStreetsToInvalid();
 				global.getTollData().markRoads(global.getTollData().getStart());
