@@ -15,7 +15,8 @@ public class OzTollApplication extends Application {
 	private OzTollData tollData;
 	private Object datasync, viewChange;
 	private boolean isMapViewStarted=false, // This is used to tell the program if mapView has been started 
-					isTextViewStarted=false; // This is used to tell the program if TextView has been started
+					isTextViewStarted=false, // This is used to tell the program if TextView has been started
+					tollDataLoaded=false;
 	private Handler mainActivityHandler;
 	
 	/**
@@ -73,5 +74,19 @@ public class OzTollApplication extends Application {
 
 	public void setMainActivityHandler(Handler mainActivityHandler) {
 		this.mainActivityHandler = mainActivityHandler;
+	}
+
+	/**
+	 * @return the tollDataLoaded
+	 */
+	public boolean isTollDataLoaded() {
+		return tollDataLoaded;
+	}
+
+	/**
+	 * @param tollDataLoaded the tollDataLoaded to set
+	 */
+	public void setTollDataLoaded(boolean tollDataLoaded) {
+		this.tollDataLoaded = tollDataLoaded;
 	}
 }

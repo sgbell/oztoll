@@ -23,6 +23,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -77,29 +78,37 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
     	// Passing the handler to the global settings, so the fragments onResume can connect with Handler.
     	global.setMainActivityHandler(handler);
+
     	
-    	// location - false = internal app file.
-    	//			- true  = external storage file.
-    	boolean dataFileLocation = preferences.getBoolean("location", false);
-    	if (!dataFileLocation){
-    		// load data file from assets folder
-    		global.getTollData().setDataFile("oztoll.xml", getAssets());
-    	} else {
-    		// load data file from external folder
-    		OzStorage extStorage = new OzStorage();
-    		extStorage.setTollData("oztoll.xml");
-    		if (extStorage.getTollData()!=null)
-    			global.setTollData(extStorage.getTollData());
-    		else
+    	if (!global.isTollDataLoaded()){
+        	// location - false = internal app file.
+        	//			- true  = external storage file.
+        	boolean dataFileLocation = preferences.getBoolean("location", false);
+        	if (!dataFileLocation){
+        		// load data file from assets folder
         		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        	} else {
+        		// load data file from external folder
+        		OzStorage extStorage = new OzStorage();
+        		extStorage.setTollData("oztoll.xml");
+        		if (extStorage.getTollData()!=null)
+        			global.setTollData(extStorage.getTollData());
+        		else
+            		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        	}
+        	global.getTollData().setDataSync(global.getDatasync());
+        	global.getTollData().setPreferences(preferences);
+        	// The following is the initial read of the data file, and population of the tollway arrays
+        	new Thread(global.getTollData()).start();
+    		global.setTollDataLoaded(true);
     	}
-    	global.getTollData().setDataSync(global.getDatasync());
-    	global.getTollData().setPreferences(preferences);
-    	new Thread(global.getTollData()).start();
     	
 		setContentView(R.layout.activity_main);
     }
 
+    /**
+     * onCrateOptionsMenu - used to create the options menu. It inflates the menu xml file.
+     */
 	public boolean onCreateOptionsMenu (Menu menu){
 		MenuInflater inflator = getSupportMenuInflater();
 		inflator.inflate(R.layout.menu,menu);
@@ -107,12 +116,17 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		return true;
 	}
 	
+	/**
+	 * onOptionsItemSelected - When a menu item is selected in the app.
+	 */
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch (item.getItemId()){
 			case R.id.preferences:
+				// On preferences being selected, open preferences
 				openPreferences();
 				break;
 			case R.id.clear:
+				// Clear the current View
 				resetView();
 				
 				if (mMapFragment!=null)
@@ -120,13 +134,19 @@ public class OzTollActivity extends SherlockFragmentActivity {
 
 				setView();
 				
+				// Handler message 6 is used to display a message, generally: "Select Start, or Finish"
 				Message newMessage = handler.obtainMessage();
 				newMessage.what=6;
 				handler.sendMessage(newMessage);
 				break;
 			case R.id.tutorial:
+				// Open the tutorial View
 				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				if (getResources().getBoolean(R.bool.isTablet)){
+					/* If the device is a tablet we need to identify what view the device currently has
+					 * in the main view window, as if the internet is disconnected it may be the textview
+					 * not the map view 
+					 */
 			        ConnectivityManager connection = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 			        android.net.NetworkInfo wifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			        android.net.NetworkInfo mobile = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -136,9 +156,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 						ft.hide(mTextFragment);
 					ft.show(tutorialFragment);
 				} else {
-   					/* ft.hide(mMapFragment);
-   					   ft.hide(mTextFragment);
-					   ft.show(tutorialFragment); */
+					// If the device is not a tablet. call the openTutorial method 
 					openTutorial();
 				}
 				ft.commit();
@@ -148,18 +166,26 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		return true;
 	}
 
+	/**
+	 * openPreferences - open the preferences Activity
+	 */
 	public void openPreferences(){
 		Intent intent = new Intent (OzTollActivity.this, AppPreferences.class);
 		startActivity(intent);
     }
 
+	/**
+	 * openTutorial - This is only used if the device is not a tablet. It opens the tutorial
+	 * Activity
+	 */
 	public void openTutorial(){
 		Intent intent = new Intent (OzTollActivity.this, OzTollTutorialActivity.class);
 		startActivity(intent);
     }
 
-	// Tried to combine the reset for both MapFragment & OzTollTextFragment. this needs to be handled by seperate handle codes.
-	// do this next.
+	/**
+	 *  resetView() This is used to Reset the view on the screen when clear is pressed.
+	 */
 	private void resetView() {
 		global.getTollData().reset();
 		startShown=false;
@@ -188,7 +214,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     }
     
     /**
-     * 
+     * checkForUpdatedData - This is used for contacting our webserver and checking
+     * 		if there is an updated data file on the server. 
      */
     private void checkForUpdatedData() {
     	
@@ -334,6 +361,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 		ft.commit();
     }
 
+    /**
+     * 
+     */
     private void displayResults(){
     	
 		if (getResources().getBoolean(R.bool.isTablet)){
@@ -404,14 +434,22 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			}
 		}
 
+		/* This grabs the instance of the TutorialFragment, if 1 exists, so when the program resumes, it wont be
+		 * overlayed on which ever view is active for the user. 
+		 */
 		tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
 		if ((getResources().getBoolean(R.bool.isTablet))||
 			(!preferences.getBoolean("welcomeScreenShown", false))){
+			/* If this is the first time running, or the app is running on a tablet the following code
+			 * is called
+			 */
 			if (tutorialFragment == null){
 				tutorialFragment = new TutorialFragment(handler);
 				if (!getResources().getBoolean(R.bool.isTablet)){
+					// If it's not a tablet
 					ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
 				} else {
+					// If the device is a tablet
 					ft.add(R.id.map_fragment, tutorialFragment, TutorialFragment.TAG);
 				}
 			}
