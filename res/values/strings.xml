@@ -20,5 +20,5 @@
     <string name="advice_change1">Under Settings, you can alternate between a Map view and a Text view of the toll exits.</string>
     <string name="advice_change2">You can select the type of vehicle to further customize the toll report.</string>
     <string name="advice_change3">* PLEASE NOTE, If you have no data connection this app will still function, but only in the Text view.</string>
-    <string name="advice_change4">An internet connection is required to update the tolls if the tolls are out of date.</string>
+    <string name="advice_change4">An internet connection is required for up-to-date tolls.</string>
 </resources>

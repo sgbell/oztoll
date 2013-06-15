@@ -84,4 +84,8 @@ public class TutorialFragment extends SherlockFragment {
 
 		finish.setVisibility(Button.VISIBLE);
 	}
+
+	public void setHandler(Handler handler) {
+		this.handler=handler;
+	}
 }

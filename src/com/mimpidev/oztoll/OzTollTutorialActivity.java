@@ -50,6 +50,8 @@ public class OzTollTutorialActivity extends SherlockFragmentActivity {
 			ft.add(R.id.fragment_container, tutorialFragment, TutorialFragment.TAG);
 		}
 		
+		tutorialFragment.setHandler(handler);
+		
 		ft.show(tutorialFragment);
 		ft.commit();
 	}

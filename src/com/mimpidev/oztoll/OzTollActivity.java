@@ -404,9 +404,9 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			}
 		}
 
+		tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
 		if ((getResources().getBoolean(R.bool.isTablet))||
 			(!preferences.getBoolean("welcomeScreenShown", false))){
-			tutorialFragment = (TutorialFragment) getSupportFragmentManager().findFragmentByTag(TutorialFragment.TAG);
 			if (tutorialFragment == null){
 				tutorialFragment = new TutorialFragment(handler);
 				if (!getResources().getBoolean(R.bool.isTablet)){
