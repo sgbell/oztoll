@@ -41,6 +41,7 @@ public class XMLPullParserHandler {
 	}
 	
 	public ArrayList<OzTollCity> parse(InputStream is){
+		cityList = new ArrayList<OzTollCity>();
 		XmlPullParserFactory factory = null;
 		XmlPullParser parser = null;
 		
