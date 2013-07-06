@@ -23,7 +23,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -79,7 +78,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	// Passing the handler to the global settings, so the fragments onResume can connect with Handler.
     	global.setMainActivityHandler(handler);
 
-    	
+    	// Need to check if the Data file has been loaded in the Global class, so that on rotation, the
+    	// data isn't reloaded unnecessarily.
     	if (!global.isTollDataLoaded()){
         	// location - false = internal app file.
         	//			- true  = external storage file.

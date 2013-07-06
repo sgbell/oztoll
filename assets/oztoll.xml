@@ -113,32 +113,32 @@
 		    	<exit>
 		      		<street>Brunswick Rd</street>
 		      		<street>Flemington Rd</street>
-		      		<car>2.03</car>
-		      		<lcv>3.24</lcv>
-		      		<hcv>3.86</hcv>
+		      		<car>2.05</car>
+		      		<lcv>3.28</lcv>
+		      		<hcv>3.90</hcv>
 		    	</exit>
 				<exit>
 					<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
-		      		<car>4.06</car>
-		      		<lcv>6.48</lcv>
-		      		<hcv-day>7.72</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.10</car>
+		      		<lcv>6.56</lcv>
+		      		<hcv-day>7.80</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>6.60</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>6.67</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Toorak Rd</street>
-		      		<car>7.62</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.69</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -146,25 +146,25 @@
 		    	<exit>
 		      		<street>Dynon Rd</street>
 		      		<street>Footscray Rd</street>
-		      		<car>2.03</car>
-		      		<lcv>3.24</lcv>
-		      		<hcv>3.86</hcv>
+		      		<car>2.05</car>
+		      		<lcv>3.28</lcv>
+		      		<hcv>3.90</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>4.57</car>
-		      		<lcv>7.30</lcv>
-		      		<hcv-day>8.68</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.62</car>
+		      		<lcv>7.38</lcv>
+		      		<hcv-day>8.77</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Toorak Rd</street>
-		      		<car>7.62</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.69</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -173,21 +173,21 @@
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>2.54</car>
-		      		<lcv>4.06</lcv>
-		      		<hcv>4.82</hcv>
+		      		<car>2.57</car>
+		      		<lcv>4.10</lcv>
+		      		<hcv>4.87</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>7.10</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.18</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>7.62</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.69</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -196,86 +196,86 @@
 		    	<start>Power St</start>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>4.56</car>
-		      		<lcv>7.30</lcv>
-		      		<hcv-day>8.67</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.61</car>
+		      		<lcv>7.39</lcv>
+		      		<hcv-day>8.77</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>6.59</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>6.66</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Exhibition St</start>
 		    	<exit>
 		      		<street>Church St</street>
-		      		<car>2.54</car>
-		      		<lcv>4.06</lcv>
-		      		<hcv>4.82</hcv>
+		      		<car>2.56</car>
+		      		<lcv>4.12</lcv>
+		      		<hcv>4.88</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>4.57</car>
-		      		<lcv>7.30</lcv>
-		      		<hcv-day>8.68</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.61</car>
+		      		<lcv>7.40</lcv>
+		      		<hcv-day>8.78</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>6.60</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>6.66</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Swan St</start>
 		    	<exit>
 		      		<street>Church St</street>
-		      		<car>1.27</car>
-		      		<lcv>2.03</lcv>
-		      		<hcv>2.41</hcv>
+		      		<car>1.28</car>
+		      		<lcv>2.06</lcv>
+		      		<hcv>2.44</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>3.30</car>
-		      		<lcv>5.27</lcv>
-		      		<hcv>6.27</hcv>
+		      		<car>3.33</car>
+		      		<lcv>5.34</lcv>
+		      		<hcv>6.34</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>5.33</car>
-		      		<lcv-day>8.51</lcv-day>
-		      		<lcv-night>7.62</lcv-night>
-		      		<hcv-day>10.13</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>5.38</car>
+		      		<lcv-day>8.62</lcv-day>
+		      		<lcv-night>7.69</lcv-night>
+		      		<hcv-day>10.24</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>    
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Punt Rd</start>
 		    	<exit>
 		      		<street>Burnley St</street>
-		      		<car>2.03</car>
-		      		<lcv>3.24</lcv>
-		      		<hcv>3.86</hcv>
+		      		<car>2.05</car>
+		      		<lcv>3.28</lcv>
+		      		<hcv>3.90</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>4.06</car>
-		      		<lcv>6.48</lcv>
-		      		<hcv-day>7.72</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.10</car>
+		      		<lcv>6.56</lcv>
+		      		<hcv-day>7.80</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		    	<start>Yarra Blvd</start>
 		    	<exit>
 		      		<street>Toorak Rd</street>
-		      		<car>2.03</car>
-		      		<lcv>3.24</lcv>
-		      		<hcv>3.86</hcv>
+		      		<car>2.05</car>
+		      		<lcv>3.28</lcv>
+		      		<hcv>3.90</hcv>
 		    	</exit>
 		  	</tollpoint>  
 		  	<tollpoint>
@@ -283,38 +283,38 @@
 		    	<exit>
 		      		<street>Burnley St</street>
 		      		<street>Yarra Blvd</street>
-		      		<car>2.03</car>
-		      		<lcv>3.24</lcv>
-		      		<hcv>3.86</hcv>
+		      		<car>2.05</car>
+		      		<lcv>3.28</lcv>
+		      		<hcv>3.90</hcv>
 		    	</exit>
 		    	<exit>
 		      		<street>Punt Rd</street>
-		      		<car>4.06</car>
-		      		<lcv>6.48</lcv>
-		      		<hcv-day>7.72</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>4.10</car>
+		      		<lcv>6.56</lcv>
+		      		<hcv-day>7.80</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Swan St</street>
-		      		<car>5.33</car>
-		      		<lcv-day>8.51</lcv-day>
-		      		<lcv-night>7.62</lcv-night>
-		      		<hcv-day>10.13</hcv-day>
-		      		<hcv-night>7.62</hcv-night>
+		      		<car>5.38</car>
+		      		<lcv-day>8.62</lcv-day>
+		      		<lcv-night>7.69</lcv-night>
+		      		<hcv-day>10.24</hcv-day>
+		      		<hcv-night>7.69</hcv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Exhibition St</street>
-		      		<car>6.60</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>6.66</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>6.60</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>6.67</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Footscray Rd</street>
@@ -322,64 +322,64 @@
 		      		<street>Tullamarine Fwy</street>
 		      		<street>Bell St</street>
 		      		<street>Moreland Rd</street>
-		      		<car>7.62</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.69</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Gibdon St</start>
 		  		<exit>
 		  			<street>Punt Rd</street>
-		  			<car>2.03</car>
-		  			<lcv>3.24</lcv>
-		  			<hcv>3.86</hcv>
+		  			<car>2.05</car>
+		  			<lcv>3.28</lcv>
+		  			<hcv>3.90</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Swan St</street>
-		  			<car>3.30</car>
-		  			<lcv>5.27</lcv>
-		  			<hcv>6.27</hcv>
+		  			<car>3.33</car>
+		  			<lcv>5.34</lcv>
+		  			<hcv>6.34</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Exhibition St</street>
-		  			<car>4.57</car>
-		  			<lcv>7.30</lcv>
-		  			<hcv-day>8.68</hcv-day>
-		  			<hcv-night>7.62</hcv-night>
+		  			<car>4.61</car>
+		  			<lcv>7.40</lcv>
+		  			<hcv-day>8.78</hcv-day>
+		  			<hcv-night>7.69</hcv-night>
 		  		</exit>
 		    	<exit>
 		      		<street>West Gate Fwy</street>
 		      		<street>Kings Way</street>
 		      		<street>Power St</street>
-		      		<car>4.57</car>
-		      		<lcv>7.30</lcv>
-		      		<cv-day>8.68</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>4.62</car>
+		      		<lcv>7.38</lcv>
+		      		<cv-day>8.77</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Footscray Rd</street>
-		      		<car>7.11</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.19</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		    	<exit>
 		      		<street>Racecourse Rd</street>
 		      		<street>Tullamarine Fwy</street>
 		      		<street>Bell St</street>
 		      		<street>Moreland Rd</street>
-		      		<car>7.62</car>
-		      		<cv-day>10.15</cv-day>
-		      		<cv-night>7.62</cv-night>
+		      		<car>7.69</car>
+		      		<cv-day>10.26</cv-day>
+		      		<cv-night>7.69</cv-night>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Swan St</start>
 		  		<exit>
 		  			<street>Exhibition St</street>
-		  			<car>1.27</car>
-		  			<lcv>2.03</lcv>
-		  			<hcv>2.41</hcv>
+		  			<car>1.28</car>
+		  			<lcv>2.06</lcv>
+		  			<hcv>2.44</hcv>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -388,24 +388,24 @@
 		  		<start>Power St</start>
 		  		<exit>
 		  			<street>Footscray Rd</street>
-		  			<car>2.54</car>
-		  			<lcv>4.06</lcv>
-		  			<hcv>4.82</hcv>
+		  			<car>2.57</car>
+		  			<lcv>4.10</lcv>
+		  			<hcv>4.87</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Racecourse Rd</street>
-		  			<car>4.57</car>
-		  			<lcv>7.30</lcv>
-		  			<hcv-day>8.68</hcv-day>
-		  			<hcv-night>7.62</hcv-night>
+		  			<car>4.62</car>
+		  			<lcv>7.38</lcv>
+		  			<hcv-day>8.77</hcv-day>
+		  			<hcv-night>7.69</hcv-night>
 		  		</exit>
 		  		<exit>
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>6.60</car>
-		  			<cv-day>10.15</cv-day>
-		  			<cv-night>7.62</cv-night>
+		  			<car>6.67</car>
+		  			<cv-day>10.26</cv-day>
+		  			<cv-night>7.69</cv-night>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -413,18 +413,18 @@
 		  		<start>Footscray Rd</start>
 		  		<exit>
 		  			<street>Racecourse Rd</street>
-		  			<car>2.03</car>
-		  			<lcv>3.24</lcv>
-		  			<hcv>3.86</hcv>
+		  			<car>2.05</car>
+		  			<lcv>3.28</lcv>
+		  			<hcv>3.90</hcv>
 		  		</exit>
 		  		<exit>
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>4.06</car>
-		  			<lcv>6.48</lcv>
-		  			<hcv-day>7.72</hcv-day>
-		  			<hcv-night>7.62</hcv-night>
+		  			<car>4.10</car>
+		  			<lcv>6.56</lcv>
+		  			<hcv-day>7.80</hcv-day>
+		  			<hcv-night>7.69</hcv-night>
 		  		</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -434,9 +434,9 @@
 		  			<street>Tullamarine Fwy</street>
 		  			<street>Bell St</street>
 		  			<street>Moreland Rd</street>
-		  			<car>2.03</car>
-		  			<lcv>3.24</lcv>
-		  			<hcv>3.86</hcv>
+		  			<car>2.05</car>
+		  			<lcv>3.28</lcv>
+		  			<hcv>3.90</hcv>
 		  		</exit>
 		  	</tollpoint>
 		</tollway>
@@ -538,113 +538,113 @@
 		  		<start>Monash Fwy</start>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>2.05</car>
-		      		<car-we>1.65</car-we>
-		      		<lcv>3.26</lcv>
-		      		<hcv>5.39</hcv>
-		      		<mc>1.03</mc>
+		      		<car>2.08</car>
+		      		<car-we>1.68</car-we>
+		      		<lcv>3.34</lcv>
+		      		<hcv>5.53</hcv>
+		      		<mc>1.06</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>2.42</car>
-		      		<car-we>1.95</car-we>
-		      		<lcv>3.85</lcv>
-		      		<hcv>6.37</hcv>
-		      		<mc>1.22</mc>
+		      		<car>2.45</car>
+		      		<car-we>1.98</car-we>
+		      		<lcv>3.95</lcv>
+		      		<hcv>6.53</hcv>
+		      		<mc>1.25</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>2.79</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.44</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.41</mc>
+		      		<car>2.82</car>
+		      		<car-we>2.28</car-we>
+		      		<lcv>4.56</lcv>
+		      		<hcv>7.53</hcv>
+		      		<mc>1.44</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Maroondah Hwy</street>
 		   			<street>Ringwood Bypass</street>
-		      		<car>3.16</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.03</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.60</mc>
+		      		<car>3.19</car>
+		      		<car-we>2.58</car-we>
+		      		<lcv>5.17</lcv>
+		      		<hcv>8.53</hcv>
+		      		<mc>1.62</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Monash Fwy</start>
 		    	<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>2.98</car>
-		      		<car-we>2.38</car-we>
-		      		<lcv>4.75</lcv>
-		      		<hcv>7.85</hcv>
-		      		<mc>1.49</mc>
+		      		<car>3.04</car>
+		      		<car-we>2.45</car-we>
+		      		<lcv>4.85</lcv>
+		      		<hcv>8.04</hcv>
+		      		<mc>1.53</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>4.28</car>
-		      		<car-we>3.41</car-we>
-		      		<lcv>6.83</lcv>
-		      		<hcv>11.29</hcv>
-		      		<mc>2.14</mc>
+		      		<car>4.37</car>
+		      		<car-we>3.52</car-we>
+		      		<lcv>6.97</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.19</mc>
 		    	</exit>
 		  	</tollpoint>
 		  	<tollpoint>
@@ -652,59 +652,59 @@
 		    	<exit>
 		   			<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
-		      		<car>2.55</car>
-		      		<car-we>2.05</car-we>
-		      		<lcv>4.09</lcv>
-		      		<hcv>6.78</hcv>
-		      		<mc>1.28</mc>
+		      		<car>2.61</car>
+		      		<car-we>2.09</car-we>
+		      		<lcv>4.18</lcv>
+		      		<hcv>6.92</hcv>
+		      		<mc>1.31</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>2.92</car>
-		      		<car-we>2.35</car-we>
-		      		<lcv>4.68</lcv>
-		      		<hcv>7.76</hcv>
-		      		<mc>1.47</mc>
+		      		<car>2.98</car>
+		      		<car-we>2.39</car-we>
+		      		<lcv>4.79</lcv>
+		      		<hcv>7.92</hcv>
+		      		<mc>1.50</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>3.29</car>
-		      		<car-we>2.65</car-we>
-		      		<lcv>5.27</lcv>
-		      		<hcv>8.74</hcv>
-		      		<mc>1.66</mc>
+		      		<car>3.35</car>
+		      		<car-we>2.69</car-we>
+		      		<lcv>5.40</lcv>
+		      		<hcv>8.92</hcv>
+		      		<mc>1.69</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>3.66</car>
-		      		<car-we>2.95</car-we>
-		      		<lcv>5.86</lcv>
-		      		<hcv>9.72</hcv>
-		      		<mc>1.85</mc>
+		      		<car>3.72</car>
+		      		<car-we>2.99</car-we>
+		      		<lcv>6.01</lcv>
+		      		<hcv>9.92</hcv>
+		      		<mc>1.88</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>4.03</car>
-		      		<car-we>3.25</car-we>
-		      		<lcv>6.45</lcv>
-		      		<hcv>10.70</hcv>
-		      		<mc>2.04</mc>
+		      		<car>4.09</car>
+		      		<car-we>3.29</car-we>
+		      		<lcv>6.62</lcv>
+		      		<hcv>10.92</hcv>
+		      		<mc>2.07</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>4.59</car>
-		      		<car-we>3.70</car-we>
-		      		<lcv>7.34</lcv>
-		      		<hcv>12.17</hcv>
-		      		<mc>2.32</mc>
+		      		<car>4.66</car>
+		      		<car-we>3.75</car-we>
+		      		<lcv>7.53</lcv>
+		      		<hcv>12.43</hcv>
+		      		<mc>2.36</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>5.15</car>
-		      		<car-we>4.15</car-we>
-		      		<lcv>8.23</lcv>
-		      		<hcv>13.64</hcv>
-		      		<mc>2.60</mc>
+		      		<car>5.23</car>
+		      		<car-we>4.21</car-we>
+		      		<lcv>8.44</lcv>
+		      		<hcv>13.94</hcv>
+		      		<mc>2.65</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
@@ -716,22 +716,22 @@
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Ringwood Bypass</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>2.55</car>
-		      		<car-we>2.05</car-we>
-		      		<lcv>4.09</lcv>
-		      		<hcv>6.78</hcv>
-		      		<mc>1.28</mc>
+		      		<car>2.61</car>
+		      		<car-we>2.09</car-we>
+		      		<lcv>4.18</lcv>
+		      		<hcv>6.92</hcv>
+		      		<mc>1.31</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Maroondah Hwy</street>
@@ -745,104 +745,104 @@
 		      		<street>Canterbury Rd</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
 		      		<car>1.11</car>
 		      		<car-we>0.90</car-we>
-		      		<lcv>1.77</lcv>
-		      		<hcv>2.94</hcv>
+		      		<lcv>1.83</lcv>
+		      		<hcv>3.00</hcv>
 		      		<mc>0.57</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
 		      		<car>1.48</car>
 		      		<car-we>1.20</car-we>
-		      		<lcv>2.36</lcv>
-		      		<hcv>3.92</hcv>
+		      		<lcv>2.44</lcv>
+		      		<hcv>4.00</hcv>
 		      		<mc>0.76</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>2.04</car>
-		      		<car-we>1.65</car-we>
-		      		<lcv>3.25</lcv>
-		      		<hcv>5.39</hcv>
-		      		<mc>1.04</mc>
+		      		<car>2.05</car>
+		      		<car-we>1.66</car-we>
+		      		<lcv>3.35</lcv>
+		      		<hcv>5.51</hcv>
+		      		<mc>1.05</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>2.60</car>
-		      		<car-we>2.10</car-we>
-		      		<lcv>4.14</lcv>
-		      		<hcv>6.86</hcv>
-		      		<mc>1.32</mc>
+		      		<car>2.62</car>
+		      		<car-we>2.12</car-we>
+		      		<lcv>4.26</lcv>
+		      		<hcv>7.02</hcv>
+		      		<mc>1.34</mc>
 		    	</exit>
 		    	<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>3.16</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.03</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.60</mc>
+		      		<car>3.19</car>
+		      		<car-we>2.58</car-we>
+		      		<lcv>5.17</lcv>
+		      		<hcv>8.53</hcv>
+		      		<mc>1.63</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>3.72</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.92</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.88</mc>
+		      		<car>3.76</car>
+		      		<car-we>3.04</car-we>
+		      		<lcv>6.08</lcv>
+		      		<hcv>10.04</hcv>
+		      		<mc>1.92</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>4.28</car>
-		      		<car-we>3.45</car-we>
-		      		<lcv>6.81</lcv>
-		      		<hcv>11.27</hcv>
-		      		<mc>2.16</mc>
+		      		<car>4.33</car>
+		      		<car-we>3.50</car-we>
+		      		<lcv>6.99</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.21</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>4.84</car>
-		      		<car-we>3.90</car-we>
-		      		<lcv>7.70</lcv>
-		      		<hcv>12.74</hcv>
-		      		<mc>2.44</mc>
+		      		<car>4.90</car>
+		      		<car-we>3.96</car-we>
+		      		<lcv>7.90</lcv>
+		      		<hcv>13.06</hcv>
+		      		<mc>2.55</mc>
 		    	</exit>
 				<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Maroondah Hwy</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>2.55</car>
-		      		<car-we>2.05</car-we>
-		      		<lcv>4.09</lcv>
-		      		<hcv>6.78</hcv>
-		      		<mc>1.28</mc>
+		      		<car>2.61</car>
+		      		<car-we>2.09</car-we>
+		      		<lcv>4.18</lcv>
+		      		<hcv>6.92</hcv>
+		      		<mc>1.31</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
@@ -856,104 +856,104 @@
 		      		<street>Canterbury Rd</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
 		      		<car>1.11</car>
 		      		<car-we>0.90</car-we>
-		      		<lcv>1.77</lcv>
-		      		<hcv>2.94</hcv>
+		      		<lcv>1.83</lcv>
+		      		<hcv>3.00</hcv>
 		      		<mc>0.57</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
 		      		<car>1.48</car>
 		      		<car-we>1.20</car-we>
-		      		<lcv>2.36</lcv>
-		      		<hcv>3.92</hcv>
+		      		<lcv>2.44</lcv>
+		      		<hcv>4.00</hcv>
 		      		<mc>0.76</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>2.04</car>
-		      		<car-we>1.65</car-we>
-		      		<lcv>3.25</lcv>
-		      		<hcv>5.39</hcv>
-		      		<mc>1.04</mc>
+		      		<car>2.05</car>
+		      		<car-we>1.66</car-we>
+		      		<lcv>3.35</lcv>
+		      		<hcv>5.51</hcv>
+		      		<mc>1.05</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>2.60</car>
-		      		<car-we>2.10</car-we>
-		      		<lcv>4.14</lcv>
-		      		<hcv>6.86</hcv>
-		      		<mc>1.32</mc>
+		      		<car>2.62</car>
+		      		<car-we>2.12</car-we>
+		      		<lcv>4.26</lcv>
+		      		<hcv>7.02</hcv>
+		      		<mc>1.34</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>3.16</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.03</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.60</mc>
+		      		<car>3.19</car>
+		      		<car-we>2.58</car-we>
+		      		<lcv>5.17</lcv>
+		      		<hcv>8.53</hcv>
+		      		<mc>1.63</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>3.72</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.92</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.88</mc>
+		      		<car>3.76</car>
+		      		<car-we>3.04</car-we>
+		      		<lcv>6.08</lcv>
+		      		<hcv>10.04</hcv>
+		      		<mc>1.92</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>4.28</car>
-		      		<car-we>3.45</car-we>
-		      		<lcv>6.81</lcv>
-		      		<hcv>11.27</hcv>
-		      		<mc>2.16</mc>
+		      		<car>4.33</car>
+		      		<car-we>3.50</car-we>
+		      		<lcv>6.99</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.21</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>4.84</car>
-		      		<car-we>3.90</car-we>
-		      		<lcv>7.70</lcv>
-		      		<hcv>12.74</hcv>
-		      		<mc>2.44</mc>
+		      		<car>4.90</car>
+		      		<car-we>3.96</car-we>
+		      		<lcv>7.90</lcv>
+		      		<hcv>13.06</hcv>
+		      		<mc>2.50</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Canterbury Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>2.92</car>
-		      		<car-we>2.35</car-we>
-		      		<lcv>4.68</lcv>
-		      		<hcv>7.76</hcv>
-		      		<mc>1.47</mc>
+		      		<car>2.98</car>
+		      		<car-we>2.39</car-we>
+		      		<lcv>4.79</lcv>
+		      		<hcv>7.92</hcv>
+		      		<mc>1.50</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
@@ -961,96 +961,96 @@
 		      		<street>Boronia Rd</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
 		      		<car>1.11</car>
 		      		<car-we>0.90</car-we>
-		      		<lcv>1.77</lcv>
-		      		<hcv>2.94</hcv>
+		      		<lcv>1.83</lcv>
+		      		<hcv>3.00</hcv>
 		      		<mc>0.57</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>1.67</car>
-		      		<car-we>1.37</car-we>
-		      		<lcv>2.66</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.85</mc>
+		      		<car>1.68</car>
+		      		<car-we>1.36</car-we>
+		      		<lcv>2.74</lcv>
+		      		<hcv>4.51</hcv>
+		      		<mc>0.86</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>2.23</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.55</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.13</mc>
+		      		<car>2.25</car>
+		      		<car-we>1.82</car-we>
+		      		<lcv>3.65</lcv>
+		      		<hcv>6.02</hcv>
+		      		<mc>1.15</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>2.79</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.44</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.41</mc>
+		      		<car>2.82</car>
+		      		<car-we>2.28</car-we>
+		      		<lcv>4.56</lcv>
+		      		<hcv>7.53</hcv>
+		      		<mc>1.44</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>3.35</car>
-		      		<car-we>2.70</car-we>
-		      		<lcv>5.33</lcv>
-		      		<hcv>8.82</hcv>
-		      		<mc>1.69</mc>
+		      		<car>3.39</car>
+		      		<car-we>2.74</car-we>
+		      		<lcv>5.47</lcv>
+		      		<hcv>9.04</hcv>
+		      		<mc>1.73</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>3.91</car>
-		      		<car-we>3.15</car-we>
-		      		<lcv>6.22</lcv>
-		      		<hcv>10.29</hcv>
-		      		<mc>1.97</mc>
+		      		<car>3.96</car>
+		      		<car-we>3.20</car-we>
+		      		<lcv>6.38</lcv>
+		      		<hcv>10.55</hcv>
+		      		<mc>2.02</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>4.47</car>
-		      		<car-we>3.60</car-we>
-		      		<lcv>7.11</lcv>
-		      		<hcv>11.76</hcv>
-		      		<mc>2.25</mc>
+		      		<car>4.53</car>
+		      		<car-we>3.66</car-we>
+		      		<lcv>7.29</lcv>
+		      		<hcv>12.06</hcv>
+		      		<mc>2.31</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>	  			  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Boronia Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>3.29</car>
-		      		<car-we>2.65</car-we>
-		      		<lcv>5.27</lcv>
-		      		<hcv>8.74</hcv>
-		      		<mc>1.66</mc>
+		      		<car>3.35</car>
+		      		<car-we>2.69</car-we>
+		      		<lcv>5.40</lcv>
+		      		<hcv>8.92</hcv>
+		      		<mc>1.69</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
@@ -1058,8 +1058,8 @@
 		      		<street>High St Rd</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
@@ -1067,103 +1067,103 @@
 		      		<street>Burwood Hwy</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>1.30</car>
-		      		<car-we>1.05</car-we>
-		      		<lcv>2.07</lcv>
-		      		<hcv>3.43</hcv>
-		      		<mc>0.66</mc>
+		      		<car>1.31</car>
+		      		<car-we>1.06</car-we>
+		      		<lcv>2.13</lcv>
+		      		<hcv>3.51</hcv>
+		      		<mc>0.67</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>1.86</car>
-		      		<car-we>1.50</car-we>
-		      		<lcv>2.96</lcv>
-		      		<hcv>4.90</hcv>
-		      		<mc>0.94</mc>
+		      		<car>1.88</car>
+		      		<car-we>1.52</car-we>
+		      		<lcv>3.04</lcv>
+		      		<hcv>5.02</hcv>
+		      		<mc>0.96</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>2.42</car>
-		      		<car-we>1.95</car-we>
-		      		<lcv>3.85</lcv>
-		      		<hcv>6.37</hcv>
-		      		<mc>1.22</mc>
+		      		<car>2.45</car>
+		      		<car-we>1.98</car-we>
+		      		<lcv>3.95</lcv>
+		      		<hcv>6.53</hcv>
+		      		<mc>1.25</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>2.98</car>
-		      		<car-we>2.40</car-we>
-		      		<lcv>4.74</lcv>
-		      		<hcv>7.84</hcv>
-		      		<mc>1.50</mc>
+		      		<car>3.02</car>
+		      		<car-we>2.44</car-we>
+		      		<lcv>4.86</lcv>
+		      		<hcv>8.04</hcv>
+		      		<mc>1.54</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>3.54</car>
-		      		<car-we>2.85</car-we>
-		      		<lcv>5.63</lcv>
-		      		<hcv>9.31</hcv>
-		      		<mc>1.78</mc>
+		      		<car>3.59</car>
+		      		<car-we>2.90</car-we>
+		      		<lcv>5.77</lcv>
+		      		<hcv>9.55</hcv>
+		      		<mc>1.83</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>4.10</car>
-		      		<car-we>3.30</car-we>
-		      		<lcv>6.52</lcv>
-		      		<hcv>10.78</hcv>
-		      		<mc>2.06</mc>
+		      		<car>4.16</car>
+		      		<car-we>3.36</car-we>
+		      		<lcv>6.68</lcv>
+		      		<hcv>11.06</hcv>
+		      		<mc>2.12</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>5.40</car>
-		      		<car-we>4.33</car-we>
-		      		<lcv>8.60</lcv>
-		      		<hcv>14.22</hcv>
-		      		<mc>2.71</mc>
+		      		<car>5.49</car>
+		      		<car-we>4.43</car-we>
+		      		<lcv>8.80</lcv>
+		      		<hcv>14.57</hcv>
+		      		<mc>2.78</mc>
 				</exit>	  			  		
 		      	<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>	  			  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Burwood Hwy</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>3.66</car>
-		      		<car-we>2.95</car-we>
-		      		<lcv>5.86</lcv>
-		      		<hcv>9.72</hcv>
-		      		<mc>1.85</mc>
+		      		<car>3.72</car>
+		      		<car-we>2.99</car-we>
+		      		<lcv>6.01</lcv>
+		      		<hcv>9.92</hcv>
+		      		<mc>1.88</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
 		      		<car>1.11</car>
 		      		<car-we>0.90</car-we>
-		      		<lcv>1.77</lcv>
-		      		<hcv>2.94</hcv>
+		      		<lcv>1.83</lcv>
+		      		<hcv>3.00</hcv>
 		      		<mc>0.57</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
@@ -1171,793 +1171,779 @@
 		      		<street>High St Rd</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>0.93</car>
-		      		<car-we>0.75</car-we>
-		      		<lcv>1.48</lcv>
-		      		<hcv>2.45</hcv>
-		      		<mc>0.47</mc>
+		      		<car>0.94</car>
+		      		<car-we>0.76</car-we>
+		      		<lcv>1.52</lcv>
+		      		<hcv>2.51</hcv>
+		      		<mc>0.48</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>1.49</car>
-		      		<car-we>1.20</car-we>
-		      		<lcv>2.37</lcv>
-		      		<hcv>3.92</hcv>
-		      		<mc>0.75</mc>
+		      		<car>1.51</car>
+		      		<car-we>1.22</car-we>
+		      		<lcv>2.43</lcv>
+		      		<hcv>4.02</hcv>
+		      		<mc>0.77</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>2.05</car>
-		      		<car-we>1.65</car-we>
-		      		<lcv>3.26</lcv>
-		      		<hcv>5.39</hcv>
-		      		<mc>1.03</mc>
+		      		<car>2.08</car>
+		      		<car-we>1.68</car-we>
+		      		<lcv>3.34</lcv>
+		      		<hcv>5.53</hcv>
+		      		<mc>1.06</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>2.61</car>
-		      		<car-we>2.10</car-we>
-		      		<lcv>4.15</lcv>
-		      		<hcv>6.86</hcv>
-		      		<mc>1.31</mc>
+		      		<car>2.65</car>
+		      		<car-we>2.14</car-we>
+		      		<lcv>4.25</lcv>
+		      		<hcv>7.04</hcv>
+		      		<mc>1.35</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>3.17</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.04</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.59</mc>
+		      		<car>3.22</car>
+		      		<car-we>2.60</car-we>
+		      		<lcv>5.16</lcv>
+		      		<hcv>8.55</hcv>
+		      		<mc>1.64</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>3.73</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.93</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.87</mc>
+		      		<car>3.79</car>
+		      		<car-we>3.06</car-we>
+		      		<lcv>6.07</lcv>
+		      		<hcv>10.06</hcv>
+		      		<mc>1.93</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>5.03</car>
-		      		<car-we>4.03</car-we>
-		      		<lcv>8.01</lcv>
-		      		<hcv>13.24</hcv>
-		      		<mc>2.52</mc>
+		      		<car>5.12</car>
+		      		<car-we>4.13</car-we>
+		      		<lcv>8.19</lcv>
+		      		<hcv>13.57</hcv>
+		      		<mc>2.58</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46y</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>	  			  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>High St Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>4.03</car>
-		      		<car-we>3.25</car-we>
-		      		<lcv>6.45</lcv>
-		      		<hcv>10.70</hcv>
-		      		<mc>2.04</mc>
+		      		<car>4.09</car>
+		      		<car-we>3.29</car-we>
+		      		<lcv>6.62</lcv>
+		      		<hcv>10.92</hcv>
+		      		<mc>2.07</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
 		      		<car>1.48</car>
 		      		<car-we>1.20</car-we>
-		      		<lcv>2.36</lcv>
-		      		<hcv>3.92</hcv>
+		      		<lcv>2.44</lcv>
+		      		<hcv>4.00</hcv>
 		      		<mc>0.76</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
 		      		<car>1.11</car>
 		      		<car-we>0.90</car-we>
-		      		<lcv>1.77</lcv>
-		      		<hcv>2.94</hcv>
+		      		<lcv>1.83</lcv>
+		      		<hcv>3.00</hcv>
 		      		<mc>0.57</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
 		      		<car>0.74</car>
 		      		<car-we>0.60</car-we>
-		      		<lcv>1.18</lcv>
-		      		<hcv>1.96</hcv>
+		      		<lcv>1.22</lcv>
+		      		<hcv>2.00</hcv>
 		      		<mc>0.38</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
 		      		<car>0.37</car>
 		      		<car-we>0.30</car-we>
-		      		<lcv>0.59</lcv>
-		      		<hcv>0.98</hcv>
+		      		<lcv>0.61</lcv>
+		      		<hcv>1.00</hcv>
 		      		<mc>0.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>2.80</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.45</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.40</mc>
+		      		<car>2.85</car>
+		      		<car-we>2.30</car-we>
+		      		<lcv>4.55</lcv>
+		      		<hcv>7.55</hcv>
+		      		<mc>1.45</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>3.36</car>
-		      		<car-we>2.70</car-we>
-		      		<lcv>5.34</lcv>
-		      		<hcv>8.82</hcv>
-		      		<mc>1.68</mc>
+		      		<car>3.42</car>
+		      		<car-we>2.76</car-we>
+		      		<lcv>5.46</lcv>
+		      		<hcv>9.06</hcv>
+		      		<mc>1.74</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>4.66</car>
-		      		<car-we>3.73</car-we>
-		      		<lcv>7.42</lcv>
-		      		<hcv>12.26</hcv>
-		      		<mc>2.33</mc>
+		      		<car>4.75</car>
+		      		<car-we>3.83</car-we>
+		      		<lcv>7.58</lcv>
+		      		<hcv>12.57</hcv>
+		      		<mc>2.40</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Ferntree Gully Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>4.59</car>
-		      		<car-we>3.70</car-we>
-		      		<lcv>7.34</lcv>
-		      		<hcv>12.17</hcv>
-		      		<mc>2.32</mc>
+		      		<car>4.66</car>
+		      		<car-we>3.75</car-we>
+		      		<lcv>7.53</lcv>
+		      		<hcv>12.43</hcv>
+		      		<mc>2.36</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
-		      		<car>2.04</car>
-		      		<car-we>1.65</car-we>
-		      		<lcv>3.25</lcv>
-		      		<hcv>5.39</hcv>
-		      		<mc>1.04</mc>
+		      		<car>2.05</car>
+		      		<car-we>1.66</car-we>
+		      		<lcv>3.35</lcv>
+		      		<hcv>5.51</hcv>
+		      		<mc>1.05</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>1.67</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.66</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.85</mc>
+		      		<car>1.68</car>
+		      		<car-we>1.36</car-we>
+		      		<lcv>2.74</lcv>
+		      		<hcv>4.51</hcv>
+		      		<mc>0.86</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>1.30</car>
-		      		<car-we>1.05</car-we>
-		      		<lcv>2.07</lcv>
-		      		<hcv>3.43</hcv>
-		      		<mc>0.66</mc>
+		      		<car>1.31</car>
+		      		<car-we>1.06</car-we>
+		      		<lcv>2.13</lcv>
+		      		<hcv>3.51</hcv>
+		      		<mc>0.67</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>0.93</car>
-		      		<car-we>0.75</car-we>
-		      		<lcv>1.48</lcv>
-		      		<hcv>2.45</hcv>
-		      		<mc>0.47</mc>
+		      		<car>0.94</car>
+		      		<car-we>0.76</car-we>
+		      		<lcv>1.52</lcv>
+		      		<hcv>2.51</hcv>
+		      		<mc>0.48</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
 		      		<street>Wellington Rd</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 		    	</exit>
 				<exit>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 				</exit>
 				<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 				</exit>
 				<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 				</exit>
 				<exit>
 		      		<street>Greens Rd</street>
-		      		<car>2.80</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.45</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.40</mc>
+		      		<car>2.85</car>
+		      		<car-we>2.30</car-we>
+		      		<lcv>4.55</lcv>
+		      		<hcv>7.55</hcv>
+		      		<mc>1.45</mc>
 				</exit>
 				<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>4.10</car>
-		      		<car-we>3.28</car-we>
-		      		<lcv>6.53</lcv>
-		      		<hcv>10.79</hcv>
-		      		<mc>2.05</mc>
+		      		<car>4.18</car>
+		      		<car-we>3.37</car-we>
+		      		<lcv>6.67</lcv>
+		      		<hcv>11.06</hcv>
+		      		<mc>2.11</mc>
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>5.40</car>
-		      		<car-we>4.31</car-we>
-		      		<lcv>8.61</lcv>
-		      		<hcv>14.23</hcv>
-		      		<mc>2.70</mc>
+		      		<car>5.51</car>
+		      		<car-we>4.44</car-we>
+		      		<lcv>8.79</lcv>
+		      		<hcv>14.57</hcv>
+		      		<mc>2.77</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Wellington Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.15</car>
-		      		<car-we>4.15</car-we>
-		      		<lcv>8.23</lcv>
-		      		<hcv>13.64</hcv>
-		      		<mc>2.60</mc>
+		      		<car>5.23</car>
+		      		<car-we>4.21</car-we>
+		      		<lcv>8.44</lcv>
+		      		<hcv>13.94</hcv>
+		      		<mc>2.65</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
-		      		<car>2.60</car>
-		      		<car-we>2.10</car-we>
-		      		<lcv>4.14</lcv>
-		      		<hcv>6.86</hcv>
-		      		<mc>1.32</mc>
+		      		<car>2.62</car>
+		      		<car-we>2.12</car-we>
+		      		<lcv>4.26</lcv>
+		      		<hcv>7.02</hcv>
+		      		<mc>1.34</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>2.23</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.55</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.13</mc>
+		      		<car>2.25</car>
+		      		<car-we>1.82</car-we>
+		      		<lcv>3.65</lcv>
+		      		<hcv>6.02</hcv>
+		      		<mc>1.15</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>1.86</car>
-		      		<car-we>1.50</car-we>
-		      		<lcv>2.96</lcv>
-		      		<hcv>4.90</hcv>
-		      		<mc>0.94</mc>
+		      		<car>1.88</car>
+		      		<car-we>1.52</car-we>
+		      		<lcv>3.04</lcv>
+		      		<hcv>5.02</hcv>
+		      		<mc>0.96</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>1.49</car>
-		      		<car-we>1.20</car-we>
-		      		<lcv>2.37</lcv>
-		      		<hcv>3.92</hcv>
-		      		<mc>0.75</mc>
+		      		<car>1.51</car>
+		      		<car-we>1.22</car-we>
+		      		<lcv>2.43</lcv>
+		      		<hcv>4.02</hcv>
+		      		<mc>0.77</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
 		      		<street>Princes Hwy</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
 					<street>Police Rd</street>
 					<street>Monash Fwy</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 		    	</exit>
 				<exit>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>3.54</car>
-		      		<car-we>2.83</car-we>
-		      		<lcv>5.64</lcv>
-		      		<hcv>9.32</hcv>
-		      		<mc>1.77</mc>
+		      		<car>3.61</car>
+		      		<car-we>2.91</car-we>
+		      		<lcv>5.76</lcv>
+		      		<hcv>9.55</hcv>
+		      		<mc>1.82</mc>
 		      	</exit>
 		      	<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>4.84</car>
-		      		<car-we>3.86</car-we>
-		      		<lcv>7.72</lcv>
-		      		<hcv>12.76</hcv>
-		      		<mc>2.42</mc>
+		      		<car>4.94</car>
+		      		<car-we>3.98</car-we>
+		      		<lcv>7.88</lcv>
+		      		<hcv>13.06</hcv>
+		      		<mc>2.48</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Princes Hwy</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
-		      		<car>3.72</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.92</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.88</mc>
-		    	</exit>
-		    	<exit>
 		      		<street>Maroondah Hwy</street>
-		      		<car>3.72</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.92</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.88</mc>
+		      		<car>3.76</car>
+		      		<car-we>3.04</car-we>
+		      		<lcv>6.08</lcv>
+		      		<hcv>10.04</hcv>
+		      		<mc>1.92</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>3.35</car>
-		      		<car-we>2.70</car-we>
-		      		<lcv>5.33</lcv>
-		      		<hcv>8.82</hcv>
-		      		<mc>1.69</mc>
+		      		<car>3.39</car>
+		      		<car-we>2.74</car-we>
+		      		<lcv>5.47</lcv>
+		      		<hcv>9.04</hcv>
+		      		<mc>1.73</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>2.98</car>
-		      		<car-we>2.40</car-we>
-		      		<lcv>4.74</lcv>
-		      		<hcv>7.84</hcv>
-		      		<mc>1.50</mc>
+		      		<car>3.02</car>
+		      		<car-we>2.44</car-we>
+		      		<lcv>4.86</lcv>
+		      		<hcv>8.04</hcv>
+		      		<mc>1.54</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>2.61</car>
-		      		<car-we>2.10</car-we>
-		      		<lcv>4.15</lcv>
-		      		<hcv>6.86</hcv>
-		      		<mc>1.31</mc>
+		      		<car>2.65</car>
+		      		<car-we>2.14</car-we>
+		      		<lcv>4.25</lcv>
+		      		<hcv>7.04</hcv>
+		      		<mc>1.35</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.18</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
 		      		<street>Greens Rd</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
 		      		<street>Cheltenham Rd</street>
 		      		<street>Dandenong Bypass</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 				</exit>
 				<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>2.42</car>
-		      		<car-we>1.93</car-we>
-		      		<lcv>3.86</lcv>
-		      		<hcv>6.38</hcv>
-		      		<mc>1.21</mc>
+		      		<car>2.47</car>
+		      		<car-we>1.99</car-we>
+		      		<lcv>3.94</lcv>
+		      		<hcv>6.53</hcv>
+		      		<mc>1.24</mc>
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>3.72</car>
-		      		<car-we>2.96</car-we>
-		      		<lcv>5.94</lcv>
-		      		<hcv>9.82</hcv>
-		      		<mc>1.86</mc>
+		      		<car>3.80</car>
+		      		<car-we>3.06</car-we>
+		      		<lcv>6.06</lcv>
+		      		<hcv>10.04</hcv>
+		      		<mc>1.90</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Cheltenham Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
-		      		<car>4.28</car>
-		      		<car-we>3.45</car-we>
-		      		<lcv>6.81</lcv>
-		      		<hcv>11.27</hcv>
-		      		<mc>2.16</mc>
+		      		<car>4.33</car>
+		      		<car-we>3.50</car-we>
+		      		<lcv>6.99</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.21</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>3.91</car>
-		      		<car-we>3.15</car-we>
-		      		<lcv>6.22</lcv>
-		      		<hcv>10.29</hcv>
-		      		<mc>1.97</mc>
+		      		<car>3.96</car>
+		      		<car-we>3.20</car-we>
+		      		<lcv>6.38</lcv>
+		      		<hcv>10.55</hcv>
+		      		<mc>2.02</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>3.54</car>
-		      		<car-we>2.85</car-we>
-		      		<lcv>5.63</lcv>
-		      		<hcv>9.31</hcv>
-		      		<mc>1.78</mc>
+		      		<car>3.59</car>
+		      		<car-we>2.90</car-we>
+		      		<lcv>5.77</lcv>
+		      		<hcv>9.55</hcv>
+		      		<mc>1.83</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>3.17</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.04</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.59</mc>
+		      		<car>3.22</car>
+		      		<car-we>2.60</car-we>
+		      		<lcv>5.16</lcv>
+		      		<hcv>8.55</hcv>
+		      		<mc>1.64</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>2.80</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.45</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.40</mc>
+		      		<car>2.85</car>
+		      		<car-we>2.30</car-we>
+		      		<lcv>4.55</lcv>
+		      		<hcv>7.55</hcv>
+		      		<mc>1.45</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Princes Hwy</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Dandenong Bypass</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
-		      		<car>4.28</car>
-		      		<car-we>3.45</car-we>
-		      		<lcv>6.81</lcv>
-		      		<hcv>11.27</hcv>
-		      		<mc>2.16</mc>
+		      		<car>4.33</car>
+		      		<car-we>3.50</car-we>
+		      		<lcv>6.99</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.21</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>3.91</car>
-		      		<car-we>3.15</car-we>
-		      		<lcv>6.22</lcv>
-		      		<hcv>10.29</hcv>
-		      		<mc>1.97</mc>
+		      		<car>3.96</car>
+		      		<car-we>3.20</car-we>
+		      		<lcv>6.38</lcv>
+		      		<hcv>10.55</hcv>
+		      		<mc>2.02</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>3.54</car>
-		      		<car-we>2.85</car-we>
-		      		<lcv>5.63</lcv>
-		      		<hcv>9.31</hcv>
-		      		<mc>1.78</mc>
+		      		<car>3.59</car>
+		      		<car-we>2.90</car-we>
+		      		<lcv>5.77</lcv>
+		      		<hcv>9.55</hcv>
+		      		<mc>1.83</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>3.17</car>
-		      		<car-we>2.55</car-we>
-		      		<lcv>5.04</lcv>
-		      		<hcv>8.33</hcv>
-		      		<mc>1.59</mc>
+		      		<car>3.22</car>
+		      		<car-we>2.60</car-we>
+		      		<lcv>5.16</lcv>
+		      		<hcv>8.55</hcv>
+		      		<mc>1.64</mc>
 		    	</exit>
 		    	<exit>
 		    		<street>High St Rd</street>
-		      		<car>2.80</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.45</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.40</mc>
+		      		<car>2.85</car>
+		      		<car-we>2.30</car-we>
+		      		<lcv>4.55</lcv>
+		      		<hcv>7.55</hcv>
+		      		<mc>1.45</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Princes Hwy</street>
 		      		<street>Greens Rd</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 				</exit>
 				<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>1.86</car>
-		      		<car-we>1.48</car-we>
-		      		<lcv>2.97</lcv>
-		      		<hcv>4.91</hcv>
-		      		<mc>0.93</mc>
+		      		<car>1.90</car>
+		      		<car-we>1.53</car-we>
+		      		<lcv>3.03</lcv>
+		      		<hcv>5.02</hcv>
+		      		<mc>0.95</mc>
 				</exit>
 				<exit>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>3.16</car>
-		      		<car-we>2.51</car-we>
-		      		<lcv>5.05</lcv>
-		      		<hcv>8.35</hcv>
-		      		<mc>1.58</mc>
+		      		<car>3.23</car>
+		      		<car-we>2.60</car-we>
+		      		<lcv>5.15</lcv>
+		      		<hcv>8.53</hcv>
+		      		<mc>1.61</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
 		  		<start>Greens Rd</start>
 		    	<exit>
 		      		<street>Springvale Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ringwood Bypass</street>
-		      		<car>4.84</car>
-		      		<car-we>3.90</car-we>
-		      		<lcv>7.70</lcv>
-		      		<hcv>12.74</hcv>
-		      		<mc>2.44</mc>
-		    	</exit>
-		    	<exit>
 		      		<street>Maroondah Hwy</street>
-		      		<car>4.84</car>
-		      		<car-we>3.90</car-we>
-		      		<lcv>7.70</lcv>
-		      		<hcv>12.74</hcv>
-		      		<mc>2.44</mc>
+		      		<car>4.90</car>
+		      		<car-we>3.96</car-we>
+		      		<lcv>7.90</lcv>
+		      		<hcv>13.06</hcv>
+		      		<mc>2.50</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Canterbury Rd</street>
-		      		<car>4.47</car>
-		      		<car-we>3.60</car-we>
-		      		<lcv>7.11</lcv>
-		      		<hcv>11.76</hcv>
-		      		<mc>2.25</mc>
+		      		<car>4.53</car>
+		      		<car-we>3.66</car-we>
+		      		<lcv>7.29</lcv>
+		      		<hcv>12.06</hcv>
+		      		<mc>2.31</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>4.10</car>
-		      		<car-we>3.30</car-we>
-		      		<lcv>6.52</lcv>
-		      		<hcv>10.78</hcv>
-		      		<mc>2.06</mc>
+		      		<car>4.16</car>
+		      		<car-we>3.36</car-we>
+		      		<lcv>6.68</lcv>
+		      		<hcv>11.06</hcv>
+		      		<mc>2.12</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>3.73</car>
-		      		<car-we>3.00</car-we>
-		      		<lcv>5.93</lcv>
-		      		<hcv>9.80</hcv>
-		      		<mc>1.87</mc>
+		      		<car>3.79</car>
+		      		<car-we>3.06</car-we>
+		      		<lcv>6.07</lcv>
+		      		<hcv>10.06</hcv>
+		      		<mc>1.93</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>3.36</car>
-		      		<car-we>2.70</car-we>
-		      		<lcv>5.34</lcv>
-		      		<hcv>8.82</hcv>
-		      		<mc>1.68</mc>
+		      		<car>3.42</car>
+		      		<car-we>2.76</car-we>
+		      		<lcv>5.46</lcv>
+		      		<hcv>9.06</hcv>
+		      		<mc>1.74</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>2.80</car>
-		      		<car-we>2.25</car-we>
-		      		<lcv>4.45</lcv>
-		      		<hcv>7.35</hcv>
-		      		<mc>1.40</mc>
+		      		<car>2.85</car>
+		      		<car-we>2.30</car-we>
+		      		<lcv>4.55</lcv>
+		      		<hcv>7.55</hcv>
+		      		<mc>1.45</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>2.24</car>
-		      		<car-we>1.80</car-we>
-		      		<lcv>3.56</lcv>
-		      		<hcv>5.88</hcv>
-		      		<mc>1.12</mc>
+		      		<car>2.28</car>
+		      		<car-we>1.84</car-we>
+		      		<lcv>3.64</lcv>
+		      		<hcv>6.04</hcv>
+		      		<mc>1.16</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
-		      		<car>1.68</car>
-		      		<car-we>1.35</car-we>
-		      		<lcv>2.67</lcv>
-		      		<hcv>4.41</hcv>
-		      		<mc>0.84</mc>
+		      		<car>1.71</car>
+		      		<car-we>1.38</car-we>
+		      		<lcv>2.73</lcv>
+		      		<hcv>4.53</hcv>
+		      		<mc>0.87</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Princes Hwy</street>
-		      		<car>1.12</car>
-		      		<car-we>0.90</car-we>
-		      		<lcv>1.78</lcv>
-		      		<hcv>2.94</hcv>
-		      		<mc>0.56</mc>
+		      		<car>1.14</car>
+		      		<car-we>0.92</car-we>
+		      		<lcv>1.82</lcv>
+		      		<hcv>3.02</hcv>
+		      		<mc>0.58</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Dandenong Bypass</street>
-		      		<car>0.56</car>
-		      		<car-we>0.45</car-we>
-		      		<lcv>0.89</lcv>
-		      		<hcv>1.47</hcv>
-		      		<mc>0.28</mc>
+		      		<car>0.57</car>
+		      		<car-we>0.46</car-we>
+		      		<lcv>0.91</lcv>
+		      		<hcv>1.51</hcv>
+		      		<mc>0.29</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Thompson Rd</street>
-		      		<car>1.30</car>
-		      		<car-we>1.03</car-we>
-		      		<lcv>2.08</lcv>
-		      		<hcv>3.44</hcv>
-		      		<mc>0.65</mc>
+		      		<car>1.33</car>
+		      		<car-we>1.07</car-we>
+		      		<lcv>2.12</lcv>
+		      		<hcv>3.51</hcv>
+		      		<mc>0.66</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>2.60</car>
-		      		<car-we>2.06</car-we>
-		      		<lcv>4.16</lcv>
-		      		<hcv>6.88</hcv>
-		      		<mc>1.30</mc>
+		      		<car>2.66</car>
+		      		<car-we>2.14</car-we>
+		      		<lcv>4.24</lcv>
+		      		<hcv>7.02</hcv>
+		      		<mc>1.32</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
@@ -1967,85 +1953,85 @@
 		      		<street>Ringwood Bypass</street>
 		      		<street>Maroondah Hwy</street>
 		      		<street>Canterbury Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Boronia Rd</street>
-		      		<car>5.40</car>
-		      		<car-we>4.33</car-we>
-		      		<lcv>8.60</lcv>
-		      		<hcv>14.22</hcv>
-		      		<mc>2.71</mc>
+		      		<car>5.49</car>
+		      		<car-we>4.43</car-we>
+		      		<lcv>8.80</lcv>
+		      		<hcv>14.57</hcv>
+		      		<mc>2.78</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Burwood Hwy</street>
-		      		<car>5.03</car>
-		      		<car-we>4.03</car-we>
-		      		<lcv>8.01</lcv>
-		      		<hcv>13.24</hcv>
-		      		<mc>2.52</mc>
+		      		<car>5.12</car>
+		      		<car-we>4.13</car-we>
+		      		<lcv>8.19</lcv>
+		      		<hcv>13.57</hcv>
+		      		<mc>2.59</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>High St Rd</street>
-		      		<car>4.66</car>
-		      		<car-we>3.73</car-we>
-		      		<lcv>7.42</lcv>
-		      		<hcv>12.26</hcv>
-		      		<mc>2.33</mc>
+		      		<car>4.75</car>
+		      		<car-we>3.83</car-we>
+		      		<lcv>7.58</lcv>
+		      		<hcv>12.57</hcv>
+		      		<mc>2.40</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>4.10</car>
-		      		<car-we>3.28</car-we>
-		      		<lcv>6.53</lcv>
-		      		<hcv>10.79</hcv>
-		      		<mc>2.05</mc>
+		      		<car>4.18</car>
+		      		<car-we>3.37</car-we>
+		      		<lcv>6.67</lcv>
+		      		<hcv>11.06</hcv>
+		      		<mc>2.11</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>3.54</car>
-		      		<car-we>2.83</car-we>
-		      		<lcv>5.64</lcv>
-		      		<hcv>9.32</hcv>
-		      		<mc>1.77</mc>
+		      		<car>3.61</car>
+		      		<car-we>2.91</car-we>
+		      		<lcv>5.76</lcv>
+		      		<hcv>9.55</hcv>
+		      		<mc>1.82</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
-		      		<car>2.98</car>
-		      		<car-we>2.38</car-we>
-		      		<lcv>4.75</lcv>
-		      		<hcv>7.85</hcv>
-		      		<mc>1.49</mc>
+		      		<car>3.04</car>
+		      		<car-we>2.45</car-we>
+		      		<lcv>4.85</lcv>
+		      		<hcv>8.04</hcv>
+		      		<mc>1.53</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Princes Hwy</street>
-		      		<car>2.42</car>
-		      		<car-we>1.93</car-we>
-		      		<lcv>3.86</lcv>
-		      		<hcv>6.38</hcv>
-		      		<mc>1.21</mc>
+		      		<car>2.47</car>
+		      		<car-we>1.99</car-we>
+		      		<lcv>3.94</lcv>
+		      		<hcv>6.53</hcv>
+		      		<mc>1.24</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Dandenong Bypass</street>
-		      		<car>1.86</car>
-		      		<car-we>1.48</car-we>
-		      		<lcv>2.97</lcv>
-		      		<hcv>4.91</hcv>
-		      		<mc>0.93</mc>
+		      		<car>1.90</car>
+		      		<car-we>1.53</car-we>
+		      		<lcv>3.03</lcv>
+		      		<hcv>5.02</hcv>
+		      		<mc>0.95</mc>
 				</exit>
 				<exit>	  		
 		      		<street>Greens Rd</street>
 		      		<street>Frankston Fwy</street>
 		      		<street>Peninsula Link</street>
-		      		<car>1.30</car>
-		      		<car-we>1.03</car-we>
-		      		<lcv>2.08</lcv>
-		      		<hcv>3.44</hcv>
-		      		<mc>0.65</mc>
+		      		<car>1.33</car>
+		      		<car-we>1.07</car-we>
+		      		<lcv>2.12</lcv>
+		      		<hcv>3.51</hcv>
+		      		<mc>0.66</mc>
 				</exit>	  		
 		  	</tollpoint>
 		  	<tollpoint>
@@ -2059,67 +2045,67 @@
 		      		<street>Boronia Rd</street>
 		      		<street>Burwood Hwy</street>
 		      		<street>High St Rd</street>
-		      		<car>5.57</car>
-		      		<car-we>4.46</car-we>
-		      		<lcv>8.90</lcv>
-		      		<hcv>14.75</hcv>
-		      		<mc>2.78</mc>
+		      		<car>5.69</car>
+		      		<car-we>4.55</car-we>
+		      		<lcv>9.10</lcv>
+		      		<hcv>15.06</hcv>
+		      		<mc>2.84</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Ferntree Gully Rd</street>
-		      		<car>5.40</car>
-		      		<car-we>4.31</car-we>
-		      		<lcv>8.61</lcv>
-		      		<hcv>14.23</hcv>
-		      		<mc>2.70</mc>
+		      		<car>5.51</car>
+		      		<car-we>4.44</car-we>
+		      		<lcv>8.79</lcv>
+		      		<hcv>14.57</hcv>
+		      		<mc>2.77</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Wellington Rd</street>
-		      		<car>4.84</car>
-		      		<car-we>3.86</car-we>
-		      		<lcv>7.72</lcv>
-		      		<hcv>12.76</hcv>
-		      		<mc>2.42</mc>
+		      		<car>4.94</car>
+		      		<car-we>3.98</car-we>
+		      		<lcv>7.88</lcv>
+		      		<hcv>13.06</hcv>
+		      		<mc>2.48</mc>
 		    	</exit>
 				<exit>
 					<street>Monash Fwy</street>
-		      		<car>4.28</car>
-		      		<car-we>3.41</car-we>
-		      		<lcv>6.83</lcv>
-		      		<hcv>11.29</hcv>
-		      		<mc>2.14</mc>
+		      		<car>4.37</car>
+		      		<car-we>3.52</car-we>
+		      		<lcv>6.97</lcv>
+		      		<hcv>11.55</hcv>
+		      		<mc>2.19</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Princes Hwy</street>
-		      		<car>3.72</car>
-		      		<car-we>2.96</car-we>
-		      		<lcv>5.94</lcv>
-		      		<hcv>9.82</hcv>
-		      		<mc>1.86</mc>
+		      		<car>3.88</car>
+		      		<car-we>3.06</car-we>
+		      		<lcv>6.06</lcv>
+		      		<hcv>10.04</hcv>
+		      		<mc>1.90</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Dandenong Bypass</street>
-		      		<car>3.16</car>
-		      		<car-we>2.51</car-we>
-		      		<lcv>5.05</lcv>
-		      		<hcv>8.35</hcv>
-		      		<mc>1.58</mc>
+		      		<car>3.23</car>
+		      		<car-we>2.60</car-we>
+		      		<lcv>5.15</lcv>
+		      		<hcv>8.53</hcv>
+		      		<mc>1.61</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Greens Rd</street>
-		      		<car>2.60</car>
-		      		<car-we>2.06</car-we>
-		      		<lcv>4.16</lcv>
-		      		<hcv>6.88</hcv>
-		      		<mc>1.30</mc>
+		      		<car>2.66</car>
+		      		<car-we>2.14</car-we>
+		      		<lcv>4.24</lcv>
+		      		<hcv>7.02</hcv>
+		      		<mc>1.32</mc>
 		    	</exit>
 		    	<exit>
 		      		<street>Thompson Rd</street>
-		      		<car>1.30</car>
-		      		<car-we>1.03</car-we>
-		      		<lcv>2.08</lcv>
-		      		<hcv>3.44</hcv>
-		      		<mc>0.65</mc>
+		      		<car>1.33</car>
+		      		<car-we>1.07</car-we>
+		      		<lcv>2.12</lcv>
+		      		<hcv>3.51</hcv>
+		      		<mc>0.66</mc>
 		    	</exit>
 		  	</tollpoint>
 		</tollway>
