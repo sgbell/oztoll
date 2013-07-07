@@ -566,13 +566,22 @@ public class OzTollData implements Runnable{
 							TextView rateTitle = new TextView(appContext);
 							rateTitle.setText(variation);
 							rateTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-							rateTitle.setWidth((int)((appContext.getResources().getDisplayMetrics().widthPixels)*0.75));
+							//rateTitle.setWidth((int)((appContext.getResources().getDisplayMetrics().widthPixels)*0.75));							
+							rateTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 
+																					LinearLayout.LayoutParams.WRAP_CONTENT,
+																					0.7f));
+							//rateTitle.setWidth((int)((rateLayout.getWidth())*0.75));
 							
+							Log.w ("oztoll","rateLayout: "+rateLayout.getWidth());
+							Log.w ("oztoll","rate name: "+variation);
 							rateTitle.setPadding(10, 0, 10, 0);
 							tollRateLayout.addView(rateTitle);
 							TextView rateValue = new TextView(appContext);
 							rateValue.setText("$"+currentToll.tolls.get(trc).rate);
 							rateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+							rateTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 
+									LinearLayout.LayoutParams.WRAP_CONTENT,
+									0.3f));
 							tollRateLayout.addView(rateValue);
 							rateLayout.addView(tollRateLayout);
 							
