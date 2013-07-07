@@ -108,7 +108,9 @@ public class ResultsFragment extends SherlockFragment {
 	public void onDestroyView(){
 		super.onDestroyView();
 		((ViewGroup)view.getParent()).removeView(view);
-		((ViewGroup)rateLayout.getParent()).removeView(rateLayout);
+		if (rateLayout!=null)
+			if (rateLayout.getParent()!=null)
+				((ViewGroup)rateLayout.getParent()).removeView(rateLayout);
 	}
 	
 	public ScrollView getScrollView(){
