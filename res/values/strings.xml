@@ -21,4 +21,7 @@
     <string name="advice_change2">You can select the type of vehicle to further customize the toll report.</string>
     <string name="advice_change3">* PLEASE NOTE, If you have no data connection this app will still function, but only in the Text view.</string>
     <string name="advice_change4">An internet connection is required for up-to-date tolls.</string>
+    <string name="eula_title">License Agreement</string>
+    <string name="eula_accept">Accept</string> 
+    <string name="eula_refuse">Don\'t Accept</string>
 </resources>

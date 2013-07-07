@@ -104,6 +104,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	}
     	
 		setContentView(R.layout.activity_main);
+		
+		SimpleEula.show(this);
     }
 
     /**
