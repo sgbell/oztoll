@@ -201,7 +201,7 @@ public class OzTollCity {
 		}
 		return foundIt;
 	}
-
+	
 	public String getCityNameByStreet(Street street){
 		int tollwayCount=0,
 			streetCount;
@@ -230,5 +230,19 @@ public class OzTollCity {
 				for (int elc=0; elc < exitList.size(); elc++)
 					exitList.get(elc).setValid(true);
 		}
+	}
+
+	public void markRoads(String selectedRoad, String tollway) {
+		markRoads(getStreetByName(selectedRoad,tollway));
+	}	
+	
+	public Street getStreetByName(String streetName, String tollway) {
+		Street selectedStreet = null;
+		
+		for (int tollwayCount=0; tollwayCount < getTollwayCount(); tollwayCount++){
+			if (getTollway(tollwayCount).getName().equalsIgnoreCase(tollway))
+			   selectedStreet = getTollway(tollwayCount).getStreetByName(streetName);
+		}
+		return selectedStreet;
 	}
 }

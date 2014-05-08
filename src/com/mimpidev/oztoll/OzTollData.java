@@ -33,7 +33,7 @@ public class OzTollData implements Runnable{
 	private boolean finishedRead=false;
 	private Object syncObject, dataSync;
 	private SharedPreferences sharedPreferences;
-	private Street start, finish;
+	private String tollway, start, finish;
 	private InputStream dataFile;
 	
 	/** Initializes the XML Handler.
@@ -267,12 +267,13 @@ public class OzTollData implements Runnable{
 	public String getSelectedExpiryDate(){
 		boolean cityFound=false;
 		int cityCount=0;
+		String city = sharedPreferences.getString("selectedCity", "Melbourne");
+
 		while ((!cityFound)&&(cityCount<cities.size())){
-			if (cities.get(cityCount).foundStreet(start))
+			if (cities.get(cityCount).getCityName().compareToIgnoreCase(city)==0)
 				return cities.get(cityCount).getExpiryDate();
 			cityCount++;
 		}
-		
 		return null;
 	}
 	
@@ -329,12 +330,25 @@ public class OzTollData implements Runnable{
 	 * @return
 	 */
 	public LinearLayout processToll(Context appContext){
-		if ((getStart()!=null)&&(getFinish()!=null))
-			return processToll(getStart(),getFinish(), appContext);
-		else
-			return null;
+		if ((getStart()!=null)&&(getFinish()!=null)&&(getTollway()!=null)){
+			if (getTollway().length()>0){
+				String cityName = getPreferences().getString("selectedCity", "Melbourne");
+				for (int cityCount=0; cityCount<cities.size(); cityCount++){
+					OzTollCity city = cities.get(cityCount);
+					if (city.getCityName().equalsIgnoreCase(cityName)){
+						return processToll(city.getStreetByName(getStart(),getTollway()),
+								           city.getStreetByName(getFinish(),getTollway()),appContext);
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
+	public String getTollway() {
+		return tollway;
+	}
+
 	public LinearLayout processToll(Street start, Street finish, Context appContext){
 		String title="";
 		
@@ -792,7 +806,7 @@ public class OzTollData implements Runnable{
 		return false;
 	}
 
-	public Street getStart() {
+	public String getStart() {
 		return start;
 	}
 
@@ -810,8 +824,10 @@ public class OzTollData implements Runnable{
 		return null;
 	}
 	
-	public void setStart(Street start) {
-		this.start = start;
+	public void setStart(Street newStart) {
+		// need to seach for the street object to get the tollway name
+		// tollway =
+		start = newStart.getName();
 		setStreetsToInvalid();
 		if (start!=null)
 			markRoads(start);
@@ -819,12 +835,12 @@ public class OzTollData implements Runnable{
 			setValidStarts();
 	}
 
-	public Street getFinish() {
+	public String getFinish() {
 		return finish;
 	}
 
-	public void setFinish(Street finish) {
-		this.finish = finish;
+	public void setFinish(Street newFinish) {
+		finish = newFinish.getName();
 	}
 	
 	public void setStreetsToInvalid(){
@@ -832,14 +848,15 @@ public class OzTollData implements Runnable{
 			cities.get(cityCount).setStreetsToInvalid();
 	}
 	
-	public void markRoads(Street selectedRoad){
+	public void markRoads(String selectedRoad){
 		boolean foundCity=false;
 		int cityCount=0;
+		String city = sharedPreferences.getString("selectedCity", "Melbourne");
 		
 		while ((!foundCity)&&(cityCount<cities.size())){
-			if (cities.get(cityCount).foundStreet(selectedRoad)){
+			if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
 				foundCity=true;
-				cities.get(cityCount).markRoads(selectedRoad);
+				cities.get(cityCount).markRoads(selectedRoad,getTollway());
 			}
 			cityCount++;
 		}
