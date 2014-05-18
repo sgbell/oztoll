@@ -177,7 +177,7 @@ public class MapFragment extends SherlockMapFragment {
      * @param positionNumber
      * @return
      */
-    public Bitmap createMarker(char positionAlpha, boolean selected){
+    public Bitmap createMarker(String positionAlpha, boolean selected){
     	Bitmap image;
     	
     	if (selected){

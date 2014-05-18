@@ -29,6 +29,7 @@ public class XMLPullParserHandler {
 				   pathBreadcrumbs; /* pathBreadcrumbs is used to track where the program is in the
 				   					 * xml file, for populating the arrays.
 				    				 */
+	private boolean useCustomXmlPullParser = false; // set this to false if using this object on android
 	private Object dataSync;
 	
 	public XMLPullParserHandler(){
@@ -56,6 +57,14 @@ public class XMLPullParserHandler {
 			
 			while (eventType != XmlPullParser.END_DOCUMENT){
 				String tagname = parser.getName();
+				/*switch (eventType) {
+					case XmlPullParser.START_TAG:
+						System.out.print ("Start Tag: ");
+						break;
+					case XmlPullParser.END_TAG:
+						System.out.print("End Tag: ");
+				}
+				System.out.println(tagname);*/
 				switch (eventType) {
 					case XmlPullParser.START_TAG:
 						if (tagname.equalsIgnoreCase("oztoll")){
@@ -67,7 +76,8 @@ public class XMLPullParserHandler {
 						}
 						if (tagname.equalsIgnoreCase("timestamp")){
 							setTimestamp(parser.nextText());
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+								pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if (tagname.equalsIgnoreCase("city")){
 							city = new OzTollCity();
 						} else if (tagname.equalsIgnoreCase("name")){
@@ -77,17 +87,21 @@ public class XMLPullParserHandler {
 							// else If parent tag is "street" then set the street name.
 							else if (isParentTag(pathBreadcrumbs,"street"))
 								name = parser.nextText();
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+							   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if (tagname.equalsIgnoreCase("expiry")){
 							city.setExpiryDate(parser.nextText());
 							// added the following line, because if it's an all in 1 line, it misses the end tag.
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+							   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if (tagname.equalsIgnoreCase("longitude")){
 							longitude = parser.nextText();
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+							   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if (tagname.equalsIgnoreCase("latitude")){
 							latitude = parser.nextText();
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+							   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if (tagname.equalsIgnoreCase("tollway")){
 							tollway = new Tollway();
 							tollway.setName(parser.getAttributeValue(null, "name"));
@@ -98,13 +112,15 @@ public class XMLPullParserHandler {
 							String[] breadCrumbs = pathBreadcrumbs.split("->");
 							if (breadCrumbs[breadCrumbs.length-3].equalsIgnoreCase("tollpoint")){
 								tollPointExit.addExit(tollway.getStreetByName(parser.nextText()));
-								pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+								if (!useCustomXmlPullParser)
+								   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 							}
 						} else if (tagname.equalsIgnoreCase("tollpoint")){
 							tollPoint = new TollPoint();
 						} else if (tagname.equalsIgnoreCase("start")){
 							tollPoint.addStart(tollway.getStreetByName(parser.nextText()));
-							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+							if (!useCustomXmlPullParser)
+							   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						} else if ((tagname.equalsIgnoreCase("car"))||
 							(tagname.equalsIgnoreCase("lcv"))||
 							(tagname.equalsIgnoreCase("hcv"))||
@@ -120,7 +136,8 @@ public class XMLPullParserHandler {
 								newTollRate.vehicleType=tagname;
 								newTollRate.rate=parser.nextText();
 								tollPointExit.addRate(newTollRate);
-								pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
+								if (!useCustomXmlPullParser)
+								   pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						}
 						break;
 					case XmlPullParser.END_TAG:
@@ -157,7 +174,7 @@ public class XMLPullParserHandler {
 						if (tagname.equalsIgnoreCase("tollway")){
 							city.addTollways(tollway);
 						}
-						// work here. as this is end tag, remove the tag (that ended) from the pathBreadcrumbs
+						// as this is end tag, remove the tag (that ended) from the pathBreadcrumbs
 						if (!pathBreadcrumbs.equalsIgnoreCase("oztoll"))
 							pathBreadcrumbs = pathBreadcrumbs.substring(0, (pathBreadcrumbs.length()-("->"+tagname).length()));
 						break;
@@ -166,6 +183,7 @@ public class XMLPullParserHandler {
 			}
 		} catch (IOException e) {
 		} catch (XmlPullParserException e) {
+			e.printStackTrace();
 		}
 		
 		return cityList;

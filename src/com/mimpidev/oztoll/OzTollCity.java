@@ -142,7 +142,7 @@ public class OzTollCity {
 	}
 	
 	public int getLocation(int tollway, int exit){
-		return tollways.get(tollway).getStreets().get(exit).getLocation();
+		return tollways.get(tollway).getStreets().get(exit).getLocationNumber();
 	}
 
 	public String getTollwayName(int tollway){
