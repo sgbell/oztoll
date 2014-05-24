@@ -39,7 +39,7 @@ public class GeoPoint {
 	}
 
 	public boolean compareLatLng(LatLng otherLatLng){
-		if ((otherLatLng.latitude==latLng.latitude)&&
+		if ((otherLatLng!=null)&&(otherLatLng.latitude==latLng.latitude)&&
 			(otherLatLng.longitude==latLng.longitude))
 			return true;
 		else
