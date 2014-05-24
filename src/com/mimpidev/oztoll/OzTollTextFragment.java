@@ -172,10 +172,11 @@ public class OzTollTextFragment extends SherlockFragment {
 				
 				collapseGroups();
 			} else {
-				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.getStreet(tollData.getTollway(), tollData.getStart()));
+				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.findStreetByLatLng(tollData.getStart()));
 				String tollway = tollData.getTollway();
+				String startName = tollData.findStreetByLatLng(tollData.getStart()).getName();
 
-				adapter.addStart(tollway, tollData.getStart());
+				adapter.addStart(tollway, startName);
 				
 				for (int sc=0;sc<validExits.size();sc++)
 					adapter.addStreet(tollway, validExits.get(sc).getName());

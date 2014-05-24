@@ -38,4 +38,11 @@ public class GeoPoint {
 		this.latLng = latLng;
 	}
 
+	public boolean compareLatLng(LatLng otherLatLng){
+		if ((otherLatLng.latitude==latLng.latitude)&&
+			(otherLatLng.longitude==latLng.longitude))
+			return true;
+		else
+			return false;
+	}
 }

@@ -883,7 +883,7 @@ public class OzTollData implements Runnable{
 	}
 
 	public String getTollway() {
-		return null;
+		return getTollwayName(getStartStreet());
 	}
 
 	public ArrayList<Street> getTollPointExits(Street start) {

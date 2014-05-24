@@ -584,7 +584,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						global.getTollData().setFinish((Street)msg.obj);
         						// Because the code block was found in 3 places in this, I moved it to it's own method.
         						displayResults();
-        					} else if ((String)msg.obj==global.getTollData().getFinish()){
+        					} else if (((Street)msg.obj).compareLatLng(global.getTollData().getFinish())){
         						global.getTollData().setFinish(null);
         						finishShown=false;
         						
@@ -592,7 +592,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					}
-    					} else if ((String)msg.obj==global.getTollData().getStart())
+    					} else if (((Street)msg.obj).compareLatLng(global.getTollData().getStart()))
     						resetView();
     				}
     				
