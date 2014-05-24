@@ -5,6 +5,8 @@ package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author bugman
  *
@@ -53,6 +55,15 @@ public class Tollway {
 		for (int sc=0; sc < exits.size(); sc++){
 			if (exits.get(sc).getName().equalsIgnoreCase(streetName))
 				return exits.get(sc);
+		}
+		return null;
+	}
+
+	public Street getStreetByCoordinates(LatLng latLng) {
+		for (Street currentStreet: exits){
+			if ((currentStreet.getLatLng().latitude==latLng.latitude)&&
+				(currentStreet.getLatLng().longitude==latLng.longitude))
+				return currentStreet;
 		}
 		return null;
 	}

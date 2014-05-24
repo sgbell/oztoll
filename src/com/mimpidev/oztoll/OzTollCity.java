@@ -221,11 +221,11 @@ public class OzTollCity {
 	/** 
 	 * This function will go through the entire map and mark the valid exits, once a
 	 * starting point has been selected.
-	 * @param validStreet
+	 * @param startingPoint
 	 */
-	public void markRoads(Street validStreet){
-		if (validStreet!=null){
-			ArrayList<Street> exitList= getTollPointExits(validStreet);
+	public void markRoads(LatLng startingPoint){
+		if ((startingPoint!=null)&&(getStreetByCoordinates(startingPoint)!=null)){
+			ArrayList<Street> exitList= getTollPointExits(getStreetByCoordinates(startingPoint));
 			if (exitList.size()>0)
 				for (int elc=0; elc < exitList.size(); elc++)
 					exitList.get(elc).setValid(true);
@@ -233,7 +233,7 @@ public class OzTollCity {
 	}
 
 	public void markRoads(String selectedRoad, String tollway) {
-		markRoads(getStreetByName(selectedRoad,tollway));
+		markRoads(getStreetByName(selectedRoad,tollway).getLatLng());
 	}	
 	
 	public Street getStreetByName(String streetName, String tollway) {
@@ -243,6 +243,18 @@ public class OzTollCity {
 			if (getTollway(tollwayCount).getName().equalsIgnoreCase(tollway))
 			   selectedStreet = getTollway(tollwayCount).getStreetByName(streetName);
 		}
+		return selectedStreet;
+	}
+
+	public Street getStreetByCoordinates(LatLng latLng) {
+		Street selectedStreet = null;
+		
+		for (Tollway currentTollway : tollways){
+			selectedStreet = currentTollway.getStreetByCoordinates(latLng);
+			if (selectedStreet!=null)
+				return selectedStreet;
+		}
+		
 		return selectedStreet;
 	}
 }
