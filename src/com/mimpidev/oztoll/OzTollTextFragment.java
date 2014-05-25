@@ -142,7 +142,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				 *
 				 */
 				
-				String city = preferences.getString("selectedCity", "");
+				String city = preferences.getString("selectedCity", "Melbourne");
 				
 				if ((city.isEmpty())||(city==null)){
 					for (int cityCount=0; cityCount<tollData.getCities().size(); cityCount++)

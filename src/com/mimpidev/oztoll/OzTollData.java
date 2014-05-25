@@ -859,7 +859,10 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setFinish(Street newFinish) {
-		finish = new LatLng(newFinish.getLatLng().latitude, newFinish.getLatLng().longitude);
+		if (newFinish!=null)
+			finish = new LatLng(newFinish.getLatLng().latitude, newFinish.getLatLng().longitude);
+		else
+			finish = null;
 	}
 	
 	public void setStreetsToInvalid(){
@@ -872,7 +875,7 @@ public class OzTollData implements Runnable{
 		int cityCount=0;
 		String city = sharedPreferences.getString("selectedCity", "Melbourne");
 		
-		if (findStreetByLatLng(startingPoint)!=null)
+		//if (findStreetByLatLng(startingPoint)!=null)
 			while ((!foundCity)&&(cityCount<cities.size())){
 				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
 					foundCity=true;
