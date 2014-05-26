@@ -5,6 +5,7 @@
 package com.mimpidev.oztoll;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 /**
@@ -33,6 +34,8 @@ public class OzTollApplication extends Application {
 	}
 	
 	public void setTollData(OzTollData newData){
+		newData.setStart(tollData.getStartStreet());
+		newData.setFinish(tollData.getFinishStreet());
 		tollData = newData;
 	}
 

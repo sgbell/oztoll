@@ -86,15 +86,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
         	boolean dataFileLocation = preferences.getBoolean("location", false);
         	if (!dataFileLocation){
         		// load data file from assets folder
-        		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        		global.getTollData().setDataFile("oztoll.xml", getAssets(),preferences);
         	} else {
         		// load data file from external folder
         		OzStorage extStorage = new OzStorage();
         		extStorage.setTollData("oztoll.xml");
-        		if (extStorage.getTollData()!=null)
+        		if (extStorage.getTollData()!=null){
+        			global.getTollData().setPreferences(preferences);
         			global.setTollData(extStorage.getTollData());
-        		else
-            		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        		} else
+            		global.getTollData().setDataFile("oztoll.xml", getAssets(),preferences);
         	}
         	global.getTollData().setDataSync(global.getDatasync());
         	global.getTollData().setPreferences(preferences);
@@ -262,7 +263,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	    				outstream.close();
     	    				inputStream.close();
     	    					
-    	    				OzTollData temp = storage.openExternalFile("temp.xml");
+    	    				OzTollData temp = storage.openExternalFile("temp.xml",preferences);
     	    				if (temp!=null){
         	    				if (Long.parseLong(temp.getTimestamp())>
     	    					    Long.parseLong(global.getTollData().getTimestamp())){

@@ -71,7 +71,13 @@ public class OzTollData implements Runnable{
 		}
 	}
 	
-	public void setDataFile(String filename, AssetManager assetMan){
+	public OzTollData(File openFile, SharedPreferences preferences) {
+		this(openFile);
+		setPreferences(preferences);
+	}
+
+	public void setDataFile(String filename, AssetManager assetMan, SharedPreferences preferences){
+		setPreferences(preferences);
 		finishedRead=false;
 		try {
 			dataFile = assetMan.open(filename);
@@ -290,7 +296,12 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setValidStarts(){
-		String city = sharedPreferences.getString("selectedCity", "Melbourne");
+		String city;
+		try {
+		    city = sharedPreferences.getString("selectedCity", "Melbourne");
+		} catch (NullPointerException e){
+			city = "Melbourne";
+		}
 		
 		for (OzTollCity currentCity : cities)
 			if (currentCity.getCityName().equalsIgnoreCase(city))
@@ -339,7 +350,12 @@ public class OzTollData implements Runnable{
 	 */
 	public LinearLayout processToll(Context appContext){
 		if ((findStreetByLatLng(getStart())!=null)&&(findStreetByLatLng(getFinish())!=null)){
-			String cityName = getPreferences().getString("selectedCity", "Melbourne");
+			String cityName;
+			try {
+				cityName = getPreferences().getString("selectedCity", "Melbourne");
+			} catch (NullPointerException e){
+				cityName = "Melbourne";
+			}
 			OzTollCity city = getCityByName(cityName);
 			if (city.getCityName().equalsIgnoreCase(cityName)){
 				return processToll(city.getStreetByCoordinates(getStart()),
@@ -352,7 +368,12 @@ public class OzTollData implements Runnable{
 	public LinearLayout processToll(Street start, Street finish, Context appContext){
 		String title="";
 		
-		String selectedVehicle = getPreferences().getString("vehicleType", "car");
+		String selectedVehicle;
+		try {
+			selectedVehicle = getPreferences().getString("vehicleType", "car");
+		} catch (NullPointerException e){
+			selectedVehicle = "car";
+		}
 		ArrayList<TollCharges> tolls = getFullRate(start, finish);
 		
 		ArrayList<TollRate> totalCharges = new ArrayList<TollRate>();
@@ -873,7 +894,12 @@ public class OzTollData implements Runnable{
 	public void markRoads(LatLng startingPoint){
 		boolean foundCity=false;
 		int cityCount=0;
-		String city = sharedPreferences.getString("selectedCity", "Melbourne");
+		String city;
+		try {
+			city = sharedPreferences.getString("selectedCity", "Melbourne");
+		} catch (NullPointerException e){
+			city = "Melbourne";
+		}
 		
 		//if (findStreetByLatLng(startingPoint)!=null)
 			while ((!foundCity)&&(cityCount<cities.size())){
