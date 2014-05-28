@@ -131,59 +131,6 @@ public class OzTollTextFragment extends SherlockFragment {
 			
 			adapter.resetView();
 
-			//if (tollData.getStart()==null){
-				/* Need to check if a city has been set in the preferences.
-				 * 
-				 * If no city has been selected, or the city selected is not found
-				 * in the city list, list all tollways and entrances.
-				 * 
-				 * If a city has been selected in the preferences, only list the tollways for that
-				 * city.
-				 *
-				 */
-				/*
-				String city = preferences.getString("selectedCity", "Melbourne");
-				
-				if ((city.isEmpty())||(city==null)){
-					for (int cityCount=0; cityCount<tollData.getCities().size(); cityCount++)
-						for (int twc=0; twc<tollData.getCityById(cityCount).getTollwayCount(); twc++)
-							for (int sc=0; sc<tollData.getCityById(cityCount).getStreetCount(twc); sc++)
-								if (tollData.getCityById(cityCount).getStreet(twc, sc).isValid()){
-									adapter.addStreet(tollData.getCityById(cityCount).getTollwayName(twc),
-													 tollData.getCityById(cityCount).getStreetName(twc, sc));
-								}
-				} else {
-					boolean cityFound=false;
-					int cityCount=0;
-					while ((!cityFound)&&(cityCount<tollData.getCities().size())){
-						if (tollData.getCityById(cityCount).getCityName().equalsIgnoreCase(city)){
-							cityFound=true;
-							
-							for (int twc=0; twc<tollData.getCityById(cityCount).getTollwayCount(); twc++)
-								for (int sc=0; sc<tollData.getCityById(cityCount).getStreetCount(twc); sc++)
-									if (tollData.getCityById(cityCount).getStreet(twc, sc).isValid()){
-										adapter.addStart(tollData.getCityById(cityCount).getTollwayName(twc),
-												 tollData.getCityById(cityCount).getStreetName(twc, sc));
-									}
-						}
-						cityCount++;
-					}
-				}
-				
-				collapseGroups();
-			} else {
-				ArrayList<Street> validExits = tollData.getTollPointExits(tollData.findStreetByLatLng(tollData.getStart()));
-				String tollway = tollData.getTollway();
-				String startName = tollData.findStreetByLatLng(tollData.getStart()).getName();
-
-				adapter.addStart(tollway, startName);
-				
-				for (int sc=0;sc<validExits.size();sc++)
-					adapter.addStreet(tollway, validExits.get(sc).getName());
-								
-				expandGroups();
-			}*/
-			
 			ArrayList<String[]> validStreets = tollData.getValidStreetsAsStrings("");
 			if (tollData.getStart()!=null){
 				adapter.addStart(tollData.getTollway(), tollData.findStreetByLatLng(tollData.getStart()).getName());
