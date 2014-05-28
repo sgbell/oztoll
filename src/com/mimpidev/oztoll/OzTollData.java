@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.util.TypedValue;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -188,6 +189,7 @@ public class OzTollData implements Runnable{
 							String[] newString = new String[2];
 							newString[0]=cities.get(cityCount).getTollwayName(twc);
 							newString[1]=cities.get(cityCount).getStreetName(twc, sc);
+							Log.w("oztoll","Tollway: "+newString[0]+" - "+newString[1]);
 							streetList.add(newString);
 						}
 		} else {
@@ -863,8 +865,10 @@ public class OzTollData implements Runnable{
 			start = new LatLng(newStart.getLatLng().latitude,newStart.getLatLng().longitude);
 			setStreetsToInvalid();
 			markRoads(start);
-		} else
+		} else {
+			start = null;
 			setValidStarts();
+		}
 	}
 
 	public LatLng getFinish() {

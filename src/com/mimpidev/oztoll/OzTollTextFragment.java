@@ -131,7 +131,7 @@ public class OzTollTextFragment extends SherlockFragment {
 			
 			adapter.resetView();
 
-			if (tollData.getStart()==null){
+			//if (tollData.getStart()==null){
 				/* Need to check if a city has been set in the preferences.
 				 * 
 				 * If no city has been selected, or the city selected is not found
@@ -141,7 +141,7 @@ public class OzTollTextFragment extends SherlockFragment {
 				 * city.
 				 *
 				 */
-				
+				/*
 				String city = preferences.getString("selectedCity", "Melbourne");
 				
 				if ((city.isEmpty())||(city==null)){
@@ -182,6 +182,18 @@ public class OzTollTextFragment extends SherlockFragment {
 					adapter.addStreet(tollway, validExits.get(sc).getName());
 								
 				expandGroups();
+			}*/
+			
+			ArrayList<String[]> validStreets = tollData.getValidStreetsAsStrings("");
+			if (tollData.getStart()!=null){
+				adapter.addStart(tollData.getTollway(), tollData.findStreetByLatLng(tollData.getStart()).getName());
+				for (String[] currentStreet : validStreets)
+					adapter.addStreet(currentStreet[0], currentStreet[1]);
+				expandGroups();
+			} else {
+				for (String[] currentStreet: validStreets)
+					adapter.addStreet(currentStreet[0], currentStreet[1]);
+				collapseGroups();
 			}
 
 			adapter.notifyDataSetChanged();
