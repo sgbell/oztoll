@@ -189,7 +189,6 @@ public class OzTollData implements Runnable{
 							String[] newString = new String[2];
 							newString[0]=cities.get(cityCount).getTollwayName(twc);
 							newString[1]=cities.get(cityCount).getStreetName(twc, sc);
-							Log.w("oztoll","Tollway: "+newString[0]+" - "+newString[1]);
 							streetList.add(newString);
 						}
 		} else {
