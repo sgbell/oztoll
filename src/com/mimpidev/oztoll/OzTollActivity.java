@@ -209,6 +209,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	
     	global = (OzTollApplication)getApplication();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    	global.getTollData().setPreferences(preferences);
         
 		setupFragments();
 
@@ -262,7 +263,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	    				outstream.close();
     	    				inputStream.close();
     	    					
-    	    				OzTollData temp = storage.openExternalFile("temp.xml");
+    	    				OzTollData temp = storage.openExternalFile("temp.xml",preferences);
     	    				if (temp!=null){
         	    				if (Long.parseLong(temp.getTimestamp())>
     	    					    Long.parseLong(global.getTollData().getTimestamp())){
