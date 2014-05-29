@@ -154,13 +154,13 @@ public class MapFragment extends SherlockMapFragment {
 				for (int streetCount=0; streetCount < tollData.getCities().get(cityCount).getStreetCount(tollwayCount); streetCount++){
 					Street currentStreet = tollData.getCityById(cityCount).getStreet(tollwayCount, streetCount);
 					if ((currentStreet.isValid())||
-						(currentStreet.getName().equalsIgnoreCase(tollData.getStart()))||
-						(currentStreet.getName().equalsIgnoreCase(tollData.getFinish()))){
+						(currentStreet.compareLatLng(tollData.getStart()))||
+						(currentStreet.compareLatLng(tollData.getFinish()))){
 						MarkerOptions newMarker = new MarkerOptions();
 						newMarker.position(currentStreet.getLatLng());
 
-						if ((tollData.getFinish()==currentStreet.getName())||
-							(tollData.getStart()==currentStreet.getName()))
+						if ((currentStreet.compareLatLng(tollData.getFinish()))||
+							(currentStreet.compareLatLng(tollData.getStart())))
 								newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),true)));
 							else
 								newMarker.icon(BitmapDescriptorFactory.fromBitmap(createMarker(currentStreet.getLocation(),false)));
@@ -177,7 +177,7 @@ public class MapFragment extends SherlockMapFragment {
      * @param positionNumber
      * @return
      */
-    public Bitmap createMarker(char positionAlpha, boolean selected){
+    public Bitmap createMarker(String positionAlpha, boolean selected){
     	Bitmap image;
     	
     	if (selected){

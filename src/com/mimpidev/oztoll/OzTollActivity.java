@@ -86,15 +86,16 @@ public class OzTollActivity extends SherlockFragmentActivity {
         	boolean dataFileLocation = preferences.getBoolean("location", false);
         	if (!dataFileLocation){
         		// load data file from assets folder
-        		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        		global.getTollData().setDataFile("oztoll.xml", getAssets(),preferences);
         	} else {
         		// load data file from external folder
         		OzStorage extStorage = new OzStorage();
         		extStorage.setTollData("oztoll.xml");
-        		if (extStorage.getTollData()!=null)
+        		if (extStorage.getTollData()!=null){
+        			global.getTollData().setPreferences(preferences);
         			global.setTollData(extStorage.getTollData());
-        		else
-            		global.getTollData().setDataFile("oztoll.xml", getAssets());
+        		} else
+            		global.getTollData().setDataFile("oztoll.xml", getAssets(),preferences);
         	}
         	global.getTollData().setDataSync(global.getDatasync());
         	global.getTollData().setPreferences(preferences);
@@ -585,7 +586,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						global.getTollData().setFinish((Street)msg.obj);
         						// Because the code block was found in 3 places in this, I moved it to it's own method.
         						displayResults();
-        					} else if ((String)msg.obj==global.getTollData().getFinish()){
+        					} else if (((Street)msg.obj).compareLatLng(global.getTollData().getFinish())){
         						global.getTollData().setFinish(null);
         						finishShown=false;
         						
@@ -593,7 +594,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						newMessage.what=6;
         						handler.sendMessage(newMessage);
         					}
-    					} else if ((String)msg.obj==global.getTollData().getStart())
+    					} else if (((Street)msg.obj).compareLatLng(global.getTollData().getStart()))
     						resetView();
     				}
     				

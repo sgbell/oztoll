@@ -3,8 +3,6 @@
  */
 package com.mimpidev.oztoll;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -40,4 +38,11 @@ public class GeoPoint {
 		this.latLng = latLng;
 	}
 
+	public boolean compareLatLng(LatLng otherLatLng){
+		if ((otherLatLng!=null)&&(otherLatLng.latitude==latLng.latitude)&&
+			(otherLatLng.longitude==latLng.longitude))
+			return true;
+		else
+			return false;
+	}
 }

@@ -5,6 +5,7 @@ package com.mimpidev.oztoll;
 
 import java.io.File;
 
+import android.content.SharedPreferences;
 import android.os.Environment;
 
 /**
@@ -66,12 +67,12 @@ public class OzStorage {
 		}
 	}
 	
-	public OzTollData openExternalFile(String filename){
+	public OzTollData openExternalFile(String filename, SharedPreferences preferences){
 		if ((externalStatus()==EXTERNAL_READ_ONLY)||(externalStatus()==EXTERNAL_READ_WRITE)){
 			File openFile= new File(Environment.getExternalStorageDirectory()+"/oztoll/"+filename);
 			
 			if (openFile.exists()){
-				OzTollData newDataFile = new OzTollData(openFile);
+				OzTollData newDataFile = new OzTollData(openFile,preferences);
 				newDataFile.readFile();
 				
 				return newDataFile;
