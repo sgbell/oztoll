@@ -36,6 +36,7 @@ public class OzTollData implements Runnable{
 	private SharedPreferences sharedPreferences;
 	private LatLng start, finish;
 	private InputStream dataFile;
+	private String oldCityName = "";         // This will be used to keep a check on when the cityName changes
 	
 	/** Initializes the XML Handler.
 	 */
@@ -143,10 +144,26 @@ public class OzTollData implements Runnable{
 	}
 
 	public OzTollCity getCityByName(String cityName){
+		
 		for (OzTollCity currentCity : cities)
 			if (currentCity.getCityName().equalsIgnoreCase(cityName))
 				return currentCity;
 		return null;
+	}
+	
+	public OzTollCity getSelectedCity(){
+		String city;
+		try {
+			city = sharedPreferences.getString("selectedCity", "Melbourne");
+		} catch (NullPointerException e){
+			city = "Melbourne";
+		}
+		if (!city.contentEquals(oldCityName)){
+			oldCityName=city;
+			reset();
+		}		
+		
+		return getCityByName(city);
 	}
 	
 	public OzTollCity getCityById(int cityId){
@@ -181,35 +198,16 @@ public class OzTollData implements Runnable{
 	public ArrayList<String[]> getValidStreetsAsStrings(String city){
 		ArrayList<String[]> streetList = new ArrayList<String[]>();
 		
-		if ((city.isEmpty())||(city==null)){
-			for (int cityCount=0; cityCount<cities.size(); cityCount++)
-				for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
-					for (int sc=0; sc<cities.get(cityCount).getStreetCount(twc); sc++)
-						if (cities.get(cityCount).getStreet(twc, sc).isValid()){
-							String[] newString = new String[2];
-							newString[0]=cities.get(cityCount).getTollwayName(twc);
-							newString[1]=cities.get(cityCount).getStreetName(twc, sc);
-							streetList.add(newString);
-						}
-		} else {
-			boolean cityFound=false;
-			int cityCount=0;
-			while ((!cityFound)&&(cityCount<cities.size())){
-				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
-					cityFound=true;
-					
-					for (int twc=0; twc<cities.get(cityCount).getTollwayCount(); twc++)
-						for (int sc=0; sc<cities.get(cityCount).getStreetCount(twc); sc++)
-							if (cities.get(cityCount).getStreet(twc, sc).isValid()){
-								String[] newString = new String[2];
-								newString[0]=cities.get(cityCount).getTollwayName(twc);
-								newString[1]=cities.get(cityCount).getStreetName(twc, sc);
-								streetList.add(newString);
-							}
+		OzTollCity selectedCity = getSelectedCity();
+		for (int twc=0; twc<selectedCity.getTollwayCount(); twc++)
+			for (int sc=0; sc<selectedCity.getStreetCount(twc); sc++)
+				if (selectedCity.getStreet(twc, sc).isValid()){
+					String[] newString = new String[2];
+					newString[0]=selectedCity.getTollwayName(twc);
+					newString[1]=selectedCity.getStreetName(twc, sc);
+					//Log.w("oztoll","Tollway: "+newString[0]+" - "+newString[1]);
+					streetList.add(newString);
 				}
-				cityCount++;
-			}
-		}
 		
 		return streetList;
 	}
@@ -279,16 +277,12 @@ public class OzTollData implements Runnable{
 	}
 
 	public String getSelectedExpiryDate(){
-		boolean cityFound=false;
-		int cityCount=0;
-		String city = sharedPreferences.getString("selectedCity", "Melbourne");
+		OzTollCity city = getSelectedCity();
 
-		while ((!cityFound)&&(cityCount<cities.size())){
-			if (cities.get(cityCount).getCityName().compareToIgnoreCase(city)==0)
-				return cities.get(cityCount).getExpiryDate();
-			cityCount++;
-		}
-		return null;
+        if (city!=null)
+        	return city.getExpiryDate();
+        else
+        	return null;
 	}
 	
 	public void reset(){
@@ -297,18 +291,10 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setValidStarts(){
-		String city;
-		try {
-		    city = sharedPreferences.getString("selectedCity", "Melbourne");
-		} catch (NullPointerException e){
-			city = "Melbourne";
-		}
-		
-		for (OzTollCity currentCity : cities)
-			if (currentCity.getCityName().equalsIgnoreCase(city))
-				for (Tollway currentTollway: currentCity.getTollways())
-					for (TollPoint currentTollpoint: currentTollway.getTollPoints())
-						currentTollpoint.setStartValid();
+		OzTollCity currentCity = getSelectedCity();
+		for (Tollway currentTollway: currentCity.getTollways())
+			for (TollPoint currentTollpoint: currentTollway.getTollPoints())
+				currentTollpoint.setStartValid();
 	}
 	
 	public boolean isFinished(){
@@ -351,14 +337,8 @@ public class OzTollData implements Runnable{
 	 */
 	public LinearLayout processToll(Context appContext){
 		if ((findStreetByLatLng(getStart())!=null)&&(findStreetByLatLng(getFinish())!=null)){
-			String cityName;
-			try {
-				cityName = getPreferences().getString("selectedCity", "Melbourne");
-			} catch (NullPointerException e){
-				cityName = "Melbourne";
-			}
-			OzTollCity city = getCityByName(cityName);
-			if (city.getCityName().equalsIgnoreCase(cityName)){
+			OzTollCity city = getSelectedCity();
+			if (city!=null){
 				return processToll(city.getStreetByCoordinates(getStart()),
 						           city.getStreetByCoordinates(getFinish()),appContext);
 			}
@@ -865,7 +845,7 @@ public class OzTollData implements Runnable{
 			setStreetsToInvalid();
 			markRoads(start);
 		} else {
-			start = null;
+			start=null;
 			setValidStarts();
 		}
 	}
@@ -897,21 +877,9 @@ public class OzTollData implements Runnable{
 	public void markRoads(LatLng startingPoint){
 		boolean foundCity=false;
 		int cityCount=0;
-		String city;
-		try {
-			city = sharedPreferences.getString("selectedCity", "Melbourne");
-		} catch (NullPointerException e){
-			city = "Melbourne";
-		}
+
 		
-		//if (findStreetByLatLng(startingPoint)!=null)
-			while ((!foundCity)&&(cityCount<cities.size())){
-				if (cities.get(cityCount).getCityName().equalsIgnoreCase(city)){
-					foundCity=true;
-					cities.get(cityCount).markRoads(startingPoint);
-				}
-				cityCount++;
-			}
+		getSelectedCity().markRoads(startingPoint);
 	}
 
 	public String getTollway() {
@@ -920,11 +888,11 @@ public class OzTollData implements Runnable{
 
 	public ArrayList<Street> getTollPointExits(Street start) {
 		ArrayList<Street> exitList = new ArrayList<Street>();
-		for (int cityCount=0; cityCount<cities.size(); cityCount++){
-			exitList = cities.get(cityCount).getTollPointExits(start);
+		
+			exitList = getSelectedCity().getTollPointExits(start);
+			
 			if (exitList!=null)
 				return exitList;
-		}
 		
 		return null;
 	}
@@ -994,5 +962,19 @@ public class OzTollData implements Runnable{
 			return cityCount;
 		else
 			return 0;
+	}
+
+	/**
+	 * @return the oldCityName
+	 */
+	public String getOldCityName() {
+		return oldCityName;
+	}
+
+	/**
+	 * @param oldCityName the oldCityName to set
+	 */
+	public void setOldCityName(String oldCityName) {
+		this.oldCityName = oldCityName;
 	}
 }
