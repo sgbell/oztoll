@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.util.TypedValue;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -875,10 +874,6 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void markRoads(LatLng startingPoint){
-		boolean foundCity=false;
-		int cityCount=0;
-
-		
 		getSelectedCity().markRoads(startingPoint);
 	}
 
