@@ -3,6 +3,8 @@
  */
 package com.mimpidev.oztoll;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author bugman
  *
@@ -105,5 +107,12 @@ public class Street extends GeoPoint{
 		number--;
 			
 		return number;
+	}
+	
+	public boolean equals(LatLng location){
+		if (compareLatLng(location))
+			return true;
+		else
+			return false;
 	}
 }

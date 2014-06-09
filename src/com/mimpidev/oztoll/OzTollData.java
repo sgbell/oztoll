@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -176,20 +177,17 @@ public class OzTollData implements Runnable{
 			setStreetsToInvalid();
 			markRoads(start);
 		}
-		for (int cityCount=0; cityCount<cities.size(); cityCount++)
-			if ((city.isEmpty())||
-				(city==null)||
-				(city.equalsIgnoreCase(cities.get(cityCount).getCityName()))){
-				for (int twc=0; twc < cities.get(cityCount).getTollwayCount(); twc++)
-					for (int tsc=0; tsc < cities.get(cityCount).getStreetCount(twc); tsc++){
-						Street newStreet = cities.get(cityCount).getStreet(twc, tsc);
+		
+		OzTollCity currentCity = getCityByName(city);
+				for (int twc=0; twc < currentCity.getTollwayCount(); twc++)
+					for (int tsc=0; tsc < currentCity.getStreetCount(twc); tsc++){
+						Street newStreet = currentCity.getStreet(twc, tsc);
 						if ((newStreet.isValid())||
 							(newStreet.equals(start))||
 							(newStreet.equals(finish))){
 							streetList.add(newStreet);
 						}
 					}
-			}
 		
 		return streetList;
 	}
@@ -204,7 +202,6 @@ public class OzTollData implements Runnable{
 					String[] newString = new String[2];
 					newString[0]=selectedCity.getTollwayName(twc);
 					newString[1]=selectedCity.getStreetName(twc, sc);
-					//Log.w("oztoll","Tollway: "+newString[0]+" - "+newString[1]);
 					streetList.add(newString);
 				}
 		
@@ -226,14 +223,16 @@ public class OzTollData implements Runnable{
 	}
 
 	
-	public TollCharges getTollRate(Street start, Street end, Tollway tollway){
+	public TollCharges getTollRate(LatLng start, LatLng end, Tollway tollway){
 		TollCharges charges= new TollCharges();
 		for (int tc=0; tc<tollway.getTollPoints().size(); tc++){
 			TollPoint currentTollPoint = tollway.getTollPoints().get(tc); 
-			if (currentTollPoint.isStart(start.getName())){
+			if (currentTollPoint.isStart(findStreetByLatLng(start).getName())){
+				Log.w("Toll","Start Found: "+findStreetByLatLng(start).getName());
 				for (int tpe=0; tpe < currentTollPoint.getExit().size(); tpe++){
 					TollPointExit currentExit = currentTollPoint.getExit().get(tpe);
-					if (currentExit.isExit(end.getName())){
+					if (currentExit.isExit(findStreetByLatLng(end).getName())){
+						Log.w("Toll", "End found: "+findStreetByLatLng(end).getName());
 						charges.tollway=tollway.getName();
 						charges.tolls=currentExit.getRates();
 					}
@@ -249,26 +248,30 @@ public class OzTollData implements Runnable{
 	 * @param end
 	 * @return
 	 */
-	public ArrayList<TollCharges> getFullRate(Street start, Street end){
+	public ArrayList<TollCharges> getFullRate(LatLng start, LatLng end){
 		Tollway startTollway=null, endTollway=null;
 		ArrayList<TollCharges> charges = new ArrayList<TollCharges>();
 		
-		for (int cityCount=0; cityCount<cities.size(); cityCount++){
-			ArrayList<Tollway> tollways = cities.get(cityCount).getTollways();
-			for (int twc=0; twc < tollways.size(); twc++){
-				for (int sc=0; sc < tollways.get(twc).getStreets().size(); sc++){
-					if (tollways.get(twc).getStreets().get(sc).equals(start)){
-						startTollway = tollways.get(twc);
-					}
-					if (tollways.get(twc).getStreets().get(sc).equals(end)){
-						endTollway = tollways.get(twc);
-					}
+		OzTollCity currentCity = getSelectedCity();
+		ArrayList<Tollway> tollways = currentCity.getTollways();
+		for (int twc=0; twc < tollways.size(); twc++){
+			for (int sc=0; sc < tollways.get(twc).getStreets().size(); sc++){
+				if (tollways.get(twc).getStreets().get(sc).equals(start)){
+					startTollway = tollways.get(twc);
+				}
+				if (tollways.get(twc).getStreets().get(sc).equals(end)){
+					endTollway = tollways.get(twc);
 				}
 			}
 		}
+		Log.w("Toll","Tollway: "+startTollway.getName());
+		Log.w("Toll","Start: "+findStreetByLatLng(start).getName());
+		Log.w("Toll","Finish Tollway: "+endTollway.getName());
+		Log.w("Toll","Finish: "+findStreetByLatLng(end).getName());
 		
 		// Single Tollway
 		if ((startTollway!=null)&&(endTollway!=null)&&(startTollway.equals(endTollway))){
+			Log.w("Toll","Entering getTollRate");
 			charges.add(getTollRate(start, end, startTollway));
 		}
 		
@@ -338,14 +341,14 @@ public class OzTollData implements Runnable{
 		if ((findStreetByLatLng(getStart())!=null)&&(findStreetByLatLng(getFinish())!=null)){
 			OzTollCity city = getSelectedCity();
 			if (city!=null){
-				return processToll(city.getStreetByCoordinates(getStart()),
-						           city.getStreetByCoordinates(getFinish()),appContext);
+				return processToll(getStart(),
+						           getFinish(),appContext);
 			}
 		}
 		return null;
 	}
 	
-	public LinearLayout processToll(Street start, Street finish, Context appContext){
+	public LinearLayout processToll(LatLng start, LatLng finish, Context appContext){
 		String title="";
 		
 		String selectedVehicle;
@@ -355,6 +358,7 @@ public class OzTollData implements Runnable{
 			selectedVehicle = "car";
 		}
 		ArrayList<TollCharges> tolls = getFullRate(start, finish);
+		Log.w("Toll rate","Tolls Found"+tolls.size());
 		
 		ArrayList<TollRate> totalCharges = new ArrayList<TollRate>();
 		TextView tollTitle;
@@ -392,7 +396,8 @@ public class OzTollData implements Runnable{
 			tollTitle.setLayoutParams(fillParentParams);
 			rateLayout.addView(tollTitle);
 			TextView tollTrip = new TextView(appContext);
-			tollTrip.setText(start.getName()+" - "+finish.getName());
+			tollTrip.setText(findStreetByLatLng(start).getName()+" - "+findStreetByLatLng(finish).getName());
+			Log.w("Toll rate",findStreetByLatLng(start).getName()+" - "+findStreetByLatLng(finish).getName());
 			tollTrip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			tollTrip.setPadding(10, 0, 0, 0);
 			//tollTrip.setLayoutParams(fillParentParams);
@@ -429,10 +434,8 @@ public class OzTollData implements Runnable{
 						if (selectedVehicle.equalsIgnoreCase("motorcycle")){
 							LinearLayout tollwayLayout = new LinearLayout(appContext);
 							tollwayLayout.setOrientation(LinearLayout.HORIZONTAL);
-							for (int cityCount=0; cityCount<cities.size(); cityCount++){
-								if (cities.get(cityCount).foundStreet(start))
-									tollwayName.setText(cities.get(cityCount).getCityNameByStreet(start));
-							}
+
+							tollwayName.setText(getSelectedCity().getCityName());
 							tollwayName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 							tollwayName.setPadding(10, 0, 20, 0);
 
@@ -471,6 +474,7 @@ public class OzTollData implements Runnable{
 							if (isTollRateFound(currentToll.tolls.get(trc).vehicleType, selectedVehicle)){
 								TextView tollwayCharge = new TextView(appContext);
 								tollwayCharge.setText("$"+currentToll.tolls.get(trc).rate);
+								Log.w("Toll rate","$"+currentToll.tolls.get(trc).rate);
 								tollwayCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 								tollwayCharge.setLayoutParams(wrapContentParams);
 								tollwayLayout.addView(tollwayCharge);
@@ -588,6 +592,7 @@ public class OzTollData implements Runnable{
 								tollRateLayout.addView(rateTitle);
 								TextView rateValue = new TextView(appContext);
 								rateValue.setText("$"+currentToll.tolls.get(trc).rate);
+								Log.w("Toll rate","$"+currentToll.tolls.get(trc).rate);
 								rateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 								rateTitle.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 
 										LinearLayout.LayoutParams.WRAP_CONTENT,
