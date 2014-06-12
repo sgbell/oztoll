@@ -80,7 +80,7 @@ public class MapFragment extends SherlockMapFragment {
 				// check the returned value, make sure it's not null
 				if (currentStreet!=null){
 					Message newMessage = handler.obtainMessage();
-					newMessage.what=9;
+					newMessage.what=OzTollActivity.HANDLER_PROCESS_SELECTION;
 					newMessage.obj=currentStreet;
 					handler.dispatchMessage(newMessage);
 				}
@@ -93,12 +93,12 @@ public class MapFragment extends SherlockMapFragment {
 		 and doing any modifications to them, try doing it here
 		 */ 
 		Message newMessage = handler.obtainMessage();
-		newMessage.what = 5;
+		newMessage.what = OzTollActivity.HANDLER_LOADING;
 		handler.dispatchMessage(newMessage);
 		synchronized(global.getDatasync()){
 			while (!global.getTollData().isFinished()){
 				newMessage = handler.obtainMessage();
-				newMessage.what = 5;
+				newMessage.what = OzTollActivity.HANDLER_LOADING;
 				handler.dispatchMessage(newMessage);
 				try {
 					global.getDatasync().wait();
@@ -133,7 +133,7 @@ public class MapFragment extends SherlockMapFragment {
 			
 			newMessage = handler.obtainMessage();
 
-			newMessage.what = 6;
+			newMessage.what = OzTollActivity.HANDLER_SELECT_MESSAGE;
 			handler.dispatchMessage(newMessage);
 		}
 	}

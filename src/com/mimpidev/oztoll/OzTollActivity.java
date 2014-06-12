@@ -45,7 +45,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
 					welcomeScreen=false,
 					mapFragmentVisible=false,
 					textFragmentVisible=false;
-
+	
 	private Activity thisActivity=this; // This is needed for the AlertDialog code
 
 	private MapFragment mMapFragment;
@@ -58,6 +58,18 @@ public class OzTollActivity extends SherlockFragmentActivity {
 	private Runnable closeDialog;
 
 	private LinearLayout rateLayout;
+
+	public static final int HANDLER_WELCOME_CLOSE = 1;
+	public static final int HANDLER_CHECK_FOR_UPDATE = 2;
+	public static final int HANDLER_CALL_RESULTS_FRAGMENT = 3;
+	public static final int HANDLER_WELCOME_SHOW = 4;
+	public static final int HANDLER_LOADING = 5;
+	public static final int HANDLER_SELECT_MESSAGE = 6;
+	protected static final int HANDLER_START_SHOWN = 7;
+	protected static final int HANDLER_FINISH_SHOWN = 8;
+	protected static final int HANDLER_PROCESS_SELECTION = 9;
+	protected static final int HANDLER_RESET_VIEW = 10;
+	protected static final int HANDLER_SET_VIEW = 12;
 	
 	public OzTollActivity(){
 		
@@ -468,7 +480,8 @@ public class OzTollActivity extends SherlockFragmentActivity {
 			Message newMessage;
 
     		switch (msg.what){
-    			case 1:
+    			//case 1:
+    		    case HANDLER_WELCOME_CLOSE:
     				    				
     				SharedPreferences.Editor edit = preferences.edit();
     				edit.putBoolean("welcomeScreenShown", true);
@@ -481,7 +494,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     				newMessage.what=6;
     				handler.dispatchMessage(newMessage);
     				break;
-    			case 2:
+    			case HANDLER_CHECK_FOR_UPDATE:
         	        ConnectivityManager connManager = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         	        android.net.NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         	        android.net.NetworkInfo mobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -491,7 +504,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         				resetView();
         	    	}
     				break;
-    			case 3:
+    			case HANDLER_CALL_RESULTS_FRAGMENT:
     				// Call the results fragment
     				resultsFragment.getScrollView().removeAllViews();
     				resultsFragment.setContent((LinearLayout)msg.obj);
@@ -503,7 +516,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         				ft.commit();
     				}
     				break;
-    			case 4:
+    			case HANDLER_WELCOME_SHOW:
     				startDialog = new Dialog(thisActivity);
     				startDialog.setContentView(R.layout.welcome);
     				startDialog.setTitle("Welcome");
@@ -522,7 +535,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         			
     				startDialog.show();
     				break;
-    			case 5:
+    			case HANDLER_LOADING:
     				// This case is used to display the loading dialog
     				if (!loadingShown){
         				progDialog = new ProgressDialog(thisActivity);
@@ -534,7 +547,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     					progDialog.setProgress(progDialog.getProgress()+1);
     				}
     				break;
-    			case 6:
+    			case HANDLER_SELECT_MESSAGE:
     				// This case is used to remove the loading dialog
     				
        				if (loadingShown=true){
@@ -551,7 +564,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						}
         						// Check for an update after the interface is shown
         						newMessage = handler.obtainMessage();
-        						newMessage.what=2;
+        						newMessage.what=HANDLER_CHECK_FOR_UPDATE;
         						handler.sendMessage(newMessage);
         					} else {
         						if (global.getTollData().getFinish()==null){
@@ -565,21 +578,21 @@ public class OzTollActivity extends SherlockFragmentActivity {
         				}    					
     				}
     				break;
-    			case 7:
+    			case HANDLER_START_SHOWN:
     				startShown=false;
     				break;
-    			case 8:
+    			case HANDLER_FINISH_SHOWN:
     				finishShown=false;
     				break;
     			// case 9 is when a street exit has been selected on the map
-    			case 9:
+    			case HANDLER_PROCESS_SELECTION:
     				if (global.getTollData()!=null){
     					if (((Street)msg.obj).isValid()){
     						if (global.getTollData().getStart()==null){
         						global.getTollData().setStart((Street)msg.obj);
         						
         						newMessage = handler.obtainMessage();
-        						newMessage.what=6;
+        						newMessage.what=HANDLER_SELECT_MESSAGE;
         						handler.sendMessage(newMessage);
         					} else if ((global.getTollData().getStart()!=null)&&
         							   (global.getTollData().getFinish()==null)){
@@ -591,7 +604,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
         						finishShown=false;
         						
         						newMessage = handler.obtainMessage();
-        						newMessage.what=6;
+        						newMessage.what=HANDLER_SELECT_MESSAGE;
         						handler.sendMessage(newMessage);
         					}
     					} else if (((Street)msg.obj).compareLatLng(global.getTollData().getStart()))
@@ -605,10 +618,10 @@ public class OzTollActivity extends SherlockFragmentActivity {
 						(textFragmentVisible))
 						mTextFragment.populateStreets();
     				break;
-    			case 10:
+    			case HANDLER_RESET_VIEW:
     				resetView();
     				break;
-    			case 12:
+    			case HANDLER_SET_VIEW:
     				setView();
     				break;
     		}
