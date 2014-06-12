@@ -227,7 +227,7 @@ public class OzTollData implements Runnable{
 		TollCharges charges= new TollCharges();
 		for (int tc=0; tc<tollway.getTollPoints().size(); tc++){
 			TollPoint currentTollPoint = tollway.getTollPoints().get(tc); 
-			if (currentTollPoint.isStart(findStreetByLatLng(start).getName())){
+			if (currentTollPoint.isStart(findStreetByLatLng(start))){
 				Log.w("Toll","Start Found: "+findStreetByLatLng(start).getName());
 				for (int tpe=0; tpe < currentTollPoint.getExit().size(); tpe++){
 					TollPointExit currentExit = currentTollPoint.getExit().get(tpe);
