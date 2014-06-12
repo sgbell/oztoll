@@ -72,8 +72,7 @@ public class MapFragment extends SherlockMapFragment {
 
 			@Override
 			public boolean onMarkerClick(Marker selected) {
-				LatLng latLngChanged = new LatLng(((double)Math.round(selected.getPosition().latitude*1000000)/1000000),
-						                          ((double)Math.round(selected.getPosition().longitude*1000000)/1000000));
+				LatLng latLngChanged = selected.getPosition();
 				
 				// Working here. need to add code to findStreetByLatLng
 				Street currentStreet=global.getTollData().findStreetByLatLng(latLngChanged);
