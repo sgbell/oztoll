@@ -170,7 +170,7 @@ public class OzTollCity {
 		for (int twc=0; twc < tollways.size(); twc++){
 			for (int tpc=0; tpc < tollways.get(twc).getTollPoints().size(); tpc++){
 				TollPoint tollPoints = tollways.get(twc).getTollPoints().get(tpc);
-				if (tollPoints.isStart(start.getName())){
+				if ((tollPoints.isStart(start))){
 					for (int tpe=0; tpe<tollPoints.getExit().size(); tpe++){
 						TollPointExit tpExits = tollPoints.getExit().get(tpe); 
 						for (int ec=0; 

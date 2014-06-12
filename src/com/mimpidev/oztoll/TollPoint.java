@@ -22,9 +22,9 @@ public class TollPoint {
 		start.add(newStart);
 	}
 	
-	public boolean isStart(String street){
+	public boolean isStart(Street street){
 		for (int svc=0; svc < start.size(); svc++)
-			if (start.get(svc).getName().equalsIgnoreCase(street))
+			if (start.get(svc).compareLatLng(street.getLatLng()))
 				return true;
 		return false;
 	}
