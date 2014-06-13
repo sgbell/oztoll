@@ -1,4 +1,6 @@
 /bin 
 .directory
-/libs
+project.properties
+/lib
 /gen
+/gen/com/actionbarsherlock
