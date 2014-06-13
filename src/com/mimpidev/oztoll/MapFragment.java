@@ -73,12 +73,12 @@ public class MapFragment extends SherlockMapFragment {
 
 			@Override
 			public boolean onMarkerClick(Marker selected) {
-				LatLng latLngChanged = selected.getPosition();
+				// Do not change the line below, it rounds the value up so we can compare it with our street location values
+				LatLng latLngChanged = new LatLng(((double)Math.round(selected.getPosition().latitude*1000000)/1000000),
+						                          ((double)Math.round(selected.getPosition().longitude*1000000)/1000000));
 				
-				Log.w("marker","Lat: "+latLngChanged.latitude+" - "+latLngChanged.longitude);
 				// Working here. need to add code to findStreetByLatLng
 				Street currentStreet=global.getTollData().findStreetByLatLng(latLngChanged);
-				Log.w("marker", "Selected Street: "+currentStreet.getName());
 				// Just incase something changed in the data file and the street doesn't exist in the tolldata
 				// check the returned value, make sure it's not null
 				if (currentStreet!=null){
