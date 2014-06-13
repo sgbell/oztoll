@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,8 +75,10 @@ public class MapFragment extends SherlockMapFragment {
 			public boolean onMarkerClick(Marker selected) {
 				LatLng latLngChanged = selected.getPosition();
 				
+				Log.w("marker","Lat: "+latLngChanged.latitude+" - "+latLngChanged.longitude);
 				// Working here. need to add code to findStreetByLatLng
 				Street currentStreet=global.getTollData().findStreetByLatLng(latLngChanged);
+				Log.w("marker", "Selected Street: "+currentStreet.getName());
 				// Just incase something changed in the data file and the street doesn't exist in the tolldata
 				// check the returned value, make sure it's not null
 				if (currentStreet!=null){
