@@ -3065,13 +3065,13 @@
             </street>
             <street>
                 <name>M2 Motorway</name>
-                <longitude>150887793</longitude>
-                <latitude>-33949103</latitude>
+                <longitude>150968166</longitude>
+                <latitude>-33770925</latitude>
             </street>
             <street>
                 <name>M5 Motorway</name>
-                <longitude>150968166</longitude>
-                <latitude>-33770925</latitude>
+                <longitude>150887793</longitude>
+                <latitude>-33949103</latitude>
             </street>
         </exit>
 	    <tollpoint>
@@ -3908,7 +3908,7 @@
                 <street>Elizabeth Dr</street>
                 <street>Cowpasture Rd</street>
                 <street>Bernera Rd</street>
-                <street>Camden Valley Rd</street>
+                <street>Camden Valley Way</street>
                 <street>M5 Motorway</street>
                 <car>7.52</car>
                 <lcv>7.52</lcv>
@@ -3930,53 +3930,53 @@
             <start>M2 Motorway</start>
             <exit>
                 <street>Old Windsor Rd</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>0.64</car>
+                <lcv>0.64</lcv>
+                <hcv>0.64</hcv>
+                <mc>0.64</mc>
             </exit>
             <exit>
                 <street>Sunnyholt Rd</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>3.15</car>
+                <lcv>3.15</lcv>
+                <hcv>3.15</hcv>
+                <mc>3.15</mc>
             </exit>
             <exit>
                 <street>Quakers Hill Parkway</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>3.54</car>
+                <lcv>3.54</lcv>
+                <hcv>3.54</hcv>
+                <mc>3.54</mc>
             </exit>
             <exit>
                 <street>Richmond Rd</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>4.50</car>
+                <lcv>4.50</lcv>
+                <hcv>4.50</hcv>
+                <mc>4.50</mc>
             </exit>
             <exit>
                 <street>Power St</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>5.29</car>
+                <lcv>5.29</lcv>
+                <hcv>5.29</hcv>
+                <mc>5.29</mc>
             </exit>
             <exit>
                 <street>Great Western Hwy</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>7.02</car>
+                <lcv>7.02</lcv>
+                <hcv>7.02</hcv>
+                <mc>7.02</mc>
             </exit>
             <exit>
                 <street>M4 (East)</street>
                 <street>M4 (West)</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>7.39</car>
+                <lcv>7.39</lcv>
+                <hcv>7.39</hcv>
+                <mc>7.39</mc>
             </exit>
             <exit>
                 <street>Wallgrove Rd at Old Wallgrove Rd</street>
@@ -3984,12 +3984,12 @@
                 <street>Elizabeth Dr</street>
                 <street>Cowpasture Rd</street>
                 <street>Bernera Rd</street>
-                <street>Camden Valley Rd</street>
+                <street>Camden Valley Way</street>
                 <street>M5 Motorway</street>
-                <car></car>
-                <lcv></lcv>
-                <hcv></hcv>
-                <mc></mc>
+                <car>7.52</car>
+                <lcv>7.52</lcv>
+                <hcv>7.52</hcv>
+                <mc>7.52</mc>
             </exit>
         </tollpoint>
 	</tollway>
