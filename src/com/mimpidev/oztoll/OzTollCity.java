@@ -4,7 +4,6 @@
 package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
-
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -227,8 +226,9 @@ public class OzTollCity {
 		if ((startingPoint!=null)&&(getStreetByCoordinates(startingPoint)!=null)){
 			ArrayList<Street> exitList= getTollPointExits(getStreetByCoordinates(startingPoint));
 			if (exitList.size()>0)
-				for (int elc=0; elc < exitList.size(); elc++)
+				for (int elc=0; elc < exitList.size(); elc++){
 					exitList.get(elc).setValid(true);
+				}
 		}
 	}
 
