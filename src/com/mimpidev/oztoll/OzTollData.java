@@ -842,11 +842,10 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setStart(Street newStart) {
-		// need to seach for the street object to get the tollway name
-		// tollway =
+		setStreetsToInvalid();
+
 		if (newStart!=null){
 			start = new LatLng(newStart.getLatLng().latitude,newStart.getLatLng().longitude);
-			setStreetsToInvalid();
 			markRoads(start);
 		} else {
 			start=null;
