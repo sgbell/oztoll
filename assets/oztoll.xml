@@ -2174,10 +2174,15 @@
 		</origin>
 		<tollway name="Hills M2 Motorway">
 			<exit>
+			    <street>
+			        <name>WestLink M7 Motorway</name>
+			        <longitude>150959597</longitude>
+			        <latitude>-33760004</latitude>
+			    </street>
 				<street>
 					<name>Abbott Rd</name>
-					<longitude>150952280</longitude>
-					<latitude>-33753137</latitude>
+					<longitude>15057498</longitude>
+					<latitude>-33766073</latitude>
 				</street>
 				<street>
 					<name>Windsor Rd</name>
@@ -2216,6 +2221,7 @@
 				</street>
 			</exit>
 			<tollpoint>
+			    <start>WestLink M7 Motorway</start>
 				<start>Windsor Rd</start>
 				<start>Abbott Rd</start>
 				<exit>
