@@ -2244,6 +2244,7 @@
 			<tollpoint>
 				<start>Pennant Hills Rd</start>
 				<exit>
+					<street>WestLink M7 Motorway</street>
 					<street>Abbott Rd</street>
 					<street>Windsor Rd</street>
 					<car>3.15</car>
@@ -2281,6 +2282,7 @@
 					<street>Pennant Hills rd</street>
 					<street>Windsor rd</street>
 					<street>Abbott rd</street>
+					<street>WestLink M7 Motorway</street>
 					<car>6.17</car>
 					<lcv>18.50</lcv>
 					<hcv>18.50</hcv>
@@ -2301,6 +2303,7 @@
 					<street>Pennant Hills rd</street>
 					<street>Windsor rd</street>
 					<street>Abbott rd</street>
+					<street>WestLink M7 Motorway</street>
 					<car>6.17</car>
 					<lcv>18.50</lcv>
 					<hcv>18.50</hcv>
