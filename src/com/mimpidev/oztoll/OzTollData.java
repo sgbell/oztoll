@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -148,7 +149,14 @@ public class OzTollData implements Runnable{
 		for (OzTollCity currentCity : cities)
 			if (currentCity.getCityName().equalsIgnoreCase(cityName))
 				return currentCity;
-		return null;
+        // If the selected city is not found in the data, set the default to the first city in the data
+		if (cities.size()>0){
+		   Editor preferenceEdit = sharedPreferences.edit();
+		   preferenceEdit.putString("selectedCity", cities.get(0).getCityName());
+		   preferenceEdit.apply();
+		   return cities.get(0);
+        }
+        return null;		
 	}
 	
 	public OzTollCity getSelectedCity(){
