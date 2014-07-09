@@ -850,14 +850,16 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setStart(Street newStart) {
-		setStreetsToInvalid();
+		if (cities!=null){
+		   setStreetsToInvalid();
 
-		if (newStart!=null){
-			start = new LatLng(newStart.getLatLng().latitude,newStart.getLatLng().longitude);
-			markRoads(start);
-		} else {
-			start=null;
-			setValidStarts();
+		   if (newStart!=null){
+			   start = new LatLng(newStart.getLatLng().latitude,newStart.getLatLng().longitude);
+			   markRoads(start);
+		   } else {
+			   start=null;
+			   setValidStarts();
+		   }
 		}
 	}
 
@@ -881,8 +883,9 @@ public class OzTollData implements Runnable{
 	}
 	
 	public void setStreetsToInvalid(){
-		for (int cityCount=0; cityCount< cities.size(); cityCount++)
-			cities.get(cityCount).setStreetsToInvalid();
+		if (cities!=null)
+			for (int cityCount=0; cityCount< cities.size(); cityCount++)
+				cities.get(cityCount).setStreetsToInvalid();
 	}
 	
 	public void markRoads(LatLng startingPoint){
