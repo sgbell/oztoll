@@ -2219,6 +2219,11 @@
 					<longitude>151135882</longitude>
 					<latitude>-33793879</latitude>
 				</street>
+				<street>
+				    <name>Lane Cove Tunnel</name>
+				    <longitude>151148797</longitude>
+				    <latitude>-33804369</latitude>
+				</street>
 			</exit>
 			<tollpoint>
 			    <start>WestLink M7 Motorway</start>
@@ -2235,10 +2240,11 @@
 					<street>Christie Rd</street>
 					<street>Lane Cove Rd</street>
 					<street>Dehli Rd</street>
-					<car>6.17</car>
-					<lcv>18.50</lcv>
-					<hcv>18.50</hcv>
-					<mc>6.17</mc>
+					<street>Lane Cove Tunnel</street>
+					<car>6.23</car>
+					<lcv>18.69</lcv>
+					<hcv>18.69</hcv>
+					<mc>6.23</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -2256,10 +2262,11 @@
 					<street>Christie Rd</street>
 					<street>Lane Cove Rd</street>
 					<street>Dehli Rd</street>
-					<car>6.17</car>
-					<lcv>18.50</lcv>
-					<hcv>18.50</hcv>
-					<mc>6.17</mc>
+					<street>Lane Cove Tunnel</street>
+					<car>6.23</car>
+					<lcv>18.69</lcv>
+					<hcv>18.69</hcv>
+					<mc>6.23</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -2268,10 +2275,11 @@
 					<street>Christie Rd</street>
 					<street>Lane Cove Rd</street>
 					<street>Dehli Rd</street>
-					<car>6.17</car>
-					<lcv>18.50</lcv>
-					<hcv>18.50</hcv>
-					<mc>6.17</mc>
+					<street>Lane Cove Tunnel</street>
+					<car>6.23</car>
+					<lcv>18.69</lcv>
+					<hcv>18.69</hcv>
+					<mc>6.23</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -2283,14 +2291,15 @@
 					<street>Windsor rd</street>
 					<street>Abbott rd</street>
 					<street>WestLink M7 Motorway</street>
-					<car>6.17</car>
-					<lcv>18.50</lcv>
-					<hcv>18.50</hcv>
-					<mc>6.17</mc>
+					<car>6.23</car>
+					<lcv>18.69</lcv>
+					<hcv>18.69</hcv>
+					<mc>6.23</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
 				<start>Dehli Rd</start>
+				<start>Lane Cove Tunnel</start>
 				<exit>
 					<street>Lane Cove Rd</street>
 					<car>0.00</car>
@@ -2304,10 +2313,10 @@
 					<street>Windsor rd</street>
 					<street>Abbott rd</street>
 					<street>WestLink M7 Motorway</street>
-					<car>6.17</car>
-					<lcv>18.50</lcv>
-					<hcv>18.50</hcv>
-					<mc>6.17</mc>
+					<car>6.23</car>
+					<lcv>18.69</lcv>
+					<hcv>18.69</hcv>
+					<mc>6.23</mc>
 				</exit>
 			</tollpoint>
 		</tollway>
@@ -2375,10 +2384,10 @@
 					<street>Pacific Hwy</street>
 					<street>Reserve Rd</street>
 					<street>Alfred St North</street>
-					<car>3.08</car>
-					<lcv>6.16</lcv>
-					<hcv>6.16</hcv>
-					<mc>3.08</mc>
+					<car>3.10</car>
+					<lcv>6.19</lcv>
+					<hcv>6.19</hcv>
+					<mc>3.10</mc>
 				</exit>
 				<exit>
 					<street>Falcon St</street>
@@ -2531,11 +2540,6 @@
 					<name>Cathedral St</name>
 					<longitude>151218035</longitude>
 					<latitude>-33871872</latitude>
-				</street>
-				<street>
-					<name>New South Head Rd</name>
-					<longitude>151230352</longitude>
-					<latitude>-33876664</latitude>
 				</street>
 				<street>
 					<name>Eastern Distributor</name>
