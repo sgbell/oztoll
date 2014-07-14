@@ -2471,11 +2471,10 @@
 		</tollway>
 		<tollway name="Sydney Harbour Bridge">
 			<exit>
-			<!--  working here next -->
 				<street>
 					<name>Lane Cove Tunnel</name>
-					<longitude></longitude>
-					<latitude></latitude>
+					<longitude>151210888</longitude>
+					<latitude>-33836492</latitude>
 				</street>
 				<street>
 					<name>Mount St</name>
@@ -2639,6 +2638,7 @@
 				</street>
 			</exit>
 			<tollpoint>
+			    <start>Lane Cove Tunnel</start>
 				<start>Mount St</start>
 				<start>High St</start>
 				<exit>
@@ -2658,6 +2658,7 @@
 					<street>Foreshore Dr</street>
 					<street>General Holmes Dr Connection</street>
 					<street>Marsh St</street>
+					<street>M5 East</street>
 					<car>4.00</car>
 					<lcv>4.00</lcv>
 					<hcv>4.00</hcv>
@@ -2673,6 +2674,7 @@
 					<street>Lavender St</street>
 					<street>Pacific Hwy (South)</street>
 					<street>Mount St</street>
+					<street>Lane Cove Tunnel</street>
 					<car>0.00</car>
 					<lcv>0.00</lcv>
 					<hcv>0.00</hcv>
@@ -2682,6 +2684,7 @@
 			<tollpoint>
 				<start>Clarence St</start>
 				<exit>
+					<street>Lane Cove Tunnel</street>
 					<street>Lavender St</street>
 					<car>0.00</car>
 					<lcv>0.00</lcv>
@@ -2707,6 +2710,7 @@
 					<street>Lavender St</street>
 					<street>Pacific Hwy (South)</street>
 					<street>Mount St</street>
+					<street>Lane Cove Tunnel</street>
 					<car>0.00</car>
 					<lcv>0.00</lcv>
 					<hcv>0.00</hcv>
@@ -2742,20 +2746,20 @@
 				<start>Pyrmont Bridge Rd</start>
 				<exit>
 					<street>New South Head Rd</street>
-					<car>5.04</car>
-					<lcv>10.08</lcv>
-					<hcv>10.08</hcv>
-					<mc>5.04</mc>
+					<car>5.08</car>
+					<lcv>10.16</lcv>
+					<hcv>10.16</hcv>
+					<mc>5.08</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
 				<start>Harbour St (Northbound)</start>
 				<exit>
 					<street>New South Head Rd</street>
-					<car>5.04</car>
-					<lcv>10.08</lcv>
-					<hcv>10.08</hcv>
-					<mc>5.04</mc>
+					<car>5.08</car>
+					<lcv>10.16</lcv>
+					<hcv>10.16</hcv>
+					<mc>5.08</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -2764,13 +2768,14 @@
 					<street>Harbour St (Northbound)</street>
 					<street>Western Distributor Hwy</street>
 					<street>Pyrmont Bridge Rd</street>
-					<car>5.04</car>
-					<lcv>10.08</lcv>
-					<hcv>10.08</hcv>
-					<mc>5.04</mc>
+					<car>5.08</car>
+					<lcv>10.16</lcv>
+					<hcv>10.16</hcv>
+					<mc>5.08</mc>
 				</exit>
 			</tollpoint>
 		</tollway>
+		<!--  working here  -->
 		<tollway name="M5 Motorway">
 			<exit>
 				<street>
