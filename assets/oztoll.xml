@@ -2775,7 +2775,6 @@
 				</exit>
 			</tollpoint>
 		</tollway>
-		<!--  working here  -->
 		<tollway name="M5 Motorway">
 			<exit>
 				<street>
@@ -3098,46 +3097,46 @@
 				<start>M5 Motorway</start>
 				<exit>
 					<street>Bernera Rd</street>
-					<car>1.18</car>
-					<lcv>1.18</lcv>
-					<hcv>1.18</hcv>
-					<mc>1.18</mc>
+					<car>1.19</car>
+					<lcv>1.19</lcv>
+					<hcv>1.19</hcv>
+					<mc>1.19</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
-					<car>2.03</car>
-					<lcv>2.03</lcv>
-					<hcv>2.03</hcv>
-					<mc>2.03</mc>
+					<car>2.05</car>
+					<lcv>2.05</lcv>
+					<hcv>2.05</hcv>
+					<mc>2.05</mc>
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>4.05</car>
-					<lcv>4.05</lcv>
-					<hcv>4.05</hcv>
-					<mc>4.05</mc>
+					<car>4.07</car>
+					<lcv>4.07</lcv>
+					<hcv>4.07</hcv>
+					<mc>4.07</mc>
 				</exit>
 				<exit>
 					<street>The Horsley Dr</street>
-					<car>5.58</car>
-					<lcv>5.58</lcv>
-					<hcv>5.58</hcv>
-					<mc>5.58</mc>
+					<car>5.61</car>
+					<lcv>5.61</lcv>
+					<hcv>5.61</hcv>
+					<mc>5.61</mc>
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>6.94</car>
-					<lcv>6.94</lcv>
-					<hcv>6.94</hcv>
-					<mc>6.94</mc>
+					<car>6.98</car>
+					<lcv>6.98</lcv>
+					<hcv>6.98</hcv>
+					<mc>6.98</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>7.45</car>
-					<lcv>7.45</lcv>
-					<hcv>7.45</hcv>
-					<mc>7.45</mc>
+					<car>7.49</car>
+					<lcv>7.49</lcv>
+					<hcv>7.49</hcv>
+					<mc>7.49</mc>
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
@@ -3145,10 +3144,10 @@
 					<street>Sunnyholt Rd</street>
 					<street>Norwest Boulevard</street>
 					<street>M2 Motorway</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3156,10 +3155,10 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>1.18</car>
-					<lcv>1.18</lcv>
-					<hcv>1.18</hcv>
-					<mc>1.18</mc>
+					<car>1.19</car>
+					<lcv>1.19</lcv>
+					<hcv>1.19</hcv>
+					<mc>1.19</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
@@ -3170,32 +3169,32 @@
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>2.86</car>
-					<lcv>2.86</lcv>
-					<hcv>2.86</hcv>
-					<mc>2.86</mc>
+					<car>2.88</car>
+					<lcv>2.88</lcv>
+					<hcv>2.88</hcv>
+					<mc>2.88</mc>
 				</exit>
 				<exit>
 					<street>The Horsley Dr</street>
-					<car>4.40</car>
-					<lcv>4.40</lcv>
-					<hcv>4.40</hcv>
-					<mc>4.40</mc>
+					<car>4.42</car>
+					<lcv>4.42</lcv>
+					<hcv>4.42</hcv>
+					<mc>4.42</mc>
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>5.76</car>
-					<lcv>5.76</lcv>
-					<hcv>5.76</hcv>
-					<mc>5.76</mc>
+					<car>5.79</car>
+					<lcv>5.79</lcv>
+					<hcv>5.79</hcv>
+					<mc>5.79</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>6.27</car>
-					<lcv>6.27</lcv>
-					<hcv>6.27</hcv>
-					<mc>6.27</mc>
+					<car>6.30</car>
+					<lcv>6.30</lcv>
+					<hcv>6.30</hcv>
+					<mc>6.30</mc>
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
@@ -3203,10 +3202,10 @@
 					<street>Sunnyholt Rd</street>
 					<street>Norwest Boulevard</street>
 					<street>M2 Motorway</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3214,10 +3213,10 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>2.03</car>
-					<lcv>2.03</lcv>
-					<hcv>2.03</hcv>
-					<mc>2.03</mc>
+					<car>2.05</car>
+					<lcv>2.05</lcv>
+					<hcv>2.05</hcv>
+					<mc>2.05</mc>
 				</exit>
 				<exit>
 					<street>Bernera Rd</street>
@@ -3228,49 +3227,49 @@
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>2.01</car>
-					<lcv>2.01</lcv>
-					<hcv>2.01</hcv>
-					<mc>2.01</mc>
+					<car>2.03</car>
+					<lcv>2.03</lcv>
+					<hcv>2.03</hcv>
+					<mc>2.03</mc>
 				</exit>
 				<exit>
 					<street>The Horsley Dr</street>
-					<car>3.55</car>
-					<lcv>3.55</lcv>
-					<hcv>3.55</hcv>
-					<mc>3.55</mc>
+					<car>3.57</car>
+					<lcv>3.57</lcv>
+					<hcv>3.57</hcv>
+					<mc>3.57</mc>
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>4.91</car>
-					<lcv>4.91</lcv>
-					<hcv>4.91</hcv>
-					<mc>4.91</mc>
+					<car>4.94</car>
+					<lcv>4.94</lcv>
+					<hcv>4.94</hcv>
+					<mc>4.94</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>5.42</car>
-					<lcv>5.42</lcv>
-					<hcv>5.42</hcv>
-					<mc>5.42</mc>
+					<car>5.45</car>
+					<lcv>5.45</lcv>
+					<hcv>5.45</hcv>
+					<mc>5.45</mc>
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
-					<car>7.16</car>
-					<lcv>7.16</lcv>
-					<hcv>7.16</hcv>
-					<mc>7.16</mc>
+					<car>7.20</car>
+					<lcv>7.20</lcv>
+					<hcv>7.20</hcv>
+					<mc>7.20</mc>
 				</exit>
 				<exit>
 					<street>Richmond Rd</street>
 					<street>Sunnyholt Rd</street>
 					<street>Norwest Boulevard</street>
 					<street>M2 Motorway</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3278,24 +3277,24 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>4.05</car>
-					<lcv>4.05</lcv>
-					<hcv>4.05</hcv>
-					<mc>4.05</mc>
+					<car>4.07</car>
+					<lcv>4.07</lcv>
+					<hcv>4.07</hcv>
+					<mc>4.07</mc>
 				</exit>
 				<exit>
 					<street>Bernera Rd</street>
-					<car>2.86</car>
-					<lcv>2.86</lcv>
-					<hcv>2.86</hcv>
-					<mc>2.86</mc>
+					<car>2.88</car>
+					<lcv>2.88</lcv>
+					<hcv>2.88</hcv>
+					<mc>2.88</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
-					<car>2.01</car>
-					<lcv>2.01</lcv>
-					<hcv>2.01</hcv>
-					<mc>2.01</mc>
+					<car>2.03</car>
+					<lcv>2.03</lcv>
+					<hcv>2.03</hcv>
+					<mc>2.03</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3309,41 +3308,41 @@
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>2.42</car>
-					<lcv>2.42</lcv>
-					<hcv>2.42</hcv>
-					<mc>2.42</mc>
+					<car>2.43</car>
+					<lcv>2.43</lcv>
+					<hcv>2.43</hcv>
+					<mc>2.43</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>2.92</car>
-					<lcv>2.92</lcv>
-					<hcv>2.92</hcv>
-					<mc>2.92</mc>
+					<car>2.94</car>
+					<lcv>2.94</lcv>
+					<hcv>2.94</hcv>
+					<mc>2.94</mc>
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
-					<car>4.67</car>
-					<lcv>4.67</lcv>
-					<hcv>4.67</hcv>
-					<mc>4.67</mc>
+					<car>4.70</car>
+					<lcv>4.70</lcv>
+					<hcv>4.70</hcv>
+					<mc>4.70</mc>
 				</exit>
 				<exit>
 					<street>Richmond Rd</street>
-					<car>5.82</car>
-					<lcv>5.82</lcv>
-					<hcv>5.82</hcv>
-					<mc>5.82</mc>
+					<car>5.86</car>
+					<lcv>5.86</lcv>
+					<hcv>5.86</hcv>
+					<mc>5.86</mc>
 				</exit>
 				<exit>
 					<street>Sunnyholt Rd</street>
 					<street>Norwest Boulevard</street>
 					<street>M2 Motorway</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3351,75 +3350,75 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>5.58</car>
-					<lcv>5.58</lcv>
-					<hcv>5.58</hcv>
-					<mc>5.58</mc>
+					<car>5.61</car>
+					<lcv>5.61</lcv>
+					<hcv>5.61</hcv>
+					<mc>5.61</mc>
 				</exit>
 				<exit>
 					<street>Bernera Rd</street>
-					<car>4.40</car>
-					<lcv>4.40</lcv>
-					<hcv>4.40</hcv>
-					<mc>4.40</mc>
+					<car>4.42</car>
+					<lcv>4.42</lcv>
+					<hcv>4.42</hcv>
+					<mc>4.42</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
-					<car>3.55</car>
-					<lcv>3.55</lcv>
-					<hcv>3.55</hcv>
-					<mc>3.55</mc>
+					<car>3.57</car>
+					<lcv>3.57</lcv>
+					<hcv>3.57</hcv>
+					<mc>3.57</mc>
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>1.53</car>
-					<lcv>1.53</lcv>
-					<hcv>1.53</hcv>
-					<mc>1.53</mc>
+					<car>1.54</car>
+					<lcv>1.54</lcv>
+					<hcv>1.54</hcv>
+					<mc>1.54</mc>
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>1.36</car>
-					<lcv>1.36</lcv>
-					<hcv>1.36</hcv>
-					<mc>1.36</mc>
+					<car>1.37</car>
+					<lcv>1.37</lcv>
+					<hcv>1.37</hcv>
+					<mc>1.37</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>1.87</car>
-					<lcv>1.87</lcv>
-					<hcv>1.87</hcv>
-					<mc>1.87</mc>
+					<car>1.88</car>
+					<lcv>1.88</lcv>
+					<hcv>1.88</hcv>
+					<mc>1.88</mc>
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
-					<car>3.61</car>
-					<lcv>3.61</lcv>
-					<hcv>3.61</hcv>
-					<mc>3.61</mc>
+					<car>3.63</car>
+					<lcv>3.63</lcv>
+					<hcv>3.63</hcv>
+					<mc>3.63</mc>
 				</exit>
 				<exit>
 					<street>Richmond Rd</street>
-					<car>4.77</car>
-					<lcv>4.77</lcv>
-					<hcv>4.77</hcv>
-					<mc>4.77</mc>
+					<car>4.79</car>
+					<lcv>4.79</lcv>
+					<hcv>4.79</hcv>
+					<mc>4.79</mc>
 				</exit>
 				<exit>
 					<street>Sunnyholt Rd</street>
-					<car>7.26</car>
-					<lcv>7.26</lcv>
-					<hcv>7.26</hcv>
-					<mc>7.26</mc>
+					<car>7.30</car>
+					<lcv>7.30</lcv>
+					<hcv>7.30</hcv>
+					<mc>7.30</mc>
 				</exit>
 				<exit>
 					<street>Norwest Boulevard</street>
 					<street>M2 Motorway</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3427,38 +3426,38 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>6.94</car>
-					<lcv>6.94</lcv>
-					<hcv>6.94</hcv>
-					<mc>6.94</mc>
+					<car>6.98</car>
+					<lcv>6.98</lcv>
+					<hcv>6.98</hcv>
+					<mc>6.98</mc>
 				</exit>
 				<exit>
 					<street>Bernera Rd</street>
-					<car>5.76</car>
-					<lcv>5.76</lcv>
-					<hcv>5.76</hcv>
-					<mc>5.76</mc>
+					<car>5.79</car>
+					<lcv>5.79</lcv>
+					<hcv>5.79</hcv>
+					<mc>5.79</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
-					<car>4.91</car>
-					<lcv>4.91</lcv>
-					<hcv>4.91</hcv>
-					<mc>4.91</mc>
+					<car>4.94</car>
+					<lcv>4.94</lcv>
+					<hcv>4.94</hcv>
+					<mc>4.94</mc>
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>2.89</car>
-					<lcv>2.89</lcv>
-					<hcv>2.89</hcv>
-					<mc>2.89</mc>
+					<car>2.91</car>
+					<lcv>2.91</lcv>
+					<hcv>2.91</hcv>
+					<mc>2.91</mc>
 				</exit>
 				<exit>
 					<street>The Horsley Dr</street>
-					<car>1.36</car>
-					<lcv>1.36</lcv>
-					<hcv>1.36</hcv>
-					<mc>1.36</mc>
+					<car>1.37</car>
+					<lcv>1.37</lcv>
+					<hcv>1.37</hcv>
+					<mc>1.37</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
@@ -3470,32 +3469,38 @@
 				</exit>
 				<exit>
 					<street>Woodstock Ave</street>
-					<car>2.25</car>
-					<lcv>2.25</lcv>
-					<hcv>2.25</hcv>
-					<mc>2.25</mc>
+					<car>2.26</car>
+					<lcv>2.26</lcv>
+					<hcv>2.26</hcv>
+					<mc>2.26</mc>
 				</exit>
 				<exit>
 					<street>Richmond Rd</street>
-					<car>3.41</car>
-					<lcv>3.41</lcv>
-					<hcv>3.41</hcv>
-					<mc>3.41</mc>
+					<car>3.43</car>
+					<lcv>3.43</lcv>
+					<hcv>3.43</hcv>
+					<mc>3.43</mc>
 				</exit>
 				<exit>
 					<street>Sunnyholt Rd</street>
-					<car>5.90</car>
-					<lcv>5.90</lcv>
-					<hcv>5.90</hcv>
-					<mc>5.90</mc>
+					<car>5.93</car>
+					<lcv>5.93</lcv>
+					<hcv>5.93</hcv>
+					<mc>5.93</mc>
 				</exit>
 				<exit>
 					<street>Norwest Boulevard</street>
+					<car>6.74</car>
+					<lcv>6.74</lcv>
+					<hcv>6.74</hcv>
+					<mc>6.74</mc>
+				</exit>
+				<exit>
 					<street>M2 Motorway</street>
-					<car>6.70</car>
-					<lcv>6.70</lcv>
-					<hcv>6.70</hcv>
-					<mc>6.70</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
@@ -3504,162 +3509,169 @@
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
-					<car>7.45</car>
-					<lcv>7.45</lcv>
-					<hcv>7.45</hcv>
-					<mc>7.45</mc>
+					<car>7.49</car>
+					<lcv>7.49</lcv>
+					<hcv>7.49</hcv>
+					<mc>7.49</mc>
 				</exit>
 				<exit>
 					<street>Bernera Rd</street>
-					<car>6.27</car>
-					<lcv>6.27</lcv>
-					<hcv>6.27</hcv>
-					<mc>6.27</mc>
+					<car>6.30</car>
+					<lcv>6.30</lcv>
+					<hcv>6.30</hcv>
+					<mc>6.30</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
+					<car>5.45</car>
+					<lcv>5.45</lcv>
+					<hcv>5.45</hcv>
+					<mc>5.45</mc>
+				</exit>
+				<exit>
+					<street>Elizabeth Dr</street>
+					<car>3.42</car>
+					<lcv>3.42</lcv>
+					<hcv>3.42</hcv>
+					<mc>3.42</mc>
+				</exit>
+				<exit>
+					<street>The Horsley Dr</street>
+					<car>1.88</car>
+					<lcv>1.88</lcv>
+					<hcv>1.88</hcv>
+					<mc>1.88</mc>
+				</exit>
+				<exit>
+					<street>Woodstock Ave</street>
+					<car>1.75</car>
+					<lcv>1.75</lcv>
+					<hcv>1.75</hcv>
+					<mc>1.75</mc>
+				</exit>
+				<exit>
+					<street>Richmond Rd</street>
+					<car>2.92</car>
+					<lcv>2.92</lcv>
+					<hcv>2.92</hcv>
+					<mc>2.92</mc>
+				</exit>
+				<exit>
+					<street>Sunnyholt Rd</street>
 					<car>5.42</car>
 					<lcv>5.42</lcv>
 					<hcv>5.42</hcv>
 					<mc>5.42</mc>
 				</exit>
 				<exit>
-					<street>Elizabeth Dr</street>
-					<car>3.40</car>
-					<lcv>3.40</lcv>
-					<hcv>3.40</hcv>
-					<mc>3.40</mc>
-				</exit>
-				<exit>
-					<street>The Horsley Dr</street>
-					<car>1.87</car>
-					<lcv>1.87</lcv>
-					<hcv>1.87</hcv>
-					<mc>1.87</mc>
-				</exit>
-				<exit>
-					<street>Woodstock Ave</street>
-					<car>1.74</car>
-					<lcv>1.74</lcv>
-					<hcv>1.74</hcv>
-					<mc>1.74</mc>
-				</exit>
-				<exit>
-					<street>Richmond Rd</street>
-					<car>2.90</car>
-					<lcv>2.90</lcv>
-					<hcv>2.90</hcv>
-					<mc>2.90</mc>
-				</exit>
-				<exit>
-					<street>Sunnyholt Rd</street>
-					<car>5.39</car>
-					<lcv>5.39</lcv>
-					<hcv>5.39</hcv>
-					<mc>5.39</mc>
-				</exit>
-				<exit>
 					<street>Norwest Boulevard</street>
+					<car>6.23</car>
+					<lcv>6.23</lcv>
+					<hcv>6.23</hcv>
+					<mc>6.23</mc>
+				</exit>
+				<exit>
 					<street>M2 Motorway</street>
-					<car>6.19</car>
-					<lcv>6.19</lcv>
-					<hcv>6.19</hcv>
-					<mc>6.19</mc>
+					<car>7.44</car>
+					<lcv>7.44</lcv>
+					<hcv>7.44</hcv>
+					<mc>7.44</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
 				<start>Great Western Hwy</start>
 				<exit>
 					<street>Woodstock Ave</street>
-					<car>1.37</car>
-					<lcv>1.37</lcv>
-					<hcv>1.37</hcv>
-					<mc>1.37</mc>
+					<car>1.38</car>
+					<lcv>1.38</lcv>
+					<hcv>1.38</hcv>
+					<mc>1.38</mc>
 				</exit>
 				<exit>
 					<street>Richmond Rd</street>
-					<car>2.53</car>
-					<lcv>2.53</lcv>
-					<hcv>2.53</hcv>
-					<mc>2.53</mc>
+					<car>2.54</car>
+					<lcv>2.54</lcv>
+					<hcv>2.54</hcv>
+					<mc>2.54</mc>
 				</exit>
 				<exit>
 					<street>Sunnyholt Rd</street>
-					<car>5.02</car>
-					<lcv>5.02</lcv>
-					<hcv>5.02</hcv>
-					<mc>5.02</mc>
+					<car>5.05</car>
+					<lcv>5.05</lcv>
+					<hcv>5.05</hcv>
+					<mc>5.05</mc>
 				</exit>
 				<exit>
 					<street>Norwest Boulevard</street>
-					<car>5.82</car>
-					<lcv>5.82</lcv>
-					<hcv>5.82</hcv>
-					<mc>5.82</mc>
+					<car>5.86</car>
+					<lcv>5.86</lcv>
+					<hcv>5.86</hcv>
+					<mc>5.86</mc>
 				</exit>
 				<exit>
 					<street>M2 Motorway</street>
-					<car>7.02</car>
-					<lcv>7.02</lcv>
-					<hcv>7.02</hcv>
-					<mc>7.02</mc>
+					<car>7.06</car>
+					<lcv>7.06</lcv>
+					<hcv>7.06</hcv>
+					<mc>7.06</mc>
 				</exit>
 			</tollpoint>
 			<tollpoint>
 				<start>Woodstock Ave</start>
 				<exit>
 					<street>Great Western Hwy</street>
-					<car>1.37</car>
-					<lcv>1.37</lcv>
-					<hcv>1.37</hcv>
-					<mc>1.37</mc>
+					<car>1.38</car>
+					<lcv>1.38</lcv>
+					<hcv>1.38</hcv>
+					<mc>1.38</mc>
 				</exit>
 				<exit>
 					<street>Camden Valley Way</street>
 					<street>M5 Motorway</street>
 					<street>Bernera Rd</street>
-					<car>7.52</car>
-					<lcv>7.52</lcv>
-					<hcv>7.52</hcv>
-					<mc>7.52</mc>
+					<car>7.56</car>
+					<lcv>7.56</lcv>
+					<hcv>7.56</hcv>
+					<mc>7.56</mc>
 				</exit>
 				<exit>
 					<street>Cowpasture Rd</street>
-					<car>7.16</car>
-					<lcv>7.16</lcv>
-					<hcv>7.16</hcv>
-					<mc>7.16</mc>
+					<car>7.20</car>
+					<lcv>7.20</lcv>
+					<hcv>7.20</hcv>
+					<mc>7.20</mc>
 				</exit>
 				<exit>
 					<street>Elizabeth Dr</street>
-					<car>5.15</car>
-					<lcv>5.15</lcv>
-					<hcv>5.15</hcv>
-					<mc>5.15</mc>
+					<car>5.18</car>
+					<lcv>5.18</lcv>
+					<hcv>5.18</hcv>
+					<mc>5.18</mc>
 				</exit>
 				<exit>
 					<street>The Horsley Dr</street>
-					<car>3.61</car>
-					<lcv>3.61</lcv>
-					<hcv>3.61</hcv>
-					<mc>3.61</mc>
+					<car>3.63</car>
+					<lcv>3.63</lcv>
+					<hcv>3.63</hcv>
+					<mc>3.63</mc>
 				</exit>
 				<exit>
 					<street>M4 (East)</street>
 					<street>M4 (West)</street>
-					<car>1.74</car>
-					<lcv>1.74</lcv>
-					<hcv>1.74</hcv>
-					<mc>1.74</mc>
+					<car>1.75</car>
+					<lcv>1.75</lcv>
+					<hcv>1.75</hcv>
+					<mc>1.75</mc>
 				</exit>
 				<exit>
 					<street>Wallgrove Rd at Old Wallgrove Rd</street>
-					<car>2.25</car>
-					<lcv>2.25</lcv>
-					<hcv>2.25</hcv>
-					<mc>2.25</mc>
+					<car>2.26</car>
+					<lcv>2.26</lcv>
+					<hcv>2.26</hcv>
+					<mc>2.26</mc>
 				</exit>
 			</tollpoint>
+			<!-- working here now -->
 			<tollpoint>
 				<start>Power St</start>
 				<exit>
