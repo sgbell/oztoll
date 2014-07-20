@@ -96,6 +96,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
             // Working here, need to load the assetTollData file anyway, and compare it's timestamp to the 
     		// external storage data file (if it exists, to make sure the right file is loaded
     		OzTollData assetTollData = null;
+    		OzStorage extStorage = new OzStorage();
 
         	// location - false = internal app file.
         	//			- true  = external storage file.
@@ -105,7 +106,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
         		global.getTollData().setDataFile("oztoll.xml", getAssets(),preferences);
         	} else {
         		// load data file from external folder
-        		OzStorage extStorage = new OzStorage();
         		extStorage.setTollData("oztoll.xml");
         		if (extStorage.getTollData()!=null){
         			global.getTollData().setPreferences(preferences);
@@ -119,6 +119,22 @@ public class OzTollActivity extends SherlockFragmentActivity {
         	global.getTollData().setPreferences(preferences);
         	// The following is the initial read of the data file, and population of the tollway arrays
         	new Thread(global.getTollData()).start();
+        	if (assetTollData!=null){
+        		assetTollData.readFile();
+        		if (global.getTollData().getTimestamp().length()>0){
+        			if (Long.getLong(assetTollData.getTimestamp())>
+        			    Long.getLong(global.getTollData().getTimestamp())){
+        				if (extStorage.removeFile("oztoll.xml")){
+        					global.setTollData(assetTollData);
+        				
+        					Editor prefEditor = preferences.edit();
+        					prefEditor.putBoolean("location", false);
+        					prefEditor.commit();
+        				}
+        			}
+        		}
+        	}
+        	
     		global.setTollDataLoaded(true);
     	}
     	

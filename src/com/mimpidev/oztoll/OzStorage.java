@@ -60,11 +60,22 @@ public class OzStorage {
 		}
 	}
 
-
-	public void removeFile(File fileToRemove) {
+	public boolean removeFile(File fileToRemove) {
 		if (externalStatus()==EXTERNAL_READ_WRITE){
-			fileToRemove.delete();
+			return fileToRemove.delete();
 		}
+		
+		return false;
+	}
+	
+	public boolean removeFile(String filename){
+		if (externalStatus()==EXTERNAL_READ_WRITE){
+			File openFile= new File(Environment.getExternalStorageDirectory()+"/oztoll/"+filename);
+			if (openFile!=null)
+				return openFile.delete();
+		}
+		
+		return false;
 	}
 	
 	public OzTollData openExternalFile(String filename, SharedPreferences preferences){
