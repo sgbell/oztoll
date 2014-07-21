@@ -93,7 +93,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	// Need to check if the Data file has been loaded in the Global class, so that on rotation, the
     	// data isn't reloaded unnecessarily.
     	if (!global.isTollDataLoaded()){
-            // Working here, need to load the assetTollData file anyway, and compare it's timestamp to the 
+            // Need to load the assetTollData file, and compare it's timestamp to the 
     		// external storage data file (if it exists, to make sure the right file is loaded
     		OzTollData assetTollData = null;
     		OzStorage extStorage = new OzStorage();
