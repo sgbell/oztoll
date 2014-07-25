@@ -68,6 +68,8 @@ public class MapFragment extends SherlockMapFragment {
     	paint.setColor(Color.WHITE);
     	paint.setTextAlign(Align.CENTER);
 
+		if (mapView==null)
+			mapView=this.getMap();
 		
 		mapView.setOnMarkerClickListener(new OnMarkerClickListener(){
 

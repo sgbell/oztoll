@@ -23,6 +23,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -282,7 +283,6 @@ public class OzTollActivity extends SherlockFragmentActivity {
    	    				internetModification = connection.getHeaderField("Last-Modified");
    	    				
    	    				Editor prefEditor = preferences.edit();
-   	    				
    	    				// Is the last modified date stored in preferences different to the one on the website
    	    				if (!lastModified.equalsIgnoreCase(internetModification)){
    	    					// Download file here
