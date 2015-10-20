@@ -5,7 +5,6 @@
 package com.mimpidev.oztoll;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.os.Handler;
 
 /**

@@ -5,7 +5,6 @@ package com.mimpidev.oztoll;
 
 import java.util.ArrayList;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,9 +30,6 @@ public class OzTollTextFragment extends SherlockFragment {
 	
 	private OzTollApplication global;
 	private Handler handler;
-	private SharedPreferences preferences;
-	
-	
 	public OzTollTextFragment(){
 		
 	}
@@ -51,7 +47,7 @@ public class OzTollTextFragment extends SherlockFragment {
 
 		global = (OzTollApplication)getSherlockActivity().getApplication();
 		handler = global.getMainActivityHandler();
-		preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
+		PreferenceManager.getDefaultSharedPreferences(getSherlockActivity().getBaseContext());
 		
 		Message newMessage = handler.obtainMessage();
 		newMessage.what = 5;

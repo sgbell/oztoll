@@ -23,7 +23,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -278,7 +277,7 @@ public class OzTollActivity extends SherlockFragmentActivity {
     	    	
    	        	if (checkWebsite){
    	        		try {
-   	    				url = new URL("http://www.mimpidev.com/oztoll/oztoll.xml");
+   	    				url = new URL("");
    	    				connection = url.openConnection();
    	    				internetModification = connection.getHeaderField("Last-Modified");
    	    				

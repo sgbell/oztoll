@@ -4,7 +4,6 @@
 package com.mimpidev.oztoll;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,8 +22,6 @@ import com.actionbarsherlock.view.MenuItem;
 public class OzTollTutorialActivity extends SherlockFragmentActivity {
 
 	private OzTollApplication global;
-	private SharedPreferences preferences;
-	
 	private TutorialFragment tutorialFragment;
 
 	public OzTollTutorialActivity(){
@@ -35,7 +32,7 @@ public class OzTollTutorialActivity extends SherlockFragmentActivity {
     	super.onCreate(savedInstanceState);
     	
     	global = (OzTollApplication)getApplication();
-        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         setContentView(R.layout.activity_main);
 	}
 	
